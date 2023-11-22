@@ -6,6 +6,9 @@ sap.ui.define([
     return {
         CancelReq: function(oEvent) {
             MessageToast.show("Custom handler invoked.");
+        },
+        CreateData: function(oEvent){
+            this.getRouting().navigateToRoute('CreateTemplate',this);
         }
     };
 });

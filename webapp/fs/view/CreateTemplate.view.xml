@@ -1,0 +1,350 @@
+<mvc:View
+    xmlns:uxap="sap.uxap"
+    xmlns:cards="sap.f.cards"
+    controllerName="fi.zfrfi0050.fs.controller.CreateTemplate"
+    xmlns:core="sap.ui.core"
+    xmlns:richtexteditor="sap.ui.richtexteditor"
+    xmlns:layout="sap.ui.layout"
+    xmlns:smartfilterbar="sap.ui.comp.smartfilterbar"
+    xmlns:smarttable="sap.ui.comp.smarttable"
+    xmlns:f="sap.f"
+    xmlns:form="sap.ui.layout.form"
+    xmlns="sap.m"
+    xmlns:mvc="sap.ui.core.mvc"
+>
+    <Page
+        id="P_Create"
+        title="{i18n>CreatePageTitle}"
+        titleAlignment="Center"
+        showNavButton="false"
+        navButtonPress="onPageNavBack"
+        showHeader="false"
+    >
+        <uxap:ObjectPageLayout id="OPL_CreateObjectPage">
+            <uxap:headerTitle>
+                <uxap:ObjectPageDynamicHeaderTitle>
+                    <uxap:expandedHeading>
+                        <Title text="Title 자리입니다" />
+                    </uxap:expandedHeading>
+                    <uxap:snappedHeading>
+                        <FlexBox
+                            fitContainer="true"
+                            alignItems="Center"
+                        >
+                            <Title text="snapped title입니다." />
+                        </FlexBox>
+                    </uxap:snappedHeading>
+                    <uxap:expandedContent>
+                        <Text text="추가 text" />
+                    </uxap:expandedContent>
+                    <uxap:actions>
+                        <Button
+                            text="결재상신"
+                            type="Emphasized"
+                            press=".onBtnPress"
+                        />
+                    </uxap:actions>
+                </uxap:ObjectPageDynamicHeaderTitle>
+            </uxap:headerTitle>
+
+            <uxap:headerContent>
+                <FlexBox
+                    wrap="Wrap"
+                    fitContainer="true"
+                >
+                    <Text text="Header Content 자리입니다" />
+                </FlexBox>
+            </uxap:headerContent>
+
+            <!-- // Section 시작부분 -->
+            <uxap:sections>
+                <uxap:ObjectPageSection
+                    titleUppercase="true"
+                    id="OPS_Header"
+                    title="Content"
+                    showTitle="false"
+                >
+                    <uxap:subSections>
+                        <uxap:ObjectPageSubSection title="Header">
+                            <uxap:blocks>
+                                <HBox class="sapUiMediumMarginEnd">
+                                    <VBox width="25rem" alignItems="Center">
+                                        <VBox alignItems="Start">
+                                            <HBox
+                                                justifyContent="SpaceBetween"
+                                                alignContent="Center"
+                                                alignItems="Center"
+                                            >
+                                                <Label
+                                                    width="7rem"
+                                                    text="AccountingDocument :"
+                                                />
+                                                <Input width="11rem"/>
+                                            </HBox>
+                                            <HBox
+                                                justifyContent="SpaceBetween"
+                                                alignContent="Center"
+                                                alignItems="Center"
+                                            >
+                                                <Label
+                                                    width="7rem"
+                                                    text="CompanyCode :"
+                                                />
+                                                <Input width="11rem" />
+                                            </HBox>
+                                            <HBox
+                                                justifyContent="SpaceBetween"
+                                                alignContent="Center"
+                                                alignItems="Center"
+                                            >
+                                                <Label
+                                                    width="7rem"
+                                                    text="Amount :"
+                                                />
+                                                <HBox 
+                                                    width="11rem"
+                                                    justifyContent="SpaceBetween"
+                                                    alignContent="Center"
+                                                    alignItems="Center">
+                                                    <Input width="5.2rem" />
+                                                    <Input width="5.2rem" showValueHelp="true"/>
+                                                </HBox>
+                                            </HBox>
+                                            <HBox
+                                                justifyContent="SpaceBetween"
+                                                alignContent="Center"
+                                                alignItems="Center"
+                                            >
+                                                <Label
+                                                    width="7rem"
+                                                    text="PaymentTerms :"
+                                                />
+                                                <Input width="11rem" />
+                                            </HBox>
+                                            <HBox
+                                                justifyContent="SpaceBetween"
+                                                alignContent="Center"
+                                                alignItems="Center"
+                                            >
+                                                <Label
+                                                    width="7rem"
+                                                    text="DocumentItemText :"
+                                                />
+                                                <Input width="11rem" />
+                                            </HBox>
+                                        </VBox>
+                                    </VBox>
+                                    <VBox alignItems="Center">
+                                        <VBox alignItems="Start">
+                                            <HBox
+                                                justifyContent="SpaceBetween"
+                                                alignContent="Center"
+                                                alignItems="Center"
+                                            >
+                                                <Label
+                                                    width="7rem"
+                                                    text="KeyCardPur :"
+                                                />
+                                                <Input width="11rem"/>
+                                            </HBox>
+                                            <HBox
+                                                justifyContent="SpaceBetween"
+                                                alignContent="Center"
+                                                alignItems="Center"
+                                            >
+                                                <Label
+                                                    width="7rem"
+                                                    text="TaxCode :"
+                                                />
+                                                <Input width="11rem" showValueHelp="true"/>
+                                            </HBox>
+                                            <HBox
+                                                justifyContent="SpaceBetween"
+                                                alignContent="Center"
+                                                alignItems="Center"
+                                            >
+                                                <Label
+                                                    width="7rem"
+                                                    text="DocumentDate :"
+                                                />
+                                                <DatePicker width="11rem">
+                                                </DatePicker>
+                                            </HBox>
+                                            <HBox
+                                                justifyContent="SpaceBetween"
+                                                alignContent="Center"
+                                                alignItems="Center"
+                                            >
+                                                <Label
+                                                    width="7rem"
+                                                    text="Costcenter :"
+                                                />
+                                                <Input width="11rem" />
+                                            </HBox>
+                                            <HBox
+                                                justifyContent="SpaceBetween"
+                                                alignContent="Center"
+                                                alignItems="Center"
+                                            >
+                                                <Label
+                                                    width="7rem"
+                                                    text="Supplier :"
+                                                />
+                                                <Input width="11rem" />
+                                            </HBox>
+                                        </VBox>
+                                    </VBox>
+                                    <VBox width="25rem" alignItems="Center">
+                                        <VBox alignItems="Start">
+                                            <HBox
+                                                justifyContent="SpaceBetween"
+                                                alignContent="Center"
+                                                alignItems="Center"
+                                            >
+                                                <Label
+                                                    width="7rem"
+                                                    text="BankCountry :"
+                                                />
+                                                <Input width="11rem"/>
+                                            </HBox>
+                                            <HBox
+                                                justifyContent="SpaceBetween"
+                                                alignContent="Center"
+                                                alignItems="Center"
+                                            >
+                                                <Label
+                                                    width="7rem"
+                                                    text="Bank :"
+                                                />
+                                                <Input width="11rem" />
+                                            </HBox>
+                                            <HBox
+                                                justifyContent="SpaceBetween"
+                                                alignContent="Center"
+                                                alignItems="Center"
+                                            >
+                                                <Label
+                                                    width="7rem"
+                                                    text="Bankaccount :"
+                                                />
+                                                <Input width="11rem" />
+                                            </HBox>
+                                            
+                                        </VBox>
+                                    </VBox>
+                                </HBox>
+                            </uxap:blocks>
+                        </uxap:ObjectPageSubSection>
+                        <uxap:ObjectPageSubSection title="Items">
+                            <uxap:blocks>
+                                <VBox>
+                                    <HBox>
+                                        <Table
+                                            id="T_Items"
+                                            items="{
+                                                path : 'BaseData>/Items'
+                                            }"
+                                        >
+                                            <headerToolbar>
+                                                <Toolbar>
+                                                    <ToolbarSpacer />
+                                                    <Button
+                                                        text="Add"
+                                                        press=".onAddBtnPress"
+                                                    />
+                                                    <Button
+                                                        text="Remove"
+                                                        press=".onRemoveBtnPress"
+                                                    />
+                                                </Toolbar>
+                                            </headerToolbar>
+                                            <columns>
+                                                <Column>
+                                                    <Text
+                                                        text="DebitCreditCode"
+                                                    />
+                                                </Column>
+                                                <Column>
+                                                    <Text text="CostCenter" />
+                                                </Column>
+                                                <Column>
+                                                    <Text text="G/L 계정" />
+                                                </Column>
+                                                <Column>
+                                                    <Text text="G/L 계정명" />
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Amount" />
+                                                </Column>
+                                                <Column>
+                                                    <Text text="Currency" />
+                                                </Column>
+                                                <Column>
+                                                    <Text text="AmountTax" />
+                                                </Column>
+
+                                                <Column>
+                                                    <Text
+                                                        text="DocumentItemText"
+                                                    />
+                                                </Column>
+                                            </columns>
+                                            <items>
+                                                <ColumnListItem vAlign="Middle">
+                                                    <cells>
+                                                        <Select
+                                                            selectedKey="BaseData>DebitCreditCode"
+                                                            items="{
+                                                                path: 'BaseData>/DebitCreditCode'
+                                                            }"
+                                                        >
+                                                            <core:Item
+                                                                key="{BaseData>key}"
+                                                                text="{BaseData>text}"
+                                                            />
+                                                        </Select>
+                                                        <Input
+                                                            value="{BaseData>Costcenter}"
+                                                            showValueHelp="true"
+                                                        />
+                                                        <Input
+                                                            value="{BaseData>GLAccount}"
+                                                            showValueHelp="true"
+                                                        />
+                                                        <Input
+                                                            value="{BaseData>GLAccountName}"
+                                                            editable="false"
+                                                        />
+                                                        <Input
+                                                            value="{
+                                                                parts: ['BaseData>Amount', 'BaseData>Currency'],
+                                                                type : 'sap.ui.model.type.Currency',
+                                                                formatOptions: {showMeasure : false}
+                                                            }"
+                                                        />
+                                                        <Input
+                                                            value="{BaseData>Currency}"
+                                                            showValueHelp="true"
+                                                        />
+                                                        <Input
+                                                            value="{BaseData>AmountTax}"
+                                                            showValueHelp="true"
+                                                        />
+
+                                                        <Input
+                                                            value="{BaseData>DocumentItemText}"
+                                                        />
+                                                    </cells>
+                                                </ColumnListItem>
+                                            </items>
+                                        </Table>
+                                    </HBox>
+                                </VBox>
+                            </uxap:blocks>
+                        </uxap:ObjectPageSubSection>
+                    </uxap:subSections>
+                </uxap:ObjectPageSection>
+            </uxap:sections>
+        </uxap:ObjectPageLayout>
+    </Page>
+</mvc:View>

@@ -85,6 +85,18 @@
         "sap.fe.templates": {}
       }
     },
+    "extends": {
+      "extensions": {
+        "sap.ui.controllerExtensions": {
+          "sap.fe.templates.ListReport.ListReportController":{
+            "controllerName": "fi.zfrfi0050.ext.controller.ZFI_C_OTHER_RECEIPTList_Ext"
+          },
+          "sap.fe.templates.ObjectPage.ObjectPageController": {
+            "controllerName": "fi.zfrfi0050.ext.controller.ZFI_C_OTHER_RECEIPTObjectPage_Ext"
+          }
+        }
+      }
+    },
     "contentDensities": {
       "compact": true,
       "cozy": true
@@ -126,6 +138,11 @@
           "pattern": "ZFI_C_OTHER_RECEIPT({key}):?query:",
           "name": "ZFI_C_OTHER_RECEIPTObjectPage",
           "target": "ZFI_C_OTHER_RECEIPTObjectPage"
+        },
+        {
+          "pattern": "CreateManage:?query:",
+          "name": "CreateTemplate",
+          "target": "CreateTemplate"
         }
       ],
       "targets": {
@@ -145,6 +162,16 @@
                 }
               },
               "controlConfiguration": {
+                "@com.sap.vocabularies.UI.v1.LineItem": {
+                  "actions": {
+                    "action01": {
+                      "press": "fi.zfrfi0050.ext.controller.CustomExtension.CreateData",
+                      "visible": true,
+                      "enabled": true,
+                      "text": "신규"
+                    }
+                  }
+                },
                 "": {
                   "actions": {
                     "fcCancelReq": {
@@ -170,6 +197,11 @@
               "contextPath": "/ZFI_C_OTHER_RECEIPT"
             }
           }
+        },
+        "CreateTemplate": {
+          "type": "View",
+          "id": "CreateTemplate",
+          "name": "fi.zfrfi0050.fs.view.CreateTemplate"
         }
       }
     }
