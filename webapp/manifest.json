@@ -1,0 +1,181 @@
+{
+  "_version": "1.53.0",
+  "sap.app": {
+    "id": "fi.zfrfi0050",
+    "type": "application",
+    "i18n": "i18n/i18n.properties",
+    "applicationVersion": {
+      "version": "0.0.1"
+    },
+    "title": "{{appTitle}}",
+    "description": "{{appDescription}}",
+    "resources": "resources.json",
+    "sourceTemplate": {
+      "id": "@sap/generator-fiori:lrop",
+      "version": "1.11.4",
+      "toolsId": "1b2cdf0b-ddca-424c-98ef-6a20ea08f1e9"
+    },
+    "dataSources": {
+      "mainService": {
+        "uri": "/sap/opu/odata4/sap/zfi_c_other_receipt_ui_v4/srvd/sap/zfi_c_other_receipt_ui/0001/",
+        "type": "OData",
+        "settings": {
+          "annotations": [
+            "annotation"
+          ],
+          "localUri": "localService/metadata.xml",
+          "odataVersion": "4.0"
+        }
+      },
+      "annotation": {
+        "type": "ODataAnnotation",
+        "uri": "annotations/annotation.xml",
+        "settings": {
+          "localUri": "annotations/annotation.xml"
+        }
+      }
+    },
+    "crossNavigation": {
+      "inbounds": {
+        "otherRecAppr-manage": {
+          "semanticObject": "otherRecAppr",
+          "action": "manage",
+          "title": "{{flpTitle}}",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          }
+        },
+        "OtherReciptAppr-manage": {
+          "semanticObject": "OtherReciptAppr",
+          "action": "manage",
+          "title": "{{flpTitle}}",
+          "signature": {
+            "parameters": {},
+            "additionalParameters": "allowed"
+          }
+        }
+      }
+    }
+  },
+  "sap.ui": {
+    "technology": "UI5",
+    "icons": {
+      "icon": "",
+      "favIcon": "",
+      "phone": "",
+      "phone@2": "",
+      "tablet": "",
+      "tablet@2": ""
+    },
+    "deviceTypes": {
+      "desktop": true,
+      "tablet": true,
+      "phone": true
+    }
+  },
+  "sap.ui5": {
+    "flexEnabled": true,
+    "dependencies": {
+      "minUI5Version": "1.114.9",
+      "libs": {
+        "sap.m": {},
+        "sap.ui.core": {},
+        "sap.ushell": {},
+        "sap.fe.templates": {}
+      }
+    },
+    "contentDensities": {
+      "compact": true,
+      "cozy": true
+    },
+    "models": {
+      "i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "settings": {
+          "bundleName": "fi.zfrfi0050.i18n.i18n"
+        }
+      },
+      "": {
+        "dataSource": "mainService",
+        "preload": true,
+        "settings": {
+          "synchronizationMode": "None",
+          "operationMode": "Server",
+          "autoExpandSelect": true,
+          "earlyRequests": true
+        }
+      },
+      "@i18n": {
+        "type": "sap.ui.model.resource.ResourceModel",
+        "uri": "i18n/i18n.properties"
+      }
+    },
+    "resources": {
+      "css": []
+    },
+    "routing": {
+      "config": {},
+      "routes": [
+        {
+          "pattern": ":?query:",
+          "name": "ZFI_C_OTHER_RECEIPTList",
+          "target": "ZFI_C_OTHER_RECEIPTList"
+        },
+        {
+          "pattern": "ZFI_C_OTHER_RECEIPT({key}):?query:",
+          "name": "ZFI_C_OTHER_RECEIPTObjectPage",
+          "target": "ZFI_C_OTHER_RECEIPTObjectPage"
+        }
+      ],
+      "targets": {
+        "ZFI_C_OTHER_RECEIPTList": {
+          "type": "Component",
+          "id": "ZFI_C_OTHER_RECEIPTList",
+          "name": "sap.fe.templates.ListReport",
+          "options": {
+            "settings": {
+              "contextPath": "/ZFI_C_OTHER_RECEIPT",
+              "variantManagement": "Page",
+              "navigation": {
+                "ZFI_C_OTHER_RECEIPT": {
+                  "detail": {
+                    "route": "ZFI_C_OTHER_RECEIPTObjectPage"
+                  }
+                }
+              },
+              "controlConfiguration": {
+                "": {
+                  "actions": {
+                    "fcCancelReq": {
+                      "press": "fi.zfrfi0050.ext.controller.CustomExtension.CancelReq",
+                      "visible": true,
+                      "enabled": true,
+                      "requiresSelection": false,
+                      "text": "결재요청취소"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "ZFI_C_OTHER_RECEIPTObjectPage": {
+          "type": "Component",
+          "id": "ZFI_C_OTHER_RECEIPTObjectPage",
+          "name": "sap.fe.templates.ObjectPage",
+          "options": {
+            "settings": {
+              "editableHeaderContent": false,
+              "contextPath": "/ZFI_C_OTHER_RECEIPT"
+            }
+          }
+        }
+      }
+    }
+  },
+  "sap.fiori": {
+    "registrationIds": [],
+    "archeType": "transactional"
+  }
+}

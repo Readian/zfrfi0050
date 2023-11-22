@@ -1,0 +1,95 @@
+<edmx:Edmx xmlns:edmx="http://docs.oasis-open.org/odata/ns/edmx" Version="4.0">
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/Common.xml">
+        <edmx:Include Namespace="com.sap.vocabularies.Common.v1" Alias="Common"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="https://sap.github.io/odata-vocabularies/vocabularies/UI.xml">
+        <edmx:Include Namespace="com.sap.vocabularies.UI.v1" Alias="UI"/>
+    </edmx:Reference>
+    <edmx:Reference Uri="/sap/opu/odata4/sap/zfi_c_other_receipt_ui_v4/srvd/sap/zfi_c_other_receipt_ui/0001/$metadata">
+        <edmx:Include Namespace="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001" Alias="SAP__self"/>
+    </edmx:Reference>
+    <edmx:DataServices>
+        <Schema xmlns="http://docs.oasis-open.org/odata/ns/edm" Namespace="local">
+            <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType">
+                <Annotation Term="UI.SelectionFields">
+                    <Collection>
+                        <PropertyPath>CompanyCode</PropertyPath>
+                        <PropertyPath>Supplier</PropertyPath>
+                        <PropertyPath>DraftUser</PropertyPath>
+                        <PropertyPath>PostingDate</PropertyPath>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.LineItem">
+                    <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="StatusText"/>
+                            <PropertyValue Property="Label" String="진행상태"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="AccountingDocument"/>
+                            <PropertyValue Property="Label" String="전표번호"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="PostingDate"/>
+                            <PropertyValue Property="Label" String="전기일"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="AmountTotal"/>
+                            <PropertyValue Property="Label" String="금액"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Currency"/>
+                            <PropertyValue Property="Label" String="통화"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Supplier"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="SupplierName"/>
+                            <PropertyValue Property="Label" String="공급업체명"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Costcenter"/>
+                            <PropertyValue Property="Label" String="비용귀속부서"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="CostCenterName"/>
+                            <PropertyValue Property="Label" String="비용귀속부서명"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Taxcode"/>
+                            <PropertyValue Property="Label" String="세금코드"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="TaxCodeText"/>
+                            <PropertyValue Property="Label" String="세금코드명"/>
+                        </Record>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.Facets">
+                    <Collection>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="UI.FieldGroup" Qualifier="_">
+                    <Record Type="UI.FieldGroupType">
+                        <PropertyValue Property="Data">
+                            <Collection/>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/Supplier">
+                <Annotation Term="Common.Label" String="공급업체"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/CompanyCode">
+                <Annotation Term="Common.Label" String="회사코드"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/DraftUser">
+                <Annotation Term="Common.Label" String="사용자ID"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/PostingDate">
+                <Annotation Term="Common.Label" String="조회기간"/>
+            </Annotations>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>
