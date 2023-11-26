@@ -54,7 +54,8 @@ sap.ui.define([
                 GLAccountName : '',
                 Amount : 0,
                 Currency : 'KRW',
-                AmountTax : ''
+                AmountTax : '',
+                DocumentItemText: ''
             });
 
             oBaseData.setProperty('/Items', oBaseDataData.Items);
@@ -1070,71 +1071,265 @@ sap.ui.define([
             
         },
 
-        onValidateion: function(oEvent){
+        onValidation: function(){
             let oModel = this.getView().getModel();
             let oBaseData = this.getView().getModel('BaseData');
             let oBaseDataData = oBaseData.getData();
+            let isTrue = true;
+            let isCount = 0;
+
+            if(!oBaseDataData.Parameters.PostingDate || oBaseDataData.Parameters.PostingDate == '')
+            {
+                isTrue = false;
+                oBaseData.setProperty('/Parameters/PostingDateState', 'Error');
+            }
+            else{
+                oBaseData.setProperty('/Parameters/PostingDateState', 'None');
+
+            }
+            if(!oBaseDataData.Parameters.Amount || oBaseDataData.Parameters.Amount == '')
+            {
+                isTrue = false;
+                oBaseData.setProperty('/Parameters/AmountState', 'Error');
+            }
+            else{
+                oBaseData.setProperty('/Parameters/AmountState', 'None');
+
+            }
+            if(!oBaseDataData.Parameters.Currency || oBaseDataData.Parameters.Currency == '')
+            {
+                isTrue = false;
+                oBaseData.setProperty('/Parameters/CurrencyState', 'Error');
+            }
+            else{
+                oBaseData.setProperty('/Parameters/CurrencyState', 'None');
+
+            }
+            if(!oBaseDataData.Parameters.PaymentTerms || oBaseDataData.Parameters.PaymentTerms == '')
+            {
+                isTrue = false;
+                oBaseData.setProperty('/Parameters/PaymentTermsState', 'Error');
+            }
+            else{
+                oBaseData.setProperty('/Parameters/PaymentTermsState', 'None');
+
+            }
+            if(!oBaseDataData.Parameters.Supplier || oBaseDataData.Parameters.Supplier == '')
+            {
+                isTrue = false;
+                oBaseData.setProperty('/Parameters/SupplierState', 'Error');
+            }
+            else{
+                oBaseData.setProperty('/Parameters/SupplierState', 'None');
+
+            }
+            if(!oBaseDataData.Parameters.DocumentItemText || oBaseDataData.Parameters.DocumentItemText == '')
+            {
+                isTrue = false;
+                oBaseData.setProperty('/Parameters/DocumentItemTextState', 'Error');
+            }
+            else{
+                oBaseData.setProperty('/Parameters/DocumentItemTextState', 'None');
+            }
+            if(!oBaseDataData.Parameters.TaxCode || oBaseDataData.Parameters.TaxCode == '')
+            {
+                isTrue = false;
+                oBaseData.setProperty('/Parameters/TaxCodeState', 'Error');
+            }
+            else{
+                oBaseData.setProperty('/Parameters/TaxCodeState', 'None');
+            }
+            if(!oBaseDataData.Parameters.DocumentDate || oBaseDataData.Parameters.DocumentDate == '')
+            {
+                isTrue = false;
+                oBaseData.setProperty('/Parameters/DocumentDateState', 'Error');
+            }
+            else{
+                oBaseData.setProperty('/Parameters/DocumentDateState', 'None');
+            }
+            if(!oBaseDataData.Parameters.Costcenter || oBaseDataData.Parameters.Costcenter == '')
+            {
+                isTrue = false;
+                oBaseData.setProperty('/Parameters/CostcenterState', 'Error');
+            }
+            else{
+                oBaseData.setProperty('/Parameters/CostcenterState', 'None');
+            }
+            if(!oBaseDataData.Parameters.Bank || oBaseDataData.Parameters.Bank == '')
+            {
+                isTrue = false;
+                oBaseData.setProperty('/Parameters/BankState', 'Error');
+            }
+            else{
+                oBaseData.setProperty('/Parameters/BankState', 'None');
+            }
+            if(!oBaseDataData.Parameters.Bank || oBaseDataData.Parameters.Bank == '')
+            {
+                isTrue = false;
+                oBaseData.setProperty('/Parameters/BankState', 'Error');
+            }
+            else{
+                oBaseData.setProperty('/Parameters/BankState', 'None');
+            }
+            if(!oBaseDataData.Parameters.Bankaccount || oBaseDataData.Parameters.Bankaccount == '')
+            {
+                isTrue = false;
+                oBaseData.setProperty('/Parameters/BankaccountState', 'Error');
+            }
+            else{
+                oBaseData.setProperty('/Parameters/BankaccountState', 'None');
+            }
+
+            for(let i = 0; i < oBaseDataData.Items.length; i++){
+                if(!oBaseDataData.Items[i].DebitCreditCode || oBaseDataData.Items[i].DebitCreditCode == '')
+                {
+                    isTrue = false;
+                    oBaseData.setProperty('/Items/'+i+'/DebitCreditCodeState', 'Error');
+                }
+                else 
+                {
+                    oBaseData.setProperty('/Items/'+i+'/DebitCreditCodeState', 'None');
+                }
+                if(!oBaseDataData.Items[i].Costcenter || oBaseDataData.Items[i].Costcenter == '')
+                {
+                    isTrue = false;
+                    oBaseData.setProperty('/Items/'+i+'/CostcenterState', 'Error');
+                }
+                else 
+                {
+                    oBaseData.setProperty('/Items/'+i+'/CostcenterState', 'None');
+                }
+                if(!oBaseDataData.Items[i].GLAccount || oBaseDataData.Items[i].GLAccount == '')
+                {
+                    isTrue = false;
+                    oBaseData.setProperty('/Items/'+i+'/GLAccountState', 'Error');
+                }
+                else {
+                    oBaseData.setProperty('/Items/'+i+'/GLAccountState', 'None');
+                }
+                if(!oBaseDataData.Items[i].Amount || oBaseDataData.Items[i].Amount == '')
+                {
+                    isTrue = false;
+                    oBaseData.setProperty('/Items/'+i+'/AmountState', 'Error');
+                }
+                else {
+                    oBaseData.setProperty('/Items/'+i+'/AmountState', 'None');
+                }
+                if(!oBaseDataData.Items[i].Currency || oBaseDataData.Items[i].Currency == '')
+                {
+                    isTrue = false;
+                    oBaseData.setProperty('/Items/'+i+'/CurrencyState', 'Error');
+                }
+                else {
+                    oBaseData.setProperty('/Items/'+i+'/CurrencyState', 'None');
+                }
+                if(!oBaseDataData.Items[i].AmountTax || oBaseDataData.Items[i].AmountTax == '')
+                {
+                    isTrue = false;
+                    oBaseData.setProperty('/Items/'+i+'/AmountTaxState', 'Error');
+                }
+                else {
+                    oBaseData.setProperty('/Items/'+i+'/AmountTaxState', 'None');
+                }
+            }
+
+            if(oBaseDataData.Parameters.AmountTotal !== 0)
+            {
+                isTrue = false;
+                MessageBox.alert("차이금액이 '0' 이어야 합니다.");
+            }
+
+            return isTrue;
 
         },
         
 
         onBtnPress: function(oEvent){
-            this.getView().getModel().bindContext('/ZFI_V_COSTCENTER').requestObject().then( function (oResult){
-                let a = oResult;
-            }.bind(this));
-            this.getView().getModel().bindContext('/ZFI_CURRENCY').requestObject().then( function (oResult){
-                let a = oResult;
-            }.bind(this));
-            MessageBox.confirm('[결재 상신] 하시겠습니까?', {
-                actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
-                onClose: function (oAction) {
-                 
-  
-                if (oAction === sap.m.MessageBox.Action.YES) {
-                    
-                    //Post
-                    //X-Csrf-Token 가져오기
-                    // const headers = {
-                    //     'X-Csrf-Token' : 'n1QtnwQ9avmLHkRs6fzjXQ=='
-                    // };
-                    const headers = {
-                        'X-CSRF-TOKEN' : this.oView.getModel().getHttpHeaders()['X-CSRF-Token']
-                    };
-                    //n1QtnwQ9avmLHkRs6fzjXQ==
-                    axios.post('/sap/opu/odata4/sap/zfi_c_other_receipt_ui_v4/srvd/sap/zfi_c_other_receipt_ui/0001/ZFI_C_DOC_APPROVAL/com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.Posting', 
+            let oBaseData = this.getView().getModel('BaseData');
+            let oBaseDataData = oBaseData.getData();
+
+            oBaseData.setProperty('/Parameters/_Item', oBaseDataData.Items);
+
+            if (this.onValidation()){
+                MessageBox.confirm('[결재 상신] 하시겠습니까?', {
+                    actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
+                    onClose: function (oAction) {
+                     
+      
+                    if (oAction === sap.m.MessageBox.Action.YES) {
+
+
+                        //Item정리
+                        _.forEach(oBaseDataData.Parameters._Item, function (Items) {
+                            if(Items.DebitCreditCodeState == 'D')
                             {
-                            'AccountingDocument' : '',
-                            'CompanyCode': '',
-                            'FiscalYear': '',
-                            'PostingDate': '',
-                            'Amount': 0,
-                            'Currency': '',
-                            'PaymentTerms': '',
-                            'DocumentItemText': '',
-                            'KeyCardPur': '',
-                            'TaxCode': '',
-                            'DocumentDate': '',
-                            'Costcenter': '',
-                            'Supplier': '',
-                            'BankCountry': '',
-                            'Bank': '',
-                            'Bankaccount': '',
-                            'AmountTotal': 0,
-                            '_Item': []
-                          },{
-                            headers : headers
-                            //n1QtnwQ9avmLHkRs6fzjXQ==
-                          })
-                          .then(function (response) {
-                            console.log(response);
-                          })
-                          .catch(function (error) {
-                            console.log(error);
-                          });
-                }
-  
-                }.bind(this)
-              });
+                                Items.AmountDebit = Items.Amount
+                                Items.AmountCredit = 0
+                            }
+                            else if(Items.DebitCreditCodeState == 'C')
+                            {
+                                Items.AmountCredit = Items.Amount
+                                Items.AmountDebi = 0
+                            }
+                            delete Items.DebitCreditCodeState
+                            delete Items.CostcenterState
+                            delete Items.GLAccountState
+                            delete Items.GLAccountName
+                            delete Items.AmountState
+                            delete Items.CurrencyState
+                            delete Items.AmountTaxState
+                            delete Items.DocumentItemTextState
+                        }.bind(this));
+                        // oBaseData.setProperty('/Parameters/_Item',oBaseDataData.Parameters._Item);
+                        
+                        //Post
+                        //X-Csrf-Token 가져오기
+                        // const headers = {
+                        //     'X-Csrf-Token' : 'n1QtnwQ9avmLHkRs6fzjXQ=='
+                        // };
+                        const headers = {
+                            'X-CSRF-TOKEN' : this.oView.getModel().getHttpHeaders()['X-CSRF-Token']
+                        };
+                        //n1QtnwQ9avmLHkRs6fzjXQ==
+                        axios.post('/sap/opu/odata4/sap/zfi_c_other_receipt_ui_v4/srvd/sap/zfi_c_other_receipt_ui/0001/ZFI_C_DOC_APPROVAL/com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.Posting', 
+                                {
+                                'AccountingDocument' : '',
+                                'CompanyCode': oBaseDataData.Parameters.CompanyCode,
+                                'FiscalYear': oBaseDataData.Parameters.FiscalYear,
+                                'PostingDate': oBaseDataData.Parameters.PostingDate,
+                                'Amount': oBaseDataData.Parameters.Amount,
+                                'Currency': oBaseDataData.Parameters.Currency,
+                                'PaymentTerms': oBaseDataData.Parameters.PaymentTerms,
+                                'DocumentItemText': oBaseDataData.Parameters.DocumentItemText,
+                                'KeyCardPur': oBaseDataData.Parameters.KeyCardPur,
+                                'TaxCode': oBaseDataData.Parameters.TaxCode,
+                                'DocumentDate': oBaseDataData.Parameters.DocumentDate,
+                                'Costcenter': oBaseDataData.Parameters.Costcenter,
+                                'Supplier': oBaseDataData.Parameters.Supplier,
+                                'BankCountry': oBaseDataData.Parameters.BankCountry,
+                                'Bank': oBaseDataData.Parameters.Bank,
+                                'Bankaccount': oBaseDataData.Parameters.Bankaccount,
+                                'AmountTotal': oBaseDataData.Parameters.AmountTotal,
+                                '_Item': oBaseDataData.Parameters._Item
+                              },{
+                                headers : headers
+                                //n1QtnwQ9avmLHkRs6fzjXQ==
+                              })
+                              .then(function (response) {
+                                console.log(response);
+                                let oRouter = this.getOwnerComponent().getRouter();
+                                oRouter.navTo('ZFI_C_OTHER_RECEIPTList');
+                              }.bind(this))
+                              .catch(function (error) {
+                                console.log(error);
+                              });
+                    }
+      
+                    }.bind(this)
+                });
+            }
+
+            
         }
     });
 });
