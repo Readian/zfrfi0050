@@ -114,6 +114,168 @@ sap.ui.define([
                 oValueHelpData.getProperty('/_oVHDialog/VHCurrency').open();
             }
         },
+        onOpenSupplier : function(oEvent){
+            let oBaseData = this.getView().getModel();
+            let oValueHelpData = this.getView().getModel('ValueHelpData');
+            if(!oValueHelpData.getProperty('/_oVHDialog/VHSupplier'))
+            {
+                this.loadFragment({
+                    name: "fi.zfrfi0050.fs.view.f4.F4Supplier"
+                }).then(function(oDialog){
+                    oValueHelpData.setProperty('/_oVHDialog/VHSupplier', oDialog);
+                    this.getView().addDependent(oDialog);
+                    let oFilterBar = oDialog.getFilterBar();
+                    let oBasicSearchField = new SearchField();
+                    oFilterBar.setFilterBarExpanded(false);
+                    oFilterBar.setBasicSearch(oBasicSearchField);
+                    oBasicSearchField.attachSearch(function () {
+                        oFilterBar.search();
+                    });
+                    oDialog.getTableAsync().then(
+                        function (oTable) {
+                            oTable.setModel(this.getView().getModel());
+                            oTable.setThreshold(500);
+                            if (oTable.bindRows) {
+                                oTable.bindAggregation("rows", {
+                                    path: "/ZFI_V_SUPPLIER",
+                                    events: {
+                                        dataReceived: function () {
+                                            oDialog.update();
+                                        },
+                                    },
+                                });
+                                oTable.addColumn(
+                                    new UIColumn({
+                                        label: new Label({ text: "Supplier" }),
+                                        template: new Text({ text: "{Supplier}" }),
+                                    })
+                                );
+                                oTable.addColumn(
+                                    new UIColumn({
+                                        label: new Label({ text: "SupplierName" }),
+                                        template: new Text({ text: "{SupplierName}" }),
+                                    })
+                                );
+                            }
+                            oDialog.update();
+                        }.bind(this)
+                    );
+                    oDialog.open();
+
+
+                }.bind(this));
+            }else{
+                oValueHelpData.getProperty('/_oVHDialog/VHSupplier').open();
+            }
+        },
+        onOpenVHTaxcode: function(oEvent){
+            let oBaseData = this.getView().getModel();
+            let oValueHelpData = this.getView().getModel('ValueHelpData');
+            if(!oValueHelpData.getProperty('/_oVHDialog/VHTaxcode'))
+            {
+                this.loadFragment({
+                    name: "fi.zfrfi0050.fs.view.f4.F4Taxcode"
+                }).then(function(oDialog){
+                    oValueHelpData.setProperty('/_oVHDialog/VHTaxcode', oDialog);
+                    this.getView().addDependent(oDialog);
+                    let oFilterBar = oDialog.getFilterBar();
+                    let oBasicSearchField = new SearchField();
+                    oFilterBar.setFilterBarExpanded(false);
+                    oFilterBar.setBasicSearch(oBasicSearchField);
+                    oBasicSearchField.attachSearch(function () {
+                        oFilterBar.search();
+                    });
+                    oDialog.getTableAsync().then(
+                        function (oTable) {
+                            oTable.setModel(this.getView().getModel());
+                            oTable.setThreshold(500);
+                            if (oTable.bindRows) {
+                                oTable.bindAggregation("rows", {
+                                    path: "/ZFI_V_TAXCODE_C",
+                                    events: {
+                                        dataReceived: function () {
+                                            oDialog.update();
+                                        },
+                                    },
+                                });
+                                oTable.addColumn(
+                                    new UIColumn({
+                                        label: new Label({ text: "세금코드" }),
+                                        template: new Text({ text: "{CodeId}" }),
+                                    })
+                                );
+                                oTable.addColumn(
+                                    new UIColumn({
+                                        label: new Label({ text: "세금코드명" }),
+                                        template: new Text({ text: "{CodeName}" }),
+                                    })
+                                );
+                            }
+                            oDialog.update();
+                        }.bind(this)
+                    );
+                    oDialog.open();
+
+
+                }.bind(this));
+            }else{
+                oValueHelpData.getProperty('/_oVHDialog/VHSupplier').open();
+            }
+        },
+        onOpenVHCostCenter : function(oEvent){
+            let oBaseData = this.getView().getModel();
+            let oValueHelpData = this.getView().getModel('ValueHelpData');
+            if(!oValueHelpData.getProperty('/_oVHDialog/VHTaxcode'))
+            {
+                this.loadFragment({
+                    name: "fi.zfrfi0050.fs.view.f4.F4Taxcode"
+                }).then(function(oDialog){
+                    oValueHelpData.setProperty('/_oVHDialog/VHTaxcode', oDialog);
+                    this.getView().addDependent(oDialog);
+                    let oFilterBar = oDialog.getFilterBar();
+                    let oBasicSearchField = new SearchField();
+                    oFilterBar.setFilterBarExpanded(false);
+                    oFilterBar.setBasicSearch(oBasicSearchField);
+                    oBasicSearchField.attachSearch(function () {
+                        oFilterBar.search();
+                    });
+                    oDialog.getTableAsync().then(
+                        function (oTable) {
+                            oTable.setModel(this.getView().getModel());
+                            oTable.setThreshold(500);
+                            if (oTable.bindRows) {
+                                oTable.bindAggregation("rows", {
+                                    path: "/ZFI_V_TAXCODE_C",
+                                    events: {
+                                        dataReceived: function () {
+                                            oDialog.update();
+                                        },
+                                    },
+                                });
+                                oTable.addColumn(
+                                    new UIColumn({
+                                        label: new Label({ text: "세금코드" }),
+                                        template: new Text({ text: "{CodeId}" }),
+                                    })
+                                );
+                                oTable.addColumn(
+                                    new UIColumn({
+                                        label: new Label({ text: "세금코드명" }),
+                                        template: new Text({ text: "{CodeName}" }),
+                                    })
+                                );
+                            }
+                            oDialog.update();
+                        }.bind(this)
+                    );
+                    oDialog.open();
+
+
+                }.bind(this));
+            }else{
+                oValueHelpData.getProperty('/_oVHDialog/VHSupplier').open();
+            }
+        },
 
         onActionVHCurrency: function(oEvent){
             let oBaseData = this.getView().getModel('BaseData');
@@ -125,9 +287,35 @@ sap.ui.define([
 
                     break;
                 case 'ok':
-                    oBaseData.setProperty('/Parameters/Currency');
+                    let token = oEvent.getParameter('tokens')[0].getProperty('key');
+                    oBaseData.setProperty('/Parameters/Currency',token);
 
                     oValueHelpData.getProperty('/_oVHDialog/VHCurrency').close();
+                    
+                    break;
+                case 'search' :
+                        
+                    break;
+                case 'afterClose':
+                    break;
+            }
+        },
+        
+
+        onActionVHSupplier: function(oEvent){
+            let oBaseData = this.getView().getModel('BaseData');
+            let oValueHelpData = this.getView().getModel('ValueHelpData');
+            
+            switch(oEvent.sId){
+                case 'cancel':
+                    oValueHelpData.getProperty('/_oVHDialog/VHSupplier').close();
+
+                    break;
+                case 'ok':
+                    let token = oEvent.getParameter('tokens')[0].getProperty('key');
+                    oBaseData.setProperty('/Parameters/Supplier',token);
+
+                    oValueHelpData.getProperty('/_oVHDialog/VHSupplier').close();
                     
                     break;
                 case 'search' :

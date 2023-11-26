@@ -16,7 +16,9 @@ sap.ui.define([
         return {
             ValueHelpData : {
                 _oVHDialog : {
-                    VHCurrency : undefined
+                    VHCurrency : undefined,
+                    VHSupplier: undefined,
+                    VHTaxcode: undefined
                 },
                 v4SelectInput : undefined
             },
@@ -33,20 +35,20 @@ sap.ui.define([
                 },
                 Parameters : {
                     AccountingDocument : '미생성',
-                    CompanyCode: 'SKCC',
+                    CompanyCode: '회사코드',
                     FiscalYear: '',
                     PostingDate: '',
                     Amount: 0,
                     Currency : 'KRW',
-                    PaymentTrms: '',
+                    PaymentTerms: '',
                     DocumenItemText: '',
                     KeyCarPur: '',
-                    TaxCoe: '',
-                    DocuentDate: '',
-                    Coscenter: '',
-                    Suplier: '',
-                    BnkCountry: '',
-                    ank: '',
+                    TaxCode: '',
+                    DocumentDate: '',
+                    Costcenter: '',
+                    Supplier: '',
+                    BankCountry: '',
+                    Bank: '',
                     Bankaccount: '',
                     AmountTotal: 0,
                     _Item: []

@@ -43,7 +43,6 @@
                             type="Emphasized"
                             press=".onBtnPress"
                         />
-                        <Button text="상신취소 ( Visible 처리 전 )" />
                     </uxap:actions>
                 </uxap:ObjectPageDynamicHeaderTitle>
             </uxap:headerTitle>
@@ -95,7 +94,7 @@
                     showTitle="false"
                 >
                     <uxap:subSections>
-                        <uxap:ObjectPageSubSection>
+                        <uxap:ObjectPageSubSection title="Header">
                             <VBox>
                                 <form:SimpleForm
                                     editable="true"
@@ -184,7 +183,9 @@
                                                                 <Input
                                                                     xmlns:core="sap.ui.core"
                                                                     showValueHelp="true"
+                                                                    value="{BaseData>/Parameters/Supplier}"
                                                                     width="15rem"
+                                                                    valueHelpRequest=".onOpenSupplier"
                                                                 />
                                                             </items>
                                                         </HBox>
@@ -202,6 +203,7 @@
                                                                     xmlns:core="sap.ui.core"
                                                                     showValueHelp="true"
                                                                     width="15rem"
+                                                                    value="{BaseData>/Parameters/BankCountry}"
                                                                 />
                                                             </items>
                                                         </HBox>
@@ -218,6 +220,7 @@
                                                                 <Input
                                                                     showValueHelp="true"
                                                                     width="15rem"
+                                                                    value="{BaseData>/Parameters/Bank}"
                                                                 />
                                                             </items>
                                                         </HBox>
@@ -232,7 +235,9 @@
                                                                     width="8rem"
                                                                 />
                                                                 <Input
+                                                                    value="{BaseData>/Parameters/Bankaccount}"
                                                                     width="15rem"
+                                                                    showValueHelp="true"
                                                                 />
                                                             </items>
                                                         </HBox>
@@ -247,8 +252,10 @@
                                                                 />
                                                                 <Input
                                                                     xmlns:core="sap.ui.core"
+                                                                    value="{BaseData>/Parameters/TaxCode}"
                                                                     showValueHelp="true"
                                                                     width="15rem"
+                                                                    valueHelpRequest=".onOpenVHTaxcode"
                                                                 />
                                                             </items>
                                                         </HBox>
@@ -273,7 +280,8 @@
                                                                     xmlns:core="sap.ui.core"
                                                                     showValueHelp="true"
                                                                     width="15rem"
-                                                                    value="전략마케팅팀"
+                                                                    value="{BaseData>/Parameters/Costcenter}"
+                                                                    valueHelpRequest=".onOpenVHCostCenter"
                                                                 />
                                                             </items>
                                                         </HBox>
@@ -291,6 +299,7 @@
                                                                     xmlns:core="sap.ui.core"
                                                                     showValueHelp="true"
                                                                     width="15rem"
+                                                                    value="{BaseData>/Parameters/PaymentTerms}"
                                                                 />
                                                             </items>
                                                         </HBox>
@@ -337,7 +346,11 @@
                                                                 />
                                                                 <Input
                                                                     xmlns:core="sap.ui.core"
-                                                                    value="0"
+                                                                    value="{
+                                                                        parts: ['BaseData>/Parameters/Amount', 'BaseData>/Parameters/Currency'],
+                                                                        type : 'sap.ui.model.type.Currency',
+                                                                        formatOptions: {showMeasure : false}
+                                                                    }"
                                                                     width="15rem"
                                                                 />
                                                             </items>
@@ -352,108 +365,6 @@
                         </uxap:ObjectPageSubSection>
                         
 
-                        <uxap:ObjectPageSubSection
-                            title="Header"
-                            visible="true"
-                        >
-                            <VBox class="sapUiSmallMargin">
-                                <form:SimpleForm
-                                    editable="true"
-                                    layout="ColumnLayout"
-                                    columnsM="2"
-                                    columnsL="3"
-                                    columnsXL="4"
-                                >
-                                    <form:content>
-                                        <Label text="전기일자" />
-                                        <DatePicker
-                                            value="{
-                                                path: 'BaseData>/Parameters/PostingDate'
-                                            }"
-                                        />
-
-                                        <Label text="증빙일자" />
-                                        <DatePicker
-                                            value="{
-                                                path: 'BaseData>/Parameters/DocumentDate'
-                                            }"
-                                        />
-
-                                        <Label text="연도" />
-                                        <DatePicker
-                                            value="{
-                                                path : 'BaseData>/Parameters/FiscalYear'
-                                            }"
-                                        />
-
-                                        <Label text="거래통화" />
-                                        <Input
-                                            showValueHelp="true"
-                                            value="{
-                                                path:'BaseData>/Parameters/Currency'
-                                            }"
-                                            valueHelpRequest=".onOpenCurrency"
-                                        />
-
-                                        <Label text="공급업체" />
-                                        <Input
-                                            showValueHelp="true"
-                                            value="{
-                                                path:'BaseData>/Parameters/Supplier'
-                                            }"
-                                        />
-
-                                        <Label text="은행국가" />
-                                        <Input
-                                            showValueHelp="true"
-                                            value="{
-                                                path:'BaseData>/Parameters/BankCountry'
-                                            }"
-                                        />
-
-                                        <Label text="은행" />
-                                        <Input
-                                            showValueHelp="true"
-                                            value="{
-                                                path:'BaseData>/Parameters/Bank'
-                                            }"
-                                        />
-
-                                        <Label text="계좌" />
-                                        <Input
-                                            showValueHelp="true"
-                                            value="{
-                                                path:'BaseData>/Parameters/Bankaccount'
-                                            }"
-                                        />
-
-                                        <Label text="세금코드" />
-                                        <Input
-                                            showValueHelp="true"
-                                            value="{
-                                                path:'BaseData>/Parameters/TaxCode'
-                                            }"
-                                        />
-
-                                        <Label text="비용귀속부서" />
-                                        <Input
-                                            showValueHelp="true"
-                                            value="{
-                                                path:'BaseData>/Parameters/Costcenter'
-                                            }"
-                                        />
-
-                                        <Label text="지급조건" />
-                                        <Input
-                                            showValueHelp="true"
-                                            value="{
-                                                path:'BaseData>/Parameters/paymentTerms'
-                                            }"
-                                        />
-                                    </form:content>
-                                </form:SimpleForm>
-                            </VBox>
-                        </uxap:ObjectPageSubSection>
 
                         <uxap:ObjectPageSubSection title="Items">
                             <uxap:blocks>

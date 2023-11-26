@@ -1,0 +1,24 @@
+<core:FragmentDefinition
+    xmlns="sap.ui.comp.valuehelpdialog"
+    xmlns:m="sap.m"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:core="sap.ui.core"
+>
+    <ValueHelpDialog
+        supportMultiselect="false"
+        title="회사코드"
+        ok="onActionVHTaxcode"
+        cancel="onActionVHTaxcode"
+        supportRanges="false"
+        key="CodeId"
+        descriptionKey="CodeName"
+    >
+        <filterBar>
+            <fb:FilterBar
+                advancedMode="false"
+                search="onActionVHTaxcode"
+                isRunningInValueHelpDialog="true"
+            />
+        </filterBar>
+    </ValueHelpDialog>
+</core:FragmentDefinition>
