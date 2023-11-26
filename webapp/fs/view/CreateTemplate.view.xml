@@ -437,10 +437,12 @@
                                     <HBox>
                                         <Table
                                             id="T_Items"
+                                            sticky="ColumnHeaders"
                                             items="{
                                                 path : 'BaseData>/Items',
                                                 templateShareable : false
                                             }"
+                                            mode="MultiSelect"
                                         >
                                             <headerToolbar>
                                                 <Toolbar>

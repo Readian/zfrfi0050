@@ -63,9 +63,23 @@ sap.ui.define([
         },
         onRemoveBtnPress : function(oEvent){
             //Table Remove 버튼
-        },
-        onChangeDebitCreditCode: function(oEvent){
-
+            MessageBox.confirm('정말로 삭제하시겠습니까?', {
+                actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
+                onClose: function (oAction) {
+                  let BaseData = this.getView().getModel("BaseData");
+                  let oTable = this.byId("T_Items");
+  
+                  if (oAction === sap.m.MessageBox.Action.YES) {
+                    _(oTable.getSelectedItems().reverse()).forEach(function(n){
+                        BaseData.getProperty('/Items').splice(n.getId().match(/(\d+)$/)[0],1);
+                    });
+  
+                    BaseData.refresh(true);
+                    oTable.removeSelections();
+                }
+  
+                }.bind(this)
+              });
         },
         onOpenCurrency : function(oEvent){
             let oBaseData = this.getView().getModel('BaseData');
