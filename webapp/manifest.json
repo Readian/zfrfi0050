@@ -124,7 +124,15 @@
       }
     },
     "resources": {
-      "css": []
+      "css": [],
+      "js": [
+        {
+          "uri": "js/axios.min.js"
+        },
+        {
+          "uri": "js/lodash.js"
+        }
+      ]
     },
     "routing": {
       "config": {},

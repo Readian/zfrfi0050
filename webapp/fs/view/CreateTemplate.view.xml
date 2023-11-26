@@ -24,7 +24,7 @@
             <uxap:headerTitle>
                 <uxap:ObjectPageDynamicHeaderTitle>
                     <uxap:expandedHeading>
-                        <Title text="Title 자리입니다" />
+                        <Title text="생성" />
                     </uxap:expandedHeading>
                     <uxap:snappedHeading>
                         <FlexBox
@@ -43,6 +43,7 @@
                             type="Emphasized"
                             press=".onBtnPress"
                         />
+                        <Button text="상신취소 ( Visible 처리 전 )" />
                     </uxap:actions>
                 </uxap:ObjectPageDynamicHeaderTitle>
             </uxap:headerTitle>
@@ -52,7 +53,36 @@
                     wrap="Wrap"
                     fitContainer="true"
                 >
-                    <Text text="Header Content 자리입니다" />
+                    <VBox>
+                        <HBox>
+                            <Label text="전표번호 : " width="8rem" />
+                            <Label
+                                text="{BaseData>/Parameters/AccountingDocument}"
+                                width="15rem"
+                            />
+                        </HBox>
+                        <HBox >
+                            <Label text="연도 : " width="8rem"></Label>
+                            <Label text="{BaseData>/Parameters/FiscalYear}"></Label>
+                        </HBox>
+                        <HBox>
+                            <Label text="회사코드 : " width="8rem" />
+                            <Label text="{BaseData>/Parameters/CompanyCode}"
+                            width="15rem" />
+                        </HBox>
+                        <HBox>
+                            <Label text="총 금액 : " width="8rem" />
+                            <Label text="{BaseData>/Parameters/AmountTotal}"
+                            width="15rem" />
+                        </HBox>
+                        <HBox alignItems="Center">
+                            <Label text="헤더 텍스트 : " width="8rem" />
+                            <Input
+                                value="{BaseData>/Parameters/DocumenItemText}"
+                                width="15rem"
+                            />
+                        </HBox>
+                    </VBox>
                 </FlexBox>
             </uxap:headerContent>
 
@@ -65,176 +95,366 @@
                     showTitle="false"
                 >
                     <uxap:subSections>
-                        <uxap:ObjectPageSubSection title="Header">
-                            <uxap:blocks>
-                                <HBox class="sapUiMediumMarginEnd">
-                                    <VBox width="25rem" alignItems="Center">
-                                        <VBox alignItems="Start">
-                                            <HBox
-                                                justifyContent="SpaceBetween"
-                                                alignContent="Center"
-                                                alignItems="Center"
-                                            >
-                                                <Label
-                                                    width="7rem"
-                                                    text="AccountingDocument :"
-                                                />
-                                                <Input width="11rem"/>
-                                            </HBox>
-                                            <HBox
-                                                justifyContent="SpaceBetween"
-                                                alignContent="Center"
-                                                alignItems="Center"
-                                            >
-                                                <Label
-                                                    width="7rem"
-                                                    text="CompanyCode :"
-                                                />
-                                                <Input width="11rem" />
-                                            </HBox>
-                                            <HBox
-                                                justifyContent="SpaceBetween"
-                                                alignContent="Center"
-                                                alignItems="Center"
-                                            >
-                                                <Label
-                                                    width="7rem"
-                                                    text="Amount :"
-                                                />
-                                                <HBox 
-                                                    width="11rem"
-                                                    justifyContent="SpaceBetween"
-                                                    alignContent="Center"
-                                                    alignItems="Center">
-                                                    <Input width="5.2rem" />
-                                                    <Input width="5.2rem" showValueHelp="true"/>
-                                                </HBox>
-                                            </HBox>
-                                            <HBox
-                                                justifyContent="SpaceBetween"
-                                                alignContent="Center"
-                                                alignItems="Center"
-                                            >
-                                                <Label
-                                                    width="7rem"
-                                                    text="PaymentTerms :"
-                                                />
-                                                <Input width="11rem" />
-                                            </HBox>
-                                            <HBox
-                                                justifyContent="SpaceBetween"
-                                                alignContent="Center"
-                                                alignItems="Center"
-                                            >
-                                                <Label
-                                                    width="7rem"
-                                                    text="DocumentItemText :"
-                                                />
-                                                <Input width="11rem" />
-                                            </HBox>
-                                        </VBox>
-                                    </VBox>
-                                    <VBox alignItems="Center">
-                                        <VBox alignItems="Start">
-                                            <HBox
-                                                justifyContent="SpaceBetween"
-                                                alignContent="Center"
-                                                alignItems="Center"
-                                            >
-                                                <Label
-                                                    width="7rem"
-                                                    text="KeyCardPur :"
-                                                />
-                                                <Input width="11rem"/>
-                                            </HBox>
-                                            <HBox
-                                                justifyContent="SpaceBetween"
-                                                alignContent="Center"
-                                                alignItems="Center"
-                                            >
-                                                <Label
-                                                    width="7rem"
-                                                    text="TaxCode :"
-                                                />
-                                                <Input width="11rem" showValueHelp="true"/>
-                                            </HBox>
-                                            <HBox
-                                                justifyContent="SpaceBetween"
-                                                alignContent="Center"
-                                                alignItems="Center"
-                                            >
-                                                <Label
-                                                    width="7rem"
-                                                    text="DocumentDate :"
-                                                />
-                                                <DatePicker width="11rem">
-                                                </DatePicker>
-                                            </HBox>
-                                            <HBox
-                                                justifyContent="SpaceBetween"
-                                                alignContent="Center"
-                                                alignItems="Center"
-                                            >
-                                                <Label
-                                                    width="7rem"
-                                                    text="Costcenter :"
-                                                />
-                                                <Input width="11rem" />
-                                            </HBox>
-                                            <HBox
-                                                justifyContent="SpaceBetween"
-                                                alignContent="Center"
-                                                alignItems="Center"
-                                            >
-                                                <Label
-                                                    width="7rem"
-                                                    text="Supplier :"
-                                                />
-                                                <Input width="11rem" />
-                                            </HBox>
-                                        </VBox>
-                                    </VBox>
-                                    <VBox width="25rem" alignItems="Center">
-                                        <VBox alignItems="Start">
-                                            <HBox
-                                                justifyContent="SpaceBetween"
-                                                alignContent="Center"
-                                                alignItems="Center"
-                                            >
-                                                <Label
-                                                    width="7rem"
-                                                    text="BankCountry :"
-                                                />
-                                                <Input width="11rem"/>
-                                            </HBox>
-                                            <HBox
-                                                justifyContent="SpaceBetween"
-                                                alignContent="Center"
-                                                alignItems="Center"
-                                            >
-                                                <Label
-                                                    width="7rem"
-                                                    text="Bank :"
-                                                />
-                                                <Input width="11rem" />
-                                            </HBox>
-                                            <HBox
-                                                justifyContent="SpaceBetween"
-                                                alignContent="Center"
-                                                alignItems="Center"
-                                            >
-                                                <Label
-                                                    width="7rem"
-                                                    text="Bankaccount :"
-                                                />
-                                                <Input width="11rem" />
-                                            </HBox>
-                                            
-                                        </VBox>
-                                    </VBox>
-                                </HBox>
-                            </uxap:blocks>
+                        <uxap:ObjectPageSubSection>
+                            <VBox>
+                                <form:SimpleForm
+                                    editable="true"
+                                    layout="ResponsiveGridLayout"
+                                >
+                                    <form:content>
+                                        <HBox width="100%">
+                                            <items>
+                                                <VBox
+                                                    width="100%"
+                                                    direction="Column"
+                                                >
+                                                    <items>
+                                                        <HBox
+                                                            width="100%"
+                                                            alignItems="Center"
+                                                            class=""
+                                                        >
+                                                            <items>
+                                                                <Label
+                                                                    text="전기일자 : "
+                                                                    width="8rem"
+                                                                />
+                                                                <DatePicker
+                                                                    width="15rem"
+                                                                    value="{
+                                                                    path: 'BaseData>/Parameters/PostingDate'
+                                                                }"
+                                                                />
+                                                            </items>
+                                                        </HBox>
+                                                        <HBox
+                                                            width="100%"
+                                                            alignItems="Center"
+                                                            class=""
+                                                        >
+                                                            <items>
+                                                                <Label
+                                                                    text="증빙일자 : "
+                                                                    width="8rem"
+                                                                />
+                                                                <DatePicker
+                                                                    width="15rem"
+                                                                    value="{
+                                                                        path: 'BaseData>/Parameters/DocumentDate'
+                                                                    }"
+                                                                />
+                                                            </items>
+                                                        </HBox>
+                                                        <HBox
+                                                            width="100%"
+                                                            alignItems="Center"
+                                                            class=""
+                                                        >
+                                                            <items>
+                                                                <Label
+                                                                    text="거래통화 : "
+                                                                    width="8rem"
+                                                                />
+                                                                <Input
+                                                                    value="{BaseData>/Parameters/Currency}"
+                                                                    showValueHelp="true"
+                                                                    width="15rem"
+                                                                    valueHelpRequest=".onOpenCurrency"
+                                                                />
+                                                            </items>
+                                                        </HBox>
+                                                        
+                                                    </items>
+                                                </VBox>
+                                                <VBox
+                                                    width="100%"
+                                                    direction="Column"
+                                                >
+                                                    <items>
+                                                        <HBox
+                                                            width="100%"
+                                                            alignItems="Center"
+                                                            class=""
+                                                        >
+                                                            <items>
+                                                                <Label
+                                                                    text="공급업체 : "
+                                                                    width="8rem"
+                                                                />
+                                                                <Input
+                                                                    xmlns:core="sap.ui.core"
+                                                                    showValueHelp="true"
+                                                                    width="15rem"
+                                                                />
+                                                            </items>
+                                                        </HBox>
+                                                        <HBox
+                                                            width="100%"
+                                                            alignItems="Center"
+                                                            class=""
+                                                        >
+                                                            <items>
+                                                                <Label
+                                                                    text="은행국가 : "
+                                                                    width="8rem"
+                                                                />
+                                                                <Input
+                                                                    xmlns:core="sap.ui.core"
+                                                                    showValueHelp="true"
+                                                                    width="15rem"
+                                                                />
+                                                            </items>
+                                                        </HBox>
+                                                        <HBox
+                                                            width="100%"
+                                                            alignItems="Center"
+                                                            class=""
+                                                        >
+                                                            <items>
+                                                                <Label
+                                                                    text="은행 : "
+                                                                    width="8rem"
+                                                                />
+                                                                <Input
+                                                                    showValueHelp="true"
+                                                                    width="15rem"
+                                                                />
+                                                            </items>
+                                                        </HBox>
+                                                        <HBox
+                                                            width="100%"
+                                                            alignItems="Center"
+                                                            class=""
+                                                        >
+                                                            <items>
+                                                                <Label
+                                                                    text="계좌 : "
+                                                                    width="8rem"
+                                                                />
+                                                                <Input
+                                                                    width="15rem"
+                                                                />
+                                                            </items>
+                                                        </HBox>
+                                                        <HBox
+                                                            width="100%"
+                                                            alignItems="Center"
+                                                        >
+                                                            <items>
+                                                                <Label
+                                                                    text="세금코드 : "
+                                                                    width="8rem"
+                                                                />
+                                                                <Input
+                                                                    xmlns:core="sap.ui.core"
+                                                                    showValueHelp="true"
+                                                                    width="15rem"
+                                                                />
+                                                            </items>
+                                                        </HBox>
+                                                    </items>
+                                                </VBox>
+                                                <VBox
+                                                    width="100%"
+                                                    direction="Column"
+                                                >
+                                                    <items>
+                                                        <HBox
+                                                            width="100%"
+                                                            alignItems="Center"
+                                                            class=""
+                                                        >
+                                                            <items>
+                                                                <Label
+                                                                    text="비용귀속 : "
+                                                                    width="8rem"
+                                                                />
+                                                                <Input
+                                                                    xmlns:core="sap.ui.core"
+                                                                    showValueHelp="true"
+                                                                    width="15rem"
+                                                                    value="전략마케팅팀"
+                                                                />
+                                                            </items>
+                                                        </HBox>
+                                                        <HBox
+                                                            width="100%"
+                                                            alignItems="Center"
+                                                            class=""
+                                                        >
+                                                            <items>
+                                                                <Label
+                                                                    text="지급조건 : "
+                                                                    width="8rem"
+                                                                />
+                                                                <Input
+                                                                    xmlns:core="sap.ui.core"
+                                                                    showValueHelp="true"
+                                                                    width="15rem"
+                                                                />
+                                                            </items>
+                                                        </HBox>
+                                                        <HBox
+                                                            width="100%"
+                                                            alignItems="Center"
+                                                            class=""
+                                                        >
+                                                            <items>
+                                                                <Label
+                                                                    text="지급형태 : "
+                                                                    width="8rem"
+                                                                />
+                                                                <Input
+                                                                    showValueHelp="true"
+                                                                    width="15rem"
+                                                                />
+                                                            </items>
+                                                        </HBox>
+                                                        <HBox
+                                                            width="100%"
+                                                            alignItems="Center"
+                                                            class=""
+                                                        >
+                                                            <items>
+                                                                <Label
+                                                                    text="지급예정 : "
+                                                                    width="8rem"
+                                                                />
+                                                                <Input
+                                                                    value="연도-월-일"
+                                                                    width="15rem"
+                                                                />
+                                                            </items>
+                                                        </HBox>
+                                                        <HBox
+                                                            width="100%"
+                                                            alignItems="Center"
+                                                        >
+                                                            <items>
+                                                                <Label
+                                                                    text="지급금액 : "
+                                                                    width="8rem"
+                                                                />
+                                                                <Input
+                                                                    xmlns:core="sap.ui.core"
+                                                                    value="0"
+                                                                    width="15rem"
+                                                                />
+                                                            </items>
+                                                        </HBox>
+                                                    </items>
+                                                </VBox>
+                                            </items>
+                                        </HBox>
+                                    </form:content>
+                                </form:SimpleForm>
+                            </VBox>
                         </uxap:ObjectPageSubSection>
+                        
+
+                        <uxap:ObjectPageSubSection
+                            title="Header"
+                            visible="true"
+                        >
+                            <VBox class="sapUiSmallMargin">
+                                <form:SimpleForm
+                                    editable="true"
+                                    layout="ColumnLayout"
+                                    columnsM="2"
+                                    columnsL="3"
+                                    columnsXL="4"
+                                >
+                                    <form:content>
+                                        <Label text="전기일자" />
+                                        <DatePicker
+                                            value="{
+                                                path: 'BaseData>/Parameters/PostingDate'
+                                            }"
+                                        />
+
+                                        <Label text="증빙일자" />
+                                        <DatePicker
+                                            value="{
+                                                path: 'BaseData>/Parameters/DocumentDate'
+                                            }"
+                                        />
+
+                                        <Label text="연도" />
+                                        <DatePicker
+                                            value="{
+                                                path : 'BaseData>/Parameters/FiscalYear'
+                                            }"
+                                        />
+
+                                        <Label text="거래통화" />
+                                        <Input
+                                            showValueHelp="true"
+                                            value="{
+                                                path:'BaseData>/Parameters/Currency'
+                                            }"
+                                            valueHelpRequest=".onOpenCurrency"
+                                        />
+
+                                        <Label text="공급업체" />
+                                        <Input
+                                            showValueHelp="true"
+                                            value="{
+                                                path:'BaseData>/Parameters/Supplier'
+                                            }"
+                                        />
+
+                                        <Label text="은행국가" />
+                                        <Input
+                                            showValueHelp="true"
+                                            value="{
+                                                path:'BaseData>/Parameters/BankCountry'
+                                            }"
+                                        />
+
+                                        <Label text="은행" />
+                                        <Input
+                                            showValueHelp="true"
+                                            value="{
+                                                path:'BaseData>/Parameters/Bank'
+                                            }"
+                                        />
+
+                                        <Label text="계좌" />
+                                        <Input
+                                            showValueHelp="true"
+                                            value="{
+                                                path:'BaseData>/Parameters/Bankaccount'
+                                            }"
+                                        />
+
+                                        <Label text="세금코드" />
+                                        <Input
+                                            showValueHelp="true"
+                                            value="{
+                                                path:'BaseData>/Parameters/TaxCode'
+                                            }"
+                                        />
+
+                                        <Label text="비용귀속부서" />
+                                        <Input
+                                            showValueHelp="true"
+                                            value="{
+                                                path:'BaseData>/Parameters/Costcenter'
+                                            }"
+                                        />
+
+                                        <Label text="지급조건" />
+                                        <Input
+                                            showValueHelp="true"
+                                            value="{
+                                                path:'BaseData>/Parameters/paymentTerms'
+                                            }"
+                                        />
+                                    </form:content>
+                                </form:SimpleForm>
+                            </VBox>
+                        </uxap:ObjectPageSubSection>
+
                         <uxap:ObjectPageSubSection title="Items">
                             <uxap:blocks>
                                 <VBox>
@@ -259,7 +479,7 @@
                                                 </Toolbar>
                                             </headerToolbar>
                                             <columns>
-                                                <Column>
+                                                <Column width="9rem">
                                                     <Text
                                                         text="DebitCreditCode"
                                                     />

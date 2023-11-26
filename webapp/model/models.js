@@ -14,6 +14,12 @@ sap.ui.define([
         "use strict";
 
         return {
+            ValueHelpData : {
+                _oVHDialog : {
+                    VHCurrency : undefined
+                },
+                v4SelectInput : undefined
+            },
             
             Data : {
                 DebitCreditCode: [
@@ -24,10 +30,34 @@ sap.ui.define([
                 Visible : {
                     Debit : true,
                     Credit : false
+                },
+                Parameters : {
+                    AccountingDocument : '미생성',
+                    CompanyCode: 'SKCC',
+                    FiscalYear: '',
+                    PostingDate: '',
+                    Amount: 0,
+                    Currency : 'KRW',
+                    PaymentTrms: '',
+                    DocumenItemText: '',
+                    KeyCarPur: '',
+                    TaxCoe: '',
+                    DocuentDate: '',
+                    Coscenter: '',
+                    Suplier: '',
+                    BnkCountry: '',
+                    ank: '',
+                    Bankaccount: '',
+                    AmountTotal: 0,
+                    _Item: []
                 }
             },
             createBaseDataModel : function(){
                 let oModel = new JSONModel(this.Data);
+                return oModel;
+            },
+            createValueHelpDataModel : function(){
+                let oModel = new JSONModel(this.ValueHelpData);
                 return oModel;
             },
             createDeviceModel: function () {
