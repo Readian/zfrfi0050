@@ -52,36 +52,60 @@
                     wrap="Wrap"
                     fitContainer="true"
                 >
-                    <VBox>
-                        <HBox>
-                            <Label text="전표번호 : " width="8rem" />
-                            <Label
-                                text="{BaseData>/Parameters/AccountingDocument}"
-                                width="15rem"
-                            />
-                        </HBox>
-                        <HBox >
-                            <Label text="연도 : " width="8rem"></Label>
-                            <Label text="{BaseData>/Parameters/FiscalYear}"></Label>
-                        </HBox>
-                        <HBox>
-                            <Label text="회사코드 : " width="8rem" />
-                            <Label text="{BaseData>/Parameters/CompanyCode}"
-                            width="15rem" />
-                        </HBox>
-                        <HBox>
-                            <Label text="총 금액 : " width="8rem" />
-                            <Label text="{BaseData>/Parameters/AmountTotal}"
-                            width="15rem" />
-                        </HBox>
-                        <HBox alignItems="Center">
-                            <Label text="헤더 텍스트 : " width="8rem" />
-                            <Input
-                                value="{BaseData>/Parameters/DocumenItemText}"
-                                width="15rem"
-                            />
-                        </HBox>
-                    </VBox>
+                    <HBox >
+                        <VBox>
+                            <HBox>
+                                <Label text="전표번호 : " width="8rem" />
+                                <Label
+                                    text="{BaseData>/Parameters/AccountingDocument}"
+                                    width="15rem"
+                                />
+                            </HBox>
+                            <HBox >
+                                <Label text="연도 : " width="8rem"></Label>
+                                <Label text="{BaseData>/Parameters/FiscalYear}"></Label>
+                            </HBox>
+                            <HBox>
+                                <Label text="회사코드 : " width="8rem" />
+                                <Label text="{BaseData>/Parameters/CompanyCode}"
+                                width="15rem" />
+                            </HBox>
+                            <HBox alignItems="Center">
+                                <Label text="헤더 텍스트 : " width="8rem" />
+                                <Input
+                                    value="{BaseData>/Parameters/DocumenItemText}"
+                                    width="15rem"
+                                />
+                            </HBox>
+                        </VBox>
+                        <VBox >
+                            <HBox >
+                                <Label text="차변합계:"/>
+                                <ObjectNumber 
+                                    number="{ 
+                                        parts: ['BaseData>/Parameters/DebitTotal', 'BaseData>/Parameters/Currency'],
+                                        type: 'sap.ui.model.type.Currency'
+                                     }"></ObjectNumber>
+                            </HBox>
+                            <HBox >
+                                <Label text="대변합계:"/>
+                                <ObjectNumber 
+                                    number="{ 
+                                        parts: ['BaseData>/Parameters/CreditTotal', 'BaseData>/Parameters/Currency'],
+                                        type: 'sap.ui.model.type.Currency'
+                                     }"></ObjectNumber>
+                            </HBox>
+                            <HBox >
+                                <Label text="차이금액:"/>
+                                <ObjectNumber 
+                                    number="{ 
+                                        parts: ['BaseData>/Parameters/AmountTotal', 'BaseData>/Parameters/Currency'],
+                                        type: 'sap.ui.model.type.Currency'
+                                     }"></ObjectNumber>
+                            </HBox>
+                        </VBox>
+                    </HBox>
+                    
                 </FlexBox>
             </uxap:headerContent>
 
@@ -120,8 +144,16 @@
                                                                 />
                                                                 <DatePicker
                                                                     width="15rem"
+                                                                    change=".onChangePostingDate"
+                                                                    displayFormat="yyyy-MM-dd"
+                                                                    valueFormat="yyyy-MM-dd"
                                                                     value="{
-                                                                    path: 'BaseData>/Parameters/PostingDate'
+                                                                    path: 'BaseData>/Parameters/PostingDate',
+                                                                    type: 'sap.ui.model.type.String',
+                                                                    formatOptions: {
+                                                                        'pattern': 'yyyy-MM-dd'
+                                                                    }
+                                                                    
                                                                 }"
                                                                 />
                                                             </items>
@@ -373,7 +405,8 @@
                                         <Table
                                             id="T_Items"
                                             items="{
-                                                path : 'BaseData>/Items'
+                                                path : 'BaseData>/Items',
+                                                templateShareable : false
                                             }"
                                         >
                                             <headerToolbar>
@@ -392,7 +425,7 @@
                                             <columns>
                                                 <Column width="9rem">
                                                     <Text
-                                                        text="DebitCreditCode"
+                                                        text="차변/대변"
                                                     />
                                                 </Column>
                                                 <Column>
@@ -424,7 +457,8 @@
                                                 <ColumnListItem vAlign="Middle">
                                                     <cells>
                                                         <Select
-                                                            selectedKey="BaseData>DebitCreditCode"
+                                                            change=".onChangeDebitCreditCode"
+                                                            selectedKey="{BaseData>DebitCreditCode}"
                                                             items="{
                                                                 path: 'BaseData>/DebitCreditCode'
                                                             }"
@@ -437,29 +471,35 @@
                                                         <Input
                                                             value="{BaseData>Costcenter}"
                                                             showValueHelp="true"
+                                                            valueHelpRequest=".onOpenVHTBCostCenter"
                                                         />
                                                         <Input
                                                             value="{BaseData>GLAccount}"
                                                             showValueHelp="true"
+                                                            valueHelpRequest=".onOpenVHTBAccount"
                                                         />
                                                         <Input
                                                             value="{BaseData>GLAccountName}"
                                                             editable="false"
                                                         />
                                                         <Input
+                                                            change=".onChangeAmount"
                                                             value="{
                                                                 parts: ['BaseData>Amount', 'BaseData>Currency'],
                                                                 type : 'sap.ui.model.type.Currency',
                                                                 formatOptions: {showMeasure : false}
+                                                                
                                                             }"
                                                         />
                                                         <Input
                                                             value="{BaseData>Currency}"
                                                             showValueHelp="true"
+                                                            valueHelpRequest=".onOpenVHTBCurrency"
                                                         />
                                                         <Input
                                                             value="{BaseData>AmountTax}"
                                                             showValueHelp="true"
+                                                            valueHelpRequest=".onOpenVHTBTaxCode"
                                                         />
 
                                                         <Input

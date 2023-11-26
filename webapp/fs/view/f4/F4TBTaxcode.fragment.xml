@@ -6,17 +6,17 @@
 >
     <ValueHelpDialog
         supportMultiselect="false"
-        title="G/L 계정"
-        ok="onActionVHTBAccount"
-        cancel="onActionVHTBAccount"
+        title="회사코드"
+        ok="onActionVHTBTaxcode"
+        cancel="onActionVHTBTaxcode"
         supportRanges="false"
-        key="GLAccount"
-        descriptionKey="GLAccountName"
+        key="CodeId"
+        descriptionKey="CodeName"
     >
         <filterBar>
             <fb:FilterBar
                 advancedMode="false"
-                search="onActionVHTBAccount"
+                search="onActionVHTBTaxcode"
                 isRunningInValueHelpDialog="true"
             />
         </filterBar>

@@ -6,17 +6,17 @@
 >
     <ValueHelpDialog
         supportMultiselect="false"
-        title="G/L 계정"
-        ok="onActionVHTBAccount"
-        cancel="onActionVHTBAccount"
+        title="통화"
+        ok="onActionVHTBCurrency"
+        cancel="onActionVHTBCurrency"
         supportRanges="false"
-        key="GLAccount"
-        descriptionKey="GLAccountName"
+        key="Currency"
+        descriptionKey="CurrencyName"
     >
         <filterBar>
             <fb:FilterBar
                 advancedMode="false"
-                search="onActionVHTBAccount"
+                search="onActionVHTBCurrency"
                 isRunningInValueHelpDialog="true"
             />
         </filterBar>

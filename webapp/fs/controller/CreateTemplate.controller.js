@@ -48,7 +48,13 @@ sap.ui.define([
             let oBaseDataData = oBaseData.getData();
 
             oBaseDataData.Items.push({
-
+                DebitCreditCode : 'D',
+                Costcenter : '',
+                GLAccount : '',
+                GLAccountName : '',
+                Amount : 0,
+                Currency : 'KRW',
+                AmountTax : ''
             });
 
             oBaseData.setProperty('/Items', oBaseDataData.Items);
@@ -61,7 +67,7 @@ sap.ui.define([
 
         },
         onOpenCurrency : function(oEvent){
-            let oBaseData = this.getView().getModel();
+            let oBaseData = this.getView().getModel('BaseData');
             let oValueHelpData = this.getView().getModel('ValueHelpData');
             if(!oValueHelpData.getProperty('/_oVHDialog/VHCurrency'))
             {
@@ -115,7 +121,7 @@ sap.ui.define([
             }
         },
         onOpenSupplier : function(oEvent){
-            let oBaseData = this.getView().getModel();
+            let oBaseData = this.getView().getModel('BaseData');
             let oValueHelpData = this.getView().getModel('ValueHelpData');
             if(!oValueHelpData.getProperty('/_oVHDialog/VHSupplier'))
             {
@@ -169,7 +175,7 @@ sap.ui.define([
             }
         },
         onOpenVHTaxcode: function(oEvent){
-            let oBaseData = this.getView().getModel();
+            let oBaseData = this.getView().getModel('BaseData');
             let oValueHelpData = this.getView().getModel('ValueHelpData');
             if(!oValueHelpData.getProperty('/_oVHDialog/VHTaxcode'))
             {
@@ -223,14 +229,433 @@ sap.ui.define([
             }
         },
         onOpenVHCostCenter : function(oEvent){
-            let oBaseData = this.getView().getModel();
+            let oBaseData = this.getView().getModel('BaseData');
             let oValueHelpData = this.getView().getModel('ValueHelpData');
-            if(!oValueHelpData.getProperty('/_oVHDialog/VHTaxcode'))
+            if(!oValueHelpData.getProperty('/_oVHDialog/VHCostCenter'))
             {
                 this.loadFragment({
-                    name: "fi.zfrfi0050.fs.view.f4.F4Taxcode"
+                    name: "fi.zfrfi0050.fs.view.f4.F4CostCenter"
                 }).then(function(oDialog){
-                    oValueHelpData.setProperty('/_oVHDialog/VHTaxcode', oDialog);
+                    oValueHelpData.setProperty('/_oVHDialog/VHCostCenter', oDialog);
+                    this.getView().addDependent(oDialog);
+                    let oFilterBar = oDialog.getFilterBar();
+                    let oBasicSearchField = new SearchField();
+                    oFilterBar.setFilterBarExpanded(false);
+                    oFilterBar.setBasicSearch(oBasicSearchField);
+                    oBasicSearchField.attachSearch(function () {
+                        oFilterBar.search();
+                    });
+                    oDialog.getTableAsync().then(
+                        function (oTable) {
+                            oTable.setModel(this.getView().getModel());
+                            oTable.setThreshold(500);
+                            if (oTable.bindRows) {
+                                oTable.bindAggregation("rows", {
+                                    path: "/ZFI_V_COSTCENTER",
+                                    events: {
+                                        dataReceived: function () {
+                                            oDialog.update();
+                                        },
+                                    },
+                                });
+                                oTable.addColumn(
+                                    new UIColumn({
+                                        label: new Label({ text: "비용귀속" }),
+                                        template: new Text({ text: "{CostCenter}" }),
+                                    })
+                                );
+                                oTable.addColumn(
+                                    new UIColumn({
+                                        label: new Label({ text: "비용귀속명" }),
+                                        template: new Text({ text: "{CostCenterName}" }),
+                                    })
+                                );
+                            }
+                            oDialog.update();
+                        }.bind(this)
+                    );
+                    oDialog.open();
+
+
+                }.bind(this));
+            }else{
+                oValueHelpData.getProperty('/_oVHDialog/VHCostCenter').open();
+            }
+        },
+        
+
+        onActionVHCurrency: function(oEvent){
+            let oBaseData = this.getView().getModel('BaseData');
+            let oValueHelpData = this.getView().getModel('ValueHelpData');
+            
+            switch(oEvent.sId){
+                case 'cancel':
+                    oValueHelpData.getProperty('/_oVHDialog/VHCurrency').close();
+
+                    break;
+                case 'ok':
+                    let token = oEvent.getParameter('tokens')[0].getProperty('key');
+                    oBaseData.setProperty('/Parameters/Currency',token);
+
+                    oValueHelpData.getProperty('/_oVHDialog/VHCurrency').close();
+                    
+                    break;
+                case 'search' :
+                    let oFilterBar = oValueHelpData.getProperty('/_oVHDialog/VHCurrency').getFilterBar();
+                    let sSearchQuery = oFilterBar.getBasicSearchValue();
+                    let aSelectionSet = oEvent.getParameter("selectionSet");
+
+                    let aFilters = aSelectionSet.reduce(function (aResult, oControl) {
+                        if (oControl.getValue()) {
+                            aResult.push(new Filter({
+                                path: oControl.getName(),
+                                operator: FilterOperator.Contains,
+                                value1: oControl.getValue()
+                            }));
+                        }
+    
+                        return aResult;
+                    }, []);
+    
+                    aFilters.push(new Filter({
+                        filters: [
+                            new Filter({ path: "Currency", operator: FilterOperator.Contains, value1: sSearchQuery.substr(0, 10) }),
+                            new Filter({ path: "CurrencyName", operator: FilterOperator.Contains, value1: sSearchQuery.substr(0, 20) })
+                        ],
+                        and: false
+                    }));
+    
+                    oValueHelpData.getProperty('/_oVHDialog/VHCurrency').getTableAsync().then(
+                        function (oTable) {
+                            if(oTable.bindRows){
+                                oTable.getBinding("rows").filter(new Filter({
+                                    filters: aFilters,
+                                    and: true
+                                }));
+                            }
+                            if(oTable.bindItems){
+                                oTable.getBinding("items").filter(new Filter({
+                                    filters: aFilters,
+                                    and: true
+                                }));
+                            }
+                            oValueHelpData.getProperty('/_oVHDialog/VHCurrency').update();
+                        }.bind(this)
+                    );
+                    break;
+                case 'afterClose':
+                    break;
+            }
+        },
+        
+
+        onActionVHSupplier: function(oEvent){
+            let oBaseData = this.getView().getModel('BaseData');
+            let oValueHelpData = this.getView().getModel('ValueHelpData');
+            
+            switch(oEvent.sId){
+                case 'cancel':
+                    oValueHelpData.getProperty('/_oVHDialog/VHSupplier').close();
+
+                    break;
+                case 'ok':
+                    let token = oEvent.getParameter('tokens')[0].getProperty('key');
+                    oBaseData.setProperty('/Parameters/Supplier',token);
+
+                    oValueHelpData.getProperty('/_oVHDialog/VHSupplier').close();
+                    
+                    break;
+                case 'search' :
+                    let oFilterBar = oValueHelpData.getProperty('/_oVHDialog/VHSupplier').getFilterBar();
+                    let sSearchQuery = oFilterBar.getBasicSearchValue();
+                    let aSelectionSet = oEvent.getParameter("selectionSet");
+
+                    let aFilters = aSelectionSet.reduce(function (aResult, oControl) {
+                        if (oControl.getValue()) {
+                            aResult.push(new Filter({
+                                path: oControl.getName(),
+                                operator: FilterOperator.Contains,
+                                value1: oControl.getValue()
+                            }));
+                        }
+    
+                        return aResult;
+                    }, []);
+    
+                    aFilters.push(new Filter({
+                        filters: [
+                            new Filter({ path: "Supplier", operator: FilterOperator.Contains, value1: sSearchQuery.substr(0, 10) }),
+                            new Filter({ path: "SupplierName", operator: FilterOperator.Contains, value1: sSearchQuery.substr(0, 20) })
+                        ],
+                        and: false
+                    }));
+    
+                    oValueHelpData.getProperty('/_oVHDialog/VHSupplier').getTableAsync().then(
+                        function (oTable) {
+                            if(oTable.bindRows){
+                                oTable.getBinding("rows").filter(new Filter({
+                                    filters: aFilters,
+                                    and: true
+                                }));
+                            }
+                            if(oTable.bindItems){
+                                oTable.getBinding("items").filter(new Filter({
+                                    filters: aFilters,
+                                    and: true
+                                }));
+                            }
+                            oValueHelpData.getProperty('/_oVHDialog/VHSupplier').update();
+                        }.bind(this)
+                    );
+                    break;
+                case 'afterClose':
+                    break;
+            }
+        },
+        onActionVHCostCenter: function(oEvent){
+            let oBaseData = this.getView().getModel('BaseData');
+            let oValueHelpData = this.getView().getModel('ValueHelpData');
+            
+            switch(oEvent.sId){
+                case 'cancel':
+                    oValueHelpData.getProperty('/_oVHDialog/VHCostCenter').close();
+
+                    break;
+                case 'ok':
+                    let token = oEvent.getParameter('tokens')[0].getProperty('key');
+                    oBaseData.setProperty('/Parameters/Costcenter',token);
+
+                    oValueHelpData.getProperty('/_oVHDialog/VHCostCenter').close();
+                    
+                    break;
+                case 'search' :
+                    let oFilterBar = oValueHelpData.getProperty('/_oVHDialog/VHCostCenter').getFilterBar();
+                    let sSearchQuery = oFilterBar.getBasicSearchValue();
+                    let aSelectionSet = oEvent.getParameter("selectionSet");
+
+                    let aFilters = aSelectionSet.reduce(function (aResult, oControl) {
+                        if (oControl.getValue()) {
+                            aResult.push(new Filter({
+                                path: oControl.getName(),
+                                operator: FilterOperator.Contains,
+                                value1: oControl.getValue()
+                            }));
+                        }
+    
+                        return aResult;
+                    }, []);
+    
+                    aFilters.push(new Filter({
+                        filters: [
+                            new Filter({ path: "CodeId", operator: FilterOperator.Contains, value1: sSearchQuery.substr(0, 10) }),
+                            new Filter({ path: "CodeName", operator: FilterOperator.Contains, value1: sSearchQuery.substr(0, 20) })
+                        ],
+                        and: false
+                    }));
+    
+                    oValueHelpData.getProperty('/_oVHDialog/VHCostCenter').getTableAsync().then(
+                        function (oTable) {
+                            if(oTable.bindRows){
+                                oTable.getBinding("rows").filter(new Filter({
+                                    filters: aFilters,
+                                    and: true
+                                }));
+                            }
+                            if(oTable.bindItems){
+                                oTable.getBinding("items").filter(new Filter({
+                                    filters: aFilters,
+                                    and: true
+                                }));
+                            }
+                            oValueHelpData.getProperty('/_oVHDialog/VHCostCenter').update();
+                        }.bind(this)
+                    );
+                    break;
+                case 'afterClose':
+                    break;
+            }
+        },
+        onOpenVHTBCostCenter: function(oEvent){
+            let oBaseData = this.getView().getModel('BaseData');
+            let oValueHelpData = this.getView().getModel('ValueHelpData');
+            oValueHelpData.setProperty('/v4SelectInput', oEvent.getSource());
+            
+            if(!oValueHelpData.getProperty('/_oVHDialog/VHTBCostCenter'))
+            {
+                this.loadFragment({
+                    name: "fi.zfrfi0050.fs.view.f4.F4TBCostCenter"
+                }).then(function(oDialog){
+                    oValueHelpData.setProperty('/_oVHDialog/VHTBCostCenter', oDialog);
+                    this.getView().addDependent(oDialog);
+                    let oFilterBar = oDialog.getFilterBar();
+                    let oBasicSearchField = new SearchField();
+                    oFilterBar.setFilterBarExpanded(false);
+                    oFilterBar.setBasicSearch(oBasicSearchField);
+                    oBasicSearchField.attachSearch(function () {
+                        oFilterBar.search();
+                    });
+                    oDialog.getTableAsync().then(
+                        function (oTable) {
+                            oTable.setModel(this.getView().getModel());
+                            oTable.setThreshold(500);
+                            if (oTable.bindRows) {
+                                oTable.bindAggregation("rows", {
+                                    path: "/ZFI_V_COSTCENTER",
+                                    events: {
+                                        dataReceived: function () {
+                                            oDialog.update();
+                                        },
+                                    },
+                                });
+                                oTable.addColumn(
+                                    new UIColumn({
+                                        label: new Label({ text: "비용귀속" }),
+                                        template: new Text({ text: "{CostCenter}" }),
+                                    })
+                                );
+                                oTable.addColumn(
+                                    new UIColumn({
+                                        label: new Label({ text: "비용귀속명" }),
+                                        template: new Text({ text: "{CostCenterName}" }),
+                                    })
+                                );
+                            }
+                            oDialog.update();
+                        }.bind(this)
+                    );
+                    oDialog.open();
+
+
+                }.bind(this));
+            }else{
+                oValueHelpData.getProperty('/_oVHDialog/VHTBCostCenter').open();
+            }
+        },
+        onOpenVHTBAccount: function(oEvent){
+            let oBaseData = this.getView().getModel('BaseData');
+            let oValueHelpData = this.getView().getModel('ValueHelpData');
+            oValueHelpData.setProperty('/v4SelectInput', oEvent.getSource());
+            
+            if(!oValueHelpData.getProperty('/_oVHDialog/VHTBGLAccount'))
+            {
+                this.loadFragment({
+                    name: "fi.zfrfi0050.fs.view.f4.F4Account"
+                }).then(function(oDialog){
+                    oValueHelpData.setProperty('/_oVHDialog/VHTBGLAccount', oDialog);
+                    this.getView().addDependent(oDialog);
+                    let oFilterBar = oDialog.getFilterBar();
+                    let oBasicSearchField = new SearchField();
+                    oFilterBar.setFilterBarExpanded(false);
+                    oFilterBar.setBasicSearch(oBasicSearchField);
+                    oBasicSearchField.attachSearch(function () {
+                        oFilterBar.search();
+                    });
+                    oDialog.getTableAsync().then(
+                        function (oTable) {
+                            oTable.setModel(this.getView().getModel());
+                            oTable.setThreshold(500);
+                            if (oTable.bindRows) {
+                                oTable.bindAggregation("rows", {
+                                    path: "/ZFI_V_GL_ACCOUNT_EXPENSE",
+                                    events: {
+                                        dataReceived: function () {
+                                            oDialog.update();
+                                        },
+                                    },
+                                });
+                                oTable.addColumn(
+                                    new UIColumn({
+                                        label: new Label({ text: "G/L 계정" }),
+                                        template: new Text({ text: "{GLAccount}" }),
+                                    })
+                                );
+                                oTable.addColumn(
+                                    new UIColumn({
+                                        label: new Label({ text: "G/L 계정명" }),
+                                        template: new Text({ text: "{GLAccountName}" }),
+                                    })
+                                );
+                            }
+                            oDialog.update();
+                        }.bind(this)
+                    );
+                    oDialog.open();
+
+
+                }.bind(this));
+            }else{
+                oValueHelpData.getProperty('/_oVHDialog/VHTBGLAccount').open();
+            }
+        },
+
+        onOpenVHTBCurrency: function(oEvent){
+            let oBaseData = this.getView().getModel('BaseData');
+            let oValueHelpData = this.getView().getModel('ValueHelpData');
+            oValueHelpData.setProperty('/v4SelectInput', oEvent.getSource());
+            
+            if(!oValueHelpData.getProperty('/_oVHDialog/VHTBCurrency'))
+            {
+                this.loadFragment({
+                    name: "fi.zfrfi0050.fs.view.f4.F4TBCurrency"
+                }).then(function(oDialog){
+                    oValueHelpData.setProperty('/_oVHDialog/VHTBCurrency', oDialog);
+                    this.getView().addDependent(oDialog);
+                    let oFilterBar = oDialog.getFilterBar();
+                    let oBasicSearchField = new SearchField();
+                    oFilterBar.setFilterBarExpanded(false);
+                    oFilterBar.setBasicSearch(oBasicSearchField);
+                    oBasicSearchField.attachSearch(function () {
+                        oFilterBar.search();
+                    });
+                    oDialog.getTableAsync().then(
+                        function (oTable) {
+                            oTable.setModel(this.getView().getModel());
+                            oTable.setThreshold(500);
+                            if (oTable.bindRows) {
+                                oTable.bindAggregation("rows", {
+                                    path: "/ZFI_CURRENCY",
+                                    events: {
+                                        dataReceived: function () {
+                                            oDialog.update();
+                                        },
+                                    },
+                                });
+                                oTable.addColumn(
+                                    new UIColumn({
+                                        label: new Label({ text: "통화" }),
+                                        template: new Text({ text: "{Currency}" }),
+                                    })
+                                );
+                                oTable.addColumn(
+                                    new UIColumn({
+                                        label: new Label({ text: "통화명" }),
+                                        template: new Text({ text: "{CurrencyName}" }),
+                                    })
+                                );
+                            }
+                            oDialog.update();
+                        }.bind(this)
+                    );
+                    oDialog.open();
+
+
+                }.bind(this));
+            }else{
+                oValueHelpData.getProperty('/_oVHDialog/VHTBCurrency').open();
+            }
+        },
+
+        onOpenVHTBTaxCode: function(oEvent){
+            let oBaseData = this.getView().getModel('BaseData');
+            let oValueHelpData = this.getView().getModel('ValueHelpData');
+            oValueHelpData.setProperty('/v4SelectInput', oEvent.getSource());
+            
+            if(!oValueHelpData.getProperty('/_oVHDialog/VHTBTaxCode'))
+            {
+                this.loadFragment({
+                    name: "fi.zfrfi0050.fs.view.f4.F4TBTaxcode"
+                }).then(function(oDialog){
+                    oValueHelpData.setProperty('/_oVHDialog/VHTBTaxCode', oDialog);
                     this.getView().addDependent(oDialog);
                     let oFilterBar = oDialog.getFilterBar();
                     let oBasicSearchField = new SearchField();
@@ -273,58 +698,385 @@ sap.ui.define([
 
                 }.bind(this));
             }else{
-                oValueHelpData.getProperty('/_oVHDialog/VHSupplier').open();
+                oValueHelpData.getProperty('/_oVHDialog/VHTBTaxCode').open();
             }
         },
 
-        onActionVHCurrency: function(oEvent){
+        
+        onActionVHTaxcode : function(oEvent){
             let oBaseData = this.getView().getModel('BaseData');
             let oValueHelpData = this.getView().getModel('ValueHelpData');
             
             switch(oEvent.sId){
                 case 'cancel':
-                    oValueHelpData.getProperty('/_oVHDialog/VHCurrency').close();
+                    oValueHelpData.getProperty('/_oVHDialog/VHTaxcode').close();
 
                     break;
                 case 'ok':
                     let token = oEvent.getParameter('tokens')[0].getProperty('key');
-                    oBaseData.setProperty('/Parameters/Currency',token);
+                    oBaseData.setProperty('/Parameters/TaxCode',token);
 
-                    oValueHelpData.getProperty('/_oVHDialog/VHCurrency').close();
+                    oValueHelpData.getProperty('/_oVHDialog/VHTaxcode').close();
                     
                     break;
                 case 'search' :
-                        
+                    let oFilterBar = oValueHelpData.getProperty('/_oVHDialog/VHTaxcode').getFilterBar();
+                    let sSearchQuery = oFilterBar.getBasicSearchValue();
+                    let aSelectionSet = oEvent.getParameter("selectionSet");
+
+                    let aFilters = aSelectionSet.reduce(function (aResult, oControl) {
+                        if (oControl.getValue()) {
+                            aResult.push(new Filter({
+                                path: oControl.getName(),
+                                operator: FilterOperator.Contains,
+                                value1: oControl.getValue()
+                            }));
+                        }
+    
+                        return aResult;
+                    }, []);
+    
+                    aFilters.push(new Filter({
+                        filters: [
+                            new Filter({ path: "CodeId", operator: FilterOperator.Contains, value1: sSearchQuery.substr(0, 10) }),
+                            new Filter({ path: "CodeName", operator: FilterOperator.Contains, value1: sSearchQuery.substr(0, 20) })
+                        ],
+                        and: false
+                    }));
+    
+                    oValueHelpData.getProperty('/_oVHDialog/VHTaxcode').getTableAsync().then(
+                        function (oTable) {
+                            if(oTable.bindRows){
+                                oTable.getBinding("rows").filter(new Filter({
+                                    filters: aFilters,
+                                    and: true
+                                }));
+                            }
+                            if(oTable.bindItems){
+                                oTable.getBinding("items").filter(new Filter({
+                                    filters: aFilters,
+                                    and: true
+                                }));
+                            }
+                            oValueHelpData.getProperty('/_oVHDialog/VHTaxcode').update();
+                        }.bind(this)
+                    );
                     break;
                 case 'afterClose':
                     break;
             }
+        },
+        onActionVHTBCostCenter : function(oEvent){
+            let oBaseData = this.getView().getModel('BaseData');
+            let oValueHelpData = this.getView().getModel('ValueHelpData');
+
+            switch(oEvent.sId){
+                case 'cancel':
+                    oValueHelpData.getProperty('/_oVHDialog/VHTBCostCenter').close();
+
+                    break;
+                case 'ok':
+                    let oSelected = oEvent.getParameter('tokens')[0].getProperty('key');
+                    let sPath = oValueHelpData.getProperty('/v4SelectInput' ).getParent().getBindingContextPath();
+
+                    oBaseData.setProperty(sPath+ '/Costcenter', oSelected);
+                    oValueHelpData.getProperty('/_oVHDialog/VHTBCostCenter').close();
+
+                    break;
+                case 'search' :
+                    let oFilterBar = oValueHelpData.getProperty('/_oVHDialog/VHTBCostCenter').getFilterBar();
+                    let sSearchQuery = oFilterBar.getBasicSearchValue();
+                    let aSelectionSet = oEvent.getParameter("selectionSet");
+
+                    let aFilters = aSelectionSet.reduce(function (aResult, oControl) {
+                        if (oControl.getValue()) {
+                            aResult.push(new Filter({
+                                path: oControl.getName(),
+                                operator: FilterOperator.Contains,
+                                value1: oControl.getValue()
+                            }));
+                        }
+    
+                        return aResult;
+                    }, []);
+    
+                    aFilters.push(new Filter({
+                        filters: [
+                            new Filter({ path: "CostCenter", operator: FilterOperator.Contains, value1: sSearchQuery.substr(0, 10) }),
+                            new Filter({ path: "CostCenterName", operator: FilterOperator.Contains, value1: sSearchQuery.substr(0, 20) })
+                        ],
+                        and: false
+                    }));
+    
+                    oValueHelpData.getProperty('/_oVHDialog/VHTBCostCenter').getTableAsync().then(
+                        function (oTable) {
+                            if(oTable.bindRows){
+                                oTable.getBinding("rows").filter(new Filter({
+                                    filters: aFilters,
+                                    and: true
+                                }));
+                            }
+                            if(oTable.bindItems){
+                                oTable.getBinding("items").filter(new Filter({
+                                    filters: aFilters,
+                                    and: true
+                                }));
+                            }
+                            oValueHelpData.getProperty('/_oVHDialog/VHTBCostCenter').update();
+                        }.bind(this)
+                    );
+                    break;
+                case 'afterClose':
+                    break;
+            }
+        },
+
+        onActionVHTBAccount: function(oEvent){
+            let oBaseData = this.getView().getModel('BaseData');
+            let oValueHelpData = this.getView().getModel('ValueHelpData');
+
+            switch(oEvent.sId){
+                case 'cancel':
+                    oValueHelpData.getProperty('/_oVHDialog/VHTBGLAccount').close();
+
+                    break;
+                case 'ok':
+                    let oTable = oEvent.oSource.getTable();
+                    let oSelected = oEvent.getParameter('tokens')[0].getProperty('key');
+                    let sPath = oValueHelpData.getProperty('/v4SelectInput' ).getParent().getBindingContextPath();
+                    let AccountName = oTable.getContextByIndex(oTable.getSelectedIndex()).getObject();
+                    oBaseData.setProperty(sPath+ '/GLAccount', oSelected);
+                    oBaseData.setProperty(sPath+ '/GLAccountName', AccountName.GLAccountName);
+                    oValueHelpData.getProperty('/_oVHDialog/VHTBGLAccount').close();
+
+                    break;
+                case 'search' :
+                    let oFilterBar = oValueHelpData.getProperty('/_oVHDialog/VHTBGLAccount').getFilterBar();
+                    let sSearchQuery = oFilterBar.getBasicSearchValue();
+                    let aSelectionSet = oEvent.getParameter("selectionSet");
+
+                    let aFilters = aSelectionSet.reduce(function (aResult, oControl) {
+                        if (oControl.getValue()) {
+                            aResult.push(new Filter({
+                                path: oControl.getName(),
+                                operator: FilterOperator.Contains,
+                                value1: oControl.getValue()
+                            }));
+                        }
+    
+                        return aResult;
+                    }, []);
+    
+                    aFilters.push(new Filter({
+                        filters: [
+                            new Filter({ path: "GLAccount", operator: FilterOperator.Contains, value1: sSearchQuery.substr(0, 10) }),
+                            new Filter({ path: "GLAccountName", operator: FilterOperator.Contains, value1: sSearchQuery.substr(0, 20) })
+                        ],
+                        and: false
+                    }));
+    
+                    oValueHelpData.getProperty('/_oVHDialog/VHTBGLAccount').getTableAsync().then(
+                        function (oTable) {
+                            if(oTable.bindRows){
+                                oTable.getBinding("rows").filter(new Filter({
+                                    filters: aFilters,
+                                    and: true
+                                }));
+                            }
+                            if(oTable.bindItems){
+                                oTable.getBinding("items").filter(new Filter({
+                                    filters: aFilters,
+                                    and: true
+                                }));
+                            }
+                            oValueHelpData.getProperty('/_oVHDialog/VHTBGLAccount').update();
+                        }.bind(this)
+                    );
+                    break;
+                case 'afterClose':
+                    break;
+            }
+        },
+
+        onActionVHTBCurrency: function(oEvent){
+            let oBaseData = this.getView().getModel('BaseData');
+            let oValueHelpData = this.getView().getModel('ValueHelpData');
+
+            switch(oEvent.sId){
+                case 'cancel':
+                    oValueHelpData.getProperty('/_oVHDialog/VHTBCurrency').close();
+
+                    break;
+                case 'ok':
+                    let oTable = oEvent.oSource.getTable();
+                    let oSelected = oEvent.getParameter('tokens')[0].getProperty('key');
+                    let sPath = oValueHelpData.getProperty('/v4SelectInput' ).getParent().getBindingContextPath();
+                    let AccountName = oTable.getContextByIndex(oTable.getSelectedIndex()).getObject();
+                    oBaseData.setProperty(sPath+ '/Currency', oSelected);
+                    oValueHelpData.getProperty('/_oVHDialog/VHTBCurrency').close();
+
+                    break;
+                case 'search' :
+                    let oFilterBar = oValueHelpData.getProperty('/_oVHDialog/VHTBCurrency').getFilterBar();
+                    let sSearchQuery = oFilterBar.getBasicSearchValue();
+                    let aSelectionSet = oEvent.getParameter("selectionSet");
+
+                    let aFilters = aSelectionSet.reduce(function (aResult, oControl) {
+                        if (oControl.getValue()) {
+                            aResult.push(new Filter({
+                                path: oControl.getName(),
+                                operator: FilterOperator.Contains,
+                                value1: oControl.getValue()
+                            }));
+                        }
+    
+                        return aResult;
+                    }, []);
+    
+                    aFilters.push(new Filter({
+                        filters: [
+                            new Filter({ path: "Currency", operator: FilterOperator.Contains, value1: sSearchQuery.substr(0, 10) }),
+                            new Filter({ path: "CurrencyName", operator: FilterOperator.Contains, value1: sSearchQuery.substr(0, 20) })
+                        ],
+                        and: false
+                    }));
+    
+                    oValueHelpData.getProperty('/_oVHDialog/VHTBCurrency').getTableAsync().then(
+                        function (oTable) {
+                            if(oTable.bindRows){
+                                oTable.getBinding("rows").filter(new Filter({
+                                    filters: aFilters,
+                                    and: true
+                                }));
+                            }
+                            if(oTable.bindItems){
+                                oTable.getBinding("items").filter(new Filter({
+                                    filters: aFilters,
+                                    and: true
+                                }));
+                            }
+                            oValueHelpData.getProperty('/_oVHDialog/VHTBCurrency').update();
+                        }.bind(this)
+                    );
+                    break;
+                case 'afterClose':
+                    break;
+            }
+        },
+        onActionVHTBTaxcode: function(oEvent){
+            let oBaseData = this.getView().getModel('BaseData');
+            let oValueHelpData = this.getView().getModel('ValueHelpData');
+
+            switch(oEvent.sId){
+                case 'cancel':
+                    oValueHelpData.getProperty('/_oVHDialog/VHTBTaxCode').close();
+
+                    break;
+                case 'ok':
+                    let oTable = oEvent.oSource.getTable();
+                    let oSelected = oEvent.getParameter('tokens')[0].getProperty('key');
+                    let sPath = oValueHelpData.getProperty('/v4SelectInput' ).getParent().getBindingContextPath();
+                    let AccountName = oTable.getContextByIndex(oTable.getSelectedIndex()).getObject();
+                    oBaseData.setProperty(sPath+ '/AmountTax', oSelected);
+                    oValueHelpData.getProperty('/_oVHDialog/VHTBTaxCode').close();
+
+                    break;
+                case 'search' :
+                    let oFilterBar = oValueHelpData.getProperty('/_oVHDialog/VHTBTaxCode').getFilterBar();
+                    let sSearchQuery = oFilterBar.getBasicSearchValue();
+                    let aSelectionSet = oEvent.getParameter("selectionSet");
+
+                    let aFilters = aSelectionSet.reduce(function (aResult, oControl) {
+                        if (oControl.getValue()) {
+                            aResult.push(new Filter({
+                                path: oControl.getName(),
+                                operator: FilterOperator.Contains,
+                                value1: oControl.getValue()
+                            }));
+                        }
+    
+                        return aResult;
+                    }, []);
+    
+                    aFilters.push(new Filter({
+                        filters: [
+                            new Filter({ path: "CodeId", operator: FilterOperator.Contains, value1: sSearchQuery.substr(0, 10) }),
+                            new Filter({ path: "CodeName", operator: FilterOperator.Contains, value1: sSearchQuery.substr(0, 20) })
+                        ],
+                        and: false
+                    }));
+    
+                    oValueHelpData.getProperty('/_oVHDialog/VHTBTaxCode').getTableAsync().then(
+                        function (oTable) {
+                            if(oTable.bindRows){
+                                oTable.getBinding("rows").filter(new Filter({
+                                    filters: aFilters,
+                                    and: true
+                                }));
+                            }
+                            if(oTable.bindItems){
+                                oTable.getBinding("items").filter(new Filter({
+                                    filters: aFilters,
+                                    and: true
+                                }));
+                            }
+                            oValueHelpData.getProperty('/_oVHDialog/VHTBTaxCode').update();
+                        }.bind(this)
+                    );
+                    break;
+                case 'afterClose':
+                    break;
+            }
+        },
+
+        onChangeDebitCreditCode: function(oEvent){
+            this.onCalculation();
         },
         
-
-        onActionVHSupplier: function(oEvent){
+        onChangePostingDate: function(oEvent){
+            let oModel = this.getView().getModel();
             let oBaseData = this.getView().getModel('BaseData');
-            let oValueHelpData = this.getView().getModel('ValueHelpData');
-            
-            switch(oEvent.sId){
-                case 'cancel':
-                    oValueHelpData.getProperty('/_oVHDialog/VHSupplier').close();
-
-                    break;
-                case 'ok':
-                    let token = oEvent.getParameter('tokens')[0].getProperty('key');
-                    oBaseData.setProperty('/Parameters/Supplier',token);
-
-                    oValueHelpData.getProperty('/_oVHDialog/VHSupplier').close();
-                    
-                    break;
-                case 'search' :
-                        
-                    break;
-                case 'afterClose':
-                    break;
-            }
+            oBaseData.setProperty('/Parameters/FiscalYear', oEvent.getParameter('newValue').substr(0,4));
         },
+
+        onChangeAmount: function(oEvent){
+
+            this.onCalculation();
+        },
+
+        onCalculation: function(oEvent){
+            let oBaseData = this.getView().getModel('BaseData');
+            let oBaseDataData = oBaseData.getData();
+            let isCount = 0;
+            let DebitSum = 0;
+            let CreditSum = 0;
+
+
+            for(let i = 0; i < oBaseDataData.Items.length; i++)
+            {
+                //D 차변 (Debit), C 대변 (Credit)
+                if(oBaseDataData.Items[i].DebitCreditCode == 'D'){
+                    DebitSum += oBaseDataData.Items[i].Amount;
+                }
+                else if(oBaseDataData.Items[i].DebitCreditCode == 'C')
+                {
+                    CreditSum += oBaseDataData.Items[i].Amount;
+                }
+            }
+
+            oBaseData.setProperty('/Parameters/DebitTotal',DebitSum);
+            oBaseData.setProperty('/Parameters/CreditTotal', CreditSum);
+            oBaseData.setProperty('/Parameters/AmountTotal', DebitSum-CreditSum);
+            
+        },
+
+        onValidateion: function(oEvent){
+            let oModel = this.getView().getModel();
+            let oBaseData = this.getView().getModel('BaseData');
+            let oBaseDataData = oBaseData.getData();
+
+        },
+        
 
         onBtnPress: function(oEvent){
             this.getView().getModel().bindContext('/ZFI_V_COSTCENTER').requestObject().then( function (oResult){

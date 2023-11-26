@@ -18,7 +18,12 @@ sap.ui.define([
                 _oVHDialog : {
                     VHCurrency : undefined,
                     VHSupplier: undefined,
-                    VHTaxcode: undefined
+                    VHTaxcode: undefined,
+                    VHCostCenter : undefined,
+                    VHTBCostCenter : undefined,
+                    VHTBGLAccount : undefined,
+                    VHTBCurrency : undefined,
+                    VHTBTaxCode : undefined
                 },
                 v4SelectInput : undefined
             },
@@ -51,7 +56,9 @@ sap.ui.define([
                     Bank: '',
                     Bankaccount: '',
                     AmountTotal: 0,
-                    _Item: []
+                    _Item: [],
+                    DebitTotal : 0,
+                    CreditTotal : 0
                 }
             },
             createBaseDataModel : function(){
