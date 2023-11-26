@@ -6,7 +6,7 @@
 >
     <ValueHelpDialog
         supportMultiselect="false"
-        title="회사코드"
+        title="세금코드"
         ok="onActionVHTBTaxcode"
         cancel="onActionVHTBTaxcode"
         supportRanges="false"

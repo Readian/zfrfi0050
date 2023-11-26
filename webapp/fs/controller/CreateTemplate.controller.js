@@ -240,7 +240,7 @@ sap.ui.define([
 
                 }.bind(this));
             }else{
-                oValueHelpData.getProperty('/_oVHDialog/VHSupplier').open();
+                oValueHelpData.getProperty('/_oVHDialog/VHTaxcode').open();
             }
         },
         onOpenVHCostCenter : function(oEvent){
