@@ -73,7 +73,8 @@
                             <HBox alignItems="Center">
                                 <Label text="헤더 텍스트 : " width="8rem" />
                                 <Input
-                                    value="{BaseData>/Parameters/DocumenItemText}"
+                                    value="{BaseData>/Parameters/DocumentItemText}"
+                                    valueState="{BaseData>/Parameters/DocumentItemTextState}"
                                     width="15rem"
                                 />
                             </HBox>
@@ -147,6 +148,7 @@
                                                                     change=".onChangePostingDate"
                                                                     displayFormat="yyyy-MM-dd"
                                                                     valueFormat="yyyy-MM-dd"
+                                                                    valueState="{BaseData>/Parameters/PostingDateState}"
                                                                     value="{
                                                                     path: 'BaseData>/Parameters/PostingDate',
                                                                     type: 'sap.ui.model.type.String',
@@ -173,6 +175,7 @@
                                                                     value="{
                                                                         path: 'BaseData>/Parameters/DocumentDate'
                                                                     }"
+                                                                    valueState="{BaseData>/Parameters/DocumentDateState}"
                                                                 />
                                                             </items>
                                                         </HBox>
@@ -190,6 +193,7 @@
                                                                     value="{BaseData>/Parameters/Currency}"
                                                                     showValueHelp="true"
                                                                     width="15rem"
+                                                                    valueState="{BaseData>/Parameters/CurrencyState}"
                                                                     valueHelpRequest=".onOpenCurrency"
                                                                 />
                                                             </items>
@@ -216,6 +220,7 @@
                                                                     xmlns:core="sap.ui.core"
                                                                     showValueHelp="true"
                                                                     value="{BaseData>/Parameters/Supplier}"
+                                                                    valueState="{BaseData>/Parameters/SupplierState}"
                                                                     width="15rem"
                                                                     valueHelpRequest=".onOpenSupplier"
                                                                 />
@@ -236,6 +241,7 @@
                                                                     showValueHelp="true"
                                                                     width="15rem"
                                                                     value="{BaseData>/Parameters/BankCountry}"
+                                                                    valueState="{BaseData>/Parameters/BankCountryState}"
                                                                 />
                                                             </items>
                                                         </HBox>
@@ -253,6 +259,7 @@
                                                                     showValueHelp="true"
                                                                     width="15rem"
                                                                     value="{BaseData>/Parameters/Bank}"
+                                                                    valueState="{BaseData>/Parameters/BankState}"
                                                                 />
                                                             </items>
                                                         </HBox>
@@ -268,6 +275,7 @@
                                                                 />
                                                                 <Input
                                                                     value="{BaseData>/Parameters/Bankaccount}"
+                                                                    valueState="{BaseData>/Parameters/BankaccountState}"
                                                                     width="15rem"
                                                                     showValueHelp="true"
                                                                 />
@@ -286,6 +294,7 @@
                                                                     xmlns:core="sap.ui.core"
                                                                     value="{BaseData>/Parameters/TaxCode}"
                                                                     showValueHelp="true"
+                                                                    valueState="{BaseData>/Parameters/TaxCodeState}"
                                                                     width="15rem"
                                                                     valueHelpRequest=".onOpenVHTaxcode"
                                                                 />
@@ -313,6 +322,7 @@
                                                                     showValueHelp="true"
                                                                     width="15rem"
                                                                     value="{BaseData>/Parameters/Costcenter}"
+                                                                    valueState="{BaseData>/Parameters/CostcenterState}"
                                                                     valueHelpRequest=".onOpenVHCostCenter"
                                                                 />
                                                             </items>
@@ -332,6 +342,7 @@
                                                                     showValueHelp="true"
                                                                     width="15rem"
                                                                     value="{BaseData>/Parameters/PaymentTerms}"
+                                                                    valueState="{BaseData>/Parameters/PaymentTermsState}"
                                                                 />
                                                             </items>
                                                         </HBox>
@@ -378,6 +389,7 @@
                                                                 />
                                                                 <Input
                                                                     xmlns:core="sap.ui.core"
+                                                                    valueState="{BaseData>/Parameters/AmountState}"
                                                                     value="{
                                                                         parts: ['BaseData>/Parameters/Amount', 'BaseData>/Parameters/Currency'],
                                                                         type : 'sap.ui.model.type.Currency',
