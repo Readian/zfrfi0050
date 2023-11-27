@@ -360,7 +360,7 @@
                                                                     }"
                                                                     width="15rem"
                                                                 />
-                                                                <Label text="{BaseData>/Parameters/Currency}"/>
+                                                                <Label width="15rem" text="{BaseData>/Parameters/Currency}"/>
                                                             </items>
                                                         </HBox>
                                                         <HBox
@@ -380,7 +380,7 @@
                                                                     width="15rem"
                                                                     valueHelpRequest=".onOpenVHTaxcode"
                                                                 />
-                                                                <Label text="{BaseData>/Parameters/TaxCodeName}"/>
+                                                                <Label width="15rem" text="{BaseData>/Parameters/TaxCodeName}"/>
                                                             </items>
                                                         </HBox>
                                                     </items>
