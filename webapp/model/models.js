@@ -62,6 +62,7 @@ sap.ui.define([
                     DocumenItemText: '',
                     KeyCarPur: '',
                     TaxCode: '',
+                    TaxCodeName: '',
                     DocumentDate: '',
                     Costcenter: '',
                     Supplier: '',

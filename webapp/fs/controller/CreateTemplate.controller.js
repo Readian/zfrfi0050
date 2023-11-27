@@ -37,6 +37,22 @@ sap.ui.define([
             this.getView().setModel(Model.createBaseDataModel(), 'BaseData')
             this.getView().setModel(Model.createValueHelpDataModel(), 'ValueHelpData')
             //      _oVHDialog ,   v4SelectInput
+
+            //초기값
+            let oBaseData = this.getView().getModel('BaseData');
+
+            let oDate = new Date();
+            let oMonth = oDate.getMonth() + 1;
+            let oYear = oDate.getFullYear();
+            let oDay = oDate.getDate();
+            if(oDay < 10) {
+                oDay = "0"+oDay;
+            }
+            let oEnd = oYear+'-'+oMonth+'-'+oDay;
+
+            oBaseData.setProperty('/Parameters/InputData',oEnd);
+
+
         },
         onAfterRendering : function(){
             let oBaseData = this.getView().getModel();
@@ -728,8 +744,12 @@ sap.ui.define([
 
                     break;
                 case 'ok':
+                    let oTable = oEvent.oSource.getTable();
+                    let TaxCodeName = oTable.getContextByIndex(oTable.getSelectedIndex()).getObject();
+
                     let token = oEvent.getParameter('tokens')[0].getProperty('key');
                     oBaseData.setProperty('/Parameters/TaxCode',token);
+                    oBaseData.setProperty('/Parameters/TaxCodeName',TaxCodeName.CodeName);
 
                     oValueHelpData.getProperty('/_oVHDialog/VHTaxcode').close();
                     
