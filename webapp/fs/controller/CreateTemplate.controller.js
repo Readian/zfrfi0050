@@ -840,72 +840,81 @@ sap.ui.define([
             let oBaseData = this.getView().getModel('BaseData');
             let oValueHelpData = this.getView().getModel('ValueHelpData');
             let oBaseDataData = oBaseData.getData();
-
-            if(!oValueHelpData.getProperty('/_oVHDialog/VHPaymentTerms'))
+            if(!oBaseDataData.Parameters.PostingDate || oBaseDataData.Parameters.PostingDate == '')
             {
-                this.loadFragment({
-                    name: "fi.zfrfi0050.fs.view.f4.F4PaymentTerms"
-                }).then(function(oDialog){
-                    oValueHelpData.setProperty('/_oVHDialog/VHPaymentTerms', oDialog);
-                    this.getView().addDependent(oDialog);
-                    let oFilterBar = oDialog.getFilterBar();
-                    let oBasicSearchField = new SearchField();
-                    oFilterBar.setFilterBarExpanded(false);
-                    oFilterBar.setBasicSearch(oBasicSearchField);
-                    oBasicSearchField.attachSearch(function () {
-                        oFilterBar.search();
-                    });
-                    oDialog.getTableAsync().then(
-                        function (oTable) {
-                            oTable.setModel(this.getView().getModel());
-                            oTable.setThreshold(500);
-                            if (oTable.bindRows) {
-                                oTable.bindAggregation("rows", {
-                                    path: "/ZFI_V_PAYMENT_TERMS",
-                                    events: {
-                                        dataReceived: function () {
-                                            oDialog.update();
+                oBaseData.setProperty('/Parameters/PostingDateState', 'Error');
+                MessageBox.alert('전기일자를 입력하세요!');
+            }
+            else{
+                oBaseData.setProperty('/Parameters/PostingDateState', 'None');
+                if(!oValueHelpData.getProperty('/_oVHDialog/VHPaymentTerms'))
+                {
+                    this.loadFragment({
+                        name: "fi.zfrfi0050.fs.view.f4.F4PaymentTerms"
+                    }).then(function(oDialog){
+                        oValueHelpData.setProperty('/_oVHDialog/VHPaymentTerms', oDialog);
+                        this.getView().addDependent(oDialog);
+                        let oFilterBar = oDialog.getFilterBar();
+                        let oBasicSearchField = new SearchField();
+                        oFilterBar.setFilterBarExpanded(false);
+                        oFilterBar.setBasicSearch(oBasicSearchField);
+                        oBasicSearchField.attachSearch(function () {
+                            oFilterBar.search();
+                        });
+                        oDialog.getTableAsync().then(
+                            function (oTable) {
+                                oTable.setModel(this.getView().getModel());
+                                oTable.setThreshold(500);
+                                if (oTable.bindRows) {
+                                    oTable.bindAggregation("rows", {
+                                        path: "/ZFI_V_PAYMENT_TERMS",
+                                        events: {
+                                            dataReceived: function () {
+                                                oDialog.update();
+                                            },
                                         },
-                                    },
-                                });
-                                oTable.addColumn(
-                                    new UIColumn({
-                                        label: new Label({ text: "PaymentTerms" }),
-                                        template: new Text({ text: "{PaymentTerms}" }),
-                                    })
-                                );
-                                oTable.addColumn(
-                                    new UIColumn({
-                                        label: new Label({ text: "PaymentTermsDescription" }),
-                                        template: new Text({ text: "{PaymentTermsDescription}" }),
-                                    })
-                                );
-                                oTable.addColumn(
-                                    new UIColumn({
-                                        label: new Label({ text: "CashDiscount1Days" }),
-                                        template: new Text({ text: "{CashDiscount1Days}" }),
-                                    })
-                                );
-                            }
-                           
-                            oDialog.update();
-                        }.bind(this)
-                    );
-                    oDialog.open();
-
-
-                }.bind(this));
+                                    });
+                                    oTable.addColumn(
+                                        new UIColumn({
+                                            label: new Label({ text: "PaymentTerms" }),
+                                            template: new Text({ text: "{PaymentTerms}" }),
+                                        })
+                                    );
+                                    oTable.addColumn(
+                                        new UIColumn({
+                                            label: new Label({ text: "PaymentTermsDescription" }),
+                                            template: new Text({ text: "{PaymentTermsDescription}" }),
+                                        })
+                                    );
+                                    oTable.addColumn(
+                                        new UIColumn({
+                                            label: new Label({ text: "CashDiscount1Days" }),
+                                            template: new Text({ text: "{CashDiscount1Days}" }),
+                                        })
+                                    );
+                                }
+                               
+                                oDialog.update();
+                            }.bind(this)
+                        );
+                        oDialog.open();
+    
+    
+                    }.bind(this));
+                }
+                else
+                {
+                    oValueHelpData.getProperty('/_oVHDialog/VHPaymentTerms').open(); 
+                }
             }
-            else
-            {
-                oValueHelpData.getProperty('/_oVHDialog/VHPaymentTerms').open(); 
-            }
+
+            
         },
 
-        onCalculationPaymentscheduled : function(Numb){
+        onCalculationPaymentscheduled : function(){
             let oBaseData = this.getView().getModel('BaseData');
             let currentDate = new Date(oBaseData.getProperty('/Parameters/PostingDate'));
-            currentDate.setDate(currentDate.getDate() + Numb);
+            currentDate.setDate(currentDate.getDate() + Number(oBaseData.getProperty('/Parameters/CashDiscount1Days')));
             let oMonth = currentDate.getMonth() + 1;
             let oYear = currentDate.getFullYear();
             let oDay = currentDate.getDate();
@@ -914,7 +923,7 @@ sap.ui.define([
             }
             let oEnd = oYear+'-'+oMonth+'-'+oDay;
 
-            return oEnd;
+            oBaseData.setProperty('/Parameters/Paymentscheduled', oEnd)
 
         },
         onActionVHPaymentTerms : function(oEvent){
@@ -929,11 +938,10 @@ sap.ui.define([
                 case 'ok':
                     let oTable = oEvent.oSource.getTable();
                     let CashDiscount1Days = oTable.getContextByIndex(oTable.getSelectedIndex()).getObject().CashDiscount1Days;
-                    
-                    this.onCalculationPaymentscheduled(Number(CashDiscount1Days));
+                    oBaseData.setProperty('/Parameters/CashDiscount1Days',CashDiscount1Days );
                     let token = oEvent.getParameter('tokens')[0].getProperty('key');
                     oBaseData.setProperty('/Parameters/PaymentTerms',token);
-                    
+                    this.onCalculationPaymentscheduled();
 
                     oValueHelpData.getProperty('/_oVHDialog/VHPaymentTerms').close();
                     
@@ -1394,6 +1402,7 @@ sap.ui.define([
             let oModel = this.getView().getModel();
             let oBaseData = this.getView().getModel('BaseData');
             oBaseData.setProperty('/Parameters/FiscalYear', oEvent.getParameter('newValue').substr(0,4));
+            this.onCalculationPaymentscheduled();
         },
 
         onChangeAmount: function(oEvent){
@@ -1591,6 +1600,11 @@ sap.ui.define([
             return isTrue;
 
         },
+        onChangeHeaderAmount : function(oEvent){
+            let oBaseData = this.getView().getModel('BaseData');
+            let oBaseDataData = oBaseData.getData();
+            oBaseData.setProperty('/Items/0/Amount', oBaseDataData.Parameters.Amount);
+        },
         
 
         onBtnPress: function(oEvent){
@@ -1610,15 +1624,15 @@ sap.ui.define([
 
                         //Item정리
                         _.forEach(oBaseDataData.Parameters._Item, function (Items) {
-                            if(Items.DebitCreditCodeState == 'H')
+                            if(Items.DebitCreditCode == 'H')
                             {
                                 Items.AmountDebit = Items.Amount
                                 Items.AmountCredit = 0
                             }
-                            else if(Items.DebitCreditCodeState == 'S')
+                            else if(Items.DebitCreditCode == 'S')
                             {
                                 Items.AmountCredit = Items.Amount
-                                Items.AmountDebi = 0
+                                Items.AmountDebit = 0
                             }
                             delete Items.DebitCreditCodeState
                             delete Items.CostcenterState
@@ -1629,6 +1643,7 @@ sap.ui.define([
                             delete Items.AmountTaxState
                             delete Items.DocumentItemTextState
                             delete Items.Budgetbalance
+                            delete Items.DebitCreditCodeEnable
                         }.bind(this));
                         // oBaseData.setProperty('/Parameters/_Item',oBaseDataData.Parameters._Item);
                         

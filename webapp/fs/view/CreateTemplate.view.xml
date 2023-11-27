@@ -340,7 +340,8 @@
                                                                 />
                                                                 <Text
                                                                     width="15rem"
-                                                                    text="{Paymentscheduled}"
+                                                                    text="{BaseData>/Parameters/Paymentscheduled}"
+                                                                    
                                                                 />
                                                             </items>
                                                         </HBox>
@@ -356,6 +357,7 @@
                                                                 <Input
                                                                     xmlns:core="sap.ui.core"
                                                                     valueState="{BaseData>/Parameters/AmountState}"
+                                                                    change=".onChangeHeaderAmount"
                                                                     value="{
                                                                         parts: ['BaseData>/Parameters/Amount', 'BaseData>/Parameters/Currency'],
                                                                         type : 'sap.ui.model.type.Currency',
@@ -456,6 +458,7 @@
                                                             items="{
                                                                 path: 'BaseData>/DebitCreditCode'
                                                             }"
+                                                            enabled="{BaseData>DebitCreditCodeEnable}"
                                                         >
                                                             <core:Item
                                                                 key="{BaseData>key}"
@@ -468,6 +471,7 @@
                                                             showValueHelp="true"
                                                             valueHelpRequest=".onOpenVHTBAccount"
                                                             valueState="{BaseData>GLAccountState}"
+                                                            enabled="{BaseData>GLAccountEnable}"
                                                         />
                                                         <Input
                                                             value="{BaseData>GLAccountName}"
@@ -483,6 +487,7 @@
                                                         />
                                                         <Input
                                                             change=".onChangeAmount"
+                                                            enabled="{BaseData>AmountEnable}"
                                                             value="{
                                                                 parts: ['BaseData>Amount', 'BaseData>Currency'],
                                                                 type : 'sap.ui.model.type.Currency',

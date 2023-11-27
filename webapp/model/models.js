@@ -37,15 +37,18 @@ sap.ui.define([
                 ],
                 Items: [
                     {
-                       "DebitCreditCode" : "D" ,
-                       "GLAccount" : "",
-                       "GLAccountName" : "",
-                       "Budgetbalance" : 0,
-                       "Currency" : "KRW",
-                       "Amount" : 0,
-                       "Costcenter" : "",
-                       "AmountTax" : 0,
-                       "DocumentItemText" : ""
+                       DebitCreditCode : "S" ,
+                       DebitCreditCodeEnable : false,
+                       GLAccount : "",
+                       GLAccountEnable : false,
+                       GLAccountName : "",
+                       Budgetbalance : 0,
+                       Currency : "KRW",
+                       Amount : 0,
+                       AmountEnable : false,
+                       Costcenter : "",
+                       AmountTax : 0,
+                       DocumentItemText : ""
 
 
 
@@ -64,7 +67,7 @@ sap.ui.define([
                     Currency : 'KRW',
                     PaymentTerms: '',
                     DocumentItemText: '',
-                    KeyCarPur: '',
+                    KeyCardPur: '15a76f81-e23a-1ede-99df-d3d7b1feabb2',
                     TaxCode: '',
                     TaxCodeName: '',
                     DocumentDate: '',
@@ -80,7 +83,8 @@ sap.ui.define([
                     CreditTotal : 0,
                     InputData : '',
                     BankaccountName: '',
-                    Paymentscheduled: ''
+                    Paymentscheduled: '',
+                    CashDiscount1Days : 0
                 }
             },
             createBaseDataModel : function(){
