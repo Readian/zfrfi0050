@@ -1700,6 +1700,9 @@ sap.ui.define([
                             delete Items.DocumentItemTextState
                             delete Items.Budgetbalance
                             delete Items.DebitCreditCodeEnable
+                            delete Items.DebitCreditCodeEnable
+                            delete Items.GLAccountEnable
+                            delete Items.AmountEnable
                         }.bind(this));
                         // oBaseData.setProperty('/Parameters/_Item',oBaseDataData.Parameters._Item);
                         

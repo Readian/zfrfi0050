@@ -58,6 +58,7 @@ sap.ui.define([
                     Debit : true,
                     Credit : false
                 },
+                //15a76f81-e23a-1ede-99df-d3d7b1feabb2
                 Parameters : {
                     AccountingDocument : '미생성',
                     CompanyCode: '1000',
@@ -67,7 +68,7 @@ sap.ui.define([
                     Currency : 'KRW',
                     PaymentTerms: '',
                     DocumentItemText: '',
-                    KeyCardPur: '15a76f81-e23a-1ede-99df-d3d7b1feabb2',
+                    KeyCardPur: '00000000-0000-0000-0000-000000000000',
                     TaxCode: '',
                     TaxCodeName: '',
                     DocumentDate: '',
