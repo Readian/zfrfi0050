@@ -31,8 +31,8 @@ sap.ui.define([
             
             Data : {
                 DebitCreditCode: [
-                    { key: 'D', text: '차변' },
-                    { key: 'C', text: '대변' }
+                    { key: 'H', text: '차변' },
+                    { key: 'S', text: '대변' }
                 ],
                 Items: [
                     {
@@ -42,6 +42,8 @@ sap.ui.define([
                        "Budgetbalance" : 0,
                        "Currency" : "KRW",
                        "Amount" : 0,
+                       "Costcenter" : "",
+                       "AmountTax" : 0,
                        "DocumentItemText" : ""
 
 
@@ -54,13 +56,13 @@ sap.ui.define([
                 },
                 Parameters : {
                     AccountingDocument : '미생성',
-                    CompanyCode: '회사코드',
+                    CompanyCode: '1000',
                     FiscalYear: '',
                     PostingDate: '',
                     Amount: 0,
                     Currency : 'KRW',
                     PaymentTerms: '',
-                    DocumenItemText: '',
+                    DocumentItemText: '',
                     KeyCarPur: '',
                     TaxCode: '',
                     TaxCodeName: '',

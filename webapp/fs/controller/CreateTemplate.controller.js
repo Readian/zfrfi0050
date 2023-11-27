@@ -64,14 +64,14 @@ sap.ui.define([
             let oBaseDataData = oBaseData.getData();
 
             oBaseDataData.Items.push({
-                DebitCreditCode : 'D',
+                DebitCreditCode : 'H',
                 Costcenter : '',
                 GLAccount : '',
                 GLAccountName : '',
                 Budgetbalance: 0,
                 Amount : 0,
                 Currency : oBaseDataData.Parameters.Currency,
-                AmountTax : '',
+                AmountTax : 0,
                 DocumentItemText: ''
             });
 
@@ -836,6 +836,76 @@ sap.ui.define([
             }
         },
 
+        onActionVHBankAccount : function(oEvent){
+            let oBaseData = this.getView().getModel('BaseData');
+            let oValueHelpData = this.getView().getModel('ValueHelpData');
+            
+            switch(oEvent.sId){
+                case 'cancel':
+                    oValueHelpData.getProperty('/_oVHDialog/VHBankAccount').close();
+
+                    break;
+                case 'ok':
+                    let oTable = oEvent.oSource.getTable();
+                    let BankName = oTable.getContextByIndex(oTable.getSelectedIndex()).getObject();
+
+                    let token = oEvent.getParameter('tokens')[0].getProperty('key');
+                    oBaseData.setProperty('/Parameters/Bankaccount',token);
+                    oBaseData.setProperty('/Parameters/BankaccountName',BankName.Bank);
+                    oBaseData.setProperty('/Parameters/Bank',BankName.Bank);
+                    oBaseData.setProperty('/Parameters/BankCountry',BankName.BankCountry);
+
+                    oValueHelpData.getProperty('/_oVHDialog/VHBankAccount').close();
+                    
+                    break;
+                case 'search' :
+                    let oFilterBar = oValueHelpData.getProperty('/_oVHDialog/VHBankAccount').getFilterBar();
+                    let sSearchQuery = oFilterBar.getBasicSearchValue();
+                    let aSelectionSet = oEvent.getParameter("selectionSet");
+
+                    let aFilters = aSelectionSet.reduce(function (aResult, oControl) {
+                        if (oControl.getValue()) {
+                            aResult.push(new Filter({
+                                path: oControl.getName(),
+                                operator: FilterOperator.Contains,
+                                value1: oControl.getValue()
+                            }));
+                        }
+    
+                        return aResult;
+                    }, []);
+    
+                    aFilters.push(new Filter({
+                        filters: [
+                            new Filter({ path: "Bank", operator: FilterOperator.Contains, value1: sSearchQuery.substr(0, 10) }),
+                            new Filter({ path: "BankAccount", operator: FilterOperator.Contains, value1: sSearchQuery.substr(0, 20) })
+                        ],
+                        and: false
+                    }));
+    
+                    oValueHelpData.getProperty('/_oVHDialog/VHBankAccount').getTableAsync().then(
+                        function (oTable) {
+                            if(oTable.bindRows){
+                                oTable.getBinding("rows").filter(new Filter({
+                                    filters: aFilters,
+                                    and: true
+                                }));
+                            }
+                            if(oTable.bindItems){
+                                oTable.getBinding("items").filter(new Filter({
+                                    filters: aFilters,
+                                    and: true
+                                }));
+                            }
+                            oValueHelpData.getProperty('/_oVHDialog/VHBankAccount').update();
+                        }.bind(this)
+                    );
+                    break;
+                case 'afterClose':
+                    break;
+            }
+        },
+
         
         onActionVHTaxcode : function(oEvent){
             let oBaseData = this.getView().getModel('BaseData');
@@ -1193,10 +1263,10 @@ sap.ui.define([
             for(let i = 0; i < oBaseDataData.Items.length; i++)
             {
                 //D 차변 (Debit), C 대변 (Credit)
-                if(oBaseDataData.Items[i].DebitCreditCode == 'D'){
+                if(oBaseDataData.Items[i].DebitCreditCode == 'H'){
                     DebitSum += oBaseDataData.Items[i].Amount;
                 }
-                else if(oBaseDataData.Items[i].DebitCreditCode == 'C')
+                else if(oBaseDataData.Items[i].DebitCreditCode == 'S')
                 {
                     CreditSum += oBaseDataData.Items[i].Amount;
                 }
@@ -1260,14 +1330,14 @@ sap.ui.define([
                 oBaseData.setProperty('/Parameters/SupplierState', 'None');
 
             }
-            if(!oBaseDataData.Parameters.DocumentItemText || oBaseDataData.Parameters.DocumentItemText == '')
-            {
-                isTrue = false;
-                oBaseData.setProperty('/Parameters/DocumentItemTextState', 'Error');
-            }
-            else{
-                oBaseData.setProperty('/Parameters/DocumentItemTextState', 'None');
-            }
+            // if(!oBaseDataData.Parameters.DocumentItemText || oBaseDataData.Parameters.DocumentItemText == '')
+            // {
+            //     isTrue = false;
+            //     oBaseData.setProperty('/Parameters/DocumentItemTextState', 'Error');
+            // }
+            // else{
+            //     oBaseData.setProperty('/Parameters/DocumentItemTextState', 'None');
+            // }
             if(!oBaseDataData.Parameters.TaxCode || oBaseDataData.Parameters.TaxCode == '')
             {
                 isTrue = false;
@@ -1292,22 +1362,15 @@ sap.ui.define([
             else{
                 oBaseData.setProperty('/Parameters/CostcenterState', 'None');
             }
-            if(!oBaseDataData.Parameters.Bank || oBaseDataData.Parameters.Bank == '')
-            {
-                isTrue = false;
-                oBaseData.setProperty('/Parameters/BankState', 'Error');
-            }
-            else{
-                oBaseData.setProperty('/Parameters/BankState', 'None');
-            }
-            if(!oBaseDataData.Parameters.Bank || oBaseDataData.Parameters.Bank == '')
-            {
-                isTrue = false;
-                oBaseData.setProperty('/Parameters/BankState', 'Error');
-            }
-            else{
-                oBaseData.setProperty('/Parameters/BankState', 'None');
-            }
+            // if(!oBaseDataData.Parameters.Bank || oBaseDataData.Parameters.Bank == '')
+            // {
+            //     isTrue = false;
+            //     oBaseData.setProperty('/Parameters/BankState', 'Error');
+            // }
+            // else{
+            //     oBaseData.setProperty('/Parameters/BankState', 'None');
+            // }
+            
             if(!oBaseDataData.Parameters.Bankaccount || oBaseDataData.Parameters.Bankaccount == '')
             {
                 isTrue = false;
@@ -1327,15 +1390,15 @@ sap.ui.define([
                 {
                     oBaseData.setProperty('/Items/'+i+'/DebitCreditCodeState', 'None');
                 }
-                if(!oBaseDataData.Items[i].Costcenter || oBaseDataData.Items[i].Costcenter == '')
-                {
-                    isTrue = false;
-                    oBaseData.setProperty('/Items/'+i+'/CostcenterState', 'Error');
-                }
-                else 
-                {
-                    oBaseData.setProperty('/Items/'+i+'/CostcenterState', 'None');
-                }
+                // if(!oBaseDataData.Items[i].Costcenter || oBaseDataData.Items[i].Costcenter == '')
+                // {
+                //     isTrue = false;
+                //     oBaseData.setProperty('/Items/'+i+'/CostcenterState', 'Error');
+                // }
+                // else 
+                // {
+                //     oBaseData.setProperty('/Items/'+i+'/CostcenterState', 'None');
+                // }
                 if(!oBaseDataData.Items[i].GLAccount || oBaseDataData.Items[i].GLAccount == '')
                 {
                     isTrue = false;
@@ -1352,22 +1415,22 @@ sap.ui.define([
                 else {
                     oBaseData.setProperty('/Items/'+i+'/AmountState', 'None');
                 }
-                if(!oBaseDataData.Items[i].Currency || oBaseDataData.Items[i].Currency == '')
-                {
-                    isTrue = false;
-                    oBaseData.setProperty('/Items/'+i+'/CurrencyState', 'Error');
-                }
-                else {
-                    oBaseData.setProperty('/Items/'+i+'/CurrencyState', 'None');
-                }
-                if(!oBaseDataData.Items[i].AmountTax || oBaseDataData.Items[i].AmountTax == '')
-                {
-                    isTrue = false;
-                    oBaseData.setProperty('/Items/'+i+'/AmountTaxState', 'Error');
-                }
-                else {
-                    oBaseData.setProperty('/Items/'+i+'/AmountTaxState', 'None');
-                }
+                // if(!oBaseDataData.Items[i].Currency || oBaseDataData.Items[i].Currency == '')
+                // {
+                //     isTrue = false;
+                //     oBaseData.setProperty('/Items/'+i+'/CurrencyState', 'Error');
+                // }
+                // else {
+                //     oBaseData.setProperty('/Items/'+i+'/CurrencyState', 'None');
+                // }
+                // if(!oBaseDataData.Items[i].AmountTax || oBaseDataData.Items[i].AmountTax == '')
+                // {
+                //     isTrue = false;
+                //     oBaseData.setProperty('/Items/'+i+'/AmountTaxState', 'Error');
+                // }
+                // else {
+                //     oBaseData.setProperty('/Items/'+i+'/AmountTaxState', 'None');
+                // }
             }
 
             if(oBaseDataData.Parameters.AmountTotal !== 0)
@@ -1398,12 +1461,12 @@ sap.ui.define([
 
                         //Item정리
                         _.forEach(oBaseDataData.Parameters._Item, function (Items) {
-                            if(Items.DebitCreditCodeState == 'D')
+                            if(Items.DebitCreditCodeState == 'H')
                             {
                                 Items.AmountDebit = Items.Amount
                                 Items.AmountCredit = 0
                             }
-                            else if(Items.DebitCreditCodeState == 'C')
+                            else if(Items.DebitCreditCodeState == 'S')
                             {
                                 Items.AmountCredit = Items.Amount
                                 Items.AmountDebi = 0
@@ -1416,6 +1479,7 @@ sap.ui.define([
                             delete Items.CurrencyState
                             delete Items.AmountTaxState
                             delete Items.DocumentItemTextState
+                            delete Items.Budgetbalance
                         }.bind(this));
                         // oBaseData.setProperty('/Parameters/_Item',oBaseDataData.Parameters._Item);
                         
