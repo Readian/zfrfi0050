@@ -851,7 +851,7 @@ sap.ui.define([
 
                     let token = oEvent.getParameter('tokens')[0].getProperty('key');
                     oBaseData.setProperty('/Parameters/Bankaccount',token);
-                    oBaseData.setProperty('/Parameters/BankaccountName',BankName.Bank);
+                    oBaseData.setProperty('/Parameters/BankaccountName',BankName.BankAccountHolderName);
                     oBaseData.setProperty('/Parameters/Bank',BankName.Bank);
                     oBaseData.setProperty('/Parameters/BankCountry',BankName.BankCountry);
 

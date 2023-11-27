@@ -1,0 +1,26 @@
+<core:FragmentDefinition
+    xmlns="sap.ui.comp.valuehelpdialog"
+    xmlns:m="sap.m"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:core="sap.ui.core"
+    
+>
+<!-- ZFI_V_PAYMENT_TERMS -->
+    <ValueHelpDialog
+        supportMultiselect="false"
+        title="계좌"
+        ok="onActionVHPaymentTerms"
+        cancel="onActionVHPaymentTerms"
+        supportRanges="false"
+        key="PaymentTerms"
+        descriptionKey="PaymentTermsDescription"
+    >
+        <filterBar>
+            <fb:FilterBar
+                advancedMode="false"
+                search="onActionVHPaymentTerms"
+                isRunningInValueHelpDialog="true"
+            />
+        </filterBar>
+    </ValueHelpDialog>
+</core:FragmentDefinition>
