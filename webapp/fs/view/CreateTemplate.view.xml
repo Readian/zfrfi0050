@@ -34,9 +34,7 @@
                             <Title text="snapped title입니다." />
                         </FlexBox>
                     </uxap:snappedHeading>
-                    <uxap:expandedContent>
-                        
-                    </uxap:expandedContent>
+                    <uxap:expandedContent />
                     <uxap:actions>
                         <Button
                             text="결재상신"
@@ -287,6 +285,7 @@
                                                                     valueState="{BaseData>/Parameters/BankaccountState}"
                                                                     width="15rem"
                                                                     showValueHelp="true"
+                                                                    valueHelpRequest=".onOpenVHBankAccount"
                                                                 />
                                                             </items>
                                                         </HBox>
@@ -360,7 +359,10 @@
                                                                     }"
                                                                     width="15rem"
                                                                 />
-                                                                <Label width="15rem" text="{BaseData>/Parameters/Currency}"/>
+                                                                <Label
+                                                                    class="sapUiSmallMargin"
+                                                                    text="{BaseData>/Parameters/Currency}"
+                                                                />
                                                             </items>
                                                         </HBox>
                                                         <HBox
@@ -380,7 +382,10 @@
                                                                     width="15rem"
                                                                     valueHelpRequest=".onOpenVHTaxcode"
                                                                 />
-                                                                <Label width="15rem" text="{BaseData>/Parameters/TaxCodeName}"/>
+                                                                <Label
+                                                                    class="sapUiSmallMargin"
+                                                                    text="{BaseData>/Parameters/TaxCodeName}"
+                                                                />
                                                             </items>
                                                         </HBox>
                                                     </items>
@@ -435,9 +440,7 @@
                                                     <Text text="금액" />
                                                 </Column>
                                                 <Column>
-                                                    <Text
-                                                        text="적요"
-                                                    />
+                                                    <Text text="적요" />
                                                 </Column>
                                             </columns>
                                             <items>
@@ -467,7 +470,9 @@
                                                             editable="false"
                                                         />
                                                         <Input
-                                                            value="{BaseData>Budgetbalance}"
+                                                            value="{
+                                                                parts : ['BaseData>Budgetbalance','BaseData>Currency']
+                                                                }"
                                                             editable="false"
                                                         />
                                                         <Input
@@ -480,7 +485,6 @@
                                                             }"
                                                             valueState="{BaseData>AmountState}"
                                                         />
-                                                        
 
                                                         <Input
                                                             value="{BaseData>DocumentItemText}"

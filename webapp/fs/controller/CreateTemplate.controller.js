@@ -68,8 +68,9 @@ sap.ui.define([
                 Costcenter : '',
                 GLAccount : '',
                 GLAccountName : '',
+                Budgetbalance: 0,
                 Amount : 0,
-                Currency : 'KRW',
+                Currency : oBaseDataData.Parameters.Currency,
                 AmountTax : '',
                 DocumentItemText: ''
             });
@@ -314,7 +315,14 @@ sap.ui.define([
             }
         },
         
+        onChangeAllCurrency: function(oEvent){
+            let oBaseData = this.getView().getModel('BaseData');
+            let oBaseDataData = oBaseData.getData();
 
+            for(let i = 0; i < oBaseDataData.Items.length; i++){
+                oBaseData.setProperty('/Items/'+i+'/Currency', oBaseDataData.Parameters.Currency);
+            }
+        },
         onActionVHCurrency: function(oEvent){
             let oBaseData = this.getView().getModel('BaseData');
             let oValueHelpData = this.getView().getModel('ValueHelpData');
@@ -327,7 +335,7 @@ sap.ui.define([
                 case 'ok':
                     let token = oEvent.getParameter('tokens')[0].getProperty('key');
                     oBaseData.setProperty('/Parameters/Currency',token);
-
+                    this.onChangeAllCurrency();
                     oValueHelpData.getProperty('/_oVHDialog/VHCurrency').close();
                     
                     break;
@@ -392,7 +400,8 @@ sap.ui.define([
                 case 'ok':
                     let token = oEvent.getParameter('tokens')[0].getProperty('key');
                     oBaseData.setProperty('/Parameters/Supplier',token);
-
+                    oBaseData.setProperty('/Parameters/Bankaccount', '');
+                    oBaseData.setProperty('/Parameters/BankaccountName', '');
                     oValueHelpData.getProperty('/_oVHDialog/VHSupplier').close();
                     
                     break;
@@ -730,6 +739,21 @@ sap.ui.define([
                 }.bind(this));
             }else{
                 oValueHelpData.getProperty('/_oVHDialog/VHTBTaxCode').open();
+            }
+        },
+
+        onOpenVHBankAccount: function(oEvent){
+            let oBaseData = this.getView().getModel('BaseData');
+            let oBaseDataData = oBaseData.getData();
+
+            if(!oBaseDataData.Parameters.Supplier && oBaseDataData.Parameters.Supplier == '')
+            {
+                oBaseData.setProperty('/Parameters/SupplierState', 'Error');
+                MessageBox.alert("공급 업체를 입력하세요!");
+            }
+            else
+            {
+                oBaseData.setProperty('/Parameters/SupplierState', 'None');
             }
         },
 
