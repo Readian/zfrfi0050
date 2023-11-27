@@ -223,6 +223,14 @@
                                                                 />
                                                             </items>
                                                         </HBox>
+                                                        
+                                                    </items>
+                                                </VBox>
+                                                <VBox
+                                                    width="100%"
+                                                    direction="Column"
+                                                >
+                                                    <items>
                                                         <HBox
                                                             width="100%"
                                                             alignItems="Center"
@@ -246,13 +254,6 @@
                                                                 />
                                                             </items>
                                                         </HBox>
-                                                    </items>
-                                                </VBox>
-                                                <VBox
-                                                    width="100%"
-                                                    direction="Column"
-                                                >
-                                                    <items>
                                                         <HBox
                                                             width="100%"
                                                             alignItems="Center"
@@ -308,6 +309,14 @@
                                                                 />
                                                             </items>
                                                         </HBox>
+                                                        
+                                                    </items>
+                                                </VBox>
+                                                <VBox
+                                                    width="100%"
+                                                    direction="Column"
+                                                >
+                                                    <items>
                                                         <HBox
                                                             width="100%"
                                                             alignItems="Center"

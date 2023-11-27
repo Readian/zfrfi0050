@@ -1604,6 +1604,7 @@ sap.ui.define([
             let oBaseData = this.getView().getModel('BaseData');
             let oBaseDataData = oBaseData.getData();
             oBaseData.setProperty('/Items/0/Amount', oBaseDataData.Parameters.Amount);
+            this.onCalculation();
         },
         
 
