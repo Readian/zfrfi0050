@@ -333,9 +333,13 @@ sap.ui.define([
 
                     break;
                 case 'ok':
-                    let token = oEvent.getParameter('tokens')[0].getProperty('key');
-                    oBaseData.setProperty('/Parameters/Currency',token);
-                    this.onChangeAllCurrency();
+                    if(oEvent.getParameter('tokens')[0] !== undefined)
+                    {
+                        let token = oEvent.getParameter('tokens')[0].getProperty('key');
+                        oBaseData.setProperty('/Parameters/Currency',token);
+                        this.onChangeAllCurrency();
+                    }
+                    
                     oValueHelpData.getProperty('/_oVHDialog/VHCurrency').close();
                     
                     break;
@@ -398,10 +402,12 @@ sap.ui.define([
 
                     break;
                 case 'ok':
-                    let token = oEvent.getParameter('tokens')[0].getProperty('key');
-                    oBaseData.setProperty('/Parameters/Supplier',token);
-                    oBaseData.setProperty('/Parameters/Bankaccount', '');
-                    oBaseData.setProperty('/Parameters/BankaccountName', '');
+                    if(oEvent.getParameter('tokens')[0] !== undefined)
+                    {
+                        let token = oEvent.getParameter('tokens')[0].getProperty('key');
+                        oBaseData.setProperty('/Parameters/Supplier',token);
+                    }
+                    
                     oValueHelpData.getProperty('/_oVHDialog/VHSupplier').close();
                     
                     break;
@@ -462,12 +468,15 @@ sap.ui.define([
 
                     break;
                 case 'ok':
-                    let oTable = oEvent.oSource.getTable();
-                    let CostCenterName = oTable.getContextByIndex(oTable.getSelectedIndex()).getObject();
-
-                    let token = oEvent.getParameter('tokens')[0].getProperty('key');
-                    oBaseData.setProperty('/Parameters/Costcenter',token);
-                    oBaseData.setProperty('/Parameters/CostcenterName',CostCenterName.CostCenterName);
+                    if(oEvent.getParameter('tokens')[0] !== undefined){
+                        let oTable = oEvent.oSource.getTable();
+                        let token = oEvent.getParameter('tokens')[0].getProperty('key');
+                        oBaseData.setProperty('/Parameters/Costcenter',token);
+                        let CostCenterName = oTable.getContextByIndex(oTable.getSelectedIndex()).getObject();
+                        oBaseData.setProperty('/Parameters/CostcenterName',CostCenterName.CostCenterName);
+    
+                    }
+                    
 
                     oValueHelpData.getProperty('/_oVHDialog/VHCostCenter').close();
                     
@@ -840,12 +849,18 @@ sap.ui.define([
             let oBaseData = this.getView().getModel('BaseData');
             let oValueHelpData = this.getView().getModel('ValueHelpData');
             let oBaseDataData = oBaseData.getData();
+            let isTrue = true;
             if(!oBaseDataData.Parameters.PostingDate || oBaseDataData.Parameters.PostingDate == '')
             {
+                isTrue = false;
                 oBaseData.setProperty('/Parameters/PostingDateState', 'Error');
-                MessageBox.alert('전기일자를 입력하세요!');
             }
-            else{
+            if(!oBaseDataData.Parameters.Supplier || oBaseDataData.Parameters.Supplier == ''){
+                isTrue = false;
+                oBaseData.setProperty('/Parameters/SupplierState', 'Error');
+            }
+            if(isTrue){
+                oBaseData.setProperty('/Parameters/SupplierState', 'None');
                 oBaseData.setProperty('/Parameters/PostingDateState', 'None');
                 if(!oValueHelpData.getProperty('/_oVHDialog/VHPaymentTerms'))
                 {
@@ -876,14 +891,26 @@ sap.ui.define([
                                     });
                                     oTable.addColumn(
                                         new UIColumn({
+                                            label: new Label({ text: "회사코드" }),
+                                            template: new Text({ text: "{CompanyCode}" }),
+                                        })
+                                    );
+                                    oTable.addColumn(
+                                        new UIColumn({
+                                            label: new Label({ text: "Supplier" }),
+                                            template: new Text({ text: "{Supplier}" }),
+                                        })
+                                    );
+                                    oTable.addColumn(
+                                        new UIColumn({
                                             label: new Label({ text: "PaymentTerms" }),
                                             template: new Text({ text: "{PaymentTerms}" }),
                                         })
                                     );
                                     oTable.addColumn(
                                         new UIColumn({
-                                            label: new Label({ text: "PaymentTermsDescription" }),
-                                            template: new Text({ text: "{PaymentTermsDescription}" }),
+                                            label: new Label({ text: "PaymentTermsName" }),
+                                            template: new Text({ text: "{PaymentTermsName}" }),
                                         })
                                     );
                                     oTable.addColumn(
@@ -892,7 +919,14 @@ sap.ui.define([
                                             template: new Text({ text: "{CashDiscount1Days}" }),
                                         })
                                     );
+
+                                   
                                 }
+                                oTable.getBinding("rows").filter(new Filter({
+                                    path: 'Supplier',
+                                    operator: FilterOperator.Contains,
+                                    value1: oBaseDataData.Parameters.Supplier
+                                }));
                                
                                 oDialog.update();
                             }.bind(this)
@@ -904,6 +938,11 @@ sap.ui.define([
                 }
                 else
                 {
+                    oValueHelpData.getProperty('/_oVHDialog/VHPaymentTerms').getTable().getBinding("rows").filter(new Filter({
+                        path: 'Supplier',
+                        operator: FilterOperator.Contains,
+                        value1: oBaseDataData.Parameters.Supplier
+                    }));
                     oValueHelpData.getProperty('/_oVHDialog/VHPaymentTerms').open(); 
                 }
             }
@@ -936,13 +975,16 @@ sap.ui.define([
 
                     break;
                 case 'ok':
-                    let oTable = oEvent.oSource.getTable();
-                    let CashDiscount1Days = oTable.getContextByIndex(oTable.getSelectedIndex()).getObject().CashDiscount1Days;
-                    oBaseData.setProperty('/Parameters/CashDiscount1Days',CashDiscount1Days );
-                    let token = oEvent.getParameter('tokens')[0].getProperty('key');
-                    oBaseData.setProperty('/Parameters/PaymentTerms',token);
-                    this.onCalculationPaymentscheduled();
+                    if(oEvent.getParameter('tokens')[0] !== undefined)
+                    {
+                        let oTable = oEvent.oSource.getTable();
+                        let CashDiscount1Days = oTable.getContextByIndex(oTable.getSelectedIndex()).getObject().CashDiscount1Days;
+                        oBaseData.setProperty('/Parameters/CashDiscount1Days',CashDiscount1Days );
+                        let token = oEvent.getParameter('tokens')[0].getProperty('key');
+                        oBaseData.setProperty('/Parameters/PaymentTerms',token);
+                    }
 
+                    this.onCalculationPaymentscheduled();
                     oValueHelpData.getProperty('/_oVHDialog/VHPaymentTerms').close();
                     
                     break;
@@ -1003,15 +1045,17 @@ sap.ui.define([
 
                     break;
                 case 'ok':
-                    let oTable = oEvent.oSource.getTable();
-                    let BankName = oTable.getContextByIndex(oTable.getSelectedIndex()).getObject();
-
-                    let token = oEvent.getParameter('tokens')[0].getProperty('key');
-                    oBaseData.setProperty('/Parameters/Bankaccount',token);
-                    oBaseData.setProperty('/Parameters/BankaccountName',BankName.BankAccountHolderName);
-                    oBaseData.setProperty('/Parameters/Bank',BankName.Bank);
-                    oBaseData.setProperty('/Parameters/BankCountry',BankName.BankCountry);
-
+                    if(oEvent.getParameter('tokens')[0] !== undefined)
+                    {
+                        let oTable = oEvent.oSource.getTable();
+                        let BankName = oTable.getContextByIndex(oTable.getSelectedIndex()).getObject();
+                        oBaseData.setProperty('/Parameters/Bank',BankName.Bank);
+                        let token = oEvent.getParameter('tokens')[0].getProperty('key');
+                        oBaseData.setProperty('/Parameters/Bankaccount',token);
+                        oBaseData.setProperty('/Parameters/BankaccountName',BankName.BankAccountHolderName);
+                        oBaseData.setProperty('/Parameters/BankCountry',BankName.BankCountry);
+                    }
+                    
                     oValueHelpData.getProperty('/_oVHDialog/VHBankAccount').close();
                     
                     break;
@@ -1075,11 +1119,21 @@ sap.ui.define([
                     break;
                 case 'ok':
                     let oTable = oEvent.oSource.getTable();
-                    let TaxCodeName = oTable.getContextByIndex(oTable.getSelectedIndex()).getObject();
+                    if(oEvent.getParameter('tokens')[0] !== undefined){
+                        let token = oEvent.getParameter('tokens')[0].getProperty('key');
+                        oBaseData.setProperty('/Parameters/TaxCode',token);
+                        if(oTable.getContextByIndex(oTable.getSelectedIndex()))
+                        {
+                            let TaxCodeName = oTable.getContextByIndex(oTable.getSelectedIndex()).getObject();
+                            oBaseData.setProperty('/Parameters/TaxCodeName',TaxCodeName.CodeName);
+                        }else
+                        {
+                            
+                            oBaseData.setProperty('/Parameters/TaxCodeName','');
 
-                    let token = oEvent.getParameter('tokens')[0].getProperty('key');
-                    oBaseData.setProperty('/Parameters/TaxCode',token);
-                    oBaseData.setProperty('/Parameters/TaxCodeName',TaxCodeName.CodeName);
+                        }
+                    }
+                    
 
                     oValueHelpData.getProperty('/_oVHDialog/VHTaxcode').close();
                     
@@ -1141,6 +1195,7 @@ sap.ui.define([
 
                     break;
                 case 'ok':
+
                     let oSelected = oEvent.getParameter('tokens')[0].getProperty('key');
                     let sPath = oValueHelpData.getProperty('/v4SelectInput' ).getParent().getBindingContextPath();
 
@@ -1538,7 +1593,7 @@ sap.ui.define([
                 oBaseData.setProperty('/Parameters/BankaccountState', 'None');
             }
 
-            for(let i = 0; i < oBaseDataData.Items.length; i++){
+            for(let i = 1; i < oBaseDataData.Items.length; i++){
                 if(!oBaseDataData.Items[i].DebitCreditCode || oBaseDataData.Items[i].DebitCreditCode == '')
                 {
                     isTrue = false;

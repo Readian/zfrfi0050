@@ -13,7 +13,7 @@
         cancel="onActionVHPaymentTerms"
         supportRanges="false"
         key="PaymentTerms"
-        descriptionKey="PaymentTermsDescription"
+        descriptionKey="PaymentTermsName"
     >
         <filterBar>
             <fb:FilterBar
