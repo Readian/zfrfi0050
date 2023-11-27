@@ -462,8 +462,12 @@ sap.ui.define([
 
                     break;
                 case 'ok':
+                    let oTable = oEvent.oSource.getTable();
+                    let CostCenterName = oTable.getContextByIndex(oTable.getSelectedIndex()).getObject();
+
                     let token = oEvent.getParameter('tokens')[0].getProperty('key');
                     oBaseData.setProperty('/Parameters/Costcenter',token);
+                    oBaseData.setProperty('/Parameters/CostcenterName',CostCenterName.CostCenterName);
 
                     oValueHelpData.getProperty('/_oVHDialog/VHCostCenter').close();
                     
@@ -744,6 +748,7 @@ sap.ui.define([
 
         onOpenVHBankAccount: function(oEvent){
             let oBaseData = this.getView().getModel('BaseData');
+            let oValueHelpData = this.getView().getModel('ValueHelpData');
             let oBaseDataData = oBaseData.getData();
 
             if(!oBaseDataData.Parameters.Supplier && oBaseDataData.Parameters.Supplier == '')
@@ -754,6 +759,80 @@ sap.ui.define([
             else
             {
                 oBaseData.setProperty('/Parameters/SupplierState', 'None');
+                if(!oValueHelpData.getProperty('/_oVHDialog/VHBankAccount'))
+                {
+                    this.loadFragment({
+                        name: "fi.zfrfi0050.fs.view.f4.F4BankAccount"
+                    }).then(function(oDialog){
+                        oValueHelpData.setProperty('/_oVHDialog/VHBankAccount', oDialog);
+                        this.getView().addDependent(oDialog);
+                        let oFilterBar = oDialog.getFilterBar();
+                        let oBasicSearchField = new SearchField();
+                        oFilterBar.setFilterBarExpanded(false);
+                        oFilterBar.setBasicSearch(oBasicSearchField);
+                        oBasicSearchField.attachSearch(function () {
+                            oFilterBar.search();
+                        });
+                        oDialog.getTableAsync().then(
+                            function (oTable) {
+                                oTable.setModel(this.getView().getModel());
+                                oTable.setThreshold(500);
+                                if (oTable.bindRows) {
+                                    oTable.bindAggregation("rows", {
+                                        path: "/ZFI_V_SUPPLIER_ACCOUNT",
+                                        events: {
+                                            dataReceived: function () {
+                                                oDialog.update();
+                                            },
+                                        },
+                                    });
+                                    oTable.addColumn(
+                                        new UIColumn({
+                                            label: new Label({ text: "공급업체" }),
+                                            template: new Text({ text: "{Supplier}" }),
+                                        })
+                                    );
+                                    oTable.addColumn(
+                                        new UIColumn({
+                                            label: new Label({ text: "계좌번호" }),
+                                            template: new Text({ text: "{BankAccount}" }),
+                                        })
+                                    );
+                                    oTable.addColumn(
+                                        new UIColumn({
+                                            label: new Label({ text: "은행" }),
+                                            template: new Text({ text: "{Bank}" }),
+                                        })
+                                    );
+                                    oTable.addColumn(
+                                        new UIColumn({
+                                            label: new Label({ text: "은행국가" }),
+                                            template: new Text({ text: "{BankCountry}" }),
+                                        })
+                                    );
+                                }
+                                oTable.getBinding("rows").filter(new Filter({
+                                    path: 'Supplier',
+                                    operator: FilterOperator.Contains,
+                                    value1: oBaseDataData.Parameters.Supplier
+                                }));
+                                oDialog.update();
+                            }.bind(this)
+                        );
+                        oDialog.open();
+    
+    
+                    }.bind(this));
+                }
+                else
+                {
+                    oValueHelpData.getProperty('/_oVHDialog/VHBankAccount').getTable().getBinding("rows").filter(new Filter({
+                        path: 'Supplier',
+                        operator: FilterOperator.Contains,
+                        value1: oBaseDataData.Parameters.Supplier
+                    }));
+                    oValueHelpData.getProperty('/_oVHDialog/VHBankAccount').open(); 
+                }
             }
         },
 

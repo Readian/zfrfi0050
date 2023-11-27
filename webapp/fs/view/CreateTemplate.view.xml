@@ -241,6 +241,9 @@
                                                                     valueState="{BaseData>/Parameters/CostcenterState}"
                                                                     valueHelpRequest=".onOpenVHCostCenter"
                                                                 />
+                                                                <Label class="sapUiSmallMarginBegin"
+                                                                text="{BaseData>/Parameters/CostcenterName}"
+                                                                />
                                                             </items>
                                                         </HBox>
                                                     </items>
@@ -360,7 +363,7 @@
                                                                     width="15rem"
                                                                 />
                                                                 <Label
-                                                                    class="sapUiSmallMargin"
+                                                                    class="sapUiSmallMarginBegin"
                                                                     text="{BaseData>/Parameters/Currency}"
                                                                 />
                                                             </items>
@@ -383,7 +386,7 @@
                                                                     valueHelpRequest=".onOpenVHTaxcode"
                                                                 />
                                                                 <Label
-                                                                    class="sapUiSmallMargin"
+                                                                    class="sapUiSmallMarginBegin"
                                                                     text="{BaseData>/Parameters/TaxCodeName}"
                                                                 />
                                                             </items>
@@ -471,7 +474,9 @@
                                                         />
                                                         <Input
                                                             value="{
-                                                                parts : ['BaseData>Budgetbalance','BaseData>Currency']
+                                                                parts : ['BaseData>Budgetbalance','BaseData>Currency'],
+                                                                type : 'sap.ui.model.type.Currency',
+                                                                formatOptions: {showMeasure : false}
                                                                 }"
                                                             editable="false"
                                                         />

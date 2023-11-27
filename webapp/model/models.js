@@ -23,7 +23,8 @@ sap.ui.define([
                     VHTBCostCenter : undefined,
                     VHTBGLAccount : undefined,
                     VHTBCurrency : undefined,
-                    VHTBTaxCode : undefined
+                    VHTBTaxCode : undefined,
+                    VHBankAccount : undefined
                 },
                 v4SelectInput : undefined
             },
@@ -65,6 +66,7 @@ sap.ui.define([
                     TaxCodeName: '',
                     DocumentDate: '',
                     Costcenter: '',
+                    CostcenterName: '',
                     Supplier: '',
                     BankCountry: '',
                     Bank: '',

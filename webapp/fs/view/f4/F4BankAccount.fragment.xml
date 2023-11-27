@@ -1,0 +1,24 @@
+<core:FragmentDefinition
+    xmlns="sap.ui.comp.valuehelpdialog"
+    xmlns:m="sap.m"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:core="sap.ui.core"
+>
+    <ValueHelpDialog
+        supportMultiselect="false"
+        title="계좌"
+        ok="onActionVHBankAccount"
+        cancel="onActionVHBankAccount"
+        supportRanges="false"
+        key="BankAccount"
+        descriptionKey="Bank"
+    >
+        <filterBar>
+            <fb:FilterBar
+                advancedMode="false"
+                search="onActionVHBankAccount"
+                isRunningInValueHelpDialog="true"
+            />
+        </filterBar>
+    </ValueHelpDialog>
+</core:FragmentDefinition>
