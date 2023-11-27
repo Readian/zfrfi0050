@@ -35,7 +35,7 @@
                         </FlexBox>
                     </uxap:snappedHeading>
                     <uxap:expandedContent>
-                        <Text text="추가 text" />
+                        
                     </uxap:expandedContent>
                     <uxap:actions>
                         <Button
@@ -64,66 +64,51 @@
                                     width="15rem"
                                 />
                             </HBox>
-                            <HBox>
-                                <Label
-                                    text="연도 : "
-                                    width="8rem"
-                                />
-                                <Label
-                                    text="{BaseData>/Parameters/FiscalYear}"
-                                />
-                            </HBox>
-                            <HBox>
-                                <Label
-                                    text="회사코드 : "
-                                    width="8rem"
-                                />
-                                <Label
-                                    text="{BaseData>/Parameters/CompanyCode}"
-                                    width="15rem"
-                                />
-                            </HBox>
-                            <HBox alignItems="Center">
-                                <Label
-                                    text="헤더 텍스트 : "
-                                    width="8rem"
-                                />
-                                <Input
-                                    value="{BaseData>/Parameters/DocumentItemText}"
-                                    valueState="{BaseData>/Parameters/DocumentItemTextState}"
-                                    width="15rem"
-                                />
-                            </HBox>
                         </VBox>
-                        <VBox>
+                        <HBox>
                             <HBox>
-                                <Label text="차변합계:" />
-                                <ObjectNumber
-                                    number="{ 
+                                <Label
+                                    width="8rem"
+                                    text="차변합계:"
+                                />
+                                <FlexBox width="15rem">
+                                    <ObjectNumber
+                                        number="{ 
                                         parts: ['BaseData>/Parameters/DebitTotal', 'BaseData>/Parameters/Currency'],
                                         type: 'sap.ui.model.type.Currency'
                                      }"
-                                />
+                                    />
+                                </FlexBox>
                             </HBox>
                             <HBox>
-                                <Label text="대변합계:" />
-                                <ObjectNumber
-                                    number="{ 
+                                <Label
+                                    width="8rem"
+                                    text="대변합계:"
+                                />
+                                <FlexBox width="15rem">
+                                    <ObjectNumber
+                                        number="{ 
                                         parts: ['BaseData>/Parameters/CreditTotal', 'BaseData>/Parameters/Currency'],
                                         type: 'sap.ui.model.type.Currency'
                                      }"
-                                />
+                                    />
+                                </FlexBox>
                             </HBox>
                             <HBox>
-                                <Label text="차이금액:" />
-                                <ObjectNumber
-                                    number="{ 
-                                        parts: ['BaseData>/Parameters/AmountTotal', 'BaseData>/Parameters/Currency'],
-                                        type: 'sap.ui.model.type.Currency'
-                                     }"
+                                <Label
+                                    width="8rem"
+                                    text="차이금액:"
                                 />
+                                <FlexBox width="15rem">
+                                    <ObjectNumber
+                                        number="{ 
+                                            parts: ['BaseData>/Parameters/AmountTotal', 'BaseData>/Parameters/Currency'],
+                                            type: 'sap.ui.model.type.Currency'
+                                        }"
+                                    />
+                                </FlexBox>
                             </HBox>
-                        </VBox>
+                        </HBox>
                     </HBox>
                 </FlexBox>
             </uxap:headerContent>
@@ -137,7 +122,7 @@
                     showTitle="false"
                 >
                     <uxap:subSections>
-                        <uxap:ObjectPageSubSection title="Header">
+                        <uxap:ObjectPageSubSection title="기본정보">
                             <VBox>
                                 <form:SimpleForm
                                     editable="true"
@@ -158,26 +143,16 @@
                                                         >
                                                             <items>
                                                                 <Label
-                                                                    text="전기일자 : "
+                                                                    text="입력일 : "
                                                                     width="8rem"
                                                                 />
-                                                                <DatePicker
+                                                                <Text
                                                                     width="15rem"
-                                                                    change=".onChangePostingDate"
-                                                                    displayFormat="yyyy-MM-dd"
-                                                                    valueFormat="yyyy-MM-dd"
-                                                                    valueState="{BaseData>/Parameters/PostingDateState}"
-                                                                    value="{
-                                                                    path: 'BaseData>/Parameters/PostingDate',
-                                                                    type: 'sap.ui.model.type.String',
-                                                                    formatOptions: {
-                                                                        'pattern': 'yyyy-MM-dd'
-                                                                    }
-                                                                    
-                                                                }"
+                                                                    text="{BaseData>/Parameters/InputData}"
                                                                 />
                                                             </items>
                                                         </HBox>
+
                                                         <HBox
                                                             width="100%"
                                                             alignItems="Center"
@@ -210,6 +185,34 @@
                                                         >
                                                             <items>
                                                                 <Label
+                                                                    text="전기일자 : "
+                                                                    width="8rem"
+                                                                />
+                                                                <DatePicker
+                                                                    width="15rem"
+                                                                    change=".onChangePostingDate"
+                                                                    displayFormat="yyyy-MM-dd"
+                                                                    valueFormat="yyyy-MM-dd"
+                                                                    valueState="{BaseData>/Parameters/PostingDateState}"
+                                                                    value="{
+                                                                    path: 'BaseData>/Parameters/PostingDate',
+                                                                    type: 'sap.ui.model.type.String',
+                                                                    formatOptions: {
+                                                                        'pattern': 'yyyy-MM-dd'
+                                                                    }
+                                                                    
+                                                                }"
+                                                                />
+                                                            </items>
+                                                        </HBox>
+
+                                                        <HBox
+                                                            width="100%"
+                                                            alignItems="Center"
+                                                            class=""
+                                                        >
+                                                            <items>
+                                                                <Label
                                                                     text="거래통화 : "
                                                                     width="8rem"
                                                                 />
@@ -219,6 +222,26 @@
                                                                     width="15rem"
                                                                     valueState="{BaseData>/Parameters/CurrencyState}"
                                                                     valueHelpRequest=".onOpenCurrency"
+                                                                />
+                                                            </items>
+                                                        </HBox>
+                                                        <HBox
+                                                            width="100%"
+                                                            alignItems="Center"
+                                                            class=""
+                                                        >
+                                                            <items>
+                                                                <Label
+                                                                    text="비용귀속 : "
+                                                                    width="8rem"
+                                                                />
+                                                                <Input
+                                                                    xmlns:core="sap.ui.core"
+                                                                    showValueHelp="true"
+                                                                    width="15rem"
+                                                                    value="{BaseData>/Parameters/Costcenter}"
+                                                                    valueState="{BaseData>/Parameters/CostcenterState}"
+                                                                    valueHelpRequest=".onOpenVHCostCenter"
                                                                 />
                                                             </items>
                                                         </HBox>
@@ -256,43 +279,6 @@
                                                         >
                                                             <items>
                                                                 <Label
-                                                                    text="은행국가 : "
-                                                                    width="8rem"
-                                                                />
-                                                                <Input
-                                                                    xmlns:core="sap.ui.core"
-                                                                    showValueHelp="true"
-                                                                    width="15rem"
-                                                                    value="{BaseData>/Parameters/BankCountry}"
-                                                                    valueState="{BaseData>/Parameters/BankCountryState}"
-                                                                />
-                                                            </items>
-                                                        </HBox>
-                                                        <HBox
-                                                            width="100%"
-                                                            alignItems="Center"
-                                                            class=""
-                                                        >
-                                                            <items>
-                                                                <Label
-                                                                    text="은행 : "
-                                                                    width="8rem"
-                                                                />
-                                                                <Input
-                                                                    showValueHelp="true"
-                                                                    width="15rem"
-                                                                    value="{BaseData>/Parameters/Bank}"
-                                                                    valueState="{BaseData>/Parameters/BankState}"
-                                                                />
-                                                            </items>
-                                                        </HBox>
-                                                        <HBox
-                                                            width="100%"
-                                                            alignItems="Center"
-                                                            class=""
-                                                        >
-                                                            <items>
-                                                                <Label
                                                                     text="계좌 : "
                                                                     width="8rem"
                                                                 />
@@ -307,46 +293,16 @@
                                                         <HBox
                                                             width="100%"
                                                             alignItems="Center"
-                                                        >
-                                                            <items>
-                                                                <Label
-                                                                    text="세금코드 : "
-                                                                    width="8rem"
-                                                                />
-                                                                <Input
-                                                                    xmlns:core="sap.ui.core"
-                                                                    value="{BaseData>/Parameters/TaxCode}"
-                                                                    showValueHelp="true"
-                                                                    valueState="{BaseData>/Parameters/TaxCodeState}"
-                                                                    width="15rem"
-                                                                    valueHelpRequest=".onOpenVHTaxcode"
-                                                                />
-                                                            </items>
-                                                        </HBox>
-                                                    </items>
-                                                </VBox>
-                                                <VBox
-                                                    width="100%"
-                                                    direction="Column"
-                                                >
-                                                    <items>
-                                                        <HBox
-                                                            width="100%"
-                                                            alignItems="Center"
                                                             class=""
                                                         >
                                                             <items>
                                                                 <Label
-                                                                    text="비용귀속 : "
+                                                                    text="예금주 : "
                                                                     width="8rem"
                                                                 />
-                                                                <Input
-                                                                    xmlns:core="sap.ui.core"
-                                                                    showValueHelp="true"
+                                                                <Text
                                                                     width="15rem"
-                                                                    value="{BaseData>/Parameters/Costcenter}"
-                                                                    valueState="{BaseData>/Parameters/CostcenterState}"
-                                                                    valueHelpRequest=".onOpenVHCostCenter"
+                                                                    text="{BaseData>/Parameters/BankaccountName}"
                                                                 />
                                                             </items>
                                                         </HBox>
@@ -376,28 +332,12 @@
                                                         >
                                                             <items>
                                                                 <Label
-                                                                    text="지급형태 : "
-                                                                    width="8rem"
-                                                                />
-                                                                <Input
-                                                                    showValueHelp="true"
-                                                                    width="15rem"
-                                                                />
-                                                            </items>
-                                                        </HBox>
-                                                        <HBox
-                                                            width="100%"
-                                                            alignItems="Center"
-                                                            class=""
-                                                        >
-                                                            <items>
-                                                                <Label
                                                                     text="지급예정 : "
                                                                     width="8rem"
                                                                 />
-                                                                <Input
-                                                                    value="연도-월-일"
+                                                                <Text
                                                                     width="15rem"
+                                                                    text="{Paymentscheduled}"
                                                                 />
                                                             </items>
                                                         </HBox>
@@ -422,6 +362,25 @@
                                                                 />
                                                             </items>
                                                         </HBox>
+                                                        <HBox
+                                                            width="100%"
+                                                            alignItems="Center"
+                                                        >
+                                                            <items>
+                                                                <Label
+                                                                    text="세금코드 : "
+                                                                    width="8rem"
+                                                                />
+                                                                <Input
+                                                                    xmlns:core="sap.ui.core"
+                                                                    value="{BaseData>/Parameters/TaxCode}"
+                                                                    showValueHelp="true"
+                                                                    valueState="{BaseData>/Parameters/TaxCodeState}"
+                                                                    width="15rem"
+                                                                    valueHelpRequest=".onOpenVHTaxcode"
+                                                                />
+                                                            </items>
+                                                        </HBox>
                                                     </items>
                                                 </VBox>
                                             </items>
@@ -431,7 +390,7 @@
                             </VBox>
                         </uxap:ObjectPageSubSection>
 
-                        <uxap:ObjectPageSubSection title="Items">
+                        <uxap:ObjectPageSubSection title="항목정보">
                             <uxap:blocks>
                                 <VBox>
                                     <HBox>
@@ -462,27 +421,20 @@
                                                     <Text text="차변/대변" />
                                                 </Column>
                                                 <Column>
-                                                    <Text text="CostCenter" />
+                                                    <Text text="비용 계정" />
                                                 </Column>
                                                 <Column>
-                                                    <Text text="G/L 계정" />
+                                                    <Text text="비용 계정명" />
                                                 </Column>
                                                 <Column>
-                                                    <Text text="G/L 계정명" />
+                                                    <Text text="예산잔액" />
                                                 </Column>
                                                 <Column>
-                                                    <Text text="Amount" />
+                                                    <Text text="금액" />
                                                 </Column>
-                                                <Column>
-                                                    <Text text="Currency" />
-                                                </Column>
-                                                <Column>
-                                                    <Text text="AmountTax" />
-                                                </Column>
-
                                                 <Column>
                                                     <Text
-                                                        text="DocumentItemText"
+                                                        text="적요"
                                                     />
                                                 </Column>
                                             </columns>
@@ -501,12 +453,7 @@
                                                                 text="{BaseData>text}"
                                                             />
                                                         </Select>
-                                                        <Input
-                                                            value="{BaseData>Costcenter}"
-                                                            showValueHelp="true"
-                                                            valueHelpRequest=".onOpenVHTBCostCenter"
-                                                            valueState="{BaseData>CostcenterState}"
-                                                        />
+
                                                         <Input
                                                             value="{BaseData>GLAccount}"
                                                             showValueHelp="true"
@@ -515,6 +462,10 @@
                                                         />
                                                         <Input
                                                             value="{BaseData>GLAccountName}"
+                                                            editable="false"
+                                                        />
+                                                        <Input
+                                                            value="{BaseData>Budgetbalance}"
                                                             editable="false"
                                                         />
                                                         <Input
@@ -527,18 +478,7 @@
                                                             }"
                                                             valueState="{BaseData>AmountState}"
                                                         />
-                                                        <Input
-                                                            value="{BaseData>Currency}"
-                                                            showValueHelp="true"
-                                                            valueHelpRequest=".onOpenVHTBCurrency"
-                                                            valueState="{BaseData>CurrencyState}"
-                                                        />
-                                                        <Input
-                                                            value="{BaseData>AmountTax}"
-                                                            showValueHelp="true"
-                                                            valueHelpRequest=".onOpenVHTBTaxCode"
-                                                            valueState="{BaseData>AmountTaxState}"
-                                                        />
+                                                        
 
                                                         <Input
                                                             value="{BaseData>DocumentItemText}"

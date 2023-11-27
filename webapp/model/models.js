@@ -33,7 +33,20 @@ sap.ui.define([
                     { key: 'D', text: '차변' },
                     { key: 'C', text: '대변' }
                 ],
-                Items: [],
+                Items: [
+                    {
+                       "DebitCreditCode" : "D" ,
+                       "GLAccount" : "",
+                       "GLAccountName" : "",
+                       "Budgetbalance" : 0,
+                       "Currency" : "KRW",
+                       "Amount" : 0,
+                       "DocumentItemText" : ""
+
+
+
+                    }
+                ],
                 Visible : {
                     Debit : true,
                     Credit : false
@@ -58,7 +71,10 @@ sap.ui.define([
                     AmountTotal: 0,
                     _Item: [],
                     DebitTotal : 0,
-                    CreditTotal : 0
+                    CreditTotal : 0,
+                    InputData : '',
+                    BankaccountName: '',
+                    Paymentscheduled: ''
                 }
             },
             createBaseDataModel : function(){
