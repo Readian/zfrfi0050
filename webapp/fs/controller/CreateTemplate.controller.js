@@ -844,7 +844,7 @@ sap.ui.define([
             if(!oValueHelpData.getProperty('/_oVHDialog/VHPaymentTerms'))
             {
                 this.loadFragment({
-                    name: "fi.zfrfi0050.fs.view.f4.F4BankAccount"
+                    name: "fi.zfrfi0050.fs.view.f4.F4PaymentTerms"
                 }).then(function(oDialog){
                     oValueHelpData.setProperty('/_oVHDialog/VHPaymentTerms', oDialog);
                     this.getView().addDependent(oDialog);
@@ -899,6 +899,90 @@ sap.ui.define([
             else
             {
                 oValueHelpData.getProperty('/_oVHDialog/VHPaymentTerms').open(); 
+            }
+        },
+
+        onCalculationPaymentscheduled : function(Numb){
+            let oBaseData = this.getView().getModel('BaseData');
+            let currentDate = new Date(oBaseData.getProperty('/Parameters/PostingDate'));
+            currentDate.setDate(currentDate.getDate() + Numb);
+            let oMonth = currentDate.getMonth() + 1;
+            let oYear = currentDate.getFullYear();
+            let oDay = currentDate.getDate();
+            if(oDay < 10) {
+                oDay = "0"+oDay;
+            }
+            let oEnd = oYear+'-'+oMonth+'-'+oDay;
+
+            return oEnd;
+
+        },
+        onActionVHPaymentTerms : function(oEvent){
+            let oBaseData = this.getView().getModel('BaseData');
+            let oValueHelpData = this.getView().getModel('ValueHelpData');
+            
+            switch(oEvent.sId){
+                case 'cancel':
+                    oValueHelpData.getProperty('/_oVHDialog/VHPaymentTerms').close();
+
+                    break;
+                case 'ok':
+                    let oTable = oEvent.oSource.getTable();
+                    let CashDiscount1Days = oTable.getContextByIndex(oTable.getSelectedIndex()).getObject().CashDiscount1Days;
+                    
+                    this.onCalculationPaymentscheduled(Number(CashDiscount1Days));
+                    let token = oEvent.getParameter('tokens')[0].getProperty('key');
+                    oBaseData.setProperty('/Parameters/PaymentTerms',token);
+                    
+
+                    oValueHelpData.getProperty('/_oVHDialog/VHPaymentTerms').close();
+                    
+                    break;
+                case 'search' :
+                    let oFilterBar = oValueHelpData.getProperty('/_oVHDialog/VHPaymentTerms').getFilterBar();
+                    let sSearchQuery = oFilterBar.getBasicSearchValue();
+                    let aSelectionSet = oEvent.getParameter("selectionSet");
+
+                    let aFilters = aSelectionSet.reduce(function (aResult, oControl) {
+                        if (oControl.getValue()) {
+                            aResult.push(new Filter({
+                                path: oControl.getName(),
+                                operator: FilterOperator.Contains,
+                                value1: oControl.getValue()
+                            }));
+                        }
+    
+                        return aResult;
+                    }, []);
+    
+                    aFilters.push(new Filter({
+                        filters: [
+                            new Filter({ path: "PaymentTerms", operator: FilterOperator.Contains, value1: sSearchQuery.substr(0, 10) }),
+                            new Filter({ path: "PaymentTermsDescription", operator: FilterOperator.Contains, value1: sSearchQuery.substr(0, 20) })
+                        ],
+                        and: false
+                    }));
+    
+                    oValueHelpData.getProperty('/_oVHDialog/VHPaymentTerms').getTableAsync().then(
+                        function (oTable) {
+                            if(oTable.bindRows){
+                                oTable.getBinding("rows").filter(new Filter({
+                                    filters: aFilters,
+                                    and: true
+                                }));
+                            }
+                            if(oTable.bindItems){
+                                oTable.getBinding("items").filter(new Filter({
+                                    filters: aFilters,
+                                    and: true
+                                }));
+                            }
+                            oValueHelpData.getProperty('/_oVHDialog/VHPaymentTerms').update();
+                        }.bind(this)
+                    );
+                    break;
+                case 'afterClose':
+                    break;
             }
         },
         onActionVHBankAccount : function(oEvent){
@@ -1560,6 +1644,7 @@ sap.ui.define([
                         axios.post('/sap/opu/odata4/sap/zfi_c_other_receipt_ui_v4/srvd/sap/zfi_c_other_receipt_ui/0001/ZFI_C_DOC_APPROVAL/com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.Posting', 
                                 {
                                 'AccountingDocument' : '',
+                                'RequestType' : 'E2',
                                 'CompanyCode': oBaseDataData.Parameters.CompanyCode,
                                 'FiscalYear': oBaseDataData.Parameters.FiscalYear,
                                 'PostingDate': oBaseDataData.Parameters.PostingDate,
