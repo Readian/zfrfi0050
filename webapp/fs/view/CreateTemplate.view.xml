@@ -324,6 +324,7 @@
                                                                     width="15rem"
                                                                     value="{BaseData>/Parameters/PaymentTerms}"
                                                                     valueState="{BaseData>/Parameters/PaymentTermsState}"
+                                                                    valueHelpRequest=".onOpenVHPaymentTerms"
                                                                 />
                                                             </items>
                                                         </HBox>

@@ -24,7 +24,8 @@ sap.ui.define([
                     VHTBGLAccount : undefined,
                     VHTBCurrency : undefined,
                     VHTBTaxCode : undefined,
-                    VHBankAccount : undefined
+                    VHBankAccount : undefined,
+                    VHPaymentTerms: undefined
                 },
                 v4SelectInput : undefined
             },

@@ -836,6 +836,71 @@ sap.ui.define([
             }
         },
 
+        onOpenVHPaymentTerms: function(oEvent){
+            let oBaseData = this.getView().getModel('BaseData');
+            let oValueHelpData = this.getView().getModel('ValueHelpData');
+            let oBaseDataData = oBaseData.getData();
+
+            if(!oValueHelpData.getProperty('/_oVHDialog/VHPaymentTerms'))
+            {
+                this.loadFragment({
+                    name: "fi.zfrfi0050.fs.view.f4.F4BankAccount"
+                }).then(function(oDialog){
+                    oValueHelpData.setProperty('/_oVHDialog/VHPaymentTerms', oDialog);
+                    this.getView().addDependent(oDialog);
+                    let oFilterBar = oDialog.getFilterBar();
+                    let oBasicSearchField = new SearchField();
+                    oFilterBar.setFilterBarExpanded(false);
+                    oFilterBar.setBasicSearch(oBasicSearchField);
+                    oBasicSearchField.attachSearch(function () {
+                        oFilterBar.search();
+                    });
+                    oDialog.getTableAsync().then(
+                        function (oTable) {
+                            oTable.setModel(this.getView().getModel());
+                            oTable.setThreshold(500);
+                            if (oTable.bindRows) {
+                                oTable.bindAggregation("rows", {
+                                    path: "/ZFI_V_PAYMENT_TERMS",
+                                    events: {
+                                        dataReceived: function () {
+                                            oDialog.update();
+                                        },
+                                    },
+                                });
+                                oTable.addColumn(
+                                    new UIColumn({
+                                        label: new Label({ text: "PaymentTerms" }),
+                                        template: new Text({ text: "{PaymentTerms}" }),
+                                    })
+                                );
+                                oTable.addColumn(
+                                    new UIColumn({
+                                        label: new Label({ text: "PaymentTermsDescription" }),
+                                        template: new Text({ text: "{PaymentTermsDescription}" }),
+                                    })
+                                );
+                                oTable.addColumn(
+                                    new UIColumn({
+                                        label: new Label({ text: "CashDiscount1Days" }),
+                                        template: new Text({ text: "{CashDiscount1Days}" }),
+                                    })
+                                );
+                            }
+                           
+                            oDialog.update();
+                        }.bind(this)
+                    );
+                    oDialog.open();
+
+
+                }.bind(this));
+            }
+            else
+            {
+                oValueHelpData.getProperty('/_oVHDialog/VHPaymentTerms').open(); 
+            }
+        },
         onActionVHBankAccount : function(oEvent){
             let oBaseData = this.getView().getModel('BaseData');
             let oValueHelpData = this.getView().getModel('ValueHelpData');
