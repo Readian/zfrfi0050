@@ -62,7 +62,7 @@ sap.ui.define([
                 //15a76f81-e23a-1ede-99df-d3d7b1feabb2
                 Parameters : {
                     AccountingDocument : '미생성',
-                    CompanyCode: '1000',
+                    CompanyCode: '4310',
                     FiscalYear: '',
                     PostingDate: '',
                     Amount: 0,
@@ -90,7 +90,8 @@ sap.ui.define([
                 }
             },
             ViewData :{
-                _View : undefined
+                _View : undefined,
+                ListView : undefined
             },
             createBaseDataModel : function(){
                 let oModel = new JSONModel(this.Data);

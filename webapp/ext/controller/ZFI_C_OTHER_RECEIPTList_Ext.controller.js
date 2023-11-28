@@ -16,6 +16,7 @@ sap.ui.define([
 				this.getView().setModel(Model.createBaseDataModel(), 'BaseData');
 				this.getView().setModel(Model.createViewDataModel(), 'ViewData');
 				this.base.getAppComponent().getRouter().getRoute('CreateTemplate').attachPatternMatched(this.onObjectMatched, this);
+                this.getView().getModel('ViewData').setProperty('/ListView', this.getView());
 			},
 
 			onAfterRendering: function () {
@@ -54,7 +55,7 @@ sap.ui.define([
                 //15a76f81-e23a-1ede-99df-d3d7b1feabb2
                 Parameters : {
                     AccountingDocument : '미생성',
-                    CompanyCode: '1000',
+                    CompanyCode: this.base.getExtensionAPI().byId('fi.zfrfi0050::ZFI_C_OTHER_RECEIPTList--fe::FilterBar::ZFI_C_OTHER_RECEIPT::FilterField::CompanyCode-inner').getValue().match(/\((\d+)\)/)[1],
                     FiscalYear: '',
                     PostingDate: '',
                     Amount: 0,

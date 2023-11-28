@@ -34,7 +34,9 @@
                             <Title text="snapped title입니다." />
                         </FlexBox>
                     </uxap:snappedHeading>
-                    <uxap:expandedContent />
+                    <uxap:expandedContent >
+                        <Text text="{BaseData>/Parameters/CompanyCode}"></Text>
+                    </uxap:expandedContent>
                     <uxap:actions>
                         <Button
                             text="결재상신"
