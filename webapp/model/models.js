@@ -31,6 +31,7 @@ sap.ui.define([
             },
             
             Data : {
+                View : undefined,
                 DebitCreditCode: [
                     { key: 'S', text: '차변' },
                     { key: 'H', text: '대변' }
@@ -88,12 +89,29 @@ sap.ui.define([
                     CashDiscount1Days : 0
                 }
             },
+            ViewData :{
+                _View : undefined
+            },
             createBaseDataModel : function(){
                 let oModel = new JSONModel(this.Data);
+                let oDate = new Date();
+                let oMonth = oDate.getMonth() + 1;
+                let oYear = oDate.getFullYear();
+                let oDay = oDate.getDate();
+                if(oDay < 10) {
+                    oDay = "0"+oDay;
+                }
+                let oEnd = oYear+'-'+oMonth+'-'+oDay;
+
+                oModel.setProperty('/Parameters/InputData',oEnd);
                 return oModel;
             },
             createValueHelpDataModel : function(){
                 let oModel = new JSONModel(this.ValueHelpData);
+                return oModel;
+            },
+            createViewDataModel : function(){
+                let oModel = new JSONModel(this.ViewData);
                 return oModel;
             },
             createDeviceModel: function () {

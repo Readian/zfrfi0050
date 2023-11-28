@@ -36,26 +36,30 @@ sap.ui.define([
         onInit: function () {
             this.getView().setModel(Model.createBaseDataModel(), 'BaseData')
             this.getView().setModel(Model.createValueHelpDataModel(), 'ValueHelpData')
+            this.getView().setModel(Model.createViewDataModel(), 'ViewData')
             //      _oVHDialog ,   v4SelectInput
 
-            //초기값
-            let oBaseData = this.getView().getModel('BaseData');
+            // //초기값
+            // let oBaseData = this.getView().getModel('BaseData');
 
-            let oDate = new Date();
-            let oMonth = oDate.getMonth() + 1;
-            let oYear = oDate.getFullYear();
-            let oDay = oDate.getDate();
-            if(oDay < 10) {
-                oDay = "0"+oDay;
-            }
-            let oEnd = oYear+'-'+oMonth+'-'+oDay;
+            // let oDate = new Date();
+            // let oMonth = oDate.getMonth() + 1;
+            // let oYear = oDate.getFullYear();
+            // let oDay = oDate.getDate();
+            // if(oDay < 10) {
+            //     oDay = "0"+oDay;
+            // }
+            // let oEnd = oYear+'-'+oMonth+'-'+oDay;
 
-            oBaseData.setProperty('/Parameters/InputData',oEnd);
+            // oBaseData.setProperty('/Parameters/InputData',oEnd);
 
 
         },
         onAfterRendering : function(){
-            let oBaseData = this.getView().getModel();
+            // let oBaseData = this.getView().getModel('BaseData');
+            // oBaseData.setProperty('/View', this.getView());
+            let oViewData = this.getView().getModel('ViewData');
+            oViewData.setProperty('/_View', this.getView());
             
         },
         onAddBtnPress: function(oEvent) {
