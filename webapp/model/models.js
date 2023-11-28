@@ -32,12 +32,12 @@ sap.ui.define([
             
             Data : {
                 DebitCreditCode: [
-                    { key: 'H', text: '차변' },
-                    { key: 'S', text: '대변' }
+                    { key: 'S', text: '차변' },
+                    { key: 'H', text: '대변' }
                 ],
                 Items: [
                     {
-                       DebitCreditCode : "S" ,
+                       DebitCreditCode : "H" ,
                        DebitCreditCodeEnable : false,
                        GLAccount : "",
                        GLAccountEnable : false,

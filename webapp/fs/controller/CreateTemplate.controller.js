@@ -64,7 +64,7 @@ sap.ui.define([
             let oBaseDataData = oBaseData.getData();
 
             oBaseDataData.Items.push({
-                DebitCreditCode : 'H',
+                DebitCreditCode : 'S',
                 Costcenter : '',
                 GLAccount : '',
                 GLAccountName : '',
@@ -1476,10 +1476,10 @@ sap.ui.define([
             for(let i = 0; i < oBaseDataData.Items.length; i++)
             {
                 //D 차변 (Debit), C 대변 (Credit)
-                if(oBaseDataData.Items[i].DebitCreditCode == 'H'){
+                if(oBaseDataData.Items[i].DebitCreditCode == 'S'){
                     DebitSum += oBaseDataData.Items[i].Amount;
                 }
-                else if(oBaseDataData.Items[i].DebitCreditCode == 'S')
+                else if(oBaseDataData.Items[i].DebitCreditCode == 'H')
                 {
                     CreditSum += oBaseDataData.Items[i].Amount;
                 }
@@ -1680,12 +1680,12 @@ sap.ui.define([
 
                         //Item정리
                         _.forEach(oBaseDataData.Parameters._Item, function (Items) {
-                            if(Items.DebitCreditCode == 'H')
+                            if(Items.DebitCreditCode == 'S')
                             {
                                 Items.AmountDebit = Items.Amount
                                 Items.AmountCredit = 0
                             }
-                            else if(Items.DebitCreditCode == 'S')
+                            else if(Items.DebitCreditCode == 'H')
                             {
                                 Items.AmountCredit = Items.Amount
                                 Items.AmountDebit = 0

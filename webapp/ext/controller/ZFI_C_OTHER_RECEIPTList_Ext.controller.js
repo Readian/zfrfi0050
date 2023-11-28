@@ -12,13 +12,20 @@ sap.ui.define([
 			onInit: function () {
 				this.extAPI = this.base.getExtensionAPI();
 				this.getView().setModel(Model.createBaseDataModel(), 'BaseData');
-				
+				this.base.getAppComponent().getRouter().getRoute('ZFI_C_OTHER_RECEIPTList').attachPatternMatched(this.onObjectMatched, this);
 			},
 
 			onAfterRendering: function () {
 				// this.extAPI.i18n = this.base.getModel('i18n').getResourceBundle();
 			}
 		},
+		onObjectMatched(oEvent){
+			let a = console.log('asdf');
+			this.getView().bindElement({
+				path: '/BaseData',
+				model: 'BaseData'
+			})
+		}
 
 	});
 });
