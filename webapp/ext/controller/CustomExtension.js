@@ -30,6 +30,7 @@ sap.ui.define([
                         ///sap/opu/odata4/sap/zfi_c_other_receipt_ui_v4/srvd/sap/zfi_c_other_receipt_ui/0001/ZFI_C_DOC_APPROVAL/com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.Posting
                         axios.post('/sap/opu/odata4/sap/zfi_c_other_receipt_ui_v4/srvd/sap/zfi_c_other_receipt_ui/0001/ZFI_C_DOC_APPROVAL/com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.CancelReq', 
                             {
+                                'KeyRequest' : oSelectedItem[0].getBindingContext().getObject().KeyRequest
                           },{
                             headers : headers
                           })
