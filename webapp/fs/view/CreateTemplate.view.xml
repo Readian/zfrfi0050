@@ -35,7 +35,6 @@
                         </FlexBox>
                     </uxap:snappedHeading>
                     <uxap:expandedContent >
-                        <Text text="{BaseData>/Parameters/CompanyCode}"></Text>
                     </uxap:expandedContent>
                     <uxap:actions>
                         <Button
@@ -136,6 +135,22 @@
                                                     direction="Column"
                                                 >
                                                     <items>
+                                                    <HBox
+                                                            width="100%"
+                                                            alignItems="Center"
+                                                            class=""
+                                                        >
+                                                            <items>
+                                                                <Label
+                                                                    text="회사코드 : "
+                                                                    width="8rem"
+                                                                />
+                                                                <Text
+                                                                    width="15rem"
+                                                                    text="{BaseData>/Parameters/CompanyCode}"
+                                                                />
+                                                            </items>
+                                                        </HBox>
                                                         <HBox
                                                             width="100%"
                                                             alignItems="Center"
@@ -469,7 +484,7 @@
                                                             items="{
                                                                 path: 'BaseData>/DebitCreditCode'
                                                             }"
-                                                            enabled="{BaseData>DebitCreditCodeEnable}"
+                                                            enabled="false"
                                                         >
                                                             <core:Item
                                                                 key="{BaseData>key}"

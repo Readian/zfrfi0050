@@ -24,6 +24,14 @@ sap.ui.define([
 			}
 		},
 		onObjectMatched(oEvent){
+            let oDate = new Date();
+            let oMonth = oDate.getMonth() + 1;
+            let oYear = oDate.getFullYear();
+            let oDay = oDate.getDate();
+            if(oDay < 10) {
+                oDay = "0"+oDay;
+            }
+            let oEnd = oYear+'-'+oMonth+'-'+oDay;
 			let Data = {
                 DebitCreditCode: [
                     { key: 'S', text: '차변' },
@@ -76,7 +84,7 @@ sap.ui.define([
                     _Item: [],
                     DebitTotal : 0,
                     CreditTotal : 0,
-                    InputData : '',
+                    InputData : oEnd,
                     BankaccountName: '',
                     Paymentscheduled: '',
                     CashDiscount1Days : 0

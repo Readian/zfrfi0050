@@ -504,8 +504,8 @@ sap.ui.define([
     
                     aFilters.push(new Filter({
                         filters: [
-                            new Filter({ path: "CodeId", operator: FilterOperator.Contains, value1: sSearchQuery.substr(0, 10) }),
-                            new Filter({ path: "CodeName", operator: FilterOperator.Contains, value1: sSearchQuery.substr(0, 20) })
+                            new Filter({ path: "CostCenter", operator: FilterOperator.Contains, value1: sSearchQuery.substr(0, 10) }),
+                            new Filter({ path: "CostCenterName", operator: FilterOperator.Contains, value1: sSearchQuery.substr(0, 20) })
                         ],
                         and: false
                     }));
