@@ -15,6 +15,7 @@ sap.ui.define([
 				this.extAPI = this.base.getExtensionAPI();
 				this.getView().setModel(Model.createBaseDataModel(), 'BaseData');
 				this.getView().setModel(Model.createViewDataModel(), 'ViewData');
+				this.getView().setModel(Model.createValueHelpDataModel(), 'ValueHelpData');
 				this.base.getAppComponent().getRouter().getRoute('CreateTemplate').attachPatternMatched(this.onObjectMatched, this);
                 this.getView().getModel('ViewData').setProperty('/ListView', this.getView());
 				// this.base.getExtensionAPI()._view.byId('fe::table::ZFI_C_OTHER_RECEIPT::LineItem-innerTable').setMode('SingleSelectLeft');
@@ -34,6 +35,22 @@ sap.ui.define([
                 oDay = "0"+oDay;
             }
             let oEnd = oYear+'-'+oMonth+'-'+oDay;
+
+            let ValueHelpData = {
+                _oVHDialog : {
+                    VHCurrency : undefined,
+                    VHSupplier: undefined,
+                    VHTaxcode: undefined,
+                    VHCostCenter : undefined,
+                    VHTBCostCenter : undefined,
+                    VHTBGLAccount : undefined,
+                    VHTBCurrency : undefined,
+                    VHTBTaxCode : undefined,
+                    VHBankAccount : undefined,
+                    VHPaymentTerms: undefined
+                },
+                v4SelectInput : undefined
+            };
 			let Data = {
                 DebitCreditCode: [
                     { key: 'S', text: '차변' },
@@ -93,6 +110,8 @@ sap.ui.define([
                 }
             };
 			let oModel = new JSONModel(Data);
+            let oValueHelpData = new JSONModel(ValueHelpData);
+            this.getView().getModel('ViewData').getProperty('/_View').setModel(oValueHelpData,'ValueHelpData');
             this.getView().getModel('ViewData').getProperty('/_View').setModel(oModel, 'BaseData');
 			// this.getView().getModel('BaseData').setData(Data);
 			

@@ -1746,6 +1746,8 @@ sap.ui.define([
                               })
                               .then(function (response) {
                                 console.log(response);
+
+                                
                                 let oRouter = this.getOwnerComponent().getRouter();
                                 oRouter.navTo('ZFI_C_OTHER_RECEIPTList');
                               }.bind(this))
