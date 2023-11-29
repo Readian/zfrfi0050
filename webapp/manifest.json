@@ -185,6 +185,10 @@
                       "enabled": true,
                       "text": "상신취소"
                     }
+                  },
+                  "tableSettings" : {
+                    "type":"ResponsiveTable",
+                    "selectionMode":"Single"
                   }
                 },
                 "": {

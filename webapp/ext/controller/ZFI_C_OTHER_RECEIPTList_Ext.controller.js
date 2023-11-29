@@ -17,7 +17,7 @@ sap.ui.define([
 				this.getView().setModel(Model.createViewDataModel(), 'ViewData');
 				this.base.getAppComponent().getRouter().getRoute('CreateTemplate').attachPatternMatched(this.onObjectMatched, this);
                 this.getView().getModel('ViewData').setProperty('/ListView', this.getView());
-				this.base.getExtensionAPI()._view.byId('fe::table::ZFI_C_OTHER_RECEIPT::LineItem-innerTable').setMode('SingleSelectLeft');
+				// this.base.getExtensionAPI()._view.byId('fe::table::ZFI_C_OTHER_RECEIPT::LineItem-innerTable').setMode('SingleSelectLeft');
 			
             },
 
