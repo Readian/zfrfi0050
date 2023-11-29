@@ -22,7 +22,6 @@ sap.ui.define([
                 onClose: function(oAction){
                     if(oAction == sap.m.MessageBox.Action.YES)
                     {
-
                         const headers = {
                             'X-Csrf-Token' : this.getModel().getHttpHeaders()['X-CSRF-Token']
                         };
