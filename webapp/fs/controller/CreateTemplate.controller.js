@@ -410,6 +410,18 @@ sap.ui.define([
                     {
                         let token = oEvent.getParameter('tokens')[0].getProperty('key');
                         oBaseData.setProperty('/Parameters/Supplier',token);
+                        oBaseData.setProperty('/Parameters/Bank', '');
+                        oBaseData.setProperty('/Parameters/BankCountry', '');
+                        oBaseData.setProperty('/Parameters/Bankaccount', '');
+                        oBaseData.setProperty('/Parameters/PaymentTerms', '');
+                        if(!oBaseData.getProperty('/Parameters/PostingDate') || oBaseData.getProperty('/Parameters/PostingDate') == ''){
+                            oBaseData.setProperty('/Parameters/Paymentscheduled', '');
+
+                        }else
+                        {
+                            oBaseData.setProperty('/Parameters/Paymentscheduled', oBaseData.getProperty('/Parameters/PostingDate'));
+
+                        }
                     }
                     
                     oValueHelpData.getProperty('/_oVHDialog/VHSupplier').close();
@@ -1460,8 +1472,15 @@ sap.ui.define([
         onChangePostingDate: function(oEvent){
             let oModel = this.getView().getModel();
             let oBaseData = this.getView().getModel('BaseData');
-            oBaseData.setProperty('/Parameters/FiscalYear', oEvent.getParameter('newValue').substr(0,4));
-            this.onCalculationPaymentscheduled();
+            if(!oBaseData.getProperty('/Parameters/PostingDate') || oBaseData.getProperty('/Parameters/PostingDate') == ''){
+                oBaseData.setProperty('/Parameters/Paymentscheduled', '');
+            }
+            else
+            {
+                oBaseData.setProperty('/Parameters/FiscalYear', oEvent.getParameter('newValue').substr(0,4));
+                this.onCalculationPaymentscheduled();
+            }
+            
         },
 
         onChangeAmount: function(oEvent){
