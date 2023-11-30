@@ -434,25 +434,25 @@
                                                 </Toolbar>
                                             </headerToolbar>
                                             <columns>
-                                                <Column width="9rem">
+                                                <Column width="8rem">
                                                     <Text text="차변/대변" />
                                                 </Column>
-                                                <Column width="9rem">
+                                                <Column width="15rem">
                                                     <Text text="비용귀속" />
                                                 </Column>
-                                                <Column width="9rem">
+                                                <Column width="18rem">
                                                     <Text text="귀속부서명" />
                                                 </Column>
-                                                <Column>
+                                                <Column width="15rem">
                                                     <Text text="비용 계정" />
                                                 </Column>
-                                                <Column>
+                                                <Column width="18rem">
                                                     <Text text="비용 계정명" />
                                                 </Column>
-                                                <Column>
+                                                <Column width="17rem">
                                                     <Text text="예산잔액" />
                                                 </Column>
-                                                <Column>
+                                                <Column width="17rem">
                                                     <Text text="금액" />
                                                 </Column>
                                                 <Column>
@@ -463,7 +463,6 @@
                                                 <ColumnListItem vAlign="Middle">
                                                     <cells>
                                                         <Select
-                                                            width="8rem"
                                                             change=".onChangeDebitCreditCode"
                                                             selectedKey="{BaseData>DebitCreditCode}"
                                                             items="{
@@ -478,18 +477,15 @@
                                                         </Select>
 
                                                         <Input 
-                                                            width="15rem"
                                                             enabled="{BaseData>CostcenterEnable}"
                                                             value="{BaseData>Costcenter}"
                                                             showValueHelp="true"
                                                             valueHelpRequest=".onOpenVHTBCostCenter"/>
                                                         <Input 
-                                                        width="18rem"
                                                             value="{BaseData>CostcenterName}"
                                                             editable="false" />
 
                                                         <Input
-                                                            width="15rem"
                                                             value="{BaseData>GLAccount}"
                                                             showValueHelp="true"
                                                             valueHelpRequest=".onOpenVHTBAccount"
@@ -497,12 +493,10 @@
                                                             enabled="{BaseData>GLAccountEnable}"
                                                         />
                                                         <Input
-                                                            width="18rem"
                                                             value="{BaseData>GLAccountName}"
                                                             editable="false"
                                                         />
                                                         <Input
-                                                            width="17rem"
                                                             value="{
                                                                 parts : ['BaseData>Budgetbalance','BaseData>Currency'],
                                                                 type : 'sap.ui.model.type.Currency',
@@ -511,7 +505,6 @@
                                                             editable="false"
                                                         />
                                                         <Input
-                                                            width="17rem"
                                                             change=".onChangeAmount"
                                                             enabled="{BaseData>AmountEnable}"
                                                             value="{
