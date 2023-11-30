@@ -455,7 +455,7 @@
                                                 <Column width="17rem">
                                                     <Text text="금액" />
                                                 </Column>
-                                                <Column>
+                                                <Column width="25rem">
                                                     <Text text="적요" />
                                                 </Column>
                                             </columns>
