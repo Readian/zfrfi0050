@@ -463,6 +463,7 @@
                                                 <ColumnListItem vAlign="Middle">
                                                     <cells>
                                                         <Select
+                                                            width="8rem"
                                                             change=".onChangeDebitCreditCode"
                                                             selectedKey="{BaseData>DebitCreditCode}"
                                                             items="{
@@ -477,15 +478,18 @@
                                                         </Select>
 
                                                         <Input 
+                                                            width="15rem"
                                                             enabled="{BaseData>CostcenterEnable}"
                                                             value="{BaseData>Costcenter}"
                                                             showValueHelp="true"
                                                             valueHelpRequest=".onOpenVHTBCostCenter"/>
                                                         <Input 
+                                                        width="18rem"
                                                             value="{BaseData>CostcenterName}"
                                                             editable="false" />
 
                                                         <Input
+                                                            width="15rem"
                                                             value="{BaseData>GLAccount}"
                                                             showValueHelp="true"
                                                             valueHelpRequest=".onOpenVHTBAccount"
@@ -493,10 +497,12 @@
                                                             enabled="{BaseData>GLAccountEnable}"
                                                         />
                                                         <Input
+                                                            width="18rem"
                                                             value="{BaseData>GLAccountName}"
                                                             editable="false"
                                                         />
                                                         <Input
+                                                            width="17rem"
                                                             value="{
                                                                 parts : ['BaseData>Budgetbalance','BaseData>Currency'],
                                                                 type : 'sap.ui.model.type.Currency',
@@ -505,6 +511,7 @@
                                                             editable="false"
                                                         />
                                                         <Input
+                                                            width="17rem"
                                                             change=".onChangeAmount"
                                                             enabled="{BaseData>AmountEnable}"
                                                             value="{
