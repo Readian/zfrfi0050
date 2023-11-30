@@ -68,6 +68,7 @@ sap.ui.define([
                        Amount : 0,
                        AmountEnable : false,
                        Costcenter : "",
+                       CostcenterEnable: false,
                        AmountTax : 0,
                        DocumentItemText : ""
 

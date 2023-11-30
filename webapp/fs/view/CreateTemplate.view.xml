@@ -187,7 +187,7 @@
                                                                         type: 'sap.ui.model.type.String',
                                                                          formatOptions: {
                                                                         'pattern': 'yyyy-MM-dd'
-                                                                    }
+                                                                        }
                                                                     }"
                                                                     valueState="{BaseData>/Parameters/DocumentDateState}"
                                                                 />
@@ -413,6 +413,7 @@
                                     <HBox>
                                         <Table
                                             id="T_Items"
+                                            fixedLayout="false"
                                             sticky="ColumnHeaders"
                                             items="{
                                                 path : 'BaseData>/Items',
