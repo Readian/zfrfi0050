@@ -182,8 +182,10 @@
                   "tableSettings" : {
                     "condensedTableLayout": true,
                     "enableExport": true,
-                    "type": "GridTable"
-                  }
+                    "type":"GridTable",
+                    "selectionMode":"Single",
+                    "frozenColumnCount": 3
+                    }
                 },
                 "": {
                   "actions": {

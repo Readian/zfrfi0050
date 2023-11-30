@@ -43,9 +43,7 @@
                             type="Emphasized"
                             press=".onBtnPress"
                         />
-                        <Button text="Popup"
-                        type="Emphasized"
-                        press=".onOpenPopup"/>
+                        
                         <h:form name="workflowForm">
                             <h:input type="hidden" name="SystemID" />
                             <h:input type="hidden" name="WorkKind" />
