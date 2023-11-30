@@ -1698,7 +1698,7 @@ sap.ui.define([
             {
                 if(i == 0)
                 {
-                    if(oEvent.getParameter('newValue') >= 0)
+                    if(Number(oEvent.getParameter('newValue').replace(/,/g, "")) >= 0)
                     {
                         oBaseData.setProperty('/Items/0/DebitCreditCode', 'H');
                     }else{
@@ -1706,7 +1706,7 @@ sap.ui.define([
                     }
                 }
                 else{
-                    if(oEvent.getParameter('newValue') >= 0)
+                    if(Number(oEvent.getParameter('newValue').replace(/,/g, "")) >= 0)
                     {
                         oBaseData.setProperty('/Items/'+i+'/DebitCreditCode', 'S');
                     }else{
@@ -1792,6 +1792,10 @@ sap.ui.define([
                                 'Bank': oBaseDataData.Parameters.Bank,
                                 'Bankaccount': oBaseDataData.Parameters.Bankaccount,
                                 'AmountTotal': oBaseDataData.Parameters.AmountTotal,
+                                'TblKey' : '',
+                                'ReqID' : '',
+                                'Title' : '',
+                                'Content' : '',
                                 '_Item': oBaseDataData.Parameters._Item
                               },{
                                 headers : headers
@@ -1799,6 +1803,13 @@ sap.ui.define([
                               })
                               .then(function (response) {
                                 console.log(response);
+                                if(response.data.value){
+                                    //response.data.value[0].Content
+                                    //response.data.value[0].ReqID
+                                    //response.data.value[0].TblKey
+                                    //response.data.value[0].Title
+                                    this.onOpenEDMS(response.data.value);
+                                }
 
                                 
                                 let oRouter = this.getOwnerComponent().getRouter();
@@ -1815,6 +1826,49 @@ sap.ui.define([
 
             
         },
+        onOpenEDMS : function(oResponseData) {
+            //oResponseData
+            //oResponseData[0].Content
+            //oResponseData[0].ReqID
+            //oResponseData[0].TblKey
+            //oResponseData[0].Title
+            if(confirm('기안요청 할까요? 팝업이 보이지 않을경우 브라우져 옵션에서 팝업 허용이 필요합니다.')) {                    
+
+                var vContent = "<table class='total-aprv equal-print' border='0' cellpadding='0' cellspacing='0'>";
+                    vContent += "<tr>";
+                    vContent += "<th>카　　드　　명</th><td><p>신한카드</p></td>";
+                    vContent += "<th>가　맹　점　명</th><td><p>GS25</p></td>";
+                    vContent += "</tr>";
+                    vContent += "<tr>";
+                    vContent += "<th>카　드　번　호</th><td><p>5525762738465910</p></td>";
+                    vContent += "<th>가 맹 점　업 종</th><td><p>편의점</p></td>";
+                    vContent += "</tr>";
+                    vContent += "<tr>";
+                    vContent += "<th>승　인　번　호</th><td><p>38475618</p></td>";
+                    vContent += "<th>금　　　　　액</th><td><p>33,000 KRW</p></td>";
+                    vContent += "</tr>";
+                    vContent += "<tr>";
+                    vContent += "<th>카　드　번　호</th><td><p>2023.11.01</p></td>";
+                    vContent += "<th></th><td><p>&nbsp;</p></td>";
+                    vContent += "</tr>";
+                    vContent += "</table>";
+
+                var oFrm = document.workflowForm;
+                //var oWin = window.open('','popWorkflow','location=no,status=no,toolbar=no,scrollbars=yes,width=' + screen.width + ',height=' + screen.height + ',fullscreen=yes'); //팝업 사이즈 조절 필요
+                var oWin = window.open('','popWorkflow','location=no,status=no,toolbar=no,scrollbars=yes,width=1100,height=' + screen.height); //팝업 사이즈 조절 필요
+                oFrm.SystemID.value = 'erp';
+                oFrm.WorkKind.value = 'APPROVAL-02';    //결재타입 (ABAP 반환 OR 고정)
+                oFrm.TblKey.value = oResponseData[0].TblKey;   //문서번호 : 데이터 고유키 (ABAP에서 반환 됨)
+                oFrm.ReqID.value = oResponseData[0].ReqID;    //사용자 계정 (ABAP에서 반환 됨)
+                oFrm.Title.value = oResponseData[0].Title;      //제목 (ABAP 반환 OR 고정)
+                oFrm.Content.value = oResponseData[0].Content; //HTML 내용 (ABAP에서 반환 됨)
+                oFrm.action = "https://gwdev.sbckcloud.com/Interworking/Interworking.aspx"; //전자결재 URL (개발/운영서버 URL다름 분기처리 필요, ABAP반환 필요할 듯)
+                oFrm.target = "popWorkflow";
+                oFrm.method = "post";
+                oFrm.submit();
+            }
+        },
+        
         onOpenPopup : function(oEvent){
             if(confirm('기안요청 할까요? 팝업이 보이지 않을경우 브라우져 옵션에서 팝업 허용이 필요합니다.')) {                    
 
