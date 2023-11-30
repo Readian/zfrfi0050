@@ -187,7 +187,9 @@
                     }
                   },
                   "tableSettings" : {
-                    "type":"ResponsiveTable",
+                    "condensedTableLayout": true,
+                    "enableExport": true,
+                    "type":"GridTable",
                     "selectionMode":"Single"
                   }
                 },
