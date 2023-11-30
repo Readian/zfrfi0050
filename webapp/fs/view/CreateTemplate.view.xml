@@ -11,6 +11,7 @@
     xmlns:form="sap.ui.layout.form"
     xmlns="sap.m"
     xmlns:mvc="sap.ui.core.mvc"
+    xmlns:h="http://www.w3.org/1999/xhtml"
 >
     <Page
         id="P_Create"
@@ -42,6 +43,17 @@
                             type="Emphasized"
                             press=".onBtnPress"
                         />
+                        <Button text="Popup"
+                        type="Emphasized"
+                        press=".onOpenPopup"/>
+                        <h:form name="workflowForm">
+                            <h:input type="hidden" name="SystemID" />
+                            <h:input type="hidden" name="WorkKind" />
+                            <h:input type="hidden" name="TblKey" />
+                            <h:input type="hidden" name="ReqID" />
+                            <h:input type="hidden" name="Title" />
+                            <h:input type="hidden" name="Content" />
+                        </h:form>
                     </uxap:actions>
                 </uxap:ObjectPageDynamicHeaderTitle>
             </uxap:headerTitle>
@@ -480,6 +492,7 @@
                                                         <Input 
                                                             enabled="{BaseData>CostcenterEnable}"
                                                             value="{BaseData>Costcenter}"
+                                                            valueState="{BaseData>CostcenterState}"
                                                             showValueHelp="true"
                                                             valueHelpRequest=".onOpenVHTBCostCenter"/>
                                                         <Input 

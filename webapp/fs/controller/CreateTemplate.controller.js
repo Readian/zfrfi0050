@@ -1593,14 +1593,14 @@ sap.ui.define([
             else{
                 oBaseData.setProperty('/Parameters/DocumentDateState', 'None');
             }
-            if(!oBaseDataData.Parameters.Costcenter || oBaseDataData.Parameters.Costcenter == '')
-            {
-                isTrue = false;
-                oBaseData.setProperty('/Parameters/CostcenterState', 'Error');
-            }
-            else{
-                oBaseData.setProperty('/Parameters/CostcenterState', 'None');
-            }
+            // if(!oBaseDataData.Parameters.Costcenter || oBaseDataData.Parameters.Costcenter == '')
+            // {
+            //     isTrue = false;
+            //     oBaseData.setProperty('/Parameters/CostcenterState', 'Error');
+            // }
+            // else{
+            //     oBaseData.setProperty('/Parameters/CostcenterState', 'None');
+            // }
             // if(!oBaseDataData.Parameters.Bank || oBaseDataData.Parameters.Bank == '')
             // {
             //     isTrue = false;
@@ -1628,6 +1628,15 @@ sap.ui.define([
                 else 
                 {
                     oBaseData.setProperty('/Items/'+i+'/DebitCreditCodeState', 'None');
+                }
+                if(!oBaseDataData.Items[i].Costcenter || oBaseDataData.Items[i].Costcenter == '')
+                {
+                    isTrue = false;
+                    oBaseData.setProperty('/Items/'+i+'/CostcenterState', 'Error');
+                }
+                else 
+                {
+                    oBaseData.setProperty('/Items/'+i+'/CostcenterState', 'None');
                 }
                 // if(!oBaseDataData.Items[i].Costcenter || oBaseDataData.Items[i].Costcenter == '')
                 // {
@@ -1738,6 +1747,8 @@ sap.ui.define([
                             }
                             delete Items.DebitCreditCodeState
                             delete Items.CostcenterState
+                            delete Items.CostcenterEnable
+                            delete Items.CostcenterName
                             delete Items.GLAccountState
                             delete Items.GLAccountName
                             delete Items.AmountState
@@ -1775,7 +1786,7 @@ sap.ui.define([
                                 'KeyCardPur': oBaseDataData.Parameters.KeyCardPur,
                                 'TaxCode': oBaseDataData.Parameters.TaxCode,
                                 'DocumentDate': oBaseDataData.Parameters.DocumentDate,
-                                'Costcenter': oBaseDataData.Parameters.Costcenter,
+                                'Costcenter': '',
                                 'Supplier': oBaseDataData.Parameters.Supplier,
                                 'BankCountry': oBaseDataData.Parameters.BankCountry,
                                 'Bank': oBaseDataData.Parameters.Bank,
@@ -1803,6 +1814,43 @@ sap.ui.define([
             }
 
             
+        },
+        onOpenPopup : function(oEvent){
+            if(confirm('기안요청 할까요? 팝업이 보이지 않을경우 브라우져 옵션에서 팝업 허용이 필요합니다.')) {                    
+
+                var vContent = "<table class='total-aprv equal-print' border='0' cellpadding='0' cellspacing='0'>";
+                    vContent += "<tr>";
+                    vContent += "<th>카　　드　　명</th><td><p>신한카드</p></td>";
+                    vContent += "<th>가　맹　점　명</th><td><p>GS25</p></td>";
+                    vContent += "</tr>";
+                    vContent += "<tr>";
+                    vContent += "<th>카　드　번　호</th><td><p>5525762738465910</p></td>";
+                    vContent += "<th>가 맹 점　업 종</th><td><p>편의점</p></td>";
+                    vContent += "</tr>";
+                    vContent += "<tr>";
+                    vContent += "<th>승　인　번　호</th><td><p>38475618</p></td>";
+                    vContent += "<th>금　　　　　액</th><td><p>33,000 KRW</p></td>";
+                    vContent += "</tr>";
+                    vContent += "<tr>";
+                    vContent += "<th>카　드　번　호</th><td><p>2023.11.01</p></td>";
+                    vContent += "<th></th><td><p>&nbsp;</p></td>";
+                    vContent += "</tr>";
+                    vContent += "</table>";
+
+                var oFrm = document.workflowForm;
+                //var oWin = window.open('','popWorkflow','location=no,status=no,toolbar=no,scrollbars=yes,width=' + screen.width + ',height=' + screen.height + ',fullscreen=yes'); //팝업 사이즈 조절 필요
+                var oWin = window.open('','popWorkflow','location=no,status=no,toolbar=no,scrollbars=yes,width=1100,height=' + screen.height); //팝업 사이즈 조절 필요
+                oFrm.SystemID.value = 'erp';
+                oFrm.WorkKind.value = 'APPROVAL-02';    //결재타입 (ABAP 반환 OR 고정)
+                oFrm.TblKey.value = 'GUID1234567890-02';   //문서번호 : 데이터 고유키 (ABAP에서 반환 됨)
+                oFrm.ReqID.value = 'user03@usecloud.onmicrosoft.com';    //사용자 계정 (ABAP에서 반환 됨)
+                oFrm.Title.value = '법인카드 사용내역 정보';      //제목 (ABAP 반환 OR 고정)
+                oFrm.Content.value = vContent; //HTML 내용 (ABAP에서 반환 됨)
+                oFrm.action = "https://gwdev.sbckcloud.com/Interworking/Interworking.aspx"; //전자결재 URL (개발/운영서버 URL다름 분기처리 필요, ABAP반환 필요할 듯)
+                oFrm.target = "popWorkflow";
+                oFrm.method = "post";
+                oFrm.submit();
+            }
         }
     });
 });

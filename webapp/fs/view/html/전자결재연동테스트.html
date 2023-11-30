@@ -1,0 +1,84 @@
+<html>
+    <head>
+        <script lang="javascript">
+            function fcCallWorkflow() {
+                if(confirm('기안요청 할까요? 팝업이 보이지 않을경우 브라우져 옵션에서 팝업 허용이 필요합니다.')) {                    
+
+                    var vContent = "<table class='total-aprv equal-print' border='0' cellpadding='0' cellspacing='0'>";
+                        vContent += "<tr>";
+                        vContent += "<th>카　　드　　명</th><td><p>신한카드</p></td>";
+                        vContent += "<th>가　맹　점　명</th><td><p>GS25</p></td>";
+                        vContent += "</tr>";
+                        vContent += "<tr>";
+                        vContent += "<th>카　드　번　호</th><td><p>5525762738465910</p></td>";
+                        vContent += "<th>가 맹 점　업 종</th><td><p>편의점</p></td>";
+                        vContent += "</tr>";
+                        vContent += "<tr>";
+                        vContent += "<th>승　인　번　호</th><td><p>38475618</p></td>";
+                        vContent += "<th>금　　　　　액</th><td><p>33,000 KRW</p></td>";
+                        vContent += "</tr>";
+                        vContent += "<tr>";
+                        vContent += "<th>카　드　번　호</th><td><p>2023.11.01</p></td>";
+                        vContent += "<th></th><td><p>&nbsp;</p></td>";
+                        vContent += "</tr>";
+                        vContent += "</table>";
+
+                    var oFrm = document.workflowForm;
+                    //var oWin = window.open('','popWorkflow','location=no,status=no,toolbar=no,scrollbars=yes,width=' + screen.width + ',height=' + screen.height + ',fullscreen=yes'); //팝업 사이즈 조절 필요
+                    var oWin = window.open('','popWorkflow','location=no,status=no,toolbar=no,scrollbars=yes,width=1100,height=' + screen.height); //팝업 사이즈 조절 필요
+                    oFrm.SystemID.value = 'erp';
+                    oFrm.WorkKind.value = 'APPROVAL-02';    //결재타입 (ABAP 반환 OR 고정)
+                    oFrm.TblKey.value = 'GUID1234567890-02';   //문서번호 : 데이터 고유키 (ABAP에서 반환 됨)
+                    oFrm.ReqID.value = 'user03@usecloud.onmicrosoft.com';    //사용자 계정 (ABAP에서 반환 됨)
+                    oFrm.Title.value = '법인카드 사용내역 정보';      //제목 (ABAP 반환 OR 고정)
+                    oFrm.Content.value = vContent; //HTML 내용 (ABAP에서 반환 됨)
+                    oFrm.action = "https://gwdev.sbckcloud.com/Interworking/Interworking.aspx"; //전자결재 URL (개발/운영서버 URL다름 분기처리 필요, ABAP반환 필요할 듯)
+                    oFrm.target = "popWorkflow";
+                    oFrm.method = "post";
+                    oFrm.submit();
+                }
+            }
+        </script>
+    </head>
+    <body>
+        <!--전자결재 전송용 html 삽입 필요 (sap.ui.core.HTML)-->
+        <form name="workflowForm">
+            <input type="hidden" name="SystemID" />
+            <input type="hidden" name="WorkKind" />
+            <input type="hidden" name="TblKey" />
+            <input type="hidden" name="ReqID" />
+            <input type="hidden" name="Title" />
+            <input type="hidden" name="Content" />
+        </form>
+        <input type="button" value="전자결재 기안요청" onClick="fcCallWorkflow()" />
+        <br />
+        <br />
+        <br />
+        <!-- 내용예시 -->
+        <table class='total-aprv equal-print' border='0' cellpadding='0' cellspacing='0'>
+            <!--<colgroup><col width='15%' /><col width='35%' /><col width='15%' /><col width='35%' /></colgroup>-->
+            <tr>
+                <th>카　　드　　명</th><td><p>신한카드</p></td>
+                <th>가　맹　점　명</th><td><p>GS25</p></td>
+            </tr>
+            <tr>
+                <th>카　드　번　호</th><td><p>5525762738465910</p></td>
+                <th>가 맹 점　업 종</th><td><p>편의점</p></td>
+            </tr>
+            <tr>
+                <th>승　인　번　호</th><td><p>38475618</p></td>
+                <th>금　　　　　액</th><td><p>33,000 KRW</p></td>
+            </tr>
+            <tr>
+                <th>카　드　번　호</th><td><p>2023.11.01</p></td>
+                <th></th><td><p>&nbsp;</p></td>
+            </tr>
+            <!--
+            <tr>
+                <th>적　　　　　요</th>
+                <td colspan='3'><textarea rows='5' style='width:100%'></textarea></td>
+            </tr>
+            -->
+        </table>
+    </body>
+</html>
