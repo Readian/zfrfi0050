@@ -68,8 +68,9 @@ sap.ui.define([
             let oBaseDataData = oBaseData.getData();
 
             oBaseDataData.Items.push({
-                DebitCreditCode : 'S',
+                DebitCreditCode : oBaseData.getProperty('/Items/0/DebitCreditCode') == 'S' ? 'H' : 'S',
                 Costcenter : '',
+                CostcenterName : '',
                 GLAccount : '',
                 GLAccountName : '',
                 Budgetbalance: 0,
@@ -264,6 +265,7 @@ sap.ui.define([
                 oValueHelpData.getProperty('/_oVHDialog/VHTaxcode').open();
             }
         },
+        
         onOpenVHCostCenter : function(oEvent){
             let oBaseData = this.getView().getModel('BaseData');
             let oValueHelpData = this.getView().getModel('ValueHelpData');
@@ -549,64 +551,60 @@ sap.ui.define([
             let oValueHelpData = this.getView().getModel('ValueHelpData');
             oValueHelpData.setProperty('/v4SelectInput', oEvent.getSource());
             
-            if(!oValueHelpData.getProperty('/_oVHDialog/VHTBCostCenter'))
-            {
-                this.loadFragment({
-                    name: "fi.zfrfi0050.fs.view.f4.F4TBCostCenter"
-                }).then(function(oDialog){
-                    oValueHelpData.setProperty('/_oVHDialog/VHTBCostCenter', oDialog);
-                    this.getView().addDependent(oDialog);
-                    let oFilterBar = oDialog.getFilterBar();
-                    let oBasicSearchField = new SearchField();
-                    oFilterBar.setFilterBarExpanded(false);
-                    oFilterBar.setBasicSearch(oBasicSearchField);
-                    oBasicSearchField.attachSearch(function () {
-                        oFilterBar.search();
-                    });
-                    oDialog.getTableAsync().then(
-                        function (oTable) {
-                            oTable.setModel(this.getView().getModel());
-                            oTable.setThreshold(500);
-                            if (oTable.bindRows) {
-                                oTable.bindAggregation("rows", {
-                                    path: "/ZFI_V_COSTCENTER",
-                                    events: {
-                                        dataReceived: function () {
-                                            oDialog.update();
-                                        },
+            
+            this.loadFragment({
+                name: "fi.zfrfi0050.fs.view.f4.F4TBCostCenter"
+            }).then(function(oDialog){
+                oValueHelpData.setProperty('/_oVHDialog/VHTBCostCenter', oDialog);
+                this.getView().addDependent(oDialog);
+                let oFilterBar = oDialog.getFilterBar();
+                let oBasicSearchField = new SearchField();
+                oFilterBar.setFilterBarExpanded(false);
+                oFilterBar.setBasicSearch(oBasicSearchField);
+                oBasicSearchField.attachSearch(function () {
+                    oFilterBar.search();
+                });
+                oDialog.getTableAsync().then(
+                    function (oTable) {
+                        oTable.setModel(this.getView().getModel());
+                        oTable.setThreshold(500);
+                        if (oTable.bindRows) {
+                            oTable.bindAggregation("rows", {
+                                path: "/ZFI_V_COSTCENTER",
+                                events: {
+                                    dataReceived: function () {
+                                        oDialog.update();
                                     },
-                                });
-                                oTable.addColumn(
-                                    new UIColumn({
-                                        label: new Label({ text: "비용귀속" }),
-                                        template: new Text({ text: "{CostCenter}" }),
-                                    })
-                                );
-                                oTable.addColumn(
-                                    new UIColumn({
-                                        label: new Label({ text: "비용귀속명" }),
-                                        template: new Text({ text: "{CostCenterName}" }),
-                                    })
-                                );
-                            }
-                            oDialog.update();
-                        }.bind(this)
-                    );
-                    oDialog.open();
+                                },
+                            });
+                            oTable.addColumn(
+                                new UIColumn({
+                                    label: new Label({ text: "비용귀속" }),
+                                    template: new Text({ text: "{CostCenter}" }),
+                                })
+                            );
+                            oTable.addColumn(
+                                new UIColumn({
+                                    label: new Label({ text: "비용귀속명" }),
+                                    template: new Text({ text: "{CostCenterName}" }),
+                                })
+                            );
+                        }
+                        oDialog.update();
+                    }.bind(this)
+                );
+                oDialog.open();
 
 
-                }.bind(this));
-            }else{
-                oValueHelpData.getProperty('/_oVHDialog/VHTBCostCenter').open();
-            }
+            }.bind(this));
+            
         },
         onOpenVHTBAccount: function(oEvent){
             let oBaseData = this.getView().getModel('BaseData');
             let oValueHelpData = this.getView().getModel('ValueHelpData');
             oValueHelpData.setProperty('/v4SelectInput', oEvent.getSource());
             
-            if(!oValueHelpData.getProperty('/_oVHDialog/VHTBGLAccount'))
-            {
+            
                 this.loadFragment({
                     name: "fi.zfrfi0050.fs.view.f4.F4Account"
                 }).then(function(oDialog){
@@ -652,9 +650,7 @@ sap.ui.define([
 
 
                 }.bind(this));
-            }else{
-                oValueHelpData.getProperty('/_oVHDialog/VHTBGLAccount').open();
-            }
+            
         },
 
         onOpenVHTBCurrency: function(oEvent){
@@ -1201,6 +1197,7 @@ sap.ui.define([
                     break;
             }
         },
+        
         onActionVHTBCostCenter : function(oEvent){
             let oBaseData = this.getView().getModel('BaseData');
             let oValueHelpData = this.getView().getModel('ValueHelpData');
@@ -1211,11 +1208,13 @@ sap.ui.define([
 
                     break;
                 case 'ok':
-
+                    let oTable = oEvent.oSource.getTable();
                     let oSelected = oEvent.getParameter('tokens')[0].getProperty('key');
                     let sPath = oValueHelpData.getProperty('/v4SelectInput' ).getParent().getBindingContextPath();
+                    let oCostCenterName = oTable.getContextByIndex(oTable.getSelectedIndex()).getObject();
 
                     oBaseData.setProperty(sPath+ '/Costcenter', oSelected);
+                    oBaseData.setProperty(sPath+ '/CostcenterName', oCostCenterName.CostCenterName);
                     oValueHelpData.getProperty('/_oVHDialog/VHTBCostCenter').close();
 
                     break;
@@ -1263,6 +1262,8 @@ sap.ui.define([
                     );
                     break;
                 case 'afterClose':
+                    oValueHelpData.getProperty('/_oVHDialog/VHTBCostCenter').destroy();
+
                     break;
             }
         },
@@ -1330,6 +1331,8 @@ sap.ui.define([
                     );
                     break;
                 case 'afterClose':
+                    oValueHelpData.getProperty('/_oVHDialog/VHTBGLAccount').destroy();
+
                     break;
             }
         },
@@ -1681,7 +1684,27 @@ sap.ui.define([
         onChangeHeaderAmount : function(oEvent){
             let oBaseData = this.getView().getModel('BaseData');
             let oBaseDataData = oBaseData.getData();
-            oBaseData.setProperty('/Items/0/Amount', oBaseDataData.Parameters.Amount);
+            oBaseData.setProperty('/Items/0/Amount', Math.abs(Number(oBaseDataData.Parameters.Amount)));
+            for(let i = 0; i < oBaseDataData.Items.length; i++)
+            {
+                if(i == 0)
+                {
+                    if(oEvent.getParameter('newValue') >= 0)
+                    {
+                        oBaseData.setProperty('/Items/0/DebitCreditCode', 'H');
+                    }else{
+                        oBaseData.setProperty('/Items/0/DebitCreditCode', 'S');
+                    }
+                }
+                else{
+                    if(oEvent.getParameter('newValue') >= 0)
+                    {
+                        oBaseData.setProperty('/Items/'+i+'/DebitCreditCode', 'S');
+                    }else{
+                        oBaseData.setProperty('/Items/'+i+'/DebitCreditCode', 'H');
+                    }
+                }
+            }
             this.onCalculation();
         },
         

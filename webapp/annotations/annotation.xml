@@ -68,16 +68,112 @@
                 </Annotation>
                 <Annotation Term="UI.Facets">
                     <Collection>
+                        <Record Type="UI.ReferenceFacet">
+                            <PropertyValue Property="Label" String="기본정보"/>
+                            <PropertyValue Property="ID" String="_"/>
+                            <PropertyValue Property="Target" AnnotationPath="@UI.FieldGroup#BasicInfo"/>
+                        </Record>
                     </Collection>
                 </Annotation>
-                <Annotation Term="UI.FieldGroup" Qualifier="_">
+                <Annotation Term="UI.FieldGroup" Qualifier="BasicInfo">
                     <Record Type="UI.FieldGroupType">
                         <PropertyValue Property="Data">
-                            <Collection/>
+                            <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="StatusText"/>
+                            <PropertyValue Property="Label" String="진행상태"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="AccountingDocument"/>
+                            <PropertyValue Property="Label" String="전표번호"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="PostingDate"/>
+                            <PropertyValue Property="Label" String="전기일"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="AmountTotal"/>
+                            <PropertyValue Property="Label" String="금액"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Currency"/>
+                            <PropertyValue Property="Label" String="통화"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Supplier"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="SupplierName"/>
+                            <PropertyValue Property="Label" String="공급업체명"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Costcenter"/>
+                            <PropertyValue Property="Label" String="비용귀속부서"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="CostCenterName"/>
+                            <PropertyValue Property="Label" String="비용귀속부서명"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Taxcode"/>
+                            <PropertyValue Property="Label" String="세금코드"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="TaxCodeText"/>
+                            <PropertyValue Property="Label" String="세금코드명"/>
+                        </Record>
+                    </Collection>
                         </PropertyValue>
                     </Record>
                 </Annotation>
             </Annotations>
+            <Annotation Term="UI.Identification"  >
+                <Collection>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="StatusText"/>
+                            <PropertyValue Property="Label" String="진행상태"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="AccountingDocument"/>
+                            <PropertyValue Property="Label" String="전표번호"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="PostingDate"/>
+                            <PropertyValue Property="Label" String="전기일"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="AmountTotal"/>
+                            <PropertyValue Property="Label" String="금액"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Currency"/>
+                            <PropertyValue Property="Label" String="통화"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Supplier"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="SupplierName"/>
+                            <PropertyValue Property="Label" String="공급업체명"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Costcenter"/>
+                            <PropertyValue Property="Label" String="비용귀속부서"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="CostCenterName"/>
+                            <PropertyValue Property="Label" String="비용귀속부서명"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="Taxcode"/>
+                            <PropertyValue Property="Label" String="세금코드"/>
+                        </Record>
+                        <Record Type="UI.DataField">
+                            <PropertyValue Property="Value" Path="TaxCodeText"/>
+                            <PropertyValue Property="Label" String="세금코드명"/>
+                        </Record>
+                    </Collection>
+            </Annotation >
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/Supplier">
                 <Annotation Term="Common.Label" String="공급업체"/>
             </Annotations>

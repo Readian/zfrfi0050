@@ -248,29 +248,7 @@
                                                     direction="Column"
                                                 >
                                                     <items>
-                                                        <HBox
-                                                            width="100%"
-                                                            alignItems="Center"
-                                                            class=""
-                                                        >
-                                                            <items>
-                                                                <Label
-                                                                    text="비용귀속 : "
-                                                                    width="8rem"
-                                                                />
-                                                                <Input
-                                                                    xmlns:core="sap.ui.core"
-                                                                    showValueHelp="true"
-                                                                    width="15rem"
-                                                                    value="{BaseData>/Parameters/Costcenter}"
-                                                                    valueState="{BaseData>/Parameters/CostcenterState}"
-                                                                    valueHelpRequest=".onOpenVHCostCenter"
-                                                                />
-                                                                <Label class="sapUiSmallMarginBegin"
-                                                                text="{BaseData>/Parameters/CostcenterName}"
-                                                                />
-                                                            </items>
-                                                        </HBox>
+                                                        
                                                         <HBox
                                                             width="100%"
                                                             alignItems="Center"
@@ -459,6 +437,12 @@
                                                 <Column width="9rem">
                                                     <Text text="차변/대변" />
                                                 </Column>
+                                                <Column width="9rem">
+                                                    <Text text="비용귀속" />
+                                                </Column>
+                                                <Column width="9rem">
+                                                    <Text text="귀속부서명" />
+                                                </Column>
                                                 <Column>
                                                     <Text text="비용 계정" />
                                                 </Column>
@@ -491,6 +475,15 @@
                                                                 text="{BaseData>text}"
                                                             />
                                                         </Select>
+
+                                                        <Input 
+                                                            enabled="{BaseData>CostcenterEnable}"
+                                                            value="{BaseData>Costcenter}"
+                                                            showValueHelp="true"
+                                                            valueHelpRequest=".onOpenVHTBCostCenter"/>
+                                                        <Input 
+                                                            value="{BaseData>CostcenterName}"
+                                                            editable="false" />
 
                                                         <Input
                                                             value="{BaseData>GLAccount}"
