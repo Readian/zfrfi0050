@@ -1857,7 +1857,7 @@ sap.ui.define([
                 //var oWin = window.open('','popWorkflow','location=no,status=no,toolbar=no,scrollbars=yes,width=' + screen.width + ',height=' + screen.height + ',fullscreen=yes'); //팝업 사이즈 조절 필요
                 var oWin = window.open('','popWorkflow','location=no,status=no,toolbar=no,scrollbars=yes,width=1100,height=' + screen.height); //팝업 사이즈 조절 필요
                 oFrm.SystemID.value = 'erp';
-                oFrm.WorkKind.value = 'APPROVAL-02';    //결재타입 (ABAP 반환 OR 고정)
+                oFrm.WorkKind.value = 'APPROVAL-03';    //결재타입 (ABAP 반환 OR 고정)
                 oFrm.TblKey.value = oResponseData[0].TblKey;   //문서번호 : 데이터 고유키 (ABAP에서 반환 됨)
                 oFrm.ReqID.value = oResponseData[0].ReqID;    //사용자 계정 (ABAP에서 반환 됨)
                 oFrm.Title.value = oResponseData[0].Title;      //제목 (ABAP 반환 OR 고정)
