@@ -972,6 +972,9 @@ sap.ui.define([
             if(oDay < 10) {
                 oDay = "0"+oDay;
             }
+            if(oMonth < 10) {
+                oMonth = "0"+oMonth;
+            }
             let oEnd = oYear+'-'+oMonth+'-'+oDay;
 
             oBaseData.setProperty('/Parameters/Paymentscheduled', oEnd)

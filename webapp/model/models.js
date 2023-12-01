@@ -103,6 +103,9 @@ sap.ui.define([
                 if(oDay < 10) {
                     oDay = "0"+oDay;
                 }
+                if(oMonth < 10) {
+                    oMonth = "0"+oMonth;
+                }
                 let oEnd = oYear+'-'+oMonth+'-'+oDay;
 
                 oModel.setProperty('/Parameters/InputData',oEnd);
