@@ -23,7 +23,7 @@ sap.ui.define([
             },
 
 			onAfterRendering: function () {
-				// this.extAPI.i18n = this.base.getModel('i18n').getResourceBundle();
+				this.extAPI.i18n = this.base.getModel('i18n').getResourceBundle();
 			}
 		},
 		onObjectMatched(oEvent){
@@ -56,8 +56,8 @@ sap.ui.define([
             };
 			let Data = {
                 DebitCreditCode: [
-                    { key: 'S', text: '차변' },
-                    { key: 'H', text: '대변' }
+                    { key: 'S', text: this.extAPI.i18n.getText("col0010") },
+                    { key: 'H', text: this.extAPI.i18n.getText("col0020") }
                 ],
                 Items: [
                     {
@@ -74,9 +74,6 @@ sap.ui.define([
                        CostcenterEnable: false,
                        AmountTax : 0,
                        DocumentItemText : ""
-
-
-
                     }
                 ],
                 Visible : {
@@ -85,7 +82,7 @@ sap.ui.define([
                 },
                 //15a76f81-e23a-1ede-99df-d3d7b1feabb2
                 Parameters : {
-                    AccountingDocument : '미생성',
+                    AccountingDocument : this.extAPI.i18n.getText("col0030"),
                     CompanyCode: this.base.getExtensionAPI().byId('fi.zfrfi0050::ZFI_C_OTHER_RECEIPTList--fe::FilterBar::ZFI_C_OTHER_RECEIPT::FilterField::CompanyCode-inner').getValue().match(/\((\d+)\)/)[1],
                     FiscalYear: '',
                     PostingDate: '',

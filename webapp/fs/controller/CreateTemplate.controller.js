@@ -32,11 +32,11 @@ sap.ui.define([
 
     return Controller.extend("fi.zfrfi0050.fs.controller.CreateTemplate", {
         //View Controller ID
-      
+              
         onInit: function () {
-            this.getView().setModel(Model.createBaseDataModel(), 'BaseData')
-            this.getView().setModel(Model.createValueHelpDataModel(), 'ValueHelpData')
-            this.getView().setModel(Model.createViewDataModel(), 'ViewData')
+            this.getView().setModel(Model.createBaseDataModel(), 'BaseData');
+            this.getView().setModel(Model.createValueHelpDataModel(), 'ValueHelpData');
+            this.getView().setModel(Model.createViewDataModel(), 'ViewData');
             //      _oVHDialog ,   v4SelectInput
 
             // //초기값
@@ -52,16 +52,17 @@ sap.ui.define([
             // let oEnd = oYear+'-'+oMonth+'-'+oDay;
 
             // oBaseData.setProperty('/Parameters/InputData',oEnd);
-
-
         },
+
         onAfterRendering : function(){
             // let oBaseData = this.getView().getModel('BaseData');
             // oBaseData.setProperty('/View', this.getView());
             let oViewData = this.getView().getModel('ViewData');
             oViewData.setProperty('/_View', this.getView());
-            
+
+            Model.I18n = this.getView().getModel('i18n');
         },
+
         onAddBtnPress: function(oEvent) {
             //Table Add 버튼
             let oBaseData = this.getView().getModel('BaseData');
@@ -83,9 +84,10 @@ sap.ui.define([
             oBaseData.setProperty('/Items', oBaseDataData.Items);
 
         },
+
         onRemoveBtnPress : function(oEvent){
             //Table Remove 버튼
-            MessageBox.confirm('정말로 삭제하시겠습니까?', {
+            MessageBox.confirm(Model.I18n.getProperty('Info0010'), {
                 actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
                 onClose: function (oAction) {
                   let BaseData = this.getView().getModel("BaseData");
@@ -103,6 +105,7 @@ sap.ui.define([
                 }.bind(this)
               });
         },
+
         onOpenCurrency : function(oEvent){
             let oBaseData = this.getView().getModel('BaseData');
             let oValueHelpData = this.getView().getModel('ValueHelpData');
@@ -150,13 +153,12 @@ sap.ui.define([
                         }.bind(this)
                     );
                     oDialog.open();
-
-
                 }.bind(this));
             }else{
                 oValueHelpData.getProperty('/_oVHDialog/VHCurrency').open();
             }
         },
+
         onOpenSupplier : function(oEvent){
             let oBaseData = this.getView().getModel('BaseData');
             let oValueHelpData = this.getView().getModel('ValueHelpData');
@@ -211,6 +213,7 @@ sap.ui.define([
                 oValueHelpData.getProperty('/_oVHDialog/VHSupplier').open();
             }
         },
+
         onOpenVHTaxcode: function(oEvent){
             let oBaseData = this.getView().getModel('BaseData');
             let oValueHelpData = this.getView().getModel('ValueHelpData');
@@ -258,7 +261,6 @@ sap.ui.define([
                         }.bind(this)
                     );
                     oDialog.open();
-
 
                 }.bind(this));
             }else{
@@ -329,6 +331,7 @@ sap.ui.define([
                 oBaseData.setProperty('/Items/'+i+'/Currency', oBaseDataData.Parameters.Currency);
             }
         },
+
         onActionVHCurrency: function(oEvent){
             let oBaseData = this.getView().getModel('BaseData');
             let oValueHelpData = this.getView().getModel('ValueHelpData');
@@ -336,8 +339,8 @@ sap.ui.define([
             switch(oEvent.sId){
                 case 'cancel':
                     oValueHelpData.getProperty('/_oVHDialog/VHCurrency').close();
-
                     break;
+
                 case 'ok':
                     if(oEvent.getParameter('tokens')[0] !== undefined)
                     {
@@ -346,9 +349,9 @@ sap.ui.define([
                         this.onChangeAllCurrency();
                     }
                     
-                    oValueHelpData.getProperty('/_oVHDialog/VHCurrency').close();
-                    
+                    oValueHelpData.getProperty('/_oVHDialog/VHCurrency').close();                    
                     break;
+
                 case 'search' :
                     let oFilterBar = oValueHelpData.getProperty('/_oVHDialog/VHCurrency').getFilterBar();
                     let sSearchQuery = oFilterBar.getBasicSearchValue();
@@ -392,6 +395,7 @@ sap.ui.define([
                         }.bind(this)
                     );
                     break;
+
                 case 'afterClose':
                     break;
             }
@@ -405,8 +409,8 @@ sap.ui.define([
             switch(oEvent.sId){
                 case 'cancel':
                     oValueHelpData.getProperty('/_oVHDialog/VHSupplier').close();
-
                     break;
+
                 case 'ok':
                     if(oEvent.getParameter('tokens')[0] !== undefined)
                     {
@@ -426,9 +430,9 @@ sap.ui.define([
                         }
                     }
                     
-                    oValueHelpData.getProperty('/_oVHDialog/VHSupplier').close();
-                    
+                    oValueHelpData.getProperty('/_oVHDialog/VHSupplier').close();                    
                     break;
+
                 case 'search' :
                     let oFilterBar = oValueHelpData.getProperty('/_oVHDialog/VHSupplier').getFilterBar();
                     let sSearchQuery = oFilterBar.getBasicSearchValue();
@@ -472,6 +476,7 @@ sap.ui.define([
                         }.bind(this)
                     );
                     break;
+                    
                 case 'afterClose':
                     break;
             }
@@ -483,8 +488,8 @@ sap.ui.define([
             switch(oEvent.sId){
                 case 'cancel':
                     oValueHelpData.getProperty('/_oVHDialog/VHCostCenter').close();
-
                     break;
+
                 case 'ok':
                     if(oEvent.getParameter('tokens')[0] !== undefined){
                         let oTable = oEvent.oSource.getTable();
@@ -493,12 +498,11 @@ sap.ui.define([
                         let CostCenterName = oTable.getContextByIndex(oTable.getSelectedIndex()).getObject();
                         oBaseData.setProperty('/Parameters/CostcenterName',CostCenterName.CostCenterName);
     
-                    }
-                    
+                    }                
 
-                    oValueHelpData.getProperty('/_oVHDialog/VHCostCenter').close();
-                    
+                    oValueHelpData.getProperty('/_oVHDialog/VHCostCenter').close();                    
                     break;
+
                 case 'search' :
                     let oFilterBar = oValueHelpData.getProperty('/_oVHDialog/VHCostCenter').getFilterBar();
                     let sSearchQuery = oFilterBar.getBasicSearchValue();
@@ -542,10 +546,12 @@ sap.ui.define([
                         }.bind(this)
                     );
                     break;
+
                 case 'afterClose':
                     break;
             }
         },
+
         onOpenVHTBCostCenter: function(oEvent){
             let oBaseData = this.getView().getModel('BaseData');
             let oValueHelpData = this.getView().getModel('ValueHelpData');
@@ -596,9 +602,9 @@ sap.ui.define([
                 oDialog.open();
 
 
-            }.bind(this));
-            
+            }.bind(this));            
         },
+
         onOpenVHTBAccount: function(oEvent){
             let oBaseData = this.getView().getModel('BaseData');
             let oValueHelpData = this.getView().getModel('ValueHelpData');
@@ -775,7 +781,7 @@ sap.ui.define([
             if(!oBaseDataData.Parameters.Supplier && oBaseDataData.Parameters.Supplier == '')
             {
                 oBaseData.setProperty('/Parameters/SupplierState', 'Error');
-                MessageBox.alert("공급 업체를 입력하세요!");
+                MessageBox.error("공급 업체를 입력하세요!");
             }
             else
             {
@@ -871,7 +877,7 @@ sap.ui.define([
                 isTrue = false;
                 oBaseData.setProperty('/Parameters/SupplierState', 'Error');
             }
-            if(isTrue){
+            if(isTrue) {
                 oBaseData.setProperty('/Parameters/SupplierState', 'None');
                 oBaseData.setProperty('/Parameters/PostingDateState', 'None');
                 if(!oValueHelpData.getProperty('/_oVHDialog/VHPaymentTerms'))
@@ -957,9 +963,7 @@ sap.ui.define([
                     }));
                     oValueHelpData.getProperty('/_oVHDialog/VHPaymentTerms').open(); 
                 }
-            }
-
-            
+            }            
         },
 
         onCalculationPaymentscheduled : function(){
@@ -977,8 +981,7 @@ sap.ui.define([
             }
             let oEnd = oYear+'-'+oMonth+'-'+oDay;
 
-            oBaseData.setProperty('/Parameters/Paymentscheduled', oEnd)
-
+            oBaseData.setProperty('/Parameters/Paymentscheduled', oEnd);
         },
         onActionVHPaymentTerms : function(oEvent){
             let oBaseData = this.getView().getModel('BaseData');
@@ -987,8 +990,8 @@ sap.ui.define([
             switch(oEvent.sId){
                 case 'cancel':
                     oValueHelpData.getProperty('/_oVHDialog/VHPaymentTerms').close();
-
                     break;
+
                 case 'ok':
                     if(oEvent.getParameter('tokens')[0] !== undefined)
                     {
@@ -1000,9 +1003,9 @@ sap.ui.define([
                     }
 
                     this.onCalculationPaymentscheduled();
-                    oValueHelpData.getProperty('/_oVHDialog/VHPaymentTerms').close();
-                    
+                    oValueHelpData.getProperty('/_oVHDialog/VHPaymentTerms').close();                    
                     break;
+
                 case 'search' :
                     let oFilterBar = oValueHelpData.getProperty('/_oVHDialog/VHPaymentTerms').getFilterBar();
                     let sSearchQuery = oFilterBar.getBasicSearchValue();
@@ -1046,6 +1049,7 @@ sap.ui.define([
                         }.bind(this)
                     );
                     break;
+
                 case 'afterClose':
                     break;
             }
@@ -1057,8 +1061,8 @@ sap.ui.define([
             switch(oEvent.sId){
                 case 'cancel':
                     oValueHelpData.getProperty('/_oVHDialog/VHBankAccount').close();
-
                     break;
+
                 case 'ok':
                     if(oEvent.getParameter('tokens')[0] !== undefined)
                     {
@@ -1071,9 +1075,9 @@ sap.ui.define([
                         oBaseData.setProperty('/Parameters/BankCountry',BankName.BankCountry);
                     }
                     
-                    oValueHelpData.getProperty('/_oVHDialog/VHBankAccount').close();
-                    
+                    oValueHelpData.getProperty('/_oVHDialog/VHBankAccount').close();                    
                     break;
+
                 case 'search' :
                     let oFilterBar = oValueHelpData.getProperty('/_oVHDialog/VHBankAccount').getFilterBar();
                     let sSearchQuery = oFilterBar.getBasicSearchValue();
@@ -1117,6 +1121,7 @@ sap.ui.define([
                         }.bind(this)
                     );
                     break;
+
                 case 'afterClose':
                     break;
             }
@@ -1130,8 +1135,8 @@ sap.ui.define([
             switch(oEvent.sId){
                 case 'cancel':
                     oValueHelpData.getProperty('/_oVHDialog/VHTaxcode').close();
-
                     break;
+
                 case 'ok':
                     let oTable = oEvent.oSource.getTable();
                     if(oEvent.getParameter('tokens')[0] !== undefined){
@@ -1147,12 +1152,10 @@ sap.ui.define([
                             oBaseData.setProperty('/Parameters/TaxCodeName','');
 
                         }
-                    }
-                    
-
-                    oValueHelpData.getProperty('/_oVHDialog/VHTaxcode').close();
-                    
+                    }        
+                    oValueHelpData.getProperty('/_oVHDialog/VHTaxcode').close();                    
                     break;
+
                 case 'search' :
                     let oFilterBar = oValueHelpData.getProperty('/_oVHDialog/VHTaxcode').getFilterBar();
                     let sSearchQuery = oFilterBar.getBasicSearchValue();
@@ -1196,6 +1199,7 @@ sap.ui.define([
                         }.bind(this)
                     );
                     break;
+
                 case 'afterClose':
                     break;
             }
@@ -1208,8 +1212,8 @@ sap.ui.define([
             switch(oEvent.sId){
                 case 'cancel':
                     oValueHelpData.getProperty('/_oVHDialog/VHTBCostCenter').close();
-
                     break;
+
                 case 'ok':
                     let oTable = oEvent.oSource.getTable();
                     let oSelected = oEvent.getParameter('tokens')[0].getProperty('key');
@@ -1219,8 +1223,8 @@ sap.ui.define([
                     oBaseData.setProperty(sPath+ '/Costcenter', oSelected);
                     oBaseData.setProperty(sPath+ '/CostcenterName', oCostCenterName.CostCenterName);
                     oValueHelpData.getProperty('/_oVHDialog/VHTBCostCenter').close();
-
                     break;
+
                 case 'search' :
                     let oFilterBar = oValueHelpData.getProperty('/_oVHDialog/VHTBCostCenter').getFilterBar();
                     let sSearchQuery = oFilterBar.getBasicSearchValue();
@@ -1264,9 +1268,9 @@ sap.ui.define([
                         }.bind(this)
                     );
                     break;
+
                 case 'afterClose':
                     oValueHelpData.getProperty('/_oVHDialog/VHTBCostCenter').destroy();
-
                     break;
             }
         },
@@ -1278,8 +1282,8 @@ sap.ui.define([
             switch(oEvent.sId){
                 case 'cancel':
                     oValueHelpData.getProperty('/_oVHDialog/VHTBGLAccount').close();
-
                     break;
+
                 case 'ok':
                     let oTable = oEvent.oSource.getTable();
                     let oSelected = oEvent.getParameter('tokens')[0].getProperty('key');
@@ -1288,8 +1292,8 @@ sap.ui.define([
                     oBaseData.setProperty(sPath+ '/GLAccount', oSelected);
                     oBaseData.setProperty(sPath+ '/GLAccountName', AccountName.GLAccountName);
                     oValueHelpData.getProperty('/_oVHDialog/VHTBGLAccount').close();
-
                     break;
+
                 case 'search' :
                     let oFilterBar = oValueHelpData.getProperty('/_oVHDialog/VHTBGLAccount').getFilterBar();
                     let sSearchQuery = oFilterBar.getBasicSearchValue();
@@ -1333,9 +1337,9 @@ sap.ui.define([
                         }.bind(this)
                     );
                     break;
+
                 case 'afterClose':
                     oValueHelpData.getProperty('/_oVHDialog/VHTBGLAccount').destroy();
-
                     break;
             }
         },
@@ -1405,6 +1409,7 @@ sap.ui.define([
                     break;
             }
         },
+        
         onActionVHTBTaxcode: function(oEvent){
             let oBaseData = this.getView().getModel('BaseData');
             let oValueHelpData = this.getView().getModel('ValueHelpData');
@@ -1485,12 +1490,10 @@ sap.ui.define([
             {
                 oBaseData.setProperty('/Parameters/FiscalYear', oEvent.getParameter('newValue').substr(0,4));
                 this.onCalculationPaymentscheduled();
-            }
-            
+            }            
         },
 
         onChangeAmount: function(oEvent){
-
             this.onCalculation();
         },
 
@@ -1520,6 +1523,7 @@ sap.ui.define([
             
         },
 
+        //유효성 검사
         onValidation: function(){
             let oModel = this.getView().getModel();
             let oBaseData = this.getView().getModel('BaseData');
@@ -1687,7 +1691,7 @@ sap.ui.define([
             if(oBaseDataData.Parameters.AmountTotal !== 0)
             {
                 isTrue = false;
-                MessageBox.alert("차이금액이 '0' 이어야 합니다.");
+                MessageBox.error("차이금액이 '0' 이어야 합니다.");
             }
 
             return isTrue;
@@ -1720,194 +1724,125 @@ sap.ui.define([
             this.onCalculation();
         },
         
-
+        //결재상신
         onBtnPress: function(oEvent){
             let oBaseData = this.getView().getModel('BaseData');
             let oBaseDataData = oBaseData.getData();
 
             oBaseData.setProperty('/Parameters/_Item', oBaseDataData.Items);
 
-            if (this.onValidation()){
-                MessageBox.confirm('[결재 상신] 하시겠습니까?', {
+            if(!this.onValidation()) {
+                MessageBox.error(Model.I18n.getProperty('Error020'));
+            } else {
+                MessageBox.confirm(Model.I18n.getProperty('Info0020'), {
                     actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
-                    onClose: function (oAction) {
-                     
-      
-                    if (oAction === sap.m.MessageBox.Action.YES) {
-
-
-                        //Item정리
-                        _.forEach(oBaseDataData.Parameters._Item, function (Items) {
-                            if(Items.DebitCreditCode == 'S')
-                            {
-                                Items.AmountDebit = Items.Amount
-                                Items.AmountCredit = 0
-                            }
-                            else if(Items.DebitCreditCode == 'H')
-                            {
-                                Items.AmountCredit = Items.Amount
-                                Items.AmountDebit = 0
-                            }
-                            delete Items.DebitCreditCodeState
-                            delete Items.CostcenterState
-                            delete Items.CostcenterEnable
-                            delete Items.CostcenterName
-                            delete Items.GLAccountState
-                            delete Items.GLAccountName
-                            delete Items.AmountState
-                            delete Items.CurrencyState
-                            delete Items.AmountTaxState
-                            delete Items.DocumentItemTextState
-                            delete Items.Budgetbalance
-                            delete Items.DebitCreditCodeEnable
-                            delete Items.DebitCreditCodeEnable
-                            delete Items.GLAccountEnable
-                            delete Items.AmountEnable
-                        }.bind(this));
-                        // oBaseData.setProperty('/Parameters/_Item',oBaseDataData.Parameters._Item);
-                        
-                        //Post
-                        //X-Csrf-Token 가져오기
-                        // const headers = {
-                        //     'X-Csrf-Token' : 'n1QtnwQ9avmLHkRs6fzjXQ=='
-                        // };
-                        const headers = {
-                            'X-CSRF-TOKEN' : this.oView.getModel().getHttpHeaders()['X-CSRF-Token']
-                        };
-                        //n1QtnwQ9avmLHkRs6fzjXQ==
-                        axios.post('/sap/opu/odata4/sap/zfi_c_other_receipt_ui_v4/srvd/sap/zfi_c_other_receipt_ui/0001/ZFI_C_DOC_APPROVAL/com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.Posting', 
+                    onClose: function (oAction) {                       
+        
+                        if (oAction === sap.m.MessageBox.Action.YES) {
+                            //Item정리
+                            _.forEach(oBaseDataData.Parameters._Item, function (Items) {
+                                if(Items.DebitCreditCode == 'S')
                                 {
-                                'AccountingDocument' : '',
-                                'RequestType' : 'E2',
-                                'CompanyCode': oBaseDataData.Parameters.CompanyCode,
-                                'FiscalYear': oBaseDataData.Parameters.FiscalYear,
-                                'PostingDate': oBaseDataData.Parameters.PostingDate,
-                                'Amount': oBaseDataData.Parameters.Amount,
-                                'Currency': oBaseDataData.Parameters.Currency,
-                                'PaymentTerms': oBaseDataData.Parameters.PaymentTerms,
-                                'DocumentItemText': oBaseDataData.Parameters.DocumentItemText,
-                                'KeyCardPur': oBaseDataData.Parameters.KeyCardPur,
-                                'TaxCode': oBaseDataData.Parameters.TaxCode,
-                                'DocumentDate': oBaseDataData.Parameters.DocumentDate,
-                                'Costcenter': '',
-                                'Supplier': oBaseDataData.Parameters.Supplier,
-                                'BankCountry': oBaseDataData.Parameters.BankCountry,
-                                'Bank': oBaseDataData.Parameters.Bank,
-                                'Bankaccount': oBaseDataData.Parameters.Bankaccount,
-                                'AmountTotal': oBaseDataData.Parameters.AmountTotal,
-                                'TblKey' : '',
-                                'ReqID' : '',
-                                'Title' : '',
-                                'Content' : '',
-                                '_Item': oBaseDataData.Parameters._Item
-                              },{
-                                headers : headers
-                                //n1QtnwQ9avmLHkRs6fzjXQ==
-                              })
-                              .then(function (response) {
-                                console.log(response);
-                                if(response.data.value){
-                                    //response.data.value[0].Content
-                                    //response.data.value[0].ReqID
-                                    //response.data.value[0].TblKey
-                                    //response.data.value[0].Title
-                                    this.onOpenEDMS(response.data.value);
+                                    Items.AmountDebit = Items.Amount
+                                    Items.AmountCredit = 0
                                 }
-
-                                
-                                let oRouter = this.getOwnerComponent().getRouter();
-                                oRouter.navTo('ZFI_C_OTHER_RECEIPTList');
-                              }.bind(this))
-                              .catch(function (error) {
-                                console.log(error);
-                              });
-                    }
+                                else if(Items.DebitCreditCode == 'H')
+                                {
+                                    Items.AmountCredit = Items.Amount
+                                    Items.AmountDebit = 0
+                                }
+                                delete Items.DebitCreditCodeState
+                                delete Items.CostcenterState
+                                delete Items.CostcenterEnable
+                                delete Items.CostcenterName
+                                delete Items.GLAccountState
+                                delete Items.GLAccountName
+                                delete Items.AmountState
+                                delete Items.CurrencyState
+                                delete Items.AmountTaxState
+                                delete Items.DocumentItemTextState
+                                delete Items.Budgetbalance
+                                delete Items.DebitCreditCodeEnable
+                                delete Items.DebitCreditCodeEnable
+                                delete Items.GLAccountEnable
+                                delete Items.AmountEnable
+                            }.bind(this));
+                            // oBaseData.setProperty('/Parameters/_Item',oBaseDataData.Parameters._Item);
+                            
+                            //Post
+                            //X-Csrf-Token 가져오기
+                            // const headers = {
+                            //     'X-Csrf-Token' : 'n1QtnwQ9avmLHkRs6fzjXQ=='
+                            // };
+                            const headers = {
+                                'X-CSRF-TOKEN' : this.oView.getModel().getHttpHeaders()['X-CSRF-Token']
+                            };
+                            //n1QtnwQ9avmLHkRs6fzjXQ==
+                            axios.post('/sap/opu/odata4/sap/zfi_c_other_receipt_ui_v4/srvd/sap/zfi_c_other_receipt_ui/0001/ZFI_C_DOC_APPROVAL/com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.Posting', 
+                                    {
+                                    'AccountingDocument' : '',
+                                    'RequestType' : 'E2',
+                                    'CompanyCode': oBaseDataData.Parameters.CompanyCode,
+                                    'FiscalYear': oBaseDataData.Parameters.FiscalYear,
+                                    'PostingDate': oBaseDataData.Parameters.PostingDate,
+                                    'Amount': oBaseDataData.Parameters.Amount,
+                                    'Currency': oBaseDataData.Parameters.Currency,
+                                    'PaymentTerms': oBaseDataData.Parameters.PaymentTerms,
+                                    'DocumentItemText': oBaseDataData.Parameters.DocumentItemText,
+                                    'KeyCardPur': oBaseDataData.Parameters.KeyCardPur,
+                                    'TaxCode': oBaseDataData.Parameters.TaxCode,
+                                    'DocumentDate': oBaseDataData.Parameters.DocumentDate,
+                                    'Costcenter': '',
+                                    'Supplier': oBaseDataData.Parameters.Supplier,
+                                    'BankCountry': oBaseDataData.Parameters.BankCountry,
+                                    'Bank': oBaseDataData.Parameters.Bank,
+                                    'Bankaccount': oBaseDataData.Parameters.Bankaccount,
+                                    'AmountTotal': oBaseDataData.Parameters.AmountTotal,
+                                    'TblKey' : '',
+                                    'ReqID' : '',
+                                    'Title' : '',
+                                    'Content' : '',
+                                    '_Item': oBaseDataData.Parameters._Item
+                                },{
+                                    headers : headers
+                                    //n1QtnwQ9avmLHkRs6fzjXQ==
+                                })
+                                .then(function (response) {
+                                    //console.log(response);
+                                    if(response.data.value){
+                                        this.onOpenEDMS(response.data.value);
+                                    }                                    
+                                    let oRouter = this.getOwnerComponent().getRouter();
+                                    oRouter.navTo('ZFI_C_OTHER_RECEIPTList');
+                                }.bind(this))
+                                .catch(function (error) {
+                                    console.log(error);
+                                });
+                        }
       
                     }.bind(this)
                 });
-            }
+            }    
+        },
 
+        //전자결재 기안창 호출
+        onOpenEDMS : function(oResponseData) {    
+            var oFrm = document.workflowForm;
+            var oWin = window.open('','popWorkflow','location=no,status=no,toolbar=no,scrollbars=yes,width=1100,height=' + screen.height);
+
+            //전자결재 URL (개발/운영서버 분기처리)
+            var sUrl = "https://gwdev.sbckcloud.com/Interworking/Interworking.aspx";
             
+            oFrm.SystemID.value = 'erp';                    //고정
+            oFrm.WorkKind.value = 'APPROVAL-03';            //결재타입-기타영수증
+            oFrm.TblKey.value   = oResponseData[0].TblKey;  //문서번호 : 데이터 고유키 (ABAP에서 반환 됨)
+            oFrm.ReqID.value    = oResponseData[0].ReqID;   //사용자 계정 (ABAP에서 반환 됨)
+            oFrm.Title.value    = oResponseData[0].Title;   //제목 (ABAP 반환 OR 고정)
+            oFrm.Content.value  = oResponseData[0].Content; //HTML 내용 (ABAP에서 반환 됨)
+            oFrm.action         = sUrl;                     //전자결재 URL (개발/운영서버 URL다름 분기처리 필요, ABAP반환 필요할 듯)
+            oFrm.target         = "popWorkflow";
+            oFrm.method         = "post";
+            oFrm.submit();
         },
-        onOpenEDMS : function(oResponseData) {
-            //oResponseData
-            //oResponseData[0].Content
-            //oResponseData[0].ReqID
-            //oResponseData[0].TblKey
-            //oResponseData[0].Title
-            if(confirm('기안요청 할까요? 팝업이 보이지 않을경우 브라우져 옵션에서 팝업 허용이 필요합니다.')) {                    
-
-                var vContent = "<table class='total-aprv equal-print' border='0' cellpadding='0' cellspacing='0'>";
-                    vContent += "<tr>";
-                    vContent += "<th>카　　드　　명</th><td><p>신한카드</p></td>";
-                    vContent += "<th>가　맹　점　명</th><td><p>GS25</p></td>";
-                    vContent += "</tr>";
-                    vContent += "<tr>";
-                    vContent += "<th>카　드　번　호</th><td><p>5525762738465910</p></td>";
-                    vContent += "<th>가 맹 점　업 종</th><td><p>편의점</p></td>";
-                    vContent += "</tr>";
-                    vContent += "<tr>";
-                    vContent += "<th>승　인　번　호</th><td><p>38475618</p></td>";
-                    vContent += "<th>금　　　　　액</th><td><p>33,000 KRW</p></td>";
-                    vContent += "</tr>";
-                    vContent += "<tr>";
-                    vContent += "<th>카　드　번　호</th><td><p>2023.11.01</p></td>";
-                    vContent += "<th></th><td><p>&nbsp;</p></td>";
-                    vContent += "</tr>";
-                    vContent += "</table>";
-
-                var oFrm = document.workflowForm;
-                //var oWin = window.open('','popWorkflow','location=no,status=no,toolbar=no,scrollbars=yes,width=' + screen.width + ',height=' + screen.height + ',fullscreen=yes'); //팝업 사이즈 조절 필요
-                var oWin = window.open('','popWorkflow','location=no,status=no,toolbar=no,scrollbars=yes,width=1100,height=' + screen.height); //팝업 사이즈 조절 필요
-                oFrm.SystemID.value = 'erp';
-                oFrm.WorkKind.value = 'APPROVAL-03';    //결재타입 (ABAP 반환 OR 고정)
-                oFrm.TblKey.value = oResponseData[0].TblKey;   //문서번호 : 데이터 고유키 (ABAP에서 반환 됨)
-                oFrm.ReqID.value = oResponseData[0].ReqID;    //사용자 계정 (ABAP에서 반환 됨)
-                oFrm.Title.value = oResponseData[0].Title;      //제목 (ABAP 반환 OR 고정)
-                oFrm.Content.value = oResponseData[0].Content; //HTML 내용 (ABAP에서 반환 됨)
-                oFrm.action = "https://gwdev.sbckcloud.com/Interworking/Interworking.aspx"; //전자결재 URL (개발/운영서버 URL다름 분기처리 필요, ABAP반환 필요할 듯)
-                oFrm.target = "popWorkflow";
-                oFrm.method = "post";
-                oFrm.submit();
-            }
-        },
-        
-        onOpenPopup : function(oEvent){
-            if(confirm('기안요청 할까요? 팝업이 보이지 않을경우 브라우져 옵션에서 팝업 허용이 필요합니다.')) {                    
-
-                var vContent = "<table class='total-aprv equal-print' border='0' cellpadding='0' cellspacing='0'>";
-                    vContent += "<tr>";
-                    vContent += "<th>카　　드　　명</th><td><p>신한카드</p></td>";
-                    vContent += "<th>가　맹　점　명</th><td><p>GS25</p></td>";
-                    vContent += "</tr>";
-                    vContent += "<tr>";
-                    vContent += "<th>카　드　번　호</th><td><p>5525762738465910</p></td>";
-                    vContent += "<th>가 맹 점　업 종</th><td><p>편의점</p></td>";
-                    vContent += "</tr>";
-                    vContent += "<tr>";
-                    vContent += "<th>승　인　번　호</th><td><p>38475618</p></td>";
-                    vContent += "<th>금　　　　　액</th><td><p>33,000 KRW</p></td>";
-                    vContent += "</tr>";
-                    vContent += "<tr>";
-                    vContent += "<th>카　드　번　호</th><td><p>2023.11.01</p></td>";
-                    vContent += "<th></th><td><p>&nbsp;</p></td>";
-                    vContent += "</tr>";
-                    vContent += "</table>";
-
-                var oFrm = document.workflowForm;
-                //var oWin = window.open('','popWorkflow','location=no,status=no,toolbar=no,scrollbars=yes,width=' + screen.width + ',height=' + screen.height + ',fullscreen=yes'); //팝업 사이즈 조절 필요
-                var oWin = window.open('','popWorkflow','location=no,status=no,toolbar=no,scrollbars=yes,width=1100,height=' + screen.height); //팝업 사이즈 조절 필요
-                oFrm.SystemID.value = 'erp';
-                oFrm.WorkKind.value = 'APPROVAL-02';    //결재타입 (ABAP 반환 OR 고정)
-                oFrm.TblKey.value = 'GUID1234567890-02';   //문서번호 : 데이터 고유키 (ABAP에서 반환 됨)
-                oFrm.ReqID.value = 'user03@usecloud.onmicrosoft.com';    //사용자 계정 (ABAP에서 반환 됨)
-                oFrm.Title.value = '법인카드 사용내역 정보';      //제목 (ABAP 반환 OR 고정)
-                oFrm.Content.value = vContent; //HTML 내용 (ABAP에서 반환 됨)
-                oFrm.action = "https://gwdev.sbckcloud.com/Interworking/Interworking.aspx"; //전자결재 URL (개발/운영서버 URL다름 분기처리 필요, ABAP반환 필요할 듯)
-                oFrm.target = "popWorkflow";
-                oFrm.method = "post";
-                oFrm.submit();
-            }
-        }
     });
 });

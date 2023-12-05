@@ -39,7 +39,7 @@
                     </uxap:expandedContent>
                     <uxap:actions>
                         <Button
-                            text="결재상신"
+                            text="{i18n>Btn0010}"
                             type="Emphasized"
                             press=".onBtnPress"
                         />

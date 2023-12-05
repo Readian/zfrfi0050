@@ -14,6 +14,7 @@ sap.ui.define([
         "use strict";
 
         return {
+            I18n : null,
             ValueHelpData : {
                 _oVHDialog : {
                     VHCurrency : undefined,
