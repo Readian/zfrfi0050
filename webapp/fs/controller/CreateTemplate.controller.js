@@ -191,13 +191,13 @@ sap.ui.define([
                                 });
                                 oTable.addColumn(
                                     new UIColumn({
-                                        label: new Label({ text: "Supplier" }),
+                                        label: new Label({ text: "공급업체" }),
                                         template: new Text({ text: "{Supplier}" }),
                                     })
                                 );
                                 oTable.addColumn(
                                     new UIColumn({
-                                        label: new Label({ text: "SupplierName" }),
+                                        label: new Label({ text: "공급업체명" }),
                                         template: new Text({ text: "{SupplierName}" }),
                                     })
                                 );
@@ -915,26 +915,26 @@ sap.ui.define([
                                     );
                                     oTable.addColumn(
                                         new UIColumn({
-                                            label: new Label({ text: "Supplier" }),
+                                            label: new Label({ text: "공급업체" }),
                                             template: new Text({ text: "{Supplier}" }),
                                         })
                                     );
                                     oTable.addColumn(
                                         new UIColumn({
-                                            label: new Label({ text: "PaymentTerms" }),
+                                            label: new Label({ text: "지급조건" }),
                                             template: new Text({ text: "{PaymentTerms}" }),
                                         })
                                     );
                                     oTable.addColumn(
                                         new UIColumn({
-                                            label: new Label({ text: "PaymentTermsName" }),
+                                            label: new Label({ text: "지급조건내역" }),
                                             template: new Text({ text: "{PaymentTermsName}" }),
                                         })
                                     );
                                     oTable.addColumn(
                                         new UIColumn({
-                                            label: new Label({ text: "CashDiscount1Days" }),
-                                            template: new Text({ text: "{CashDiscount1Days}" }),
+                                            label: new Label({ text: "" }),
+                                            template: new Text({ text: "{지급일수}" }),
                                         })
                                     );
 
