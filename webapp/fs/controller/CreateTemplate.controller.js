@@ -1670,6 +1670,16 @@ sap.ui.define([
                 else {
                     oBaseData.setProperty('/Items/'+i+'/AmountState', 'None');
                 }
+
+                // 2023/12/06 CJH 수정 _ 적요 
+                if(!oBaseDataData.Items[i].DocumentItemText || oBaseDataData.Items[i].DocumentItemText == '')
+                {
+                    isTrue = false;
+                    oBaseData.setProperty('/Items/'+i+'/DocumentItemTextState', 'Error');
+                }
+                else {
+                    oBaseData.setProperty('/Items/'+i+'/DocumentItemTextState', 'None');
+                }
                 // if(!oBaseDataData.Items[i].Currency || oBaseDataData.Items[i].Currency == '')
                 // {
                 //     isTrue = false;
@@ -1686,6 +1696,16 @@ sap.ui.define([
                 // else {
                 //     oBaseData.setProperty('/Items/'+i+'/AmountTaxState', 'None');
                 // }
+            }
+
+            // 2023/12/06 CJH 수정 _ 적요 
+            if(!oBaseDataData.Items[0].DocumentItemText || oBaseDataData.Items[0].DocumentItemText == '')
+            {
+                isTrue = false;
+                oBaseData.setProperty('/Items/0/DocumentItemTextState', 'Error');
+            }
+            else {
+                oBaseData.setProperty('/Items/0/DocumentItemTextState', 'None');
             }
 
             if(oBaseDataData.Parameters.AmountTotal !== 0)

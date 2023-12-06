@@ -25,9 +25,11 @@
                             <PropertyValue Property="Value" Path="StatusText"/>
                             <PropertyValue Property="Label" String="진행상태"/>
                         </Record>
-                        <Record Type="UI.DataField">
-                            <PropertyValue Property="Value" Path="AccountingDocument"/>
+                        <Record Type="UI.DataFieldWithIntentBasedNavigation">
+                            <PropertyValue Property="SemanticObject" String="AccountingDocument"/>
+                            <PropertyValue Property="Action" String="manage"/>
                             <PropertyValue Property="Label" String="전표번호"/>
+                            <PropertyValue Property="Value" Path="AccountingDocument"></PropertyValue>
                         </Record>
                         <Record Type="UI.DataField">
                             <PropertyValue Property="Value" Path="PostingDate"/>
