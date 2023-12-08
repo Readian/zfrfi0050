@@ -21,7 +21,7 @@
         navButtonPress="onPageNavBack"
         showHeader="false"
     >
-        <uxap:ObjectPageLayout id="OPL_CreateObjectPage">
+        <uxap:ObjectPageLayout id="OPL_CreateObjectPage" showFooter="{BaseData>/Visible/Footer}">
             <uxap:headerTitle>
                 <uxap:ObjectPageDynamicHeaderTitle>
                     <uxap:expandedHeading>
@@ -543,6 +543,16 @@
                     </uxap:subSections>
                 </uxap:ObjectPageSection>
             </uxap:sections>
+            <uxap:footer>
+                <OverflowToolbar>
+                    <Button 
+                        icon="sap-icon://alert" 
+                        text="{= ${BaseData>/ErrMsgs}.length }" 
+                        type="Reject" 
+                        press=".onMessagePopoverPress"/>
+                    <ToolbarSpacer/>
+                </OverflowToolbar>
+		</uxap:footer>
         </uxap:ObjectPageLayout>
     </Page>
 </mvc:View>

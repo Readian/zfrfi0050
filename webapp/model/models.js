@@ -33,6 +33,7 @@ sap.ui.define([
             
             Data : {
                 View : undefined,
+                _oErrDialog: undefined,
                 DebitCreditCode: [
                     { key: 'S', text: '차변' },
                     { key: 'H', text: '대변' }
@@ -59,7 +60,8 @@ sap.ui.define([
                 ],
                 Visible : {
                     Debit : true,
-                    Credit : false
+                    Credit : false,
+                    Footer: false,
                 },
                 //15a76f81-e23a-1ede-99df-d3d7b1feabb2
                 Parameters : {
@@ -89,11 +91,12 @@ sap.ui.define([
                     BankaccountName: '',
                     Paymentscheduled: '',
                     CashDiscount1Days : 0
-                }
+                },
+                ErrMsgs: []
             },
             ViewData :{
                 _View : undefined,
-                ListView : undefined
+                ListView : undefined,
             },
             createBaseDataModel : function(){
                 let oModel = new JSONModel(this.Data);

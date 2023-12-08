@@ -163,7 +163,7 @@ sap.ui.define([
             let oBaseData = this.getView().getModel('BaseData');
             let oValueHelpData = this.getView().getModel('ValueHelpData');
             if(!oValueHelpData.getProperty('/_oVHDialog/VHSupplier'))
-            {
+            {   
                 this.loadFragment({
                     name: "fi.zfrfi0050.fs.view.f4.F4Supplier"
                 }).then(function(oDialog){
@@ -237,7 +237,7 @@ sap.ui.define([
                             oTable.setThreshold(500);
                             if (oTable.bindRows) {
                                 oTable.bindAggregation("rows", {
-                                    path: "/ZFI_V_TAXCODE_C",
+                                    path: '/ZFI_V_TAXCODE_C_ETC',
                                     events: {
                                         dataReceived: function () {
                                             oDialog.update();
@@ -263,7 +263,7 @@ sap.ui.define([
                     oDialog.open();
 
                 }.bind(this));
-            }else{
+            }else{ 
                 oValueHelpData.getProperty('/_oVHDialog/VHTaxcode').open();
             }
         },
@@ -1711,7 +1711,7 @@ sap.ui.define([
             if(oBaseDataData.Parameters.AmountTotal !== 0)
             {
                 isTrue = false;
-                MessageBox.error("차이금액이 '0' 이어야 합니다.");
+                MessageBox.error(Model.I18n.getProperty('Error010'));
             }
 
             return isTrue;
@@ -1750,7 +1750,8 @@ sap.ui.define([
             let oBaseDataData = oBaseData.getData();
 
             oBaseData.setProperty('/Parameters/_Item', oBaseDataData.Items);
-
+            oBaseData.setProperty('/Visible/Footer', false);
+            oBaseData.setProperty('/ErrMsgs', [])
             if(!this.onValidation()) {
                 MessageBox.error(Model.I18n.getProperty('Error020'));
             } else {
@@ -1812,6 +1813,7 @@ sap.ui.define([
                                     'KeyCardPur': oBaseDataData.Parameters.KeyCardPur,
                                     'TaxCode': oBaseDataData.Parameters.TaxCode,
                                     'DocumentDate': oBaseDataData.Parameters.DocumentDate,
+                                    'paymentdate': oBaseDataData.Parameters.Paymentscheduled,
                                     'Costcenter': '',
                                     'Supplier': oBaseDataData.Parameters.Supplier,
                                     'BankCountry': oBaseDataData.Parameters.BankCountry,
@@ -1822,6 +1824,7 @@ sap.ui.define([
                                     'ReqID' : '',
                                     'Title' : '',
                                     'Content' : '',
+                                    // 'URL' : '',
                                     '_Item': oBaseDataData.Parameters._Item
                                 },{
                                     headers : headers
@@ -1836,7 +1839,26 @@ sap.ui.define([
                                     oRouter.navTo('ZFI_C_OTHER_RECEIPTList');
                                 }.bind(this))
                                 .catch(function (error) {
-                                    console.log(error);
+                                    let aError = [];
+                                    let oErrMsg = {};
+                                    let oErrRes = error.response.data.error,
+                                    sInnerErr = oErrRes.innererror.message,
+                                    aDetailErr = oErrRes.details
+                                    if (sInnerErr) {
+                                        oErrMsg.ErrMsg = sInnerErr
+                                        aError.push(oErrMsg);
+                                    } 
+                                    if (aDetailErr.length > 0){
+                                        aDetailErr.forEach(oErr => {
+                                            oErrMsg = {};
+                                            oErrMsg.ErrMsg = oErr.message;
+                                            aError.push(oErrMsg);
+                                        });
+                                    }
+                                    if (aError.length > 0){
+                                        oBaseData.setProperty('/Visible/Footer', true);
+                                        oBaseData.setProperty('/ErrMsgs', aError);
+                                    }
                                 });
                         }
       
@@ -1864,5 +1886,23 @@ sap.ui.define([
             oFrm.method         = "post";
             oFrm.submit();
         },
+
+        onMessagePopoverPress: function (oEvent) {
+            let oSourceControl = oEvent.getSource();
+            let oView = this.getView();
+            let oErrBtn = oEvent.getSource()
+            let oBaseData = this.getView().getModel('BaseData');
+            if(!oBaseData.getProperty('/_oErrDialog')) {
+                this.loadFragment({
+                    name: "fi.zfrfi0050.fs.view.f4.ErrMsgPopover"
+                }).then(function(oDialog){
+                    oBaseData.setProperty('/_oErrDialog', oDialog);
+                    oView.addDependent(oDialog);
+                    oDialog.openBy(oErrBtn);
+                }.bind(this));
+            }else{
+                oValueHelpData.getProperty('/_oErrDialog').openBy(oErrBtn);
+            }
+        }
     });
 });
