@@ -14,12 +14,12 @@ builder:
       afterTask: generateCachebusterInfo
       configuration:
         target:
-          destination: ZK4_SAML_ASSERTION
-          url: https://my407683-api.s4hana.cloud.sap
+          destination: ZRQ_SAML_ASSERTION
+          url: https://my408358-api.s4hana.cloud.sap
         app:
           name: ZFRFI0050
           description: 기타영수증
           package: ZFI
-          transport: ZK4K900039
+          transport: ZRQK900063
         exclude:
           - /test/
