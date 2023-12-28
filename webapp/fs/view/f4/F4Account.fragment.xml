@@ -10,8 +10,8 @@
         ok="onActionVHTBAccount"
         cancel="onActionVHTBAccount"
         supportRanges="false"
-        key="GLAccount"
-        descriptionKey="GLAccountName"
+        key="CodeId"
+        descriptionKey="CodeName"
     >
         <filterBar>
             <fb:FilterBar

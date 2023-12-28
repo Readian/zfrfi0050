@@ -6,17 +6,17 @@
 >
     <ValueHelpDialog
         supportMultiselect="false"
-        title="비용귀속"
-        ok="onActionVHTBCostCenter"
-        cancel="onActionVHTBCostCenter"
+        title="사업장코드"
+        ok="onActionVHTBBusinessPlace"
+        cancel="onActionVHTBBusinessPlace"
         supportRanges="false"
-        key="CodeId"
-        descriptionKey="CodeName"
+        key="BusinessPlace"
+        descriptionKey="BusinessPlaceName"
     >
         <filterBar>
             <fb:FilterBar
                 advancedMode="false"
-                search="onActionVHTBCostCenter"
+                search="onActionVHTBBusinessPlace"
                 isRunningInValueHelpDialog="true"
             />
         </filterBar>

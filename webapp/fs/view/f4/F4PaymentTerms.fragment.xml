@@ -8,7 +8,7 @@
 <!-- ZFI_V_PAYMENT_TERMS -->
     <ValueHelpDialog
         supportMultiselect="false"
-        title="계좌"
+        title="지급조건"
         ok="onActionVHPaymentTerms"
         cancel="onActionVHPaymentTerms"
         supportRanges="false"

@@ -143,12 +143,7 @@
           "target": "ZFI_C_OTHER_RECEIPTList"
         },
         {
-          "pattern": "ZFI_C_OTHER_RECEIPT({key}):?query:",
-          "name": "ZFI_C_OTHER_RECEIPTObjectPage",
-          "target": "ZFI_C_OTHER_RECEIPTObjectPage"
-        },
-        {
-          "pattern": "CreateManage:?query:",
+          "pattern": "CreateManage/{companyCode}:?query:",
           "name": "CreateTemplate",
           "target": "CreateTemplate"
         }
@@ -162,13 +157,6 @@
             "settings": {
               "contextPath": "/ZFI_C_OTHER_RECEIPT",
               "variantManagement": "Page",
-              "navigation": {
-                "ZFI_C_OTHER_RECEIPT": {
-                  "detail": {
-                    "route": "ZFI_C_OTHER_RECEIPTObjectPage"
-                  }
-                }
-              },
               "controlConfiguration": {
                 "@com.sap.vocabularies.UI.v1.LineItem": {
                   "actions": {
@@ -199,17 +187,6 @@
                   }
                 }
               }
-            }
-          }
-        },
-        "ZFI_C_OTHER_RECEIPTObjectPage": {
-          "type": "Component",
-          "id": "ZFI_C_OTHER_RECEIPTObjectPage",
-          "name": "sap.fe.templates.ObjectPage",
-          "options": {
-            "settings": {
-              "editableHeaderContent": false,
-              "contextPath": "/ZFI_C_OTHER_RECEIPT"
             }
           }
         },

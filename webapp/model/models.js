@@ -17,6 +17,7 @@ sap.ui.define([
             I18n : null,
             ValueHelpData : {
                 _oVHDialog : {
+                    VHBusinessPlace: undefined,
                     VHCurrency : undefined,
                     VHSupplier: undefined,
                     VHTaxcode: undefined,
@@ -39,24 +40,6 @@ sap.ui.define([
                     { key: 'H', text: '대변' }
                 ],
                 Items: [
-                    {
-                       DebitCreditCode : "H" ,
-                       DebitCreditCodeEnable : false,
-                       GLAccount : "",
-                       GLAccountEnable : false,
-                       GLAccountName : "",
-                       Budgetbalance : 0,
-                       Currency : "KRW",
-                       Amount : 0,
-                       AmountEnable : false,
-                       Costcenter : "",
-                       CostcenterEnable: false,
-                       AmountTax : 0,
-                       DocumentItemText : ""
-
-
-
-                    }
                 ],
                 Visible : {
                     Debit : true,
@@ -66,7 +49,7 @@ sap.ui.define([
                 //15a76f81-e23a-1ede-99df-d3d7b1feabb2
                 Parameters : {
                     AccountingDocument : '미생성',
-                    CompanyCode: '4310',
+                    CompanyCode: '',
                     FiscalYear: '',
                     PostingDate: '',
                     Amount: 0,
@@ -90,7 +73,9 @@ sap.ui.define([
                     InputData : '',
                     BankaccountName: '',
                     Paymentscheduled: '',
-                    CashDiscount1Days : 0
+                    CashDiscount1Days : 0,
+                    VATAmount : 0,
+                    TaxPer: 0
                 },
                 ErrMsgs: []
             },
