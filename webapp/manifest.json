@@ -156,7 +156,7 @@
           "options": {
             "settings": {
               "contextPath": "/ZFI_C_OTHER_RECEIPT",
-              "variantManagement": "Page",
+              "variantManagement": "Control",
               "controlConfiguration": {
                 "@com.sap.vocabularies.UI.v1.LineItem": {
                   "actions": {
