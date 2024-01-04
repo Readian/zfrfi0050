@@ -175,6 +175,23 @@
                     "frozenColumnCount": 3
                     }
                 },
+                "@com.sap.vocabularies.UI.v1.SelectionFields": {
+                    "filterFields": {
+                        "PostingDate": {
+                            "position": {
+                                "placement": "After",
+                                "anchor": "DraftUser"
+                            },
+                            "settings": {
+                                "defaultValues": [
+                                    {
+                                        "operator": "THISMONTH"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
                 "": {
                   "actions": {
                     "fcCancelReq": {

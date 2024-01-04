@@ -77,8 +77,8 @@ sap.ui.define([
                     DocumentItemText: "",
                     Visible: false
                 }])
-            this.getView().byId('T_Items').getBinding("items").refresh(true)
-
+            this.getView().byId('T_Items').getBinding("items").refresh(true);
+            this.onAddBtnPress();
         },
 
         onAfterRendering: function () {

@@ -16,7 +16,6 @@
                         <PropertyPath>CompanyCode</PropertyPath>
                         <PropertyPath>Supplier</PropertyPath>
                         <PropertyPath>DraftUser</PropertyPath>
-                        <PropertyPath>PostingDate</PropertyPath>
                     </Collection>
                 </Annotation>
                 <Annotation Term="UI.LineItem">

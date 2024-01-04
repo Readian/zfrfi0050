@@ -21,7 +21,7 @@
         navButtonPress="onPageNavBack"
         showHeader="false"
     >
-        <uxap:ObjectPageLayout id="OPL_CreateObjectPage" showFooter="{BaseData>/Visible/Footer}">
+        <uxap:ObjectPageLayout id="OPL_CreateObjectPage" showFooter="{BaseData>/Visible/Footer}" showAnchorBar="true">
             <uxap:headerTitle>
                 <uxap:ObjectPageDynamicHeaderTitle>
                     <uxap:expandedHeading>
@@ -57,78 +57,105 @@
             </uxap:headerTitle>
 
             <uxap:headerContent>
-                <FlexBox
-                    wrap="Wrap"
-                    fitContainer="true"
-                >
-                    <HBox>
-                        <VBox>
-                            <HBox>
-                                <Label
-                                    text="전표번호 : "
-                                    width="8rem"
-                                />
-                                <Label
-                                    text="{BaseData>/Parameters/AccountingDocument}"
-                                    width="15rem"
-                                />
-                            </HBox>
-                        </VBox>
-                        <HBox>
-                            <HBox>
-                                <Label
-                                    width="8rem"
-                                    text="차변합계:"
-                                />
-                                <FlexBox width="15rem">
-                                    <ObjectNumber
-                                        number="{ 
-                                        parts: ['BaseData>/Parameters/DebitTotal', 'BaseData>/Parameters/Currency'],
-                                        type: 'sap.ui.model.type.Currency'
-                                     }"
-                                    />
-                                </FlexBox>
-                            </HBox>
-                            <HBox>
-                                <Label
-                                    width="8rem"
-                                    text="대변합계:"
-                                />
-                                <FlexBox width="15rem">
-                                    <ObjectNumber
-                                        number="{ 
-                                        parts: ['BaseData>/Parameters/CreditTotal', 'BaseData>/Parameters/Currency'],
-                                        type: 'sap.ui.model.type.Currency'
-                                     }"
-                                    />
-                                </FlexBox>
-                            </HBox>
-                            <HBox>
-                                <Label
-                                    width="8rem"
-                                    text="잔액:"
-                                />
-                                <FlexBox width="15rem">
-                                    <ObjectNumber
-                                        number="{ 
-                                            parts: ['BaseData>/Parameters/AmountTotal', 'BaseData>/Parameters/Currency'],
-                                            type: 'sap.ui.model.type.Currency'
-                                        }"
-                                    />
-                                </FlexBox>
-                            </HBox>
-                        </HBox>
-                    </HBox>
-                </FlexBox>
             </uxap:headerContent>
 
             <!-- // Section 시작부분 -->
             <uxap:sections>
                 <uxap:ObjectPageSection
                     titleUppercase="true"
-                    id="OPS_Header"
+                    id="OPS_Header1"
                     title="Content"
-                    showTitle="false"
+                    showTitle="true"
+                >
+                    <uxap:subSections>
+                        <uxap:ObjectPageSubSection title="기본정보">
+                            <VBox>
+                                <form:SimpleForm
+                                    editable="true"
+                                    layout="ResponsiveGridLayout"
+                                >
+                                    <form:content>
+                                        <HBox>
+                                            <VBox>
+                                                <HBox
+                                                    width="100%"
+                                                    alignItems="Center"
+                                                    class="">
+                                                    <Label
+                                                        text="전표번호 : "
+                                                        width="8rem"
+                                                    />
+                                                    <Label
+                                                        text="{BaseData>/Parameters/AccountingDocument}"
+                                                        width="15rem"
+                                                    />
+                                                </HBox>
+                                            </VBox>
+                                            <HBox>
+                                                <HBox
+                                                    width="100%"
+                                                    alignItems="Center"
+                                                    class="">
+                                                    <Label
+                                                        width="8rem"
+                                                        text="차변합계:"
+                                                    />
+                                                    <FlexBox width="15rem">
+                                                        <ObjectStatus
+                                                            text="{ 
+                                                            parts: ['BaseData>/Parameters/DebitTotal', 'BaseData>/Parameters/Currency'],
+                                                            type: 'sap.ui.model.type.Currency'
+                                                        }"
+                                                        />
+                                                    </FlexBox>
+                                                </HBox>
+                                                <HBox
+                                                    width="100%"
+                                                    alignItems="Center"
+                                                    class="">
+                                                    <Label
+                                                        width="8rem"
+                                                        text="대변합계:"
+                                                    />
+                                                    <FlexBox width="15rem">
+                                                        <ObjectStatus
+                                                            text="{ 
+                                                            parts: ['BaseData>/Parameters/CreditTotal', 'BaseData>/Parameters/Currency'],
+                                                            type: 'sap.ui.model.type.Currency'
+                                                        }"
+                                                        />
+                                                    </FlexBox>
+                                                </HBox>
+                                                <HBox
+                                                    width="100%"
+                                                    alignItems="Center"
+                                                    class="">
+                                                    <Label
+                                                        width="8rem"
+                                                        text="잔액:"
+                                                    />
+                                                    <FlexBox width="15rem">
+                                                        <ObjectStatus
+                                                            text="{ 
+                                                                parts: ['BaseData>/Parameters/AmountTotal', 'BaseData>/Parameters/Currency'],
+                                                                type: 'sap.ui.model.type.Currency'
+                                                            }"
+                                                        />
+                                                    </FlexBox>
+                                                </HBox>
+                                            </HBox>
+                                        </HBox>
+                                    </form:content>
+                                </form:SimpleForm>
+                            </VBox>
+                        </uxap:ObjectPageSubSection>
+                    </uxap:subSections>
+                </uxap:ObjectPageSection>   
+                <uxap:ObjectPageSection
+                    titleUppercase="true"
+                    id="OPS_Header2"
+                    title="Content"
+                    showTitle="true"
                 >
                     <uxap:subSections>
                         <uxap:ObjectPageSubSection title="입력정보">
@@ -251,14 +278,23 @@
                                                                 <Label
                                                                     text="거래통화 : "
                                                                     width="8rem"
-                                                                />
-                                                                <Input
+                                                                />                                                                
+                                                                <FlexBox width="15rem">
+                                                                    <ObjectStatus
+                                                                        text="{ 
+                                                                            parts: ['BaseData>/Parameters/Currency'],
+                                                                            type: 'sap.ui.model.type.Currency',
+                                                                            formatOptions: {showNumber: false}
+                                                                        }"
+                                                                    />
+                                                                </FlexBox>
+                                                                <!-- <Input
                                                                     value="{BaseData>/Parameters/Currency}"
                                                                     showValueHelp="true"
                                                                     width="15rem"
                                                                     valueState="{BaseData>/Parameters/CurrencyState}"
                                                                     valueHelpRequest=".onOpenCurrency"
-                                                                />
+                                                                /> -->
                                                             </items>
                                                         </HBox>
                                                         
@@ -466,12 +502,12 @@
                                                                     width="8rem"
                                                                 />
                                                                 <FlexBox width="15rem">
-                                                                    <ObjectNumber
-                                                                        number="{ 
-                                                                        parts: ['BaseData>/Parameters/VATAmount', 'BaseData>/Parameters/Currency'],
-                                                                        type: 'sap.ui.model.type.Currency'
-                                                                    }"
-                                                                />
+                                                                    <ObjectStatus
+                                                                        text="{ 
+                                                                            parts: ['BaseData>/Parameters/VATAmount', 'BaseData>/Parameters/Currency'],
+                                                                            type: 'sap.ui.model.type.Currency'
+                                                                        }"
+                                                                    />
                                                                 </FlexBox>
                                                             </items>
                                                         </HBox>
@@ -483,7 +519,16 @@
                                 </form:SimpleForm>
                             </VBox>
                         </uxap:ObjectPageSubSection>
+                    </uxap:subSections>
+                </uxap:ObjectPageSection>   
 
+                <uxap:ObjectPageSection
+                    titleUppercase="true"
+                    id="OPS_Header3"
+                    title="Content"
+                    showTitle="true"
+                >
+                    <uxap:subSections>
                         <uxap:ObjectPageSubSection title="상세입력">
                             <uxap:blocks>
                                 <VBox>
@@ -502,11 +547,11 @@
                                                 <Toolbar>
                                                     <ToolbarSpacer />
                                                     <Button
-                                                        text="Add"
+                                                        icon="sap-icon://add"
                                                         press=".onAddBtnPress"
                                                     />
                                                     <Button
-                                                        text="Remove"
+                                                        icon="sap-icon://less"
                                                         press=".onRemoveBtnPress"
                                                     />
                                                 </Toolbar>
