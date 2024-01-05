@@ -25,14 +25,14 @@
             <uxap:headerTitle>
                 <uxap:ObjectPageDynamicHeaderTitle>
                     <uxap:expandedHeading>
-                        <Title text="생성" />
+                        <!-- <Title text="생성" /> -->
                     </uxap:expandedHeading>
                     <uxap:snappedHeading>
                         <FlexBox
                             fitContainer="true"
                             alignItems="Center"
                         >
-                            <Title text="생성" />
+                            <!-- <Title text="생성" /> -->
                         </FlexBox>
                     </uxap:snappedHeading>
                     <uxap:expandedContent >

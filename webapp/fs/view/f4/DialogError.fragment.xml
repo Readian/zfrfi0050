@@ -1,0 +1,34 @@
+<core:FragmentDefinition
+    xmlns="sap.m"
+    xmlns:core="sap.ui.core">
+	<Dialog
+		title="{i18n>ErrorDialogTitle}"
+        titleAlignment="Center"
+        contentWidth="450px"
+        resizable="true"
+        draggable="true">
+		<content>
+            <List items="{BaseData>/Error}" >
+                <CustomListItem>
+                    <HBox
+                        width="100%"
+                        alignItems="Center" 
+                        class="sapUiTinyMarginTopBottom">
+                        <core:Icon src="sap-icon://alert" class="sapUiSmallMarginBeginEnd sapUiTinyMarginTop" color="Negative" />
+                        <Text text="{BaseData>ErrMsg}"/>
+                    </HBox>
+                </CustomListItem>
+            </List>
+        </content>
+		<footer>
+			<Toolbar>
+				<content>
+					<ToolbarSpacer />
+					<Button
+						text="{i18n>DilogBtnLBL}"
+						press=".onCancelDialog"/>
+				</content>
+			</Toolbar>
+		</footer>
+    </Dialog>
+</core:FragmentDefinition>

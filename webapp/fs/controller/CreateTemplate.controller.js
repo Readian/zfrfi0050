@@ -12,7 +12,8 @@ sap.ui.define([
     "sap/m/Label",
     "sap/m/SearchField",
     "sap/m/Text",
-    "sap/ui/table/Column"
+    "sap/ui/table/Column",
+    "sap/ui/core/BusyIndicator"
 ], function (
     Controller,
     JSONModel,
@@ -27,7 +28,8 @@ sap.ui.define([
     Label,
     SearchField,
     Text,
-    UIColumn) {
+    UIColumn,
+    BusyIndicator) {
     'use strict';
 
     return Controller.extend("fi.zfrfi0050.fs.controller.CreateTemplate", {
@@ -2019,27 +2021,56 @@ sap.ui.define([
                                     oRouter.navTo('ZFI_C_OTHER_RECEIPTList');
                                 }.bind(this))
                                 .catch(function (error) {
+                                    // CustomExtention.showErrorMessage(error);
+                                    let oBaseData = this.getView().getModel('BaseData');
                                     let aError = [];
-                                    let oErrMsg = {};
-                                    let oErrRes = error.response.data.error,
-                                        sInnerErr = oErrRes.message,
-                                        aDetailErr = oErrRes.details
-                                    if (sInnerErr) {
-                                        oErrMsg.ErrMsg = sInnerErr
-                                        aError.push(oErrMsg);
+                                    
+                                    if (error.response.data.error.message) {
+                                        aError.push({ErrMsg: error.response.data.error.message});
                                     }
-                                    if (aDetailErr) {
-                                        aDetailErr.forEach(oErr => {
-                                            oErrMsg = {};
-                                            oErrMsg.ErrMsg = oErr.message;
-                                            aError.push(oErrMsg);
+    
+                                    if(error.response.data.error.details && error.response.data.error.details.length > 0) {
+                                        _.forEach(error.response.data.error.details, function(o){
+                                            aError.push({ErrMsg: o.message});
                                         });
                                     }
-                                    if (aError.length > 0) {
-                                        oBaseData.setProperty('/Visible/Footer', true);
-                                        oBaseData.setProperty('/ErrMsgs', aError);
+    
+                                    oBaseData.setProperty('/Error', aError);
+    
+                                    if (!oBaseData.getProperty('/_oErrDialog')) {
+                                        this.loadFragment({
+                                            name: "fi.zfrfi0050.fs.view.f4.DialogError"
+                                        }).then(function (oDialog) {
+                                            oBaseData.setProperty('/_oErrDialog', oDialog);
+                                            this.getView().addDependent(oDialog);
+                                            oDialog.open();
+                                        }.bind(this));
+                                    } else {
+                                        oBaseData.getProperty('/_oErrDialog').open();
                                     }
-                                });
+                                    BusyIndicator.hide();
+
+                                    // let aError = [];
+                                    // let oErrMsg = {};
+                                    // let oErrRes = error.response.data.error,
+                                    //     sInnerErr = oErrRes.message,
+                                    //     aDetailErr = oErrRes.details
+                                    // if (sInnerErr) {
+                                    //     oErrMsg.ErrMsg = sInnerErr
+                                    //     aError.push(oErrMsg);
+                                    // }
+                                    // if (aDetailErr) {
+                                    //     aDetailErr.forEach(oErr => {
+                                    //         oErrMsg = {};
+                                    //         oErrMsg.ErrMsg = oErr.message;
+                                    //         aError.push(oErrMsg);
+                                    //     });
+                                    // }
+                                    // if (aError.length > 0) {
+                                    //     oBaseData.setProperty('/Visible/Footer', true);
+                                    //     oBaseData.setProperty('/ErrMsgs', aError);
+                                    // }
+                                }.bind(this));
                         }
 
                     }.bind(this)
@@ -2083,6 +2114,11 @@ sap.ui.define([
             } else {
                 oBaseData.getProperty('/_oErrDialog').openBy(oErrBtn);
             }
+        },
+
+        onCancelDialog: function (oEvent) {
+            let oBaseData = this.getView().getModel('BaseData');
+            oBaseData.getProperty('/_oErrDialog').close();
         }
     });
 });

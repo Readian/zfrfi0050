@@ -77,7 +77,7 @@ sap.ui.define([
                     VATAmount : 0,
                     TaxPer: 0
                 },
-                ErrMsgs: []
+                Error: []
             },
             ViewData :{
                 _View : undefined,
