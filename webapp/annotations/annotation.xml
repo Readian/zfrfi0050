@@ -139,8 +139,8 @@
                                 <PropertyValue Property="RequestAtLeast">
                                     <Collection>
                                         <PropertyPath>AccountingDocument</PropertyPath>
-                                        <PropertyPath>CompanyCode</PropertyPath>
                                         <PropertyPath>FiscalYear</PropertyPath>
+                                        <PropertyPath>CompanyCode</PropertyPath>
                                     </Collection>
                                 </PropertyValue>
                             </Record>
