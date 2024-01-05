@@ -127,6 +127,26 @@
                         </PropertyValue>
                     </Record>
                 </Annotation>
+                <Annotation Term="UI.SelectionPresentationVariant" Qualifier="table1">
+                    <Record Type="UI.SelectionPresentationVariantType">
+                        <PropertyValue Property="PresentationVariant">
+                            <Record Type="UI.PresentationVariantType">
+                                <PropertyValue Property="Visualizations">
+                                    <Collection>
+                                        <AnnotationPath>@UI.LineItem</AnnotationPath>
+                                    </Collection>
+                                </PropertyValue>
+                                <PropertyValue Property="RequestAtLeast">
+                                    <Collection>
+                                        <PropertyPath>AccountingDocument</PropertyPath>
+                                        <PropertyPath>CompanyCode</PropertyPath>
+                                        <PropertyPath>FiscalYear</PropertyPath>
+                                    </Collection>
+                                </PropertyValue>
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
             </Annotations>
             <Annotation Term="UI.Identification"  >
                 <Collection>
@@ -175,26 +195,6 @@
                         </Record>
                     </Collection>
             </Annotation >
-            <Annotation Term="UI.SelectionPresentationVariant" Qualifier="table1">
-                <Record Type="UI.SelectionPresentationVariantType">
-                    <PropertyValue Property="PresentationVariant">
-                        <Record Type="UI.PresentationVariantType">
-                            <PropertyValue Property="Visualizations">
-                                <Collection>
-                                    <AnnotationPath>@UI.LineItem</AnnotationPath>
-                                </Collection>
-                            </PropertyValue>
-                            <PropertyValue Property="RequestAtLeast">
-                                <Collection>
-                                    <PropertyPath>AccountingDocument</PropertyPath>
-                                    <PropertyPath>CompanyCode</PropertyPath>
-                                    <PropertyPath>FiscalYear</PropertyPath>
-                                </Collection>
-                            </PropertyValue>
-                        </Record>
-                    </PropertyValue>
-                </Record>
-            </Annotation>
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/Supplier">
                 <Annotation Term="Common.Label" String="공급업체"/>
             </Annotations>
