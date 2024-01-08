@@ -624,7 +624,7 @@
                                                         />
                                                         <Input
                                                             value="{
-                                                                parts : ['BaseData>balance','BaseData>BalanceCurrency'],
+                                                                parts : ['BaseData>balance','BaseData>Currency'],
                                                                 type : 'sap.ui.model.type.Currency',
                                                                 formatOptions: {showMeasure : false}
                                                                 }"
@@ -639,6 +639,7 @@
                                                                 formatOptions: {showMeasure : false}
                                                                 
                                                             }"
+                                                            valueStateText="{BaseData>AmountStateText}"
                                                             valueState="{BaseData>AmountState}"
                                                         />
 
