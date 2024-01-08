@@ -1378,6 +1378,7 @@ sap.ui.define([
                     oBaseData.setProperty(sPath + '/Costcenter', oSelected);
                     oBaseData.setProperty(sPath + '/CostcenterName', oCostCenterName.CodeName);
                     oValueHelpData.getProperty('/_oVHDialog/VHTBCostCenter').close();
+                    this._changeBalance(sPath);
                     break;
 
                 case 'search':
@@ -1447,6 +1448,7 @@ sap.ui.define([
                     oBaseData.setProperty(sPath + '/GLAccount', oSelected);
                     oBaseData.setProperty(sPath + '/GLAccountName', AccountName.CodeName);
                     oValueHelpData.getProperty('/_oVHDialog/VHTBGLAccount').close();
+                    this._changeBalance(sPath);
                     break;
 
                 case 'search':
@@ -1828,7 +1830,7 @@ sap.ui.define([
                 else {
                     oBaseData.setProperty('/Items/' + i + '/GLAccountState', 'None');
                 }
-                if (!oBaseDataData.Items[i].Amount || oBaseDataData.Items[i].Amount == '') {
+                if (!oBaseDataData.Items[i].Amount || oBaseDataData.Items[i].Amount == '' || oBaseDataData.Items[i].Amount > oBaseDataData.Items[i].balance) {
                     isTrue = false;
                     oBaseData.setProperty('/Items/' + i + '/AmountState', 'Error');
                 }
@@ -2119,6 +2121,33 @@ sap.ui.define([
         onCancelDialog: function (oEvent) {
             let oBaseData = this.getView().getModel('BaseData');
             oBaseData.getProperty('/_oErrDialog').close();
-        }
+        },
+
+        _changeBalance: function (sPath) {
+            let oBaseDataModel = this.oView.getModel("BaseData");
+            let oParamData = oBaseDataModel.getProperty('/Parameters')
+            let oDetailLine = oBaseDataModel.getProperty(sPath);
+            let oModel = this.oView.getModel();
+            let sUrl = `/ZFI_C_PLAN_COST_SUMMARY(CompanyCode='${oParamData.CompanyCode}',FiscalYear='${oParamData.InputData.slice(0,4)}',CostCenter='${'0'.repeat(10-oDetailLine.Costcenter.length) + oDetailLine.Costcenter}',GLAccount='${'0'.repeat(10 - oDetailLine.GLAccount.length) + oDetailLine.GLAccount}')`
+            let oContextBinding = oModel.bindContext(sUrl);
+    
+            oContextBinding.requestObject()
+            .then(
+              function (oResult) {
+                oBaseDataModel.setProperty(sPath+'/balance', oResult.AvailableBudget);
+                oBaseDataModel.setProperty(sPath+'/BalanceCurrency', oResult.CompanyCodeCurrency);
+                oBaseDataModel.setProperty(sPath+'/Amount', 0);
+                this.onCalculation(oBaseDataModel);
+              }.bind(this)
+            )
+            .catch(
+              function (error) {
+                oBaseDataModel.setProperty(sPath+'/balance', 0);
+                oBaseDataModel.setProperty(sPath+'/BalanceCurrency', '');
+                oBaseDataModel.setProperty(sPath+'/Amount', 0);
+                this.onCalculation(oBaseDataModel);
+              }.bind(this)
+            );
+        },
     });
 });

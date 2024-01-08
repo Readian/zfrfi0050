@@ -604,6 +604,7 @@
                                                             value="{BaseData>Costcenter}"
                                                             valueState="{BaseData>CostcenterState}"
                                                             showValueHelp="true"
+                                                            valueHelpOnly="true"
                                                             valueHelpRequest=".onOpenVHTBCostCenter"/>
                                                         <Input 
                                                             value="{BaseData>CostcenterName}"
@@ -612,6 +613,7 @@
                                                         <Input
                                                             value="{BaseData>GLAccount}"
                                                             showValueHelp="true"
+                                                            valueHelpOnly="true"
                                                             valueHelpRequest=".onOpenVHTBAccount"
                                                             valueState="{BaseData>GLAccountState}"
                                                             enabled="{BaseData>GLAccountEnable}"
@@ -622,7 +624,7 @@
                                                         />
                                                         <Input
                                                             value="{
-                                                                parts : ['BaseData>Budgetbalance','BaseData>Currency'],
+                                                                parts : ['BaseData>balance','BaseData>BalanceCurrency'],
                                                                 type : 'sap.ui.model.type.Currency',
                                                                 formatOptions: {showMeasure : false}
                                                                 }"

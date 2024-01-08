@@ -17,6 +17,7 @@ server:
           - path: /sap
             url: https://my408358-api.s4hana.cloud.sap
             destination: ZRQ_SAML_ASSERTION
+            client: "080"
     - name: fiori-tools-appreload
       afterMiddleware: compression
       configuration:
