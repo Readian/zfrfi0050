@@ -120,6 +120,7 @@ sap.ui.define(
           GLAccountName: "",
           Budgetbalance: 0,
           Amount: 0,
+          balance: 0,
           Currency: oBaseDataData.Parameters.Currency,
           AmountTax: 0,
           DocumentItemText: "",
@@ -2007,6 +2008,7 @@ sap.ui.define(
 
         let aDetailItems = oBaseData.getProperty("/Items");
         aDetailItems.forEach((element, idx) => {
+          if (idx === 0 ) return;
           let sPath = `/Items/${idx}`;
           this._changeBalance(sPath);
         });

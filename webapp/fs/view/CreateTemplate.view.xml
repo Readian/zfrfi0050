@@ -140,6 +140,7 @@
                                                                 parts: ['BaseData>/Parameters/AmountTotal', 'BaseData>/Parameters/Currency'],
                                                                 type: 'sap.ui.model.type.Currency'
                                                             }"
+                                                            state="Error"   
                                                         />
                                                     </FlexBox>
                                                 </HBox>
