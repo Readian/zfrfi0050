@@ -204,7 +204,8 @@
                   }
                 }
               }
-            }
+            },
+            "defaultTemplateAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#table1"
           }
         },
         "CreateTemplate": {

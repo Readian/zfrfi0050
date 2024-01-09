@@ -20,9 +20,10 @@
                 </Annotation>
                 <Annotation Term="UI.LineItem">
                     <Collection>
-                        <Record Type="UI.DataField">
+                        <Record Type="UI.DataFieldWithUrl">
+                            <PropertyValue Property="Label" String="진행상태" ></PropertyValue>
                             <PropertyValue Property="Value" Path="StatusText"/>
-                            <PropertyValue Property="Label" String="진행상태"/>
+                            <PropertyValue Property="Url" Path="GroupWareUrl"/>
                         </Record>
                         <Record Type="UI.DataFieldWithIntentBasedNavigation">
                             <PropertyValue Property="SemanticObject" String="AccountingDocument"/>
@@ -141,6 +142,9 @@
                                         <PropertyPath>AccountingDocument</PropertyPath>
                                         <PropertyPath>FiscalYear</PropertyPath>
                                         <PropertyPath>CompanyCode</PropertyPath>
+                                        <PropertyPath>ApprovalNum</PropertyPath>
+                                        <PropertyPath>StatusText</PropertyPath>
+                                        <PropertyPath>GroupWareUrl</PropertyPath>
                                     </Collection>
                                 </PropertyValue>
                             </Record>

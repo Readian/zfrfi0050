@@ -75,7 +75,7 @@
                 </Key>
                 <Property Name="KeyGroupItem" Type="Edm.Guid" Nullable="false"/>
                 <Property Name="CodeId" Type="Edm.String" Nullable="false" MaxLength="20"/>
-                <Property Name="CodeName" Type="Edm.String" Nullable="false" MaxLength="50"/>
+                <Property Name="CodeName" Type="Edm.String" Nullable="false" MaxLength="200"/>
             </EntityType>
             <EntityType Name="ZFI_C_DOC_APPROVALType">
                 <Key>
@@ -134,6 +134,7 @@
                 <Property Name="PostingDate" Type="Edm.Date"/>
                 <Property Name="Status" Type="Edm.String" Nullable="false" MaxLength="2"/>
                 <Property Name="ApprovalNum" Type="Edm.String" Nullable="false" MaxLength="50"/>
+                <Property Name="GroupWareUrl" Type="Edm.String" Nullable="false" MaxLength="500"/>
                 <Property Name="DraftUser" Type="Edm.String" Nullable="false" MaxLength="12"/>
                 <Property Name="RequestType" Type="Edm.String" Nullable="false" MaxLength="2"/>
                 <Property Name="AcountingDocumentHeaderText" Type="Edm.String" Nullable="false" MaxLength="25"/>
@@ -156,8 +157,8 @@
                 <Property Name="Lastchangedat" Type="Edm.DateTimeOffset" Precision="7"/>
                 <Property Name="RequestTypeText" Type="Edm.String" Nullable="false" MaxLength="60"/>
                 <Property Name="StatusText" Type="Edm.String" Nullable="false" MaxLength="60"/>
-                <Property Name="SupplierName" Type="Edm.String" Nullable="false" MaxLength="80"/>
-                <Property Name="TaxCodeText" Type="Edm.String" Nullable="false" MaxLength="50"/>
+                <Property Name="SupplierName" Type="Edm.String" Nullable="false" MaxLength="35"/>
+                <Property Name="TaxCodeText" Type="Edm.String" Nullable="false" MaxLength="200"/>
                 <Property Name="CostCenterName" Type="Edm.String" Nullable="false" MaxLength="20"/>
             </EntityType>
             <EntityType Name="ZFI_V_BUSINESSPLACEType">
@@ -182,12 +183,21 @@
                 <Property Name="BankAccount" Type="Edm.String" Nullable="false" MaxLength="18"/>
                 <Property Name="BankAccountHolderName" Type="Edm.String" Nullable="false" MaxLength="60"/>
             </EntityType>
+            <EntityType Name="ZFI_V_ACCOUNT_RECONType">
+                <Key>
+                    <PropertyRef Name="CompanyCode"/>
+                    <PropertyRef Name="GLAccount"/>
+                </Key>
+                <Property Name="CompanyCode" Type="Edm.String" Nullable="false" MaxLength="4"/>
+                <Property Name="GLAccount" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Property Name="GLAccountName" Type="Edm.String" Nullable="false" MaxLength="20"/>
+            </EntityType>
             <EntityType Name="ZFI_V_SUPPLIERType">
                 <Key>
                     <PropertyRef Name="Supplier"/>
                 </Key>
                 <Property Name="Supplier" Type="Edm.String" Nullable="false" MaxLength="10"/>
-                <Property Name="SupplierName" Type="Edm.String" Nullable="false" MaxLength="80"/>
+                <Property Name="SupplierName" Type="Edm.String" Nullable="false" MaxLength="35"/>
             </EntityType>
             <EntityType Name="ZFI_V_COSTCENTER_C_ETCType">
                 <Key>
@@ -196,7 +206,7 @@
                 </Key>
                 <Property Name="KeyGroupItem" Type="Edm.Guid" Nullable="false"/>
                 <Property Name="CodeId" Type="Edm.String" Nullable="false" MaxLength="20"/>
-                <Property Name="CodeName" Type="Edm.String" Nullable="false" MaxLength="50"/>
+                <Property Name="CodeName" Type="Edm.String" Nullable="false" MaxLength="200"/>
             </EntityType>
             <EntityType Name="ZFI_CURRENCYType">
                 <Key>
@@ -223,7 +233,7 @@
                 </Key>
                 <Property Name="KeyGroupItem" Type="Edm.Guid" Nullable="false"/>
                 <Property Name="CodeId" Type="Edm.String" Nullable="false" MaxLength="20"/>
-                <Property Name="CodeName" Type="Edm.String" Nullable="false" MaxLength="50"/>
+                <Property Name="CodeName" Type="Edm.String" Nullable="false" MaxLength="200"/>
             </EntityType>
             <ComplexType Name="ZFI_A_DOC020">
                 <Property Name="RequestType" Type="Edm.String" Nullable="false" MaxLength="2"/>
@@ -242,6 +252,7 @@
                 <Property Name="paymentdate" Type="Edm.Date"/>
                 <Property Name="Costcenter" Type="Edm.String" Nullable="false" MaxLength="10"/>
                 <Property Name="Supplier" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Property Name="AccountRecon" Type="Edm.String" Nullable="false" MaxLength="10"/>
                 <Property Name="BankCountry" Type="Edm.String" Nullable="false" MaxLength="3"/>
                 <Property Name="Bank" Type="Edm.String" Nullable="false" MaxLength="15"/>
                 <Property Name="Bankaccount" Type="Edm.String" Nullable="false" MaxLength="18"/>
@@ -296,6 +307,7 @@
                 <Parameter Name="paymentdate" Type="Edm.Date" Nullable="true"/>
                 <Parameter Name="Costcenter" Type="Edm.String" Nullable="false" MaxLength="10"/>
                 <Parameter Name="Supplier" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Parameter Name="AccountRecon" Type="Edm.String" Nullable="false" MaxLength="10"/>
                 <Parameter Name="BankCountry" Type="Edm.String" Nullable="false" MaxLength="3"/>
                 <Parameter Name="Bank" Type="Edm.String" Nullable="false" MaxLength="15"/>
                 <Parameter Name="Bankaccount" Type="Edm.String" Nullable="false" MaxLength="18"/>
@@ -319,6 +331,7 @@
                 <EntitySet Name="ZFI_C_OTHER_RECEIPT" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_C_OTHER_RECEIPTType"/>
                 <EntitySet Name="ZFI_C_PLAN_COST_SUMMARY" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_C_PLAN_COST_SUMMARYType"/>
                 <EntitySet Name="ZFI_V_ACCOUNT_C_ETC" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_V_ACCOUNT_C_ETCType"/>
+                <EntitySet Name="ZFI_V_ACCOUNT_RECON" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_V_ACCOUNT_RECONType"/>
                 <EntitySet Name="ZFI_V_BUSINESSPLACE" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_V_BUSINESSPLACEType"/>
                 <EntitySet Name="ZFI_V_COMPANY_CODE" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_V_COMPANY_CODEType"/>
                 <EntitySet Name="ZFI_V_COSTCENTER_C_ETC" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_V_COSTCENTER_C_ETCType"/>
@@ -966,6 +979,20 @@
                                 <PropertyPath>CompanyCode</PropertyPath>
                             </Collection>
                         </PropertyValue>
+                        <PropertyValue Property="NonFilterableProperties">
+                            <Collection>
+                                <PropertyPath>GroupWareUrl</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.SortRestrictions">
+                    <Record>
+                        <PropertyValue Property="NonSortableProperties">
+                            <Collection>
+                                <PropertyPath>GroupWareUrl</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
                     </Record>
                 </Annotation>
                 <Annotation Term="SAP__capabilities.InsertRestrictions">
@@ -1115,6 +1142,57 @@
                     <Collection/>
                 </Annotation>
             </Annotations>
+            <Annotations Target="SAP__self.ZFI_V_ACCOUNT_RECONType/CompanyCode">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="회사 코드"/>
+                <Annotation Term="SAP__common.Heading" String="CoCd"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_V_ACCOUNT_RECONType/GLAccount">
+                <Annotation Term="SAP__common.Label" String="계정"/>
+                <Annotation Term="SAP__common.Text" Path="GLAccountName"/>
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Heading" String="G/L 계정"/>
+                <Annotation Term="SAP__common.QuickInfo" String="G/L 계정 번호"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_V_ACCOUNT_RECONType/GLAccountName">
+                <Annotation Term="SAP__common.Label" String="계정내역"/>
+                <Annotation Term="SAP__common.Heading" String="G/L 계정 이름"/>
+                <Annotation Term="SAP__common.QuickInfo" String="G/L 계정 이름"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_V_ACCOUNT_RECONType">
+                <Annotation Term="SAP__common.Label" String="Value Help - 계정코드(조정계정)"/>
+            </Annotations>
+            <Annotations Target="SAP__self.Container/ZFI_V_ACCOUNT_RECON">
+                <Annotation Term="SAP__capabilities.SearchRestrictions">
+                    <Record>
+                        <PropertyValue Property="Searchable" Bool="true"/>
+                        <PropertyValue Property="UnsupportedExpressions" EnumMember="SAP__capabilities.SearchExpressions/AND SAP__capabilities.SearchExpressions/OR SAP__capabilities.SearchExpressions/NOT SAP__capabilities.SearchExpressions/group SAP__capabilities.SearchExpressions/phrase"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.InsertRestrictions">
+                    <Record>
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.DeleteRestrictions">
+                    <Record>
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.UpdateRestrictions">
+                    <Record>
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                        <PropertyValue Property="QueryOptions">
+                            <Record>
+                                <PropertyValue Property="SelectSupported" Bool="true"/>
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__core.OptimisticConcurrency">
+                    <Collection/>
+                </Annotation>
+            </Annotations>
             <Annotations Target="SAP__self.ZFI_V_SUPPLIERType/Supplier">
                 <Annotation Term="SAP__common.Label" String="공급업체"/>
                 <Annotation Term="SAP__common.Text" Path="SupplierName"/>
@@ -1124,8 +1202,8 @@
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_SUPPLIERType/SupplierName">
                 <Annotation Term="SAP__common.Label" String="공급업체명"/>
-                <Annotation Term="SAP__common.Heading" String="공급업체"/>
-                <Annotation Term="SAP__common.QuickInfo" String="공급업체의 이름"/>
+                <Annotation Term="SAP__common.Heading" String="이름 1"/>
+                <Annotation Term="SAP__common.QuickInfo" String="이름 1"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_SUPPLIERType">
                 <Annotation Term="SAP__common.Label" String="Supplier"/>
@@ -1419,8 +1497,9 @@
                 <Annotation Term="SAP__common.QuickInfo" String="고정 값 내역"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/SupplierName">
-                <Annotation Term="SAP__common.Label" String="공급업체의 이름"/>
-                <Annotation Term="SAP__common.Heading" String="공급업체"/>
+                <Annotation Term="SAP__common.Label" String="이름"/>
+                <Annotation Term="SAP__common.Heading" String="이름 1"/>
+                <Annotation Term="SAP__common.QuickInfo" String="이름 1"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/CostCenterName">
                 <Annotation Term="SAP__common.Label" String="코스트 센터 이름"/>
