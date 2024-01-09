@@ -1150,6 +1150,61 @@ sap.ui.define(
         }
       },
 
+      onOpenVHAccountRecon: function (oEvent) {
+        let oBaseData = this.getView().getModel("BaseData");
+        let oValueHelpData = this.getView().getModel("ValueHelpData");
+        let oBaseDataData = oBaseData.getData();
+
+        if (!oValueHelpData.getProperty("/_oVHDialog/VHAccountRecon")) {
+          this.loadFragment({
+            name: "fi.zfrfi0050.fs.view.f4.F4AccountRecon",
+          }).then(
+            function (oDialog) {
+              oValueHelpData.setProperty("/_oVHDialog/VHAccountRecon", oDialog);
+              this.getView().addDependent(oDialog);
+              let oFilterBar = oDialog.getFilterBar();
+              let oBasicSearchField = new SearchField();
+              oFilterBar.setFilterBarExpanded(false);
+              oFilterBar.setBasicSearch(oBasicSearchField);
+              oBasicSearchField.attachSearch(function () {
+                oFilterBar.search();
+              });
+              oDialog.getTableAsync().then(
+                function (oTable) {
+                  oTable.setModel(this.getView().getModel());
+                  oTable.setThreshold(500);
+                  if (oTable.bindRows) {
+                    oTable.bindAggregation("rows", {
+                      path: "/ZFI_V_ACCOUNT_RECON",
+                      events: {
+                        dataReceived: function () {
+                          oDialog.update();
+                        },
+                      },
+                    });
+                    oTable.addColumn(
+                      new UIColumn({
+                        label: new Label({ text: "{i18n>AccountRecon}" }),
+                        template: new Text({ text: "{GLAccount}" }),
+                      })
+                    );
+                    oTable.addColumn(
+                      new UIColumn({
+                        label: new Label({ text: "{i18n>AccountReconName}" }),
+                        template: new Text({ text: "{GLAccountName}" }),
+                      })
+                    );
+                  }
+                  oDialog.update();
+                }.bind(this)
+              );
+              oDialog.open();
+            }.bind(this)
+          );
+        } else {
+          oValueHelpData.getProperty("/_oVHDialog/VHAccountRecon").open();
+        }
+      },
       onOpenVHPaymentTerms: function (oEvent) {
         let oBaseData = this.getView().getModel("BaseData");
         let oValueHelpData = this.getView().getModel("ValueHelpData");
@@ -1487,6 +1542,95 @@ sap.ui.define(
         }
       },
 
+      onActionVHAccountRecon: function (oEvent) {
+        let oBaseData = this.getView().getModel("BaseData");
+        let oValueHelpData = this.getView().getModel("ValueHelpData");
+
+        switch (oEvent.sId) {
+          case "cancel":
+            oValueHelpData.getProperty("/_oVHDialog/VHAccountRecon").close();
+            break;
+
+          case "ok":
+            if (oEvent.getParameter("tokens")[0] !== undefined) {
+              let oTable = oEvent.oSource.getTable();
+              let token = oEvent.getParameter("tokens")[0].getProperty("key");
+              oBaseData.setProperty("/Parameters/AccountRecon", token);
+            }
+            oValueHelpData.getProperty("/_oVHDialog/VHAccountRecon").close();
+            break;
+
+          case "search":
+            let oFilterBar = oValueHelpData
+              .getProperty("/_oVHDialog/VHAccountRecon")
+              .getFilterBar();
+            let sSearchQuery = oFilterBar.getBasicSearchValue();
+            let aSelectionSet = oEvent.getParameter("selectionSet");
+
+            let aFilters = aSelectionSet.reduce(function (aResult, oControl) {
+              if (oControl.getValue()) {
+                aResult.push(
+                  new Filter({
+                    path: oControl.getName(),
+                    operator: FilterOperator.Contains,
+                    value1: oControl.getValue(),
+                  })
+                );
+              }
+
+              return aResult;
+            }, []);
+
+            aFilters.push(
+              new Filter({
+                filters: [
+                  new Filter({
+                    path: "GLAccount",
+                    operator: FilterOperator.Contains,
+                    value1: sSearchQuery,
+                  }),
+                  new Filter({
+                    path: "GLAccountName",
+                    operator: FilterOperator.Contains,
+                    value1: sSearchQuery,
+                  }),
+                ],
+                and: false,
+              })
+            );
+
+            oValueHelpData
+              .getProperty("/_oVHDialog/VHPaymentTerms")
+              .getTableAsync()
+              .then(
+                function (oTable) {
+                  if (oTable.bindRows) {
+                    oTable.getBinding("rows").filter(
+                      new Filter({
+                        filters: aFilters,
+                        and: true,
+                      })
+                    );
+                  }
+                  if (oTable.bindItems) {
+                    oTable.getBinding("items").filter(
+                      new Filter({
+                        filters: aFilters,
+                        and: true,
+                      })
+                    );
+                  }
+                  oValueHelpData
+                    .getProperty("/_oVHDialog/VHPaymentTerms")
+                    .update();
+                }.bind(this)
+              );
+            break;
+
+          case "afterClose":
+            break;
+        }
+      },
       onActionVHTaxcode: function (oEvent) {
         let oBaseData = this.getView().getModel("BaseData");
         let oValueHelpData = this.getView().getModel("ValueHelpData");
@@ -1512,6 +1656,7 @@ sap.ui.define(
               } else {
                 oBaseData.setProperty("/Parameters/TaxPer", 0);
               }
+              oBaseData.setProperty("/Parameters/VATAmount", 0);
               this.onCalculation();
               // if (oTable.getContextByIndex(oTable.getSelectedIndex())) {
               //     let TaxCodeName = oTable.getContextByIndex(oTable.getSelectedIndex()).getObject();
@@ -2008,7 +2153,7 @@ sap.ui.define(
 
         let aDetailItems = oBaseData.getProperty("/Items");
         aDetailItems.forEach((element, idx) => {
-          if (idx === 0 ) return;
+          if (idx === 0) return;
           let sPath = `/Items/${idx}`;
           this._changeBalance(sPath);
         });
@@ -2035,28 +2180,43 @@ sap.ui.define(
           }
         }
 
-        let AmountTotal;
+        let AmountTotal, VATAmount;
         let HeaderCode = oBaseDataData.Items[0].DebitCreditCode;
+        let VATParam;
         if (HeaderCode === "S") {
-          AmountTotal = (DebitSum * 100) / (100 + vTaxPer);
+          if (oBaseDataData.Parameters.VATAmount === 0) {
+            VATAmount = Math.round((DebitSum * vTaxPer) / (100 + vTaxPer));
+          } else {
+            VATAmount = oBaseDataData.Parameters.VATAmount;
+          }
+          if (oBaseDataData.Parameters.TaxCode.slice(0, 1) === "9") {
+            VATParam = 0;
+          } else {
+            VATParam = VATAmount;
+          }
           oBaseData.setProperty(
             "/Parameters/AmountTotal",
-            AmountTotal - CreditSum
+            DebitSum - VATParam - CreditSum
           );
-          oBaseData.setProperty(
-            "/Parameters/VATAmount",
-            DebitSum - AmountTotal
-          );
+          oBaseData.setProperty("/Parameters/VATAmount", VATAmount);
+          oBaseData.setProperty("/Parameters/VATParam", VATParam);
         } else {
-          AmountTotal = (CreditSum * 100) / (100 + vTaxPer);
+          if (oBaseDataData.Parameters.VATAmount === 0) {
+            VATAmount = Math.round((CreditSum * vTaxPer) / (100 + vTaxPer));
+          } else {
+            VATAmount = oBaseDataData.Parameters.VATAmount;
+          }
+          if (oBaseDataData.Parameters.TaxCode.slice(0, 1) === "9") {
+            VATParam = 0;
+          } else {
+            VATParam = VATAmount;
+          }
           oBaseData.setProperty(
             "/Parameters/AmountTotal",
-            AmountTotal - DebitSum
+            CreditSum - VATParam - DebitSum
           );
-          oBaseData.setProperty(
-            "/Parameters/VATAmount",
-            CreditSum - AmountTotal
-          );
+          oBaseData.setProperty("/Parameters/VATAmount", VATAmount);
+          oBaseData.setProperty("/Parameters/VATParam", VATParam);
         }
         oBaseData.setProperty("/Parameters/DebitTotal", DebitSum);
         oBaseData.setProperty("/Parameters/CreditTotal", CreditSum);
@@ -2244,7 +2404,10 @@ sap.ui.define(
           ) {
             isTrue = false;
             oBaseData.setProperty("/Items/" + i + "/AmountState", "Error");
-            oBaseData.setProperty("/Items/" + i + "/AmountStateText", Model.I18n.getProperty('Error011'));
+            oBaseData.setProperty(
+              "/Items/" + i + "/AmountStateText",
+              Model.I18n.getProperty("Error011")
+            );
           } else {
             oBaseData.setProperty("/Items/" + i + "/AmountState", "None");
           }
@@ -2441,6 +2604,7 @@ sap.ui.define(
                       ReqID: "",
                       Title: "",
                       Content: "",
+                      AccountRecon: oBaseDataData.Parameters.AccountRecon,
                       URL: "",
                       _Item: aItem,
                     },

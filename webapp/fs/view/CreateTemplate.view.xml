@@ -365,6 +365,24 @@
                                                         <HBox
                                                             width="100%"
                                                             alignItems="Center"
+                                                        >
+                                                            <items>
+                                                                <Label
+                                                                    width="8rem"
+                                                                    text="대체조정계정:"
+                                                                />
+                                                                <Input
+                                                                    width="15rem"
+                                                                    value="{BaseData>/Parameters/AccountRecon}"
+                                                                    valueState="{BaseData>/Parameters/AccountReconState}"
+                                                                    showValueHelp="true"
+                                                                    valueHelpRequest=".onOpenVHAccountRecon"
+                                                                />
+                                                            </items>
+                                                        </HBox>
+                                                        <HBox
+                                                            width="100%"
+                                                            alignItems="Center"
                                                             class=""
                                                         >
                                                             <items>
@@ -502,14 +520,20 @@
                                                                     text="부가세 : "
                                                                     width="8rem"
                                                                 />
-                                                                <FlexBox width="15rem">
-                                                                    <ObjectStatus
-                                                                        text="{ 
-                                                                            parts: ['BaseData>/Parameters/VATAmount', 'BaseData>/Parameters/Currency'],
-                                                                            type: 'sap.ui.model.type.Currency'
-                                                                        }"
-                                                                    />
-                                                                </FlexBox>
+                                                                <Input
+                                                                    width="15rem"   
+                                                                    change=".onChangeHeaderAmount"
+                                                                    value="{ 
+                                                                        parts: ['BaseData>/Parameters/VATAmount', 'BaseData>/Parameters/Currency'],
+                                                                        type : 'sap.ui.model.type.Currency',
+                                                                        formatOptions: {showMeasure : false}
+                                                                    }"
+                                                                    editable="{= ${BaseData>/Parameters/TaxCode}.length > 0 ? true : false}"
+                                                                />
+                                                                <Label
+                                                                    class="sapUiSmallMarginBegin"
+                                                                    text="{BaseData>/Parameters/Currency}"
+                                                                />
                                                             </items>
                                                         </HBox>
                                                     </items>

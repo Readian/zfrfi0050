@@ -1,0 +1,24 @@
+<core:FragmentDefinition
+    xmlns="sap.ui.comp.valuehelpdialog"
+    xmlns:m="sap.m"
+    xmlns:fb="sap.ui.comp.filterbar"
+    xmlns:core="sap.ui.core"
+>
+    <ValueHelpDialog
+        supportMultiselect="false"
+        title="계좌"
+        ok="onActionVHAccountRecon"
+        cancel="onActionVHAccountRecon"
+        supportRanges="false"
+        key="GLAccount"
+        descriptionKey="GLAccountName"
+    >
+        <filterBar>
+            <fb:FilterBar
+                advancedMode="false"
+                search="onActionVHAccountRecon"
+                isRunningInValueHelpDialog="true"
+            />
+        </filterBar>
+    </ValueHelpDialog>
+</core:FragmentDefinition>

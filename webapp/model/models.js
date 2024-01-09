@@ -75,7 +75,9 @@ sap.ui.define([
                     Paymentscheduled: '',
                     CashDiscount1Days : 0,
                     VATAmount : 0,
-                    TaxPer: 0
+                    TaxPer: 0,
+                    AccountRecon: '',
+                    VATParam: 0,
                 },
                 Error: []
             },
