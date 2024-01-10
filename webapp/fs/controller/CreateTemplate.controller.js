@@ -2582,7 +2582,8 @@ sap.ui.define(
                       CompanyCode: oBaseDataData.Parameters.CompanyCode,
                       FiscalYear: oBaseDataData.Parameters.FiscalYear,
                       PostingDate: oBaseDataData.Parameters.PostingDate,
-                      Amount: oBaseDataData.Parameters.Amount,
+                      Amount: oBaseDataData.Parameters.VATAmount,
+                      // Amount: oBaseDataData.Parameters.Amount,
                       Currency: oBaseDataData.Parameters.Currency,
                       PaymentTerms: oBaseDataData.Parameters.PaymentTerms,
                       DocumentItemText:
@@ -2596,7 +2597,8 @@ sap.ui.define(
                       BankCountry: oBaseDataData.Parameters.BankCountry,
                       Bank: oBaseDataData.Parameters.Bank,
                       Bankaccount: oBaseDataData.Parameters.Bankaccount,
-                      AmountTotal: oBaseDataData.Parameters.AmountTotal,
+                      AmountTotal: oBaseDataData.Parameters.Amount,
+                      // AmountTotal: oBaseDataData.Parameters.AmountTotal,
                       BusinessPlace: oBaseDataData.Parameters.BusinessPlace,
                       DocumentReferenceID:
                         oBaseDataData.Parameters.DocumentReferenceID,
