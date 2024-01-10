@@ -312,6 +312,9 @@ sap.ui.define(
                           oDialog.update();
                         },
                       },
+                      parameters: {
+                         expand: "_Company"
+                      }
                     });
                     oTable.addColumn(
                       new UIColumn({
@@ -664,6 +667,42 @@ sap.ui.define(
                   oBaseData.getProperty("/Parameters/PostingDate")
                 );
               }
+
+              let sCompanyCode = oBaseData.getProperty('/Parameters/CompanyCode');
+              let oModel = this.getView().getModel();
+              let sUrl = `/sap/opu/odata4/sap/zfi_c_other_receipt_ui_v4/srvd/sap/zfi_c_other_receipt_ui/0001/ZFI_V_SUPPLIER
+                ?$filter=Supplier%20eq%20%27${'0'.repeat(10 - token.length) + token}%27
+                &$expand=_Company($filter=CompanyCode%20eq%20%27${'0'.repeat(4 - sCompanyCode.length) + sCompanyCode}%27)`;
+      
+              const headers = {
+                "X-Csrf-Token": oModel.getHttpHeaders()["X-CSRF-Token"],
+              };
+      
+              axios
+                .get(sUrl, { headers: headers })
+                .then(
+                  function (oResult) {
+                    if (oResult.data.value.length > 0) {
+                      oBaseData.setProperty(
+                        '/Parameters/AccountRecon',
+                        oResult.data.value[0]._Company[0].ReconciliationAccount
+                      );
+                    } else {
+                      oBaseData.setProperty(
+                        '/Parameters/AccountRecon',
+                        ""
+                      );
+                    }
+                  }.bind(this)
+                )
+                .catch(
+                  function (sPath, error) {
+                    oBaseData.setProperty(
+                      '/Parameters/AccountRecon',
+                      ""
+                    );
+                  }.bind(this)
+                );
             }
 
             oValueHelpData.getProperty("/_oVHDialog/VHSupplier").close();

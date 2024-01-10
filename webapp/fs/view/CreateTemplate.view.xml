@@ -320,6 +320,7 @@
                                                                 <Input
                                                                     xmlns:core="sap.ui.core"
                                                                     showValueHelp="true"
+                                                                    valueHelpOnly="true"
                                                                     value="{BaseData>/Parameters/Supplier}"
                                                                     valueState="{BaseData>/Parameters/SupplierState}"
                                                                     width="15rem"
