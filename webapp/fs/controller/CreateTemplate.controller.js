@@ -2170,7 +2170,7 @@ sap.ui.define(
         let DebitSum = 0;
         let CreditSum = 0;
         let vTaxPer = oBaseData.getProperty("/Parameters/TaxPer");
-
+        let vTaxCode = oBaseData.getProperty('/Parameters/TaxCode');
         for (let i = 0; i < oBaseDataData.Items.length; i++) {
           //D 차변 (Debit), C 대변 (Credit)
           if (oBaseDataData.Items[i].DebitCreditCode == "S") {
@@ -2184,7 +2184,7 @@ sap.ui.define(
         let HeaderCode = oBaseDataData.Items[0].DebitCreditCode;
         let VATParam;
         if (HeaderCode === "S") {
-          if (oBaseDataData.Parameters.VATAmount === 0) {
+          if (oBaseDataData.Parameters.VATAmount === 0 && vTaxCode !== "") {
             VATAmount = Math.round((DebitSum * vTaxPer) / (100 + vTaxPer));
           } else {
             VATAmount = oBaseDataData.Parameters.VATAmount;
@@ -2201,7 +2201,7 @@ sap.ui.define(
           oBaseData.setProperty("/Parameters/VATAmount", VATAmount);
           oBaseData.setProperty("/Parameters/VATParam", VATParam);
         } else {
-          if (oBaseDataData.Parameters.VATAmount === 0) {
+          if (oBaseDataData.Parameters.VATAmount === 0 && vTaxCode !== "") {
             VATAmount = Math.round((CreditSum * vTaxPer) / (100 + vTaxPer));
           } else {
             VATAmount = oBaseDataData.Parameters.VATAmount;
