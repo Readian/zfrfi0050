@@ -23,16 +23,16 @@
                         <Record Type="UI.DataFieldWithUrl">
                             <PropertyValue Property="Label" String="진행상태" ></PropertyValue>
                             <PropertyValue Property="Value" Path="StatusText"/>
-                            <PropertyValue Property="Url">
-                                <Apply Function="odata.fillUriTemplate">
-                                    <String>javascript:void(window.open({GroupWareUrl}))</String>
+                            <PropertyValue Property="Url" Path="GroupWareUrl"/>
+                                <!-- <Apply Function="odata.fillUriTemplate">
+                                    <String>javascript:void(window.open({GroupWareUrl},'windowname1','width=1500,height=800,scrollbars=yes,toolbar=yes,location=yes'))</String>
                                     <LabeledElement Name="GroupWareUrl">
                                         <Apply Function="odata.uriEncode">
                                             <Path>GroupWareUrl</Path>
                                         </Apply>
                                     </LabeledElement>
                                 </Apply>
-                            </PropertyValue>
+                            </PropertyValue> -->
                         </Record>
                         <Record Type="UI.DataFieldWithIntentBasedNavigation">
                             <PropertyValue Property="SemanticObject" String="AccountingDocument"/>
