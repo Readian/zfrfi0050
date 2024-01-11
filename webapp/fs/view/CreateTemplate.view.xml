@@ -82,7 +82,7 @@
                                                     alignItems="Center"
                                                     class="">
                                                     <Label
-                                                        text="전표번호 : "
+                                                        text="전표번호 :"
                                                         width="8rem"
                                                     />
                                                     <Label
@@ -180,7 +180,7 @@
                                                         >
                                                             <items>
                                                                 <!-- <Label
-                                                                    text="회사코드 : "
+                                                                    text="회사코드 :"
                                                                     width="8rem"
                                                                 />
                                                                 <Text
@@ -188,8 +188,9 @@
                                                                     text="{BaseData>/Parameters/CompanyCode}"
                                                                 /> -->
                                                                 <Label
-                                                                    text="사업장코드 : "
+                                                                    text="사업장코드 :"
                                                                     width="8rem"
+                                                                    required="true"
                                                                 />
                                                                 <Input
                                                                     value="{BaseData>/Parameters/BusinessPlace}"
@@ -207,7 +208,7 @@
                                                         >
                                                             <items>
                                                                 <Label
-                                                                    text="입력일 : "
+                                                                    text="입력일 :"
                                                                     width="8rem"
                                                                 />
                                                                 <Text
@@ -224,8 +225,9 @@
                                                         >
                                                             <items>
                                                                 <Label
-                                                                    text="증빙일자 : "
+                                                                    text="증빙일자 :"
                                                                     width="8rem"
+                                                                    required="true"
                                                                 />
                                                                 <DatePicker
                                                                     width="15rem"
@@ -249,8 +251,9 @@
                                                         >
                                                             <items>
                                                                 <Label
-                                                                    text="전기일자 : "
+                                                                    text="전기일자 :"
                                                                     width="8rem"
+                                                                    required="true"
                                                                 />
                                                                 <DatePicker
                                                                     width="15rem"
@@ -277,7 +280,7 @@
                                                         >
                                                             <items>
                                                                 <Label
-                                                                    text="거래통화 : "
+                                                                    text="거래통화 :"
                                                                     width="8rem"
                                                                 />                                                                
                                                                 <FlexBox width="15rem">
@@ -314,8 +317,9 @@
                                                         >
                                                             <items>
                                                                 <Label
-                                                                    text="공급업체 : "
+                                                                    text="공급업체 :"
                                                                     width="8rem"
+                                                                    required="true"
                                                                 />
                                                                 <Input
                                                                     xmlns:core="sap.ui.core"
@@ -335,8 +339,9 @@
                                                         >
                                                             <items>
                                                                 <Label
-                                                                    text="계좌 : "
+                                                                    text="계좌 :"
                                                                     width="8rem"
+                                                                    required="true"
                                                                 />
                                                                 <Input
                                                                     value="{BaseData>/Parameters/Bankaccount}"
@@ -354,7 +359,7 @@
                                                         >
                                                             <items>
                                                                 <Label
-                                                                    text="예금주 : "
+                                                                    text="예금주 :"
                                                                     width="8rem"
                                                                 />
                                                                 <Text
@@ -388,8 +393,9 @@
                                                         >
                                                             <items>
                                                                 <Label
-                                                                    text="헤더 텍스트 : "
+                                                                    text="헤더 텍스트 :"
                                                                     width="8rem"
+                                                                    required="true"
                                                                 />
                                                                 <Input
                                                                     width="15rem"
@@ -406,8 +412,9 @@
                                                         >
                                                             <items>
                                                                 <Label
-                                                                    text="참조 : "
+                                                                    text="참조 :"
                                                                     width="8rem"
+                                                                    required="true"
                                                                 />
                                                                 <Input
                                                                     width="15rem"
@@ -432,8 +439,9 @@
                                                         >
                                                             <items>
                                                                 <Label
-                                                                    text="지급조건 : "
+                                                                    text="지급조건 :"
                                                                     width="8rem"
+                                                                    required="true"
                                                                 />
                                                                 <Input
                                                                     xmlns:core="sap.ui.core"
@@ -452,7 +460,7 @@
                                                         >
                                                             <items>
                                                                 <Label
-                                                                    text="지급예정 : "
+                                                                    text="지급예정 :"
                                                                     width="8rem"
                                                                 />
                                                                 <Text
@@ -468,8 +476,9 @@
                                                         >
                                                             <items>
                                                                 <Label
-                                                                    text="지급금액 : "
+                                                                    text="지급금액 :"
                                                                     width="8rem"
+                                                                    required="true"
                                                                 />
                                                                 <Input
                                                                     xmlns:core="sap.ui.core"
@@ -477,8 +486,8 @@
                                                                     change=".onChangeHeaderAmount"
                                                                     value="{
                                                                         parts: ['BaseData>/Parameters/Amount', 'BaseData>/Parameters/Currency'],
-                                                                        type : 'sap.ui.model.type.Currency',
-                                                                        formatOptions: {showMeasure : false}
+                                                                        type :'sap.ui.model.type.Currency',
+                                                                        formatOptions: {showMeasure :false}
                                                                     }"
                                                                     width="15rem"
                                                                 />
@@ -494,8 +503,9 @@
                                                         >
                                                             <items>
                                                                 <Label
-                                                                    text="세금코드 : "
+                                                                    text="세금코드 :"
                                                                     width="8rem"
+                                                                    required="true"
                                                                 />
                                                                 <Input
                                                                     xmlns:core="sap.ui.core"
@@ -518,16 +528,17 @@
                                                         >
                                                             <items>
                                                                 <Label
-                                                                    text="부가세 : "
+                                                                    text="부가세 :"
                                                                     width="8rem"
+                                                                    required="true"
                                                                 />
                                                                 <Input
                                                                     width="15rem"   
                                                                     change=".onChangeHeaderAmount"
                                                                     value="{ 
                                                                         parts: ['BaseData>/Parameters/VATAmount', 'BaseData>/Parameters/Currency'],
-                                                                        type : 'sap.ui.model.type.Currency',
-                                                                        formatOptions: {showMeasure : false}
+                                                                        type :'sap.ui.model.type.Currency',
+                                                                        formatOptions: {showMeasure :false}
                                                                     }"
                                                                 />
                                                                 <Label
@@ -563,8 +574,8 @@
                                             fixedLayout="false"
                                             sticky="ColumnHeaders"
                                             items="{
-                                                path : 'BaseData>/Items',
-                                                templateShareable : false
+                                                path :'BaseData>/Items',
+                                                templateShareable :false
                                             }"
                                             mode="MultiSelect"
                                         >
@@ -586,13 +597,13 @@
                                                     <Text text="차변/대변" />
                                                 </Column>
                                                 <Column width="15rem">
-                                                    <Text text="비용귀속" />
+                                                    <Label text="비용귀속" required="true"/>
                                                 </Column>
                                                 <Column width="18rem">
                                                     <Text text="귀속부서명" />
                                                 </Column>
                                                 <Column width="15rem">
-                                                    <Text text="비용 계정" />
+                                                    <Label text="비용 계정" required="true"/>
                                                 </Column>
                                                 <Column width="18rem">
                                                     <Text text="비용 계정명" />
@@ -601,10 +612,10 @@
                                                     <Text text="예산잔액" />
                                                 </Column>
                                                 <Column width="17rem">
-                                                    <Text text="금액" />
+                                                    <Label text="금액" required="true"/>
                                                 </Column>
                                                 <Column width="25rem">
-                                                    <Text text="적요" />
+                                                    <Label text="적요" required="true"/>
                                                 </Column>
                                             </columns>
                                             <items>
@@ -649,9 +660,9 @@
                                                         />
                                                         <Input
                                                             value="{
-                                                                parts : ['BaseData>balance','BaseData>Currency'],
-                                                                type : 'sap.ui.model.type.Currency',
-                                                                formatOptions: {showMeasure : false}
+                                                                parts :['BaseData>balance','BaseData>Currency'],
+                                                                type :'sap.ui.model.type.Currency',
+                                                                formatOptions: {showMeasure :false}
                                                                 }"
                                                             editable="false"
                                                         />
@@ -660,8 +671,8 @@
                                                             enabled="{BaseData>AmountEnable}"
                                                             value="{
                                                                 parts: ['BaseData>Amount', 'BaseData>Currency'],
-                                                                type : 'sap.ui.model.type.Currency',
-                                                                formatOptions: {showMeasure : false}
+                                                                type :'sap.ui.model.type.Currency',
+                                                                formatOptions: {showMeasure :false}
                                                                 
                                                             }"
                                                             valueStateText="{BaseData>AmountStateText}"
