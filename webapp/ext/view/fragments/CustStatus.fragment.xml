@@ -1,0 +1,3 @@
+<core:FragmentDefinition xmlns:core="sap.ui.core" xmlns="sap.m">
+	<Link core:require="{ handler: 'fi/zfrfi0050/ext/controller/CustomExtension'}" text="{ApprovalStatusText}" press="handler.onPress" />
+</core:FragmentDefinition>

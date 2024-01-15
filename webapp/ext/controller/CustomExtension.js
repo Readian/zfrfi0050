@@ -7,6 +7,10 @@ sap.ui.define([
     'use strict';
 
     return {
+        onPress: function (oEvent) {
+            window.open(oEvent.getSource().getBindingContext().getObject().GroupWareUrl,'windowname1','width=1500,height=800,scrollbars=yes,toolbar=yes,location=yes')
+        },
+        
         CancelReq: function (oEvent) {
             MessageToast.show("Custom handler invoked.");
         },

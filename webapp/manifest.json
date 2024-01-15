@@ -167,6 +167,20 @@
                       "text": "신규"
                     }
                   },
+                  "columns": {
+                    "CustStatus": {
+                        "header": "진행 상태",
+                        "position": {
+                            "anchor": "DataField::PostingDate",
+                            "placement": "Before"
+                        },
+                        "template": "fi.zfrfi0050.ext.view.fragments.CustStatus",
+                        "horizontalAlign": "Center"
+                    },
+                    "DataFieldWithUrl::StatusText": {
+                        "availability": "Hidden"
+                    }
+                  },
                   "tableSettings" : {
                     "condensedTableLayout": true,
                     "enableExport": true,
