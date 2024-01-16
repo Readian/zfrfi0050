@@ -2324,15 +2324,6 @@ sap.ui.define(
         //     oBaseData.setProperty('/Parameters/DocumentItemTextState', 'None');
         // }
         if (
-          !oBaseDataData.Parameters.TaxCode ||
-          oBaseDataData.Parameters.TaxCode == ""
-        ) {
-          isTrue = false;
-          oBaseData.setProperty("/Parameters/TaxCodeState", "Error");
-        } else {
-          oBaseData.setProperty("/Parameters/TaxCodeState", "None");
-        }
-        if (
           !oBaseDataData.Parameters.DocumentDate ||
           oBaseDataData.Parameters.DocumentDate == ""
         ) {
@@ -2534,6 +2525,11 @@ sap.ui.define(
       onTaxChange: function (oEvent) {
         let oBaseData = this.getView().getModel("BaseData");
         let oTaxPercent = "";
+        if (oBaseData.getProperty("/Parameters/TaxCode")  === '' || oBaseData.getProperty("/Parameters/TaxCode")  === undefined){
+          oBaseData.setProperty("/Parameters/TaxPer", 0);
+          oBaseData.setProperty("/Parameters/VATAmount", 0);
+          this.onCalculation();
+        }
         // oBaseData
       },
 
