@@ -152,6 +152,7 @@
                                         <PropertyPath>FiscalYear</PropertyPath>
                                         <PropertyPath>CompanyCode</PropertyPath>
                                         <PropertyPath>ApprovalNum</PropertyPath>
+                                        <PropertyPath>Status</PropertyPath>
                                         <PropertyPath>StatusText</PropertyPath>
                                         <PropertyPath>GroupWareUrl</PropertyPath>
                                     </Collection>

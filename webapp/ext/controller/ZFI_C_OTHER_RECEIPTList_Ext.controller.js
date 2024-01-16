@@ -158,6 +158,78 @@ sap.ui.define(
           // })
           // this.getView().getModel('BaseData').setData(Data);
         },
+
+        _fcCallGroupWare: function (sUrl, sTblKey, sReqID, sTitle, sContent) {
+          let oWin = window.open(
+            "",
+            "popWorkflow",
+            "location=no,status=no,toolbar=no,scrollbars=yes,width=1100,height=" +
+              screen.height
+          );
+
+          let oFrm = document.workflowForm;
+          if (!oFrm) {
+            //없으면 생성
+            oFrm = document.createElement("form");
+            oFrm.setAttribute("id", "workflowForm");
+            oFrm.setAttribute("action", sUrl);
+            oFrm.setAttribute("target", "popWorkflow");
+            oFrm.setAttribute("method", "post");
+
+            if (sTblKey) {
+              let oHidden1 = document.createElement("input");
+              oHidden1.setAttribute("type", "hidden");
+              oHidden1.setAttribute("name", "SystemID");
+              oHidden1.setAttribute("value", "erp");
+              oFrm.appendChild(oHidden1);
+
+              let oHidden2 = document.createElement("input");
+              oHidden2.setAttribute("type", "hidden");
+              oHidden2.setAttribute("name", "WorkKind");
+              oHidden2.setAttribute("value", "APPROVAL-01");
+              oFrm.appendChild(oHidden2);
+
+              let oHidden3 = document.createElement("input");
+              oHidden3.setAttribute("type", "hidden");
+              oHidden3.setAttribute("name", "TblKey");
+              oHidden3.setAttribute("value", sTblKey);
+              oFrm.appendChild(oHidden3);
+
+              let oHidden4 = document.createElement("input");
+              oHidden4.setAttribute("type", "hidden");
+              oHidden4.setAttribute("name", "ReqID");
+              oHidden4.setAttribute("value", sReqID);
+              oFrm.appendChild(oHidden4);
+
+              let oHidden5 = document.createElement("input");
+              oHidden5.setAttribute("type", "hidden");
+              oHidden5.setAttribute("name", "Title");
+              oHidden5.setAttribute("value", sTitle);
+              oFrm.appendChild(oHidden5);
+
+              let oHidden6 = document.createElement("input");
+              oHidden6.setAttribute("type", "hidden");
+              oHidden6.setAttribute("name", "Content");
+              oHidden6.setAttribute("value", sContent);
+              oFrm.appendChild(oHidden6);
+            }
+
+            document.body.appendChild(oFrm);
+          } else {
+            if (sTblKey) {
+              oFrm.SystemID.value = "erp"; //고정
+              oFrm.WorkKind.value = "APPROVAL-01"; //결재타입-법인카드
+              oFrm.TblKey.value = sTblKey; //문서번호 : 데이터 고유키 (ABAP에서 반환 됨)
+              oFrm.ReqID.value = sReqID; //사용자 계정 (ABAP에서 반환 됨)
+              oFrm.Title.value = sTitle; //제목 (ABAP 반환 OR 고정)
+              oFrm.Content.value = sContent; //HTML 내용 (ABAP에서 반환 됨)
+            }
+            oFrm.action = sUrl; //전자결재 (ABAP에서 반환 됨)
+            oFrm.target = "popWorkflow";
+            oFrm.method = "post";
+          }
+          oFrm.submit();
+        },
       }
     );
   }

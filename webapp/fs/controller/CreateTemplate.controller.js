@@ -68,6 +68,12 @@ sap.ui.define(
       },
 
       onObjectMatched(oEvent) {
+        this.getView().setModel(Model.createBaseDataModel(), "BaseData");
+        this.getView().setModel(
+          Model.createValueHelpDataModel(),
+          "ValueHelpData"
+        );
+        this.getView().setModel(Model.createViewDataModel(), "ViewData");
         let oBaseData = this.getView().getModel("BaseData");
         oBaseData.setProperty(
           "/Parameters/CompanyCode",

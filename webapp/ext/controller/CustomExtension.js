@@ -8,7 +8,44 @@ sap.ui.define([
 
     return {
         onPress: function (oEvent) {
-            window.open(oEvent.getSource().getBindingContext().getObject().GroupWareUrl,'windowname1','width=1500,height=800,scrollbars=yes,toolbar=yes,location=yes')
+            if (
+              oEvent.getSource().getBindingContext().getObject().Status ===
+              "DA"
+            ) {
+              let sUrl = oEvent
+                .getSource()
+                .getBindingContext()
+                .getObject().GroupWareUrl;
+              let vTblKey, vReqID, vTitle, vContent, vContentIdx;
+              let vUrl = sUrl.split('?')[0]
+              let aUrl = sUrl.split("$");
+              aUrl.forEach((e, idx) => {
+                if (e.includes("TblKey")) {
+                  vTblKey = e.split("TblKey=")[1];
+                } else if (e.includes("ReqID")) {
+                  vReqID = e.split("ReqID=")[1];
+                } else if (e.includes("Title")) {
+                  vTitle = e.split("Title=")[1];
+                } else if (e.includes("Content")) {
+                  vContentIdx = idx;
+                }
+              });
+    
+              vContent = aUrl[vContentIdx].split("Content=")[1];
+              vContentIdx += 1;
+    
+              while (vContentIdx < aUrl.length) {
+                vContent += `$${aUrl[vContentIdx]}`;
+                vContentIdx += 1;
+              }
+              sap.ui
+                .controller(
+                  "fi.zfrfi0050.ext.controller.ZFI_C_OTHER_RECEIPTList_Ext"
+                )
+                ._fcCallGroupWare(vUrl, vTblKey, vReqID, vTitle, vContent);
+            } else {
+                window.open(oEvent.getSource().getBindingContext().getObject().GroupWareUrl,'windowname1','width=1500,height=800,scrollbars=yes,toolbar=yes,location=yes')
+            }
         },
         
         CancelReq: function (oEvent) {
