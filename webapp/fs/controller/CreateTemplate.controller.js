@@ -145,10 +145,12 @@ sap.ui.define(
 
             if (oAction === sap.m.MessageBox.Action.YES) {
               _(oTable.getSelectedItems().reverse()).forEach(function (n) {
-                BaseData.getProperty("/Items").splice(
-                  n.getId().match(/(\d+)$/)[0],
-                  1
-                );
+                if (n.getBindingContext("BaseData").getPath() !== "/Items/0") {
+                  BaseData.getProperty("/Items").splice(
+                    n.getId().match(/(\d+)$/)[0],
+                    1
+                  );
+                }
               });
               this.onCalculation();
               BaseData.refresh(true);
@@ -319,8 +321,8 @@ sap.ui.define(
                         },
                       },
                       parameters: {
-                         expand: "_Company"
-                      }
+                        expand: "_Company",
+                      },
                     });
                     oTable.addColumn(
                       new UIColumn({
@@ -674,39 +676,39 @@ sap.ui.define(
                 );
               }
 
-              let sCompanyCode = oBaseData.getProperty('/Parameters/CompanyCode');
+              let sCompanyCode = oBaseData.getProperty(
+                "/Parameters/CompanyCode"
+              );
               let oModel = this.getView().getModel();
               let sUrl = `/sap/opu/odata4/sap/zfi_c_other_receipt_ui_v4/srvd/sap/zfi_c_other_receipt_ui/0001/ZFI_V_SUPPLIER
-                ?$filter=Supplier%20eq%20%27${'0'.repeat(10 - token.length) + token}%27
-                &$expand=_Company($filter=CompanyCode%20eq%20%27${'0'.repeat(4 - sCompanyCode.length) + sCompanyCode}%27)`;
-      
+                ?$filter=Supplier%20eq%20%27${
+                  "0".repeat(10 - token.length) + token
+                }%27
+                &$expand=_Company($filter=CompanyCode%20eq%20%27${
+                  "0".repeat(4 - sCompanyCode.length) + sCompanyCode
+                }%27)`;
+
               const headers = {
                 "X-Csrf-Token": oModel.getHttpHeaders()["X-CSRF-Token"],
               };
-      
+
               axios
                 .get(sUrl, { headers: headers })
                 .then(
                   function (oResult) {
                     if (oResult.data.value.length > 0) {
                       oBaseData.setProperty(
-                        '/Parameters/AccountRecon',
+                        "/Parameters/AccountRecon",
                         oResult.data.value[0]._Company[0].ReconciliationAccount
                       );
                     } else {
-                      oBaseData.setProperty(
-                        '/Parameters/AccountRecon',
-                        ""
-                      );
+                      oBaseData.setProperty("/Parameters/AccountRecon", "");
                     }
                   }.bind(this)
                 )
                 .catch(
                   function (sPath, error) {
-                    oBaseData.setProperty(
-                      '/Parameters/AccountRecon',
-                      ""
-                    );
+                    oBaseData.setProperty("/Parameters/AccountRecon", "");
                   }.bind(this)
                 );
             }
@@ -2215,7 +2217,7 @@ sap.ui.define(
         let DebitSum = 0;
         let CreditSum = 0;
         let vTaxPer = oBaseData.getProperty("/Parameters/TaxPer");
-        let vTaxCode = oBaseData.getProperty('/Parameters/TaxCode');
+        let vTaxCode = oBaseData.getProperty("/Parameters/TaxCode");
         for (let i = 0; i < oBaseDataData.Items.length; i++) {
           //D 차변 (Debit), C 대변 (Credit)
           if (oBaseDataData.Items[i].DebitCreditCode == "S") {
@@ -2531,7 +2533,10 @@ sap.ui.define(
       onTaxChange: function (oEvent) {
         let oBaseData = this.getView().getModel("BaseData");
         let oTaxPercent = "";
-        if (oBaseData.getProperty("/Parameters/TaxCode")  === '' || oBaseData.getProperty("/Parameters/TaxCode")  === undefined){
+        if (
+          oBaseData.getProperty("/Parameters/TaxCode") === "" ||
+          oBaseData.getProperty("/Parameters/TaxCode") === undefined
+        ) {
           oBaseData.setProperty("/Parameters/TaxPer", 0);
           oBaseData.setProperty("/Parameters/VATAmount", 0);
           this.onCalculation();
