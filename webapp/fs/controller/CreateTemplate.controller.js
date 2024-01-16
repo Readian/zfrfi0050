@@ -2744,9 +2744,9 @@ sap.ui.define(
           "location=no,status=no,toolbar=no,scrollbars=yes,width=1100,height=" +
             screen.height
         );
-
+        let sUrl = oResponseData[0].URL;
         //전자결재 URL (개발/운영서버 분기처리)
-        var sUrl = "https://gwdev.sbckcloud.com/Interworking/Interworking.aspx";
+        // if (sUrl === '') sUrl = "https://gwdev.sbckcloud.com/Interworking/Interworking.aspx";
 
         oFrm.SystemID.value = "erp"; //고정
         oFrm.WorkKind.value = "APPROVAL-03"; //결재타입-기타영수증
