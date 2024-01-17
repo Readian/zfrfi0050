@@ -116,6 +116,81 @@
                 <Property Name="__EntityControl" Type="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.EntityControl"/>
                 <Property Name="SAP__Messages" Type="Collection(com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.SAP__Message)" Nullable="false"/>
             </EntityType>
+            <EntityType Name="I_SupplierCompanyType">
+                <Key>
+                    <PropertyRef Name="Supplier"/>
+                    <PropertyRef Name="CompanyCode"/>
+                </Key>
+                <Property Name="Supplier" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Property Name="CompanyCode" Type="Edm.String" Nullable="false" MaxLength="4"/>
+                <Property Name="AuthorizationGroup" Type="Edm.String" Nullable="false" MaxLength="4"/>
+                <Property Name="PaymentBlockingReason" Type="Edm.String" Nullable="false" MaxLength="1"/>
+                <Property Name="SupplierIsBlockedForPosting" Type="Edm.Boolean" Nullable="false"/>
+                <Property Name="IsBusinessPurposeCompleted" Type="Edm.String" Nullable="false" MaxLength="1"/>
+                <Property Name="AccountingClerk" Type="Edm.String" Nullable="false" MaxLength="2"/>
+                <Property Name="AccountingClerkFaxNumber" Type="Edm.String" Nullable="false" MaxLength="31"/>
+                <Property Name="AccountingClerkPhoneNumber" Type="Edm.String" Nullable="false" MaxLength="30"/>
+                <Property Name="AccountingClerkInternetAddress" Type="Edm.String" Nullable="false" MaxLength="130"/>
+                <Property Name="SupplierClerk" Type="Edm.String" Nullable="false" MaxLength="15"/>
+                <Property Name="SupplierClerkURL" Type="Edm.String" Nullable="false" MaxLength="130"/>
+                <Property Name="PaymentMethodsList" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Property Name="PaymentTerms" Type="Edm.String" Nullable="false" MaxLength="4"/>
+                <Property Name="ClearCustomerSupplier" Type="Edm.Boolean" Nullable="false"/>
+                <Property Name="IsToBeLocallyProcessed" Type="Edm.Boolean" Nullable="false"/>
+                <Property Name="ItemIsToBePaidSeparately" Type="Edm.Boolean" Nullable="false"/>
+                <Property Name="PaymentIsToBeSentByEDI" Type="Edm.Boolean" Nullable="false"/>
+                <Property Name="HouseBank" Type="Edm.String" Nullable="false" MaxLength="5"/>
+                <Property Name="CheckPaidDurationInDays" Type="Edm.Decimal" Nullable="false" Precision="3"/>
+                <Property Name="Currency" Type="Edm.String" Nullable="false" MaxLength="5"/>
+                <Property Name="BillOfExchLmtAmtInCoCodeCrcy" Type="Edm.Decimal" Nullable="false" Precision="13" Scale="variable"/>
+                <Property Name="SupplierClerkIDBySupplier" Type="Edm.String" Nullable="false" MaxLength="12"/>
+                <Property Name="IsDoubleInvoice" Type="Edm.Boolean" Nullable="false"/>
+                <Property Name="CustomerSupplierClearingIsUsed" Type="Edm.Boolean" Nullable="false"/>
+                <Property Name="ReconciliationAccount" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Property Name="InterestCalculationCode" Type="Edm.String" Nullable="false" MaxLength="2"/>
+                <Property Name="InterestCalculationDate" Type="Edm.Date"/>
+                <Property Name="IntrstCalcFrequencyInMonths" Type="Edm.String" Nullable="false" MaxLength="2"/>
+                <Property Name="SupplierHeadOffice" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Property Name="AlternativePayee" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Property Name="LayoutSortingRule" Type="Edm.String" Nullable="false" MaxLength="3"/>
+                <Property Name="APARToleranceGroup" Type="Edm.String" Nullable="false" MaxLength="4"/>
+                <Property Name="SuplrInvcVerificatTolGroup" Type="Edm.String" Nullable="false" MaxLength="4"/>
+                <Property Name="SupplierCertificationDate" Type="Edm.Date"/>
+                <Property Name="SupplierAccountNote" Type="Edm.String" Nullable="false" MaxLength="30"/>
+                <Property Name="WithholdingTaxCountry" Type="Edm.String" Nullable="false" MaxLength="3"/>
+                <Property Name="DeletionIndicator" Type="Edm.Boolean" Nullable="false"/>
+                <Property Name="CashPlanningGroup" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Property Name="IsToBeCheckedForDuplicates" Type="Edm.Boolean" Nullable="false"/>
+                <Property Name="PersonnelNumber" Type="Edm.String" Nullable="false" MaxLength="8"/>
+                <Property Name="PreviousAccountNumber" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Property Name="MinorityGroup" Type="Edm.String" Nullable="false" MaxLength="3"/>
+                <Property Name="LastInterestCalcRunDate" Type="Edm.Date"/>
+                <Property Name="US_ForeignSuplrHasPartnership" Type="Edm.Boolean" Nullable="false"/>
+                <Property Name="US_SecondTINNoticeIsIssued" Type="Edm.Boolean" Nullable="false"/>
+                <Property Name="US_ForeignSuplrLmtnOnBnftCode" Type="Edm.String" Nullable="false" MaxLength="2"/>
+                <Property Name="SupplierReleaseGroup" Type="Edm.String" Nullable="false" MaxLength="4"/>
+                <Property Name="CreditMemoPaymentTerms" Type="Edm.String" Nullable="false" MaxLength="4"/>
+                <Property Name="PaymentMethodSupplement" Type="Edm.String" Nullable="false" MaxLength="2"/>
+                <Property Name="US_FrgnAcctTaxFilingIsRequired" Type="Edm.Boolean" Nullable="false"/>
+                <Property Name="US_RecipientForeignTaxID" Type="Edm.String" Nullable="false" MaxLength="22"/>
+                <Property Name="US_FW9ReceiveDate" Type="Edm.Date"/>
+                <Property Name="US_FW8BENReceiveDate" Type="Edm.Date"/>
+                <Property Name="US_FrgnAcctTaxRcpntCntry" Type="Edm.String" Nullable="false" MaxLength="3"/>
+                <Property Name="US_GlobIntermediaryIdnNumber" Type="Edm.String" Nullable="false" MaxLength="19"/>
+                <Property Name="US_LobTreatyCode" Type="Edm.String" Nullable="false" MaxLength="2"/>
+                <Property Name="US_Chapter4StatusCode" Type="Edm.String" Nullable="false" MaxLength="2"/>
+                <Property Name="PaymentClearingGroup" Type="Edm.String" Nullable="false" MaxLength="8"/>
+                <Property Name="PaymentReason" Type="Edm.String" Nullable="false" MaxLength="4"/>
+                <Property Name="DeletionIsBlocked" Type="Edm.Boolean" Nullable="false"/>
+                <Property Name="IsActiveEntity" Type="Edm.Boolean" Nullable="false"/>
+                <Property Name="UK_ContractorBusinessType" Type="Edm.String" Nullable="false" MaxLength="12"/>
+                <Property Name="UK_PartnerTradingName" Type="Edm.String" Nullable="false" MaxLength="30"/>
+                <Property Name="UK_PartnerTaxReference" Type="Edm.String" Nullable="false" MaxLength="20"/>
+                <Property Name="UK_VerificationStatus" Type="Edm.String" Nullable="false" MaxLength="3"/>
+                <Property Name="UK_VerificationNumber" Type="Edm.String" Nullable="false" MaxLength="20"/>
+                <Property Name="UK_CompanyRegistrationNumber" Type="Edm.String" Nullable="false" MaxLength="8"/>
+                <Property Name="UK_VerifiedTaxStatus" Type="Edm.String" Nullable="false" MaxLength="1"/>
+            </EntityType>
             <EntityType Name="ZFI_V_COMPANY_CODEType">
                 <Key>
                     <PropertyRef Name="CompanyCode"/>
@@ -134,7 +209,7 @@
                 <Property Name="PostingDate" Type="Edm.Date"/>
                 <Property Name="Status" Type="Edm.String" Nullable="false" MaxLength="2"/>
                 <Property Name="ApprovalNum" Type="Edm.String" Nullable="false" MaxLength="50"/>
-                <Property Name="GroupWareUrl" Type="Edm.String" Nullable="false" MaxLength="500"/>
+                <Property Name="GroupWareUrl" Type="Edm.String" Nullable="false" MaxLength="1333"/>
                 <Property Name="DraftUser" Type="Edm.String" Nullable="false" MaxLength="12"/>
                 <Property Name="RequestType" Type="Edm.String" Nullable="false" MaxLength="2"/>
                 <Property Name="AcountingDocumentHeaderText" Type="Edm.String" Nullable="false" MaxLength="25"/>
@@ -147,6 +222,7 @@
                 <Property Name="Bank" Type="Edm.String" Nullable="false" MaxLength="15"/>
                 <Property Name="BankAccount" Type="Edm.String" Nullable="false" MaxLength="18"/>
                 <Property Name="AmountTotal" Type="Edm.Decimal" Nullable="false" Precision="23" Scale="variable"/>
+                <Property Name="KeyBusinessTrip" Type="Edm.Guid"/>
                 <Property Name="Createdbybtp" Type="Edm.String" Nullable="false" MaxLength="30"/>
                 <Property Name="Lastchagedbybtp" Type="Edm.String" Nullable="false" MaxLength="30"/>
                 <Property Name="Createdby" Type="Edm.String" Nullable="false" MaxLength="12"/>
@@ -183,6 +259,13 @@
                 <Property Name="BankAccount" Type="Edm.String" Nullable="false" MaxLength="18"/>
                 <Property Name="BankAccountHolderName" Type="Edm.String" Nullable="false" MaxLength="60"/>
             </EntityType>
+            <EntityType Name="ZFI_V_PAYMENT_METHOD_STDType">
+                <Key>
+                    <PropertyRef Name="PaymentMethodsList"/>
+                </Key>
+                <Property Name="PaymentMethodsList" Type="Edm.String" Nullable="false" MaxLength="1"/>
+                <Property Name="PaymentMethodName" Type="Edm.String" Nullable="false" MaxLength="30"/>
+            </EntityType>
             <EntityType Name="ZFI_V_ACCOUNT_RECONType">
                 <Key>
                     <PropertyRef Name="CompanyCode"/>
@@ -198,6 +281,8 @@
                 </Key>
                 <Property Name="Supplier" Type="Edm.String" Nullable="false" MaxLength="10"/>
                 <Property Name="SupplierName" Type="Edm.String" Nullable="false" MaxLength="35"/>
+                <NavigationProperty Name="_Company" Type="Collection(com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.I_SupplierCompanyType)"/>
+                <NavigationProperty Name="_PaymentTerms" Type="Collection(com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_V_PAYMENT_TERMSType)"/>
             </EntityType>
             <EntityType Name="ZFI_V_COSTCENTER_C_ETCType">
                 <Key>
@@ -214,6 +299,14 @@
                 </Key>
                 <Property Name="Currency" Type="Edm.String" Nullable="false" MaxLength="5"/>
                 <Property Name="CurrencyName" Type="Edm.String" Nullable="false" MaxLength="40"/>
+            </EntityType>
+            <EntityType Name="ZFI_V_PAYMENT_TERMS_STDType">
+                <Key>
+                    <PropertyRef Name="PaymentTerms"/>
+                </Key>
+                <Property Name="PaymentTerms" Type="Edm.String" Nullable="false" MaxLength="4"/>
+                <Property Name="PaymentTermsName" Type="Edm.String" Nullable="false" MaxLength="30"/>
+                <Property Name="CashDiscount1Days" Type="Edm.Decimal" Nullable="false" Precision="3"/>
             </EntityType>
             <EntityType Name="ZFI_V_PAYMENT_TERMSType">
                 <Key>
@@ -248,6 +341,10 @@
                 <Property Name="DocumentItemText" Type="Edm.String" Nullable="false" MaxLength="50"/>
                 <Property Name="KeyCardPur" Type="Edm.Guid"/>
                 <Property Name="TaxCode" Type="Edm.String" Nullable="false" MaxLength="2"/>
+                <Property Name="TaxcodeText" Type="Edm.String" Nullable="false" MaxLength="200"/>
+                <Property Name="AccountReconText" Type="Edm.String" Nullable="false" MaxLength="200"/>
+                <Property Name="DueCalculationBaseDate" Type="Edm.Date"/>
+                <Property Name="BPBankAccountInternalID" Type="Edm.String" Nullable="false" MaxLength="4"/>
                 <Property Name="DocumentDate" Type="Edm.Date"/>
                 <Property Name="paymentdate" Type="Edm.Date"/>
                 <Property Name="Costcenter" Type="Edm.String" Nullable="false" MaxLength="10"/>
@@ -269,6 +366,8 @@
                 <Property Name="DebitCreditCode" Type="Edm.String" Nullable="false" MaxLength="1"/>
                 <Property Name="Costcenter" Type="Edm.String" Nullable="false" MaxLength="10"/>
                 <Property Name="GLAccount" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Property Name="AccountText" Type="Edm.String" Nullable="false" MaxLength="200"/>
+                <Property Name="CostcenterText" Type="Edm.String" Nullable="false" MaxLength="200"/>
                 <Property Name="Amount" Type="Edm.Decimal" Nullable="false" Precision="23" Scale="variable"/>
                 <Property Name="AmountDebit" Type="Edm.Decimal" Nullable="false" Precision="23" Scale="variable"/>
                 <Property Name="AmountCredit" Type="Edm.Decimal" Nullable="false" Precision="23" Scale="variable"/>
@@ -303,6 +402,10 @@
                 <Parameter Name="DocumentItemText" Type="Edm.String" Nullable="false" MaxLength="50"/>
                 <Parameter Name="KeyCardPur" Type="Edm.Guid" Nullable="true"/>
                 <Parameter Name="TaxCode" Type="Edm.String" Nullable="false" MaxLength="2"/>
+                <Parameter Name="TaxcodeText" Type="Edm.String" Nullable="false" MaxLength="200"/>
+                <Parameter Name="AccountReconText" Type="Edm.String" Nullable="false" MaxLength="200"/>
+                <Parameter Name="DueCalculationBaseDate" Type="Edm.Date" Nullable="true"/>
+                <Parameter Name="BPBankAccountInternalID" Type="Edm.String" Nullable="false" MaxLength="4"/>
                 <Parameter Name="DocumentDate" Type="Edm.Date" Nullable="true"/>
                 <Parameter Name="paymentdate" Type="Edm.Date" Nullable="true"/>
                 <Parameter Name="Costcenter" Type="Edm.String" Nullable="false" MaxLength="10"/>
@@ -326,6 +429,7 @@
                 <Parameter Name="KeyRequest" Type="Edm.Guid" Nullable="true"/>
             </Action>
             <EntityContainer Name="Container">
+                <EntitySet Name="I_SupplierCompany" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.I_SupplierCompanyType"/>
                 <EntitySet Name="ZFI_CURRENCY" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_CURRENCYType"/>
                 <EntitySet Name="ZFI_C_DOC_APPROVAL" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_C_DOC_APPROVALType"/>
                 <EntitySet Name="ZFI_C_OTHER_RECEIPT" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_C_OTHER_RECEIPTType"/>
@@ -335,8 +439,13 @@
                 <EntitySet Name="ZFI_V_BUSINESSPLACE" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_V_BUSINESSPLACEType"/>
                 <EntitySet Name="ZFI_V_COMPANY_CODE" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_V_COMPANY_CODEType"/>
                 <EntitySet Name="ZFI_V_COSTCENTER_C_ETC" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_V_COSTCENTER_C_ETCType"/>
+                <EntitySet Name="ZFI_V_PAYMENT_METHOD_STD" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_V_PAYMENT_METHOD_STDType"/>
                 <EntitySet Name="ZFI_V_PAYMENT_TERMS" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_V_PAYMENT_TERMSType"/>
-                <EntitySet Name="ZFI_V_SUPPLIER" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_V_SUPPLIERType"/>
+                <EntitySet Name="ZFI_V_PAYMENT_TERMS_STD" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_V_PAYMENT_TERMS_STDType"/>
+                <EntitySet Name="ZFI_V_SUPPLIER" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_V_SUPPLIERType">
+                    <NavigationPropertyBinding Path="_Company" Target="I_SupplierCompany"/>
+                    <NavigationPropertyBinding Path="_PaymentTerms" Target="ZFI_V_PAYMENT_TERMS"/>
+                </EntitySet>
                 <EntitySet Name="ZFI_V_SUPPLIER_ACCOUNT" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_V_SUPPLIER_ACCOUNTType"/>
                 <EntitySet Name="ZFI_V_TAXCODE_C_ETC" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_V_TAXCODE_C_ETCType"/>
             </EntityContainer>
@@ -716,6 +825,9 @@
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_DOC_APPROVALType/Supplier">
                 <Annotation Term="SAP__common.Label" String="공급업체"/>
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Heading" String="공급업체"/>
+                <Annotation Term="SAP__common.QuickInfo" String="공급업체 계정 번호"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_DOC_APPROVALType/BankCountry">
                 <Annotation Term="SAP__common.Label" String="Bank Country"/>
@@ -831,6 +943,252 @@
                     <Collection/>
                 </Annotation>
             </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/Supplier">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.ValueListReferences">
+                    <Collection>
+                        <String>../../../../srvd_f4/sap/i_supplier_vh/0001;ps='srvd-zfi_c_other_receipt_ui-0001';va='com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.et-i_suppliercompany.supplier'/$metadata</String>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="SAP__common.Label" String="공급업체"/>
+                <Annotation Term="SAP__common.QuickInfo" String="공급업체 계정 번호"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/CompanyCode">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.ValueListReferences">
+                    <Collection>
+                        <String>../../../../srvd_f4/sap/i_companycodestdvh/0001;ps='srvd-zfi_c_other_receipt_ui-0001';va='com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.et-i_suppliercompany.companycode'/$metadata</String>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="SAP__common.Label" String="회사 코드"/>
+                <Annotation Term="SAP__common.Heading" String="CoCd"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/AuthorizationGroup">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="권한"/>
+                <Annotation Term="SAP__common.Heading" String="AuGr"/>
+                <Annotation Term="SAP__common.QuickInfo" String="권한 그룹"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/PaymentBlockingReason">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="지급 보류"/>
+                <Annotation Term="SAP__common.Heading" String="보류 지시자"/>
+                <Annotation Term="SAP__common.QuickInfo" String="지급 보류 키"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/IsBusinessPurposeCompleted">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="목적 완료됨"/>
+                <Annotation Term="SAP__common.Heading" String="비즈니스 목적 완료됨 플래그"/>
+                <Annotation Term="SAP__common.QuickInfo" String="비즈니스 목적 완료됨 플래그"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/AccountingClerk">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="담당자 약어"/>
+                <Annotation Term="SAP__common.QuickInfo" String="회계 담당자 약어"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/AccountingClerkPhoneNumber">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="회계 담당자 전화번호"/>
+                <Annotation Term="SAP__common.QuickInfo" String="비즈니스 파트너의 회계 담당자 전화번호"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/PaymentMethodsList">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="지급 방법"/>
+                <Annotation Term="SAP__common.Heading" String="방법"/>
+                <Annotation Term="SAP__common.QuickInfo" String="고려할 지급 방법 리스트"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/PaymentTerms">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="지급 조건"/>
+                <Annotation Term="SAP__common.QuickInfo" String="지급 조건 키"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/HouseBank">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="주거래 은행"/>
+                <Annotation Term="SAP__common.Heading" String="주 은행"/>
+                <Annotation Term="SAP__common.QuickInfo" String="주거래 은행의 숏 키"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/Currency">
+                <Annotation Term="SAP__common.IsCurrency"/>
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="통화"/>
+                <Annotation Term="SAP__common.QuickInfo" String="통화 키"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/BillOfExchLmtAmtInCoCodeCrcy">
+                <Annotation Term="SAP__measures.ISOCurrency" Path="Currency"/>
+                <Annotation Term="SAP__common.Label" String="어음 한도"/>
+                <Annotation Term="SAP__common.QuickInfo" String="어음 한도(현지 통화)"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/SupplierClerkIDBySupplier">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="공급업체 계정"/>
+                <Annotation Term="SAP__common.Heading" String="Acct w/ vndr"/>
+                <Annotation Term="SAP__common.QuickInfo" String="공급업체의 계정 번호"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/ReconciliationAccount">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="조정 계정"/>
+                <Annotation Term="SAP__common.QuickInfo" String="총계정원장의 조정 계정"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/InterestCalculationCode">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="이자 지시자"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/IntrstCalcFrequencyInMonths">
+                <Annotation Term="SAP__common.IsDigitSequence"/>
+                <Annotation Term="SAP__common.Label" String="이자 계산 주기"/>
+                <Annotation Term="SAP__common.QuickInfo" String="이자 계산 주기(개월)"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/SupplierHeadOffice">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="본점"/>
+                <Annotation Term="SAP__common.QuickInfo" String="본사 계정 번호"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/AlternativePayee">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="대리 수취인"/>
+                <Annotation Term="SAP__common.Heading" String="대리수취인"/>
+                <Annotation Term="SAP__common.QuickInfo" String="대리 수취인 계정 번호"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/LayoutSortingRule">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="정렬 키"/>
+                <Annotation Term="SAP__common.Heading" String="정렬"/>
+                <Annotation Term="SAP__common.QuickInfo" String="지정 번호에 따른 정렬을 위한 키"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/APARToleranceGroup">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="허용 한도 그룹"/>
+                <Annotation Term="SAP__common.QuickInfo" String="비즈니스 파트너/G/L 계정에 대한 허용 한도 그룹"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/SuplrInvcVerificatTolGroup">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="허용 한도 그룹"/>
+                <Annotation Term="SAP__common.Heading" String="ToGr"/>
+                <Annotation Term="SAP__common.QuickInfo" String="송장 검증의 허용 한도 그룹"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/WithholdingTaxCountry">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="원천세 국가/지역 키"/>
+                <Annotation Term="SAP__common.Heading" String="WC/R"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/CashPlanningGroup">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="계획 그룹"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/PersonnelNumber">
+                <Annotation Term="SAP__common.IsDigitSequence"/>
+                <Annotation Term="SAP__common.Label" String="사원 번호"/>
+                <Annotation Term="SAP__common.Heading" String="사원번호"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/PreviousAccountNumber">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="이전 계정 번호"/>
+                <Annotation Term="SAP__common.Heading" String="이전 번호"/>
+                <Annotation Term="SAP__common.QuickInfo" String="이전 마스터 레코드 번호"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/MinorityGroup">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="외부주주 지시자"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/SupplierReleaseGroup">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="릴리스 그룹"/>
+                <Annotation Term="SAP__common.Heading" String="AGrp"/>
+                <Annotation Term="SAP__common.QuickInfo" String="릴리스 승인 그룹"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/CreditMemoPaymentTerms">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="대변 메모 지급 조건"/>
+                <Annotation Term="SAP__common.Heading" String="CrPT"/>
+                <Annotation Term="SAP__common.QuickInfo" String="대변메모에 대한 지급조건키"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/PaymentMethodSupplement">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="지급 방법 보충"/>
+                <Annotation Term="SAP__common.Heading" String="방법보충"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/US_FrgnAcctTaxRcpntCntry">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="국가/지역 키"/>
+                <Annotation Term="SAP__common.Heading" String="C/R"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/PaymentClearingGroup">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="지급 반제 그룹 ID"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/PaymentReason">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="지급 사유"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/UK_PartnerTaxReference">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="파트너 UTR"/>
+                <Annotation Term="SAP__common.QuickInfo" String="파트너의 고유 세금 참조(UTR)"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/UK_VerificationStatus">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="검증 상태"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/UK_VerificationNumber">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="검증 번호"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/UK_VerifiedTaxStatus">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="세금 상태"/>
+                <Annotation Term="SAP__common.QuickInfo" String="검증된 외주업체의 세금 상태"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType">
+                <Annotation Term="SAP__common.Label" String="공급업체 회사"/>
+                <Annotation Term="SAP__common.SAPObjectNodeType">
+                    <Record>
+                        <PropertyValue Property="Name" String="SupplierCompanyCode"/>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.Container/I_SupplierCompany">
+                <Annotation Term="SAP__capabilities.SearchRestrictions">
+                    <Record>
+                        <PropertyValue Property="Searchable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.InsertRestrictions">
+                    <Record>
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.DeleteRestrictions">
+                    <Record>
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.UpdateRestrictions">
+                    <Record>
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                        <PropertyValue Property="QueryOptions">
+                            <Record>
+                                <PropertyValue Property="SelectSupported" Bool="true"/>
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__core.OptimisticConcurrency">
+                    <Collection/>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.FilterRestrictions">
+                    <Record>
+                        <PropertyValue Property="FilterExpressionRestrictions">
+                            <Collection>
+                                <Record>
+                                    <PropertyValue Property="Property" PropertyPath="BillOfExchLmtAmtInCoCodeCrcy"/>
+                                    <PropertyValue Property="AllowedExpressions" String="MultiValue"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
             <Annotations Target="SAP__self.ZFI_V_COMPANY_CODEType/CompanyCode">
                 <Annotation Term="SAP__common.Label" String="회사코드"/>
                 <Annotation Term="SAP__common.Text" Path="CompanyCodeName"/>
@@ -926,6 +1284,16 @@
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/Currency">
                 <Annotation Term="SAP__common.IsCurrency"/>
             </Annotations>
+            <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/Supplier">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.ValueListReferences">
+                    <Collection>
+                        <String>../../../../srvd_f4/sap/zfi_v_supplier/0001;ps='srvd-zfi_c_other_receipt_ui-0001';va='com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.et-zfi_c_other_receipt.supplier'/$metadata</String>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="SAP__common.Label" String="공급업체"/>
+                <Annotation Term="SAP__common.QuickInfo" String="공급업체 계정 번호"/>
+            </Annotations>
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/AmountTotal">
                 <Annotation Term="SAP__measures.ISOCurrency" Path="Currency"/>
             </Annotations>
@@ -942,13 +1310,6 @@
                 <Annotation Term="SAP__common.IsUpperCase"/>
                 <Annotation Term="SAP__common.Label" String="변경자"/>
                 <Annotation Term="SAP__common.QuickInfo" String="마지막 변경자"/>
-            </Annotations>
-            <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/Supplier">
-                <Annotation Term="SAP__common.ValueListReferences">
-                    <Collection>
-                        <String>../../../../srvd_f4/sap/zfi_v_supplier/0001;ps='srvd-zfi_c_other_receipt_ui-0001';va='com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.et-zfi_c_other_receipt.supplier'/$metadata</String>
-                    </Collection>
-                </Annotation>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType">
                 <Annotation Term="SAP__common.Label" String="기타영수증"/>
@@ -1142,6 +1503,51 @@
                     <Collection/>
                 </Annotation>
             </Annotations>
+            <Annotations Target="SAP__self.ZFI_V_PAYMENT_METHOD_STDType/PaymentMethodsList">
+                <Annotation Term="SAP__common.Label" String="지급방법"/>
+                <Annotation Term="SAP__common.Text" Path="PaymentMethodName"/>
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Heading" String="지급 방법"/>
+                <Annotation Term="SAP__common.QuickInfo" String="지급 방법"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_V_PAYMENT_METHOD_STDType/PaymentMethodName">
+                <Annotation Term="SAP__common.Label" String="지급조건내역"/>
+                <Annotation Term="SAP__common.Heading" String="내역"/>
+                <Annotation Term="SAP__common.QuickInfo" String="지급 방법 내역(로그온 언어)"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_V_PAYMENT_METHOD_STDType">
+                <Annotation Term="SAP__common.Label" String="Value Help - 지급방법"/>
+            </Annotations>
+            <Annotations Target="SAP__self.Container/ZFI_V_PAYMENT_METHOD_STD">
+                <Annotation Term="SAP__capabilities.SearchRestrictions">
+                    <Record>
+                        <PropertyValue Property="Searchable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.InsertRestrictions">
+                    <Record>
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.DeleteRestrictions">
+                    <Record>
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.UpdateRestrictions">
+                    <Record>
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                        <PropertyValue Property="QueryOptions">
+                            <Record>
+                                <PropertyValue Property="SelectSupported" Bool="true"/>
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__core.OptimisticConcurrency">
+                    <Collection/>
+                </Annotation>
+            </Annotations>
             <Annotations Target="SAP__self.ZFI_V_ACCOUNT_RECONType/CompanyCode">
                 <Annotation Term="SAP__common.IsUpperCase"/>
                 <Annotation Term="SAP__common.Label" String="회사 코드"/>
@@ -1205,10 +1611,31 @@
                 <Annotation Term="SAP__common.Heading" String="이름 1"/>
                 <Annotation Term="SAP__common.QuickInfo" String="이름 1"/>
             </Annotations>
-            <Annotations Target="SAP__self.ZFI_V_SUPPLIERType">
-                <Annotation Term="SAP__common.Label" String="Supplier"/>
-            </Annotations>
             <Annotations Target="SAP__self.Container/ZFI_V_SUPPLIER">
+                <Annotation Term="SAP__capabilities.NavigationRestrictions">
+                    <Record>
+                        <PropertyValue Property="RestrictedProperties">
+                            <Collection>
+                                <Record>
+                                    <PropertyValue Property="NavigationProperty" NavigationPropertyPath="_Company"/>
+                                    <PropertyValue Property="InsertRestrictions">
+                                        <Record>
+                                            <PropertyValue Property="Insertable" Bool="false"/>
+                                        </Record>
+                                    </PropertyValue>
+                                </Record>
+                                <Record>
+                                    <PropertyValue Property="NavigationProperty" NavigationPropertyPath="_PaymentTerms"/>
+                                    <PropertyValue Property="InsertRestrictions">
+                                        <Record>
+                                            <PropertyValue Property="Insertable" Bool="false"/>
+                                        </Record>
+                                    </PropertyValue>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
                 <Annotation Term="SAP__capabilities.SearchRestrictions">
                     <Record>
                         <PropertyValue Property="Searchable" Bool="true"/>
@@ -1238,6 +1665,9 @@
                 <Annotation Term="SAP__core.OptimisticConcurrency">
                     <Collection/>
                 </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_V_SUPPLIERType">
+                <Annotation Term="SAP__common.Label" String="Supplier"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_COSTCENTER_C_ETCType/CodeId">
                 <Annotation Term="SAP__common.Label" String="코스트센터"/>
@@ -1319,6 +1749,56 @@
                     <Collection/>
                 </Annotation>
             </Annotations>
+            <Annotations Target="SAP__self.ZFI_V_PAYMENT_TERMS_STDType/PaymentTerms">
+                <Annotation Term="SAP__common.Label" String="지급조건"/>
+                <Annotation Term="SAP__common.Text" Path="PaymentTermsName"/>
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Heading" String="조건"/>
+                <Annotation Term="SAP__common.QuickInfo" String="지급 조건 키"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_V_PAYMENT_TERMS_STDType/PaymentTermsName">
+                <Annotation Term="SAP__common.Label" String="지급조건내역"/>
+                <Annotation Term="SAP__common.Heading" String="내역"/>
+                <Annotation Term="SAP__common.QuickInfo" String="지급 조건 내역"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_V_PAYMENT_TERMS_STDType/CashDiscount1Days">
+                <Annotation Term="SAP__common.Label" String="지급일수"/>
+                <Annotation Term="SAP__common.Heading" String="CD1"/>
+                <Annotation Term="SAP__common.QuickInfo" String="현금 할인 일수 1"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_V_PAYMENT_TERMS_STDType">
+                <Annotation Term="SAP__common.Label" String="Value Help - 지급조건"/>
+            </Annotations>
+            <Annotations Target="SAP__self.Container/ZFI_V_PAYMENT_TERMS_STD">
+                <Annotation Term="SAP__capabilities.SearchRestrictions">
+                    <Record>
+                        <PropertyValue Property="Searchable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.InsertRestrictions">
+                    <Record>
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.DeleteRestrictions">
+                    <Record>
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.UpdateRestrictions">
+                    <Record>
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                        <PropertyValue Property="QueryOptions">
+                            <Record>
+                                <PropertyValue Property="SelectSupported" Bool="true"/>
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__core.OptimisticConcurrency">
+                    <Collection/>
+                </Annotation>
+            </Annotations>
             <Annotations Target="SAP__self.ZFI_V_PAYMENT_TERMSType/CompanyCode">
                 <Annotation Term="SAP__common.IsUpperCase"/>
                 <Annotation Term="SAP__common.Label" String="회사 코드"/>
@@ -1347,7 +1827,7 @@
                 <Annotation Term="SAP__common.QuickInfo" String="현금 할인 일수 1"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_PAYMENT_TERMSType">
-                <Annotation Term="SAP__common.Label" String="Value Help - 지급조건"/>
+                <Annotation Term="SAP__common.Label" String="Value Help - 지급조건(공급업체)"/>
             </Annotations>
             <Annotations Target="SAP__self.Container/ZFI_V_PAYMENT_TERMS">
                 <Annotation Term="SAP__capabilities.SearchRestrictions">
@@ -1458,6 +1938,148 @@
                 <Annotation Term="SAP__common.Heading" String="Dynamic Method Control"/>
                 <Annotation Term="SAP__common.QuickInfo" String="Dynamic Method Property"/>
             </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/SupplierIsBlockedForPosting">
+                <Annotation Term="SAP__common.Label" String="Co.code post.block"/>
+                <Annotation Term="SAP__common.Heading" String="B"/>
+                <Annotation Term="SAP__common.QuickInfo" String="회사코드에 대해 전기보류"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/AccountingClerkFaxNumber">
+                <Annotation Term="SAP__common.Label" String="회계 담당자 팩스"/>
+                <Annotation Term="SAP__common.QuickInfo" String="고객/공급업체의 회계 담당자 팩스번호"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/AccountingClerkInternetAddress">
+                <Annotation Term="SAP__common.Label" String="담당자 인터넷 주소"/>
+                <Annotation Term="SAP__common.Heading" String="담당자의 인터넷 주소"/>
+                <Annotation Term="SAP__common.QuickInfo" String="파트너 회사 담당자의 인터넷 주소"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/SupplierClerk">
+                <Annotation Term="SAP__common.Label" String="공급업체 담당자"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/SupplierClerkURL">
+                <Annotation Term="SAP__common.Label" String="담당자 인터넷 주소"/>
+                <Annotation Term="SAP__common.Heading" String="담당자의 인터넷 주소"/>
+                <Annotation Term="SAP__common.QuickInfo" String="파트너 회사 담당자의 인터넷 주소"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/ClearCustomerSupplier">
+                <Annotation Term="SAP__common.Label" String="고객으로 반제"/>
+                <Annotation Term="SAP__common.QuickInfo" String="지시자: 고객과 공급업체 간에 반제하겠습니까 ?"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/IsToBeLocallyProcessed">
+                <Annotation Term="SAP__common.Label" String="로컬 처리"/>
+                <Annotation Term="SAP__common.QuickInfo" String="지시자: 로컬 처리"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/ItemIsToBePaidSeparately">
+                <Annotation Term="SAP__common.Label" String="개별 지급"/>
+                <Annotation Term="SAP__common.QuickInfo" String="지시자: 모든 항목을 별도로 지급"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/PaymentIsToBeSentByEDI">
+                <Annotation Term="SAP__common.Label" String="EDI로 지급 통지"/>
+                <Annotation Term="SAP__common.Heading" String="EDI"/>
+                <Annotation Term="SAP__common.QuickInfo" String="지시자: EDI를 통해 지급 통지 보내기"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/CheckPaidDurationInDays">
+                <Annotation Term="SAP__common.Label" String="수표 현금화 시간"/>
+                <Annotation Term="SAP__common.Heading" String="GrP"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/IsDoubleInvoice">
+                <Annotation Term="SAP__common.Label" String="중복 송장 점검"/>
+                <Annotation Term="SAP__common.QuickInfo" String="중복 송장 또는 대변 메모에 대한 점검 플래그"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/CustomerSupplierClearingIsUsed">
+                <Annotation Term="SAP__common.Label" String="고객으로 반제"/>
+                <Annotation Term="SAP__common.QuickInfo" String="지시자: 고객과 공급업체 간에 반제하겠습니까 ?"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/InterestCalculationDate">
+                <Annotation Term="SAP__common.Label" String="최종 주요 일자"/>
+                <Annotation Term="SAP__common.Heading" String="최종이자계산 주요일자"/>
+                <Annotation Term="SAP__common.QuickInfo" String="마지막 이자 계산의 주요 일자"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/SupplierCertificationDate">
+                <Annotation Term="SAP__common.Label" String="증명서 일자"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/SupplierAccountNote">
+                <Annotation Term="SAP__common.Label" String="계정 메모"/>
+                <Annotation Term="SAP__common.QuickInfo" String="메모"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/DeletionIndicator">
+                <Annotation Term="SAP__common.Label" String="회사 코드 삭제플래그"/>
+                <Annotation Term="SAP__common.Heading" String="DelF"/>
+                <Annotation Term="SAP__common.QuickInfo" String="마스터 레코드에 대한 삭제 플래그(회사 코드 레벨)"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/IsToBeCheckedForDuplicates">
+                <Annotation Term="SAP__common.Label" String="중복 송장 점검"/>
+                <Annotation Term="SAP__common.QuickInfo" String="중복 송장 또는 대변 메모에 대한 점검 플래그"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/LastInterestCalcRunDate">
+                <Annotation Term="SAP__common.Label" String="최종 이자 계산"/>
+                <Annotation Term="SAP__common.Heading" String="마지막계산"/>
+                <Annotation Term="SAP__common.QuickInfo" String="최종 이자 계산 실행일"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/US_ForeignSuplrHasPartnership">
+                <Annotation Term="SAP__common.Label" String="Partnership Int Ind"/>
+                <Annotation Term="SAP__common.Heading" String="Partnership Interest Indicator"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Partnership Interest Indicator"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/US_SecondTINNoticeIsIssued">
+                <Annotation Term="SAP__common.Label" String="Second TIN Notice"/>
+                <Annotation Term="SAP__common.Heading" String="Second TIN Notice from IRS"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Second TIN Notice from IRS"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/US_ForeignSuplrLmtnOnBnftCode">
+                <Annotation Term="SAP__common.Label" String="LOB Treaty Code"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/US_FrgnAcctTaxFilingIsRequired">
+                <Annotation Term="SAP__common.Label" String="FATCA Ind"/>
+                <Annotation Term="SAP__common.Heading" String="FATCA Indicator"/>
+                <Annotation Term="SAP__common.QuickInfo" String="US FATCA Indicator"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/US_RecipientForeignTaxID">
+                <Annotation Term="SAP__common.Label" String="US Recipient FTID"/>
+                <Annotation Term="SAP__common.Heading" String="US Recipient Foreign Tax ID"/>
+                <Annotation Term="SAP__common.QuickInfo" String="US Recipient Foreign Tax ID"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/US_FW9ReceiveDate">
+                <Annotation Term="SAP__common.Label" String="W9 Form Rec Date"/>
+                <Annotation Term="SAP__common.Heading" String="W9 Form Received Date"/>
+                <Annotation Term="SAP__common.QuickInfo" String="US W8 Form Received Date"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/US_FW8BENReceiveDate">
+                <Annotation Term="SAP__common.Label" String="W8 Form Rec Date"/>
+                <Annotation Term="SAP__common.Heading" String="W8 Form Received Date"/>
+                <Annotation Term="SAP__common.QuickInfo" String="US W8 Form Received Date"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/US_GlobIntermediaryIdnNumber">
+                <Annotation Term="SAP__common.Label" String="US Recipient GIIN"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/US_LobTreatyCode">
+                <Annotation Term="SAP__common.Label" String="LOB Treaty Code"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/US_Chapter4StatusCode">
+                <Annotation Term="SAP__common.Label" String="Chaptr 4 Status Code"/>
+                <Annotation Term="SAP__common.Heading" String="Chapter 4 Status Code"/>
+                <Annotation Term="SAP__common.QuickInfo" String="US Chapter 4 Status Code"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/DeletionIsBlocked">
+                <Annotation Term="SAP__common.Label" String="회사 코드 삭제 차단"/>
+                <Annotation Term="SAP__common.Heading" String="DeBl"/>
+                <Annotation Term="SAP__common.QuickInfo" String="마스터 레코드에 대한 삭제 차단(회사 코드 레벨)"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/IsActiveEntity">
+                <Annotation Term="SAP__common.Label" String="활성"/>
+                <Annotation Term="SAP__common.QuickInfo" String="드래프트 - 지시자 - 활성 문서"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/UK_ContractorBusinessType">
+                <Annotation Term="SAP__common.Label" String="비즈니스 유형"/>
+                <Annotation Term="SAP__common.Heading" String="사업 유형"/>
+                <Annotation Term="SAP__common.QuickInfo" String="외주업체의 비즈니스 유형"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/UK_PartnerTradingName">
+                <Annotation Term="SAP__common.Label" String="파트너의 거래 이름"/>
+                <Annotation Term="SAP__common.Heading" String="파트너이름"/>
+            </Annotations>
+            <Annotations Target="SAP__self.I_SupplierCompanyType/UK_CompanyRegistrationNumber">
+                <Annotation Term="SAP__common.Label" String="회사 등록 번호"/>
+            </Annotations>
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/KeyRequest">
                 <Annotation Term="SAP__common.Label" String="UUID"/>
                 <Annotation Term="SAP__common.QuickInfo" String="16 Byte UUID in 16 Bytes (Raw Format)"/>
@@ -1475,6 +2097,10 @@
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/DocumentDate">
                 <Annotation Term="SAP__common.Label" String="증빙일"/>
                 <Annotation Term="SAP__common.QuickInfo" String="문서의 증빙일"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/KeyBusinessTrip">
+                <Annotation Term="SAP__common.Label" String="UUID"/>
+                <Annotation Term="SAP__common.QuickInfo" String="16 Byte UUID in 16 Bytes (Raw Format)"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/Createdat">
                 <Annotation Term="SAP__common.Label" String="생성일"/>

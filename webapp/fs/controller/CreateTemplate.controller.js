@@ -1170,6 +1170,14 @@ sap.ui.define(
                           template: new Text({ text: "{BankCountry}" }),
                         })
                       );
+                      oTable.addColumn(
+                        new UIColumn({
+                          label: new Label({ text: "예금주" }),
+                          template: new Text({
+                            text: "{BankAccountHolderName}",
+                          }),
+                        })
+                      );
                     }
                     oTable.getBinding("rows").filter(
                       new Filter({
@@ -1268,13 +1276,13 @@ sap.ui.define(
           isTrue = false;
           oBaseData.setProperty("/Parameters/PostingDateState", "Error");
         }
-        if (
-          !oBaseDataData.Parameters.Supplier ||
-          oBaseDataData.Parameters.Supplier == ""
-        ) {
-          isTrue = false;
-          oBaseData.setProperty("/Parameters/SupplierState", "Error");
-        }
+        // if (
+        //   !oBaseDataData.Parameters.Supplier ||
+        //   oBaseDataData.Parameters.Supplier == ""
+        // ) {
+        //   isTrue = false;
+        //   oBaseData.setProperty("/Parameters/SupplierState", "Error");
+        // }
         if (isTrue) {
           oBaseData.setProperty("/Parameters/SupplierState", "None");
           oBaseData.setProperty("/Parameters/PostingDateState", "None");
@@ -1301,25 +1309,25 @@ sap.ui.define(
                     oTable.setThreshold(500);
                     if (oTable.bindRows) {
                       oTable.bindAggregation("rows", {
-                        path: "/ZFI_V_PAYMENT_TERMS",
+                        path: "/ZFI_V_PAYMENT_TERMS_STD",
                         events: {
                           dataReceived: function () {
                             oDialog.update();
                           },
                         },
                       });
-                      oTable.addColumn(
-                        new UIColumn({
-                          label: new Label({ text: "회사코드" }),
-                          template: new Text({ text: "{CompanyCode}" }),
-                        })
-                      );
-                      oTable.addColumn(
-                        new UIColumn({
-                          label: new Label({ text: "공급업체" }),
-                          template: new Text({ text: "{Supplier}" }),
-                        })
-                      );
+                      // oTable.addColumn(
+                      //   new UIColumn({
+                      //     label: new Label({ text: "회사코드" }),
+                      //     template: new Text({ text: "{CompanyCode}" }),
+                      //   })
+                      // );
+                      // oTable.addColumn(
+                      //   new UIColumn({
+                      //     label: new Label({ text: "공급업체" }),
+                      //     template: new Text({ text: "{Supplier}" }),
+                      //   })
+                      // );
                       oTable.addColumn(
                         new UIColumn({
                           label: new Label({ text: "지급조건" }),
@@ -1339,13 +1347,13 @@ sap.ui.define(
                         })
                       );
                     }
-                    oTable.getBinding("rows").filter(
-                      new Filter({
-                        path: "Supplier",
-                        operator: FilterOperator.Contains,
-                        value1: oBaseDataData.Parameters.Supplier,
-                      })
-                    );
+                    // oTable.getBinding("rows").filter(
+                    //   new Filter({
+                    //     path: "Supplier",
+                    //     operator: FilterOperator.Contains,
+                    //     value1: oBaseDataData.Parameters.Supplier,
+                    //   })
+                    // );
 
                     oDialog.update();
                   }.bind(this)
@@ -1354,17 +1362,17 @@ sap.ui.define(
               }.bind(this)
             );
           } else {
-            oValueHelpData
-              .getProperty("/_oVHDialog/VHPaymentTerms")
-              .getTable()
-              .getBinding("rows")
-              .filter(
-                new Filter({
-                  path: "Supplier",
-                  operator: FilterOperator.Contains,
-                  value1: oBaseDataData.Parameters.Supplier,
-                })
-              );
+            // oValueHelpData
+            //   .getProperty("/_oVHDialog/VHPaymentTerms")
+            //   .getTable()
+            //   .getBinding("rows")
+            //   .filter(
+            //     new Filter({
+            //       path: "Supplier",
+            //       operator: FilterOperator.Contains,
+            //       value1: oBaseDataData.Parameters.Supplier,
+            //     })
+            //   );
             oValueHelpData.getProperty("/_oVHDialog/VHPaymentTerms").open();
           }
         }
