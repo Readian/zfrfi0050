@@ -378,11 +378,13 @@
                                                                     text="대체조정계정:"
                                                                 />
                                                                 <Input
+                                                                    id = "iptAcctRecon"
                                                                     width="15rem"
                                                                     value="{BaseData>/Parameters/AccountRecon}"
                                                                     valueState="{BaseData>/Parameters/AccountReconState}"
                                                                     showValueHelp="true"
-                                                                    valueHelpRequest=".onOpenVHAccountRecon"
+                                                                    valueLiveUpdate="true"
+                                                                    change="onChangeAccountRecon"
                                                                 />
                                                             </items>
                                                         </HBox>

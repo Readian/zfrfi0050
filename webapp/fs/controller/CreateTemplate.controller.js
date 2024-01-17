@@ -44,6 +44,8 @@ sap.ui.define(
           Model.createValueHelpDataModel(),
           "ValueHelpData"
         );
+        this.getView().getModel('BaseData').setProperty('VATAmount', 0);
+        this.getView().getModel('BaseData').setProperty('TaxPer', 0);
         this.getView().setModel(Model.createViewDataModel(), "ViewData");
         this.getView().byId("T_Items").getBinding("items").refresh(true);
         const oRouter = this.getOwnerComponent().getRouter();
@@ -704,11 +706,13 @@ sap.ui.define(
                     } else {
                       oBaseData.setProperty("/Parameters/AccountRecon", "");
                     }
+                    this.getView().byId('iptAcctRecon').fireChange()
                   }.bind(this)
                 )
                 .catch(
                   function (sPath, error) {
                     oBaseData.setProperty("/Parameters/AccountRecon", "");
+                    this.getView().byId('iptAcctRecon').fireChange()
                   }.bind(this)
                 );
             }
@@ -1512,6 +1516,10 @@ sap.ui.define(
                 "/Parameters/BankCountry",
                 BankName.BankCountry
               );
+              oBaseData.setProperty(
+                "/Parameters/BPBankAccountInternalID",
+                BankName.BPBankAccountInternalID
+              );
             }
 
             oValueHelpData.getProperty("/_oVHDialog/VHBankAccount").close();
@@ -1603,8 +1611,10 @@ sap.ui.define(
               let oTable = oEvent.oSource.getTable();
               let token = oEvent.getParameter("tokens")[0].getProperty("key");
               oBaseData.setProperty("/Parameters/AccountRecon", token);
+              oBaseData.setProperty("/Parameters/AccountReconText", oTable.getContextByIndex(oTable.getSelectedIndex()).getObject().GLAccountName);
             }
             oValueHelpData.getProperty("/_oVHDialog/VHAccountRecon").close();
+            
             break;
 
           case "search":
@@ -2544,6 +2554,42 @@ sap.ui.define(
         // oBaseData
       },
 
+      onChangeAccountRecon: function (oEvent) {
+        let oBaseData = this.getView().getModel("BaseData");
+        let oParamData = oBaseData.getProperty("/Parameters");
+        let oModel = this.oView.getModel();
+        let sUrl = `/sap/opu/odata4/sap/zfi_c_other_receipt_ui_v4/srvd/sap/zfi_c_other_receipt_ui/0001/ZFI_V_ACCOUNT_RECON?$filter=CompanyCode%20eq%20%27${
+          oParamData.CompanyCode
+        }%27%20and%20GLAccount%20eq%20%27${"0".repeat(10 - oParamData.AccountRecon.length) +
+          oParamData.AccountRecon
+        }%27`;
+
+        const headers = {
+          "X-Csrf-Token": oModel.getHttpHeaders()["X-CSRF-Token"],
+        };
+
+        axios
+          .get(sUrl, { headers: headers })
+          .then(
+            function (oResult) {
+              if (oResult.data.value.length === 1) {
+                oBaseData.setProperty(
+                  '/Parameters/AccountReconText',
+                  oResult.data.value[0].GLAccountName
+                );
+              } else {
+                oBaseData.setProperty('/Parameters/AccountReconText', '');
+                
+              }
+            }.bind(this)
+          )
+          .catch(
+            function (error) {
+              oBaseData.setProperty('/Parameters/AccountReconText', '');
+            }.bind(this)
+          );
+      },
+
       //결재상신
       onBtnPress: function (oEvent) {
         let oBaseData = this.getView().getModel("BaseData");
@@ -2573,9 +2619,7 @@ sap.ui.define(
                     delete Items.DebitCreditCodeState;
                     delete Items.CostcenterState;
                     delete Items.CostcenterEnable;
-                    delete Items.CostcenterName;
                     delete Items.GLAccountState;
-                    delete Items.GLAccountName;
                     delete Items.AmountState;
                     delete Items.CurrencyState;
                     delete Items.AmountTaxState;
@@ -2609,7 +2653,9 @@ sap.ui.define(
                     let oItem = {};
                     oItem.DebitCreditCode = element.DebitCreditCode;
                     oItem.Costcenter = element.Costcenter;
+                    oItem.CostcenterText = element.CostcenterName;
                     oItem.GLAccount = element.GLAccount;
+                    oItem.AccountText = element.GLAccountName;
                     oItem.Amount = element.Amount;
                     oItem.AmountDebit = element.AmountDebit;
                     oItem.AmountCredit = element.AmountCredit;
@@ -2646,13 +2692,17 @@ sap.ui.define(
                       AmountTotal: oBaseDataData.Parameters.Amount,
                       // AmountTotal: oBaseDataData.Parameters.AmountTotal,
                       BusinessPlace: oBaseDataData.Parameters.BusinessPlace,
-                      DocumentReferenceID:
-                        oBaseDataData.Parameters.DocumentReferenceID,
+                      DocumentReferenceID: oBaseDataData.Parameters.DocumentReferenceID,
                       TblKey: "",
                       ReqID: "",
                       Title: "",
                       Content: "",
                       AccountRecon: oBaseDataData.Parameters.AccountRecon,
+                      TaxcodeText: oBaseDataData.Parameters.TaxCodeName,
+                      DueCalculationBaseDate: oBaseDataData.Parameters.Paymentscheduled,
+                      BPBankAccountInternalID: oBaseDataData.Parameters.BPBankAccountInternalID,
+                      AccountReconText: oBaseDataData.Parameters.AccountReconText,
+                      
                       URL: "",
                       _Item: aItem,
                     },

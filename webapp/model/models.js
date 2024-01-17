@@ -77,6 +77,8 @@ sap.ui.define([
                     VATAmount : 0,
                     TaxPer: 0,
                     AccountRecon: '',
+                    AccountReconText: '',
+                    BPBankAccountInternalID: '',
                     VATParam: 0,
                 },
                 Error: []
