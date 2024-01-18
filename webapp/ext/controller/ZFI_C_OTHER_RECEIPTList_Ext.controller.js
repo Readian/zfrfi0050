@@ -218,7 +218,7 @@ sap.ui.define(
           } else {
             if (sTblKey) {
               oFrm.SystemID.value = "erp"; //고정
-              oFrm.WorkKind.value = sWorkKind; //결재타입-법인카드
+              oFrm.WorkKind.value = sWorkKind; //결재타입
               oFrm.TblKey.value = sTblKey; //문서번호 : 데이터 고유키 (ABAP에서 반환 됨)
               oFrm.ReqID.value = sReqID; //사용자 계정 (ABAP에서 반환 됨)
               oFrm.Title.value = sTitle; //제목 (ABAP 반환 OR 고정)
