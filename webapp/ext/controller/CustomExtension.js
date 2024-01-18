@@ -13,7 +13,7 @@ sap.ui.define(
             .getSource()
             .getBindingContext()
             .getObject().GroupWareUrl;
-          let vTblKey, vReqID, vTitle, vContent, vContentIdx;
+          let vTblKey, vReqID, vTitle, vContent, vContentIdx, vWorkKind;
           let vUrl = sUrl.split("?")[0];
           let aUrl = sUrl.split("$");
           aUrl.forEach((e, idx) => {
@@ -23,6 +23,8 @@ sap.ui.define(
               vReqID = e.split("ReqID=")[1];
             } else if (e.includes("Title")) {
               vTitle = e.split("Title=")[1];
+            } else if (e.includes("WorkKind")) {
+              vWorkKind = e.split("WorkKind=")[1];
             } else if (e.includes("Content")) {
               vContentIdx = idx;
             }
@@ -39,7 +41,7 @@ sap.ui.define(
             .controller(
               "fi.zfrfi0050.ext.controller.ZFI_C_OTHER_RECEIPTList_Ext"
             )
-            ._fcCallGroupWare(vUrl, vTblKey, vReqID, vTitle, vContent);
+            ._fcCallGroupWare(vUrl, vTblKey, vReqID, vWorkKind, vTitle, vContent);
         } else {
           window.open(
             oEvent.getSource().getBindingContext().getObject().GroupWareUrl,

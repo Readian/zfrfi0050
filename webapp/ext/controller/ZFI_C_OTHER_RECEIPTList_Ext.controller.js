@@ -159,7 +159,7 @@ sap.ui.define(
           // this.getView().getModel('BaseData').setData(Data);
         },
 
-        _fcCallGroupWare: function (sUrl, sTblKey, sReqID, sTitle, sContent) {
+        _fcCallGroupWare: function (sUrl, sTblKey, sReqID, sWorkKind, sTitle, sContent) {
           let oWin = window.open(
             "",
             "popWorkflow",
@@ -186,7 +186,7 @@ sap.ui.define(
               let oHidden2 = document.createElement("input");
               oHidden2.setAttribute("type", "hidden");
               oHidden2.setAttribute("name", "WorkKind");
-              oHidden2.setAttribute("value", "APPROVAL-01");
+              oHidden2.setAttribute("value", sWorkKind);
               oFrm.appendChild(oHidden2);
 
               let oHidden3 = document.createElement("input");
@@ -218,7 +218,7 @@ sap.ui.define(
           } else {
             if (sTblKey) {
               oFrm.SystemID.value = "erp"; //고정
-              oFrm.WorkKind.value = "APPROVAL-01"; //결재타입-법인카드
+              oFrm.WorkKind.value = sWorkKind; //결재타입-법인카드
               oFrm.TblKey.value = sTblKey; //문서번호 : 데이터 고유키 (ABAP에서 반환 됨)
               oFrm.ReqID.value = sReqID; //사용자 계정 (ABAP에서 반환 됨)
               oFrm.Title.value = sTitle; //제목 (ABAP 반환 OR 고정)

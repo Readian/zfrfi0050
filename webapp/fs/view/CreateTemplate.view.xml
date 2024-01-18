@@ -385,6 +385,7 @@
                                                                     valueState="{BaseData>/Parameters/AccountReconState}"
                                                                     showValueHelp="true"
                                                                     valueLiveUpdate="true"
+                                                                    valueHelpRequest="onOpenVHAccountRecon"
                                                                     change="onChangeAccountRecon"
                                                                 />
                                                             </items>
