@@ -88,7 +88,7 @@ sap.ui.define([
                 ListView : undefined,
             },
             createBaseDataModel : function(){
-                let oModel = new JSONModel(this.Data);
+                let oModel = new JSONModel(_.cloneDeep(this.Data));
                 let oDate = new Date();
                 let oMonth = oDate.getMonth() + 1;
                 let oYear = oDate.getFullYear();

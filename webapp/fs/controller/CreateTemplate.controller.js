@@ -1709,7 +1709,7 @@ sap.ui.define(
             let oTable = oEvent.oSource.getTable();
             if (oEvent.getParameter("tokens")[0] !== undefined) {
               let token = oEvent.getParameter("tokens")[0].getProperty("key");
-              oBaseData.setProperty("/Parameters/TaxCode", token);
+              oBaseData.setProperty('/Parameters/TaxCode', token);
               if (oTable.getContextByIndex(oTable.getSelectedIndex())) {
                 let TaxCodeName = oTable
                   .getContextByIndex(oTable.getSelectedIndex())
@@ -1718,19 +1718,13 @@ sap.ui.define(
                   "/Parameters/TaxPer",
                   Number(TaxCodeName.CodeName.split("%")[0])
                 );
+                oBaseData.setProperty("/Parameters/TaxCodeName", TaxCodeName.CodeName);
               } else {
                 oBaseData.setProperty("/Parameters/TaxPer", 0);
+                oBaseData.setProperty('/Parameters/TaxCodeName', '');
               }
               oBaseData.setProperty("/Parameters/VATAmount", 0);
               this.onCalculation();
-              // if (oTable.getContextByIndex(oTable.getSelectedIndex())) {
-              //     let TaxCodeName = oTable.getContextByIndex(oTable.getSelectedIndex()).getObject();
-              //     oBaseData.setProperty('/Parameters/TaxCodeName', TaxCodeName.CodeName);
-              // } else {
-
-              //     oBaseData.setProperty('/Parameters/TaxCodeName', '');
-
-              // }
             }
             oValueHelpData.getProperty("/_oVHDialog/VHTaxcode").close();
             break;
@@ -2545,6 +2539,7 @@ sap.ui.define(
             }
           }
         }
+        this.onTaxChange();
         this.onCalculation();
       },
 
@@ -2557,7 +2552,48 @@ sap.ui.define(
         ) {
           oBaseData.setProperty("/Parameters/TaxPer", 0);
           oBaseData.setProperty("/Parameters/VATAmount", 0);
+          oBaseData.setProperty("/Parameters/TaxCodeName", '');
           this.onCalculation();
+        } else {
+          let oParamData = oBaseData.getProperty("/Parameters");
+          let oModel = this.oView.getModel();
+          let sUrl = `/sap/opu/odata4/sap/zfi_c_other_receipt_ui_v4/srvd/sap/zfi_c_other_receipt_ui/0001/ZFI_V_TAXCODE_C_ETC?$filter=CodeId%20eq%20%27${
+            oParamData.TaxCode
+          }%27`;
+  
+          const headers = {
+            "X-Csrf-Token": oModel.getHttpHeaders()["X-CSRF-Token"],
+          };
+  
+          axios
+            .get(sUrl, { headers: headers })
+            .then(
+              function (oResult) {
+                if (oResult.data.value.length === 1) {
+                  oBaseData.setProperty(
+                    '/Parameters/TaxCodeName',
+                    oResult.data.value[0].CodeName
+                  );
+                  oBaseData.setProperty(
+                    "/Parameters/TaxPer",
+                    Number(oResult.data.value[0].CodeName.split("%")[0])
+                  );
+                } else {
+                  oBaseData.setProperty('/Parameters/TaxCodeName', '');
+                  oBaseData.setProperty("/Parameters/TaxPer", 0);
+                }
+                oBaseData.setProperty("/Parameters/VATAmount", 0);
+                this.onCalculation();
+              }.bind(this)
+            )
+            .catch(
+              function (error) {
+                oBaseData.setProperty('/Parameters/TaxCodeName', '');
+                oBaseData.setProperty("/Parameters/TaxPer", 0);
+                oBaseData.setProperty("/Parameters/VATAmount", 0);
+                this.onCalculation();
+              }.bind(this)
+            );
         }
         // oBaseData
       },

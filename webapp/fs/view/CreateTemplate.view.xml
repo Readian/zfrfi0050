@@ -347,6 +347,7 @@
                                                                     value="{BaseData>/Parameters/Bankaccount}"
                                                                     valueState="{BaseData>/Parameters/BankaccountState}"
                                                                     width="15rem"
+                                                                    valueHelpOnly="true"
                                                                     showValueHelp="true"
                                                                     valueHelpRequest=".onOpenVHBankAccount"
                                                                 />
@@ -449,6 +450,7 @@
                                                                     xmlns:core="sap.ui.core"
                                                                     showValueHelp="true"
                                                                     width="15rem"
+                                                                    valueHelpOnly="true"
                                                                     value="{BaseData>/Parameters/PaymentTerms}"
                                                                     valueState="{BaseData>/Parameters/PaymentTermsState}"
                                                                     valueHelpRequest=".onOpenVHPaymentTerms"
@@ -465,10 +467,18 @@
                                                                     text="지급예정 :"
                                                                     width="8rem"
                                                                 />
-                                                                <Text
+                                                                <DatePicker
                                                                     width="15rem"
-                                                                    text="{BaseData>/Parameters/Paymentscheduled}"
-                                                                    
+                                                                    displayFormat="yyyy-MM-dd"
+                                                                    valueFormat="yyyy-MM-dd"
+                                                                    value="{
+                                                                        path: 'BaseData>/Parameters/Paymentscheduled',
+                                                                        type: 'sap.ui.model.type.String',
+                                                                        formatOptions: {
+                                                                            'pattern': 'yyyy-MM-dd'
+                                                                        }
+                                                                    }"
+                                                                    editable="{= ${BaseData>/Parameters/PaymentTerms} === 'Y010' || ${BaseData>/Parameters/PaymentTerms} === 'Z040'}"                                                         
                                                                 />
                                                             </items>
                                                         </HBox>
