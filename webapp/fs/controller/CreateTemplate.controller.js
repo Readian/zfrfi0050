@@ -1178,6 +1178,14 @@ sap.ui.define(
                           }),
                         })
                       );
+                      oTable.addColumn(
+                        new UIColumn({
+                          label: new Label({ text: "계좌명" }),
+                          template: new Text({
+                            text: "{BankAccountName}",
+                          }),
+                        })
+                      );
                     }
                     oTable.getBinding("rows").filter(
                       new Filter({
