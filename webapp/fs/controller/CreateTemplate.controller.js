@@ -44,8 +44,8 @@ sap.ui.define(
           Model.createValueHelpDataModel(),
           "ValueHelpData"
         );
-        this.getView().getModel('BaseData').setProperty('VATAmount', 0);
-        this.getView().getModel('BaseData').setProperty('TaxPer', 0);
+        this.getView().getModel("BaseData").setProperty("VATAmount", 0);
+        this.getView().getModel("BaseData").setProperty("TaxPer", 0);
         this.getView().setModel(Model.createViewDataModel(), "ViewData");
         this.getView().byId("T_Items").getBinding("items").refresh(true);
         const oRouter = this.getOwnerComponent().getRouter();
@@ -317,6 +317,11 @@ sap.ui.define(
                   if (oTable.bindRows) {
                     oTable.bindAggregation("rows", {
                       path: "/ZFI_V_SUPPLIER",
+                      parameters: {
+                        autoExpandSelect: true,
+                        $$ownRequest: true,
+                        $expand: "_Company,_PaymentTerms",
+                      },
                       events: {
                         dataReceived: function () {
                           oDialog.update();
@@ -661,10 +666,12 @@ sap.ui.define(
           case "ok":
             if (oEvent.getParameter("tokens")[0] !== undefined) {
               let token = oEvent.getParameter("tokens")[0].getProperty("key");
+              let oTable = oEvent.oSource.getTable();
               oBaseData.setProperty("/Parameters/Supplier", token);
               oBaseData.setProperty("/Parameters/Bank", "");
               oBaseData.setProperty("/Parameters/BankCountry", "");
               oBaseData.setProperty("/Parameters/Bankaccount", "");
+
               oBaseData.setProperty("/Parameters/PaymentTerms", "");
               if (
                 !oBaseData.getProperty("/Parameters/PostingDate") ||
@@ -686,9 +693,7 @@ sap.ui.define(
                 ?$filter=Supplier%20eq%20%27${
                   "0".repeat(10 - token.length) + token
                 }%27
-                &$expand=_Company($filter=CompanyCode%20eq%20%27${
-                  "0".repeat(4 - sCompanyCode.length) + sCompanyCode
-                }%27)`;
+                &$expand=_Company($filter=CompanyCode%20eq%20%27${"0".repeat(4 - sCompanyCode.length) + sCompanyCode}%27),_PaymentTerms($filter=CompanyCode%20eq%20%27${"0".repeat(4 - sCompanyCode.length) + sCompanyCode}%27)`;
 
               const headers = {
                 "X-Csrf-Token": oModel.getHttpHeaders()["X-CSRF-Token"],
@@ -703,16 +708,52 @@ sap.ui.define(
                         "/Parameters/AccountRecon",
                         oResult.data.value[0]._Company[0].ReconciliationAccount
                       );
+                      oBaseData.setProperty(
+                        "/Parameters/PaymentTerms",
+                        oResult.data.value[0]._PaymentTerms[0].PaymentTerms
+                      );
+                      oBaseData.setProperty(
+                        "/Parameters/CashDiscount1Days",
+                        oResult.data.value[0]._PaymentTerms[0].CashDiscount1Days
+                      );
                     } else {
                       oBaseData.setProperty("/Parameters/AccountRecon", "");
+                      oBaseData.setProperty("/Parameters/PaymentTerms", "");
+                      oBaseData.setProperty("/Parameters/CashDiscount1Days", 0);
                     }
-                    this.getView().byId('iptAcctRecon').fireChange()
+                    if (
+                      !oBaseData.getProperty("/Parameters/PostingDate") ||
+                      oBaseData.getProperty("/Parameters/PostingDate") == ""
+                    ) {
+                      oBaseData.setProperty("/Parameters/Paymentscheduled", "");
+                    } else if (!oBaseData.getProperty("/Parameters/PaymentTerms") || oBaseData.getProperty("/Parameters/PaymentTerms") == "") {
+                      oBaseData.setProperty(
+                        "/Parameters/Paymentscheduled",
+                        oBaseData.getProperty("/Parameters/PostingDate")
+                      );
+                    } else {
+                      this.onCalculationPaymentscheduled();
+                    }
+                    this.getView().byId("iptAcctRecon").fireChange();
                   }.bind(this)
                 )
                 .catch(
                   function (sPath, error) {
                     oBaseData.setProperty("/Parameters/AccountRecon", "");
-                    this.getView().byId('iptAcctRecon').fireChange()
+                    oBaseData.setProperty("/Parameters/PaymentTerms", "");
+                    oBaseData.setProperty("/Parameters/CashDiscount1Days", 0);
+                    if (
+                      !oBaseData.getProperty("/Parameters/PostingDate") ||
+                      oBaseData.getProperty("/Parameters/PostingDate") == ""
+                    ) {
+                      oBaseData.setProperty("/Parameters/Paymentscheduled", "");
+                    } else {
+                      oBaseData.setProperty(
+                        "/Parameters/Paymentscheduled",
+                        oBaseData.getProperty("/Parameters/PostingDate")
+                      );
+                    }
+                    this.getView().byId("iptAcctRecon").fireChange();
                   }.bind(this)
                 );
             }
@@ -1627,10 +1668,14 @@ sap.ui.define(
               let oTable = oEvent.oSource.getTable();
               let token = oEvent.getParameter("tokens")[0].getProperty("key");
               oBaseData.setProperty("/Parameters/AccountRecon", token);
-              oBaseData.setProperty("/Parameters/AccountReconText", oTable.getContextByIndex(oTable.getSelectedIndex()).getObject().GLAccountName);
+              oBaseData.setProperty(
+                "/Parameters/AccountReconText",
+                oTable.getContextByIndex(oTable.getSelectedIndex()).getObject()
+                  .GLAccountName
+              );
             }
             oValueHelpData.getProperty("/_oVHDialog/VHAccountRecon").close();
-            
+
             break;
 
           case "search":
@@ -1717,7 +1762,7 @@ sap.ui.define(
             let oTable = oEvent.oSource.getTable();
             if (oEvent.getParameter("tokens")[0] !== undefined) {
               let token = oEvent.getParameter("tokens")[0].getProperty("key");
-              oBaseData.setProperty('/Parameters/TaxCode', token);
+              oBaseData.setProperty("/Parameters/TaxCode", token);
               if (oTable.getContextByIndex(oTable.getSelectedIndex())) {
                 let TaxCodeName = oTable
                   .getContextByIndex(oTable.getSelectedIndex())
@@ -1726,10 +1771,13 @@ sap.ui.define(
                   "/Parameters/TaxPer",
                   Number(TaxCodeName.CodeName.split("%")[0])
                 );
-                oBaseData.setProperty("/Parameters/TaxCodeName", TaxCodeName.CodeName);
+                oBaseData.setProperty(
+                  "/Parameters/TaxCodeName",
+                  TaxCodeName.CodeName
+                );
               } else {
                 oBaseData.setProperty("/Parameters/TaxPer", 0);
-                oBaseData.setProperty('/Parameters/TaxCodeName', '');
+                oBaseData.setProperty("/Parameters/TaxCodeName", "");
               }
               oBaseData.setProperty("/Parameters/VATAmount", 0);
               this.onCalculation();
@@ -2560,26 +2608,24 @@ sap.ui.define(
         ) {
           oBaseData.setProperty("/Parameters/TaxPer", 0);
           oBaseData.setProperty("/Parameters/VATAmount", 0);
-          oBaseData.setProperty("/Parameters/TaxCodeName", '');
+          oBaseData.setProperty("/Parameters/TaxCodeName", "");
           this.onCalculation();
         } else {
           let oParamData = oBaseData.getProperty("/Parameters");
           let oModel = this.oView.getModel();
-          let sUrl = `/sap/opu/odata4/sap/zfi_c_other_receipt_ui_v4/srvd/sap/zfi_c_other_receipt_ui/0001/ZFI_V_TAXCODE_C_ETC?$filter=CodeId%20eq%20%27${
-            oParamData.TaxCode
-          }%27`;
-  
+          let sUrl = `/sap/opu/odata4/sap/zfi_c_other_receipt_ui_v4/srvd/sap/zfi_c_other_receipt_ui/0001/ZFI_V_TAXCODE_C_ETC?$filter=CodeId%20eq%20%27${oParamData.TaxCode}%27`;
+
           const headers = {
             "X-Csrf-Token": oModel.getHttpHeaders()["X-CSRF-Token"],
           };
-  
+
           axios
             .get(sUrl, { headers: headers })
             .then(
               function (oResult) {
                 if (oResult.data.value.length === 1) {
                   oBaseData.setProperty(
-                    '/Parameters/TaxCodeName',
+                    "/Parameters/TaxCodeName",
                     oResult.data.value[0].CodeName
                   );
                   oBaseData.setProperty(
@@ -2587,7 +2633,7 @@ sap.ui.define(
                     Number(oResult.data.value[0].CodeName.split("%")[0])
                   );
                 } else {
-                  oBaseData.setProperty('/Parameters/TaxCodeName', '');
+                  oBaseData.setProperty("/Parameters/TaxCodeName", "");
                   oBaseData.setProperty("/Parameters/TaxPer", 0);
                 }
                 oBaseData.setProperty("/Parameters/VATAmount", 0);
@@ -2596,7 +2642,7 @@ sap.ui.define(
             )
             .catch(
               function (error) {
-                oBaseData.setProperty('/Parameters/TaxCodeName', '');
+                oBaseData.setProperty("/Parameters/TaxCodeName", "");
                 oBaseData.setProperty("/Parameters/TaxPer", 0);
                 oBaseData.setProperty("/Parameters/VATAmount", 0);
                 this.onCalculation();
@@ -2612,7 +2658,8 @@ sap.ui.define(
         let oModel = this.oView.getModel();
         let sUrl = `/sap/opu/odata4/sap/zfi_c_other_receipt_ui_v4/srvd/sap/zfi_c_other_receipt_ui/0001/ZFI_V_ACCOUNT_RECON?$filter=CompanyCode%20eq%20%27${
           oParamData.CompanyCode
-        }%27%20and%20GLAccount%20eq%20%27${"0".repeat(10 - oParamData.AccountRecon.length) +
+        }%27%20and%20GLAccount%20eq%20%27${
+          "0".repeat(10 - oParamData.AccountRecon.length) +
           oParamData.AccountRecon
         }%27`;
 
@@ -2626,18 +2673,17 @@ sap.ui.define(
             function (oResult) {
               if (oResult.data.value.length === 1) {
                 oBaseData.setProperty(
-                  '/Parameters/AccountReconText',
+                  "/Parameters/AccountReconText",
                   oResult.data.value[0].GLAccountName
                 );
               } else {
-                oBaseData.setProperty('/Parameters/AccountReconText', '');
-                
+                oBaseData.setProperty("/Parameters/AccountReconText", "");
               }
             }.bind(this)
           )
           .catch(
             function (error) {
-              oBaseData.setProperty('/Parameters/AccountReconText', '');
+              oBaseData.setProperty("/Parameters/AccountReconText", "");
             }.bind(this)
           );
       },
@@ -2744,17 +2790,21 @@ sap.ui.define(
                       AmountTotal: oBaseDataData.Parameters.Amount,
                       // AmountTotal: oBaseDataData.Parameters.AmountTotal,
                       BusinessPlace: oBaseDataData.Parameters.BusinessPlace,
-                      DocumentReferenceID: oBaseDataData.Parameters.DocumentReferenceID,
+                      DocumentReferenceID:
+                        oBaseDataData.Parameters.DocumentReferenceID,
                       TblKey: "",
                       ReqID: "",
                       Title: "",
                       Content: "",
                       AccountRecon: oBaseDataData.Parameters.AccountRecon,
                       TaxcodeText: oBaseDataData.Parameters.TaxCodeName,
-                      DueCalculationBaseDate: oBaseDataData.Parameters.Paymentscheduled,
-                      BPBankAccountInternalID: oBaseDataData.Parameters.BPBankAccountInternalID,
-                      AccountReconText: oBaseDataData.Parameters.AccountReconText,
-                      
+                      DueCalculationBaseDate:
+                        oBaseDataData.Parameters.Paymentscheduled,
+                      BPBankAccountInternalID:
+                        oBaseDataData.Parameters.BPBankAccountInternalID,
+                      AccountReconText:
+                        oBaseDataData.Parameters.AccountReconText,
+
                       URL: "",
                       _Item: aItem,
                     },
