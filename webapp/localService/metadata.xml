@@ -96,6 +96,8 @@
                 <Property Name="DocumentDate" Type="Edm.Date"/>
                 <Property Name="Costcenter" Type="Edm.String" Nullable="false" MaxLength="10"/>
                 <Property Name="Supplier" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Property Name="DueCalculationBaseDate" Type="Edm.Date"/>
+                <Property Name="BPBankAccountInternalID" Type="Edm.String" Nullable="false" MaxLength="4"/>
                 <Property Name="BankCountry" Type="Edm.String" Nullable="false" MaxLength="3"/>
                 <Property Name="Bank" Type="Edm.String" Nullable="false" MaxLength="15"/>
                 <Property Name="BankAccount" Type="Edm.String" Nullable="false" MaxLength="18"/>
@@ -210,6 +212,7 @@
                 <Property Name="Status" Type="Edm.String" Nullable="false" MaxLength="2"/>
                 <Property Name="ApprovalNum" Type="Edm.String" Nullable="false" MaxLength="50"/>
                 <Property Name="GroupWareUrl" Type="Edm.String" Nullable="false" MaxLength="1333"/>
+                <Property Name="BodyContent" Type="Edm.String" Nullable="false"/>
                 <Property Name="DraftUser" Type="Edm.String" Nullable="false" MaxLength="12"/>
                 <Property Name="RequestType" Type="Edm.String" Nullable="false" MaxLength="2"/>
                 <Property Name="AcountingDocumentHeaderText" Type="Edm.String" Nullable="false" MaxLength="25"/>
@@ -258,6 +261,7 @@
                 <Property Name="Bank" Type="Edm.String" Nullable="false" MaxLength="15"/>
                 <Property Name="BankAccount" Type="Edm.String" Nullable="false" MaxLength="18"/>
                 <Property Name="BankAccountHolderName" Type="Edm.String" Nullable="false" MaxLength="60"/>
+                <Property Name="BankAccountName" Type="Edm.String" Nullable="false" MaxLength="40"/>
             </EntityType>
             <EntityType Name="ZFI_V_PAYMENT_METHOD_STDType">
                 <Key>
@@ -305,7 +309,7 @@
                     <PropertyRef Name="PaymentTerms"/>
                 </Key>
                 <Property Name="PaymentTerms" Type="Edm.String" Nullable="false" MaxLength="4"/>
-                <Property Name="PaymentTermsName" Type="Edm.String" Nullable="false" MaxLength="30"/>
+                <Property Name="PaymentTermsName" Type="Edm.String" Nullable="false" MaxLength="1024"/>
                 <Property Name="CashDiscount1Days" Type="Edm.Decimal" Nullable="false" Precision="3"/>
             </EntityType>
             <EntityType Name="ZFI_V_PAYMENT_TERMSType">
@@ -829,6 +833,12 @@
                 <Annotation Term="SAP__common.Heading" String="공급업체"/>
                 <Annotation Term="SAP__common.QuickInfo" String="공급업체 계정 번호"/>
             </Annotations>
+            <Annotations Target="SAP__self.ZFI_C_DOC_APPROVALType/DueCalculationBaseDate">
+                <Annotation Term="SAP__common.Label" String="지급예정일"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_C_DOC_APPROVALType/BPBankAccountInternalID">
+                <Annotation Term="SAP__common.Label" String="계좌키"/>
+            </Annotations>
             <Annotations Target="SAP__self.ZFI_C_DOC_APPROVALType/BankCountry">
                 <Annotation Term="SAP__common.Label" String="Bank Country"/>
             </Annotations>
@@ -1333,6 +1343,10 @@
                                     <PropertyValue Property="Property" PropertyPath="PostingDate"/>
                                     <PropertyValue Property="AllowedExpressions" String="SingleRange"/>
                                 </Record>
+                                <Record>
+                                    <PropertyValue Property="Property" PropertyPath="BodyContent"/>
+                                    <PropertyValue Property="AllowedExpressions" String="SearchExpression"/>
+                                </Record>
                             </Collection>
                         </PropertyValue>
                         <PropertyValue Property="RequiredProperties">
@@ -1352,6 +1366,7 @@
                         <PropertyValue Property="NonSortableProperties">
                             <Collection>
                                 <PropertyPath>GroupWareUrl</PropertyPath>
+                                <PropertyPath>BodyContent</PropertyPath>
                             </Collection>
                         </PropertyValue>
                     </Record>
@@ -1468,6 +1483,11 @@
                 <Annotation Term="SAP__common.Label" String="예금주"/>
                 <Annotation Term="SAP__common.Heading" String="계정 보유자"/>
                 <Annotation Term="SAP__common.QuickInfo" String="계정 보유자 이름"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_V_SUPPLIER_ACCOUNTType/BankAccountName">
+                <Annotation Term="SAP__common.Label" String="계좌이름"/>
+                <Annotation Term="SAP__common.Heading" String="계좌 이름"/>
+                <Annotation Term="SAP__common.QuickInfo" String="은행 계좌 이름"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_SUPPLIER_ACCOUNTType">
                 <Annotation Term="SAP__common.Label" String="Value Help - 공급업체 지급정보"/>
@@ -1758,7 +1778,8 @@
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_PAYMENT_TERMS_STDType/PaymentTermsName">
                 <Annotation Term="SAP__common.Label" String="지급조건내역"/>
-                <Annotation Term="SAP__common.Heading" String="내역"/>
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Heading" String="지급 조건 세부 내역"/>
                 <Annotation Term="SAP__common.QuickInfo" String="지급 조건 내역"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_PAYMENT_TERMS_STDType/CashDiscount1Days">

@@ -5,15 +5,13 @@ sap.ui.define(
 
     return {
       onPress: function (oEvent) {
+        let oContextObject = oEvent.getSource().getBindingContext().getObject()
         if (
-          oEvent.getSource().getBindingContext().getObject().Status === "DA" ||
-          oEvent.getSource().getBindingContext().getObject().Status === "DB"
+          oContextObject.Status === "DA" ||
+          oContextObject.Status === "DB"
         ) {
-          let sUrl = oEvent
-            .getSource()
-            .getBindingContext()
-            .getObject().GroupWareUrl;
-          let vTblKey, vReqID, vTitle, vContent, vContentIdx, vWorkKind;
+          let sUrl = oContextObject.GroupWareUrl;
+          let vTblKey, vReqID, vTitle, vContent, vWorkKind;
           let vUrl = sUrl.split("?")[0];
           let aUrl = sUrl.split("$");
           aUrl.forEach((e, idx) => {
@@ -25,18 +23,11 @@ sap.ui.define(
               vTitle = e.split("Title=")[1];
             } else if (e.includes("WorkKind")) {
               vWorkKind = e.split("WorkKind=")[1];
-            } else if (e.includes("Content")) {
-              vContentIdx = idx;
             }
           });
 
-          vContent = aUrl[vContentIdx].split("Content=")[1];
-          vContentIdx += 1;
+          vContent = oContextObject.BodyContent;
 
-          while (vContentIdx < aUrl.length) {
-            vContent += `$${aUrl[vContentIdx]}`;
-            vContentIdx += 1;
-          }
           sap.ui
             .controller(
               "fi.zfrfi0050.ext.controller.ZFI_C_OTHER_RECEIPTList_Ext"
