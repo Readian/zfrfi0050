@@ -216,7 +216,8 @@
                   }
                 }
               },
-              "defaultTemplateAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#table1"
+              "defaultTemplateAnnotationPath": "com.sap.vocabularies.UI.v1.SelectionPresentationVariant#table1",
+              "initialLoad": "Disabled"
             }
           }
         },

@@ -41,8 +41,7 @@ sap.ui.define(
             sap.ushell.Container.getServiceAsync("UserInfo").then(oUserData => {
               let sUserId = oUserData.getId();
 
-              this.extAPI.setFilterValues('DraftUser', FilterOperator.EQ, sUserId)
-              
+              this.extAPI.setFilterValues('DraftUser', FilterOperator.EQ, sUserId);
               let oModel = this.getView().getModel();
               let sUrl = `/sap/opu/odata4/sap/zfi_c_other_receipt_ui_v4/srvd/sap/zfi_c_other_receipt_ui/0001/ZFI_C_BP_AUTH?$filter=UserID%20eq%20%27${sUserId}%27`;
 
@@ -55,7 +54,7 @@ sap.ui.define(
                 .get(sUrl, { headers: headers })
                 .then(
                   function (oResult) {
-                    if (oResult.data.value.length > 0 && oResult.data.value[0].IsAuth === 'X') {
+                    if (oResult.data.value.length > 0 && oResult.data.value[0].IsAuth === true) {
                       this.extAPI.byId('fe::FilterBar::ZFI_C_OTHER_RECEIPT::FilterField::DraftUser').setEditMode('Editable')
                     } else {
                       this.extAPI.byId('fe::FilterBar::ZFI_C_OTHER_RECEIPT::FilterField::DraftUser').setEditMode('Disabled')
