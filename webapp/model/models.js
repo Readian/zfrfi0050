@@ -46,6 +46,9 @@ sap.ui.define([
                     Credit : false,
                     Footer: false,
                 },
+                Editable: {
+                    DraftUser: true
+                },
                 //15a76f81-e23a-1ede-99df-d3d7b1feabb2
                 Parameters : {
                     AccountingDocument : '미생성',

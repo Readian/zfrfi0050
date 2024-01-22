@@ -92,6 +92,7 @@
                 <Property Name="Taxcode" Type="Edm.String" Nullable="false" MaxLength="2"/>
                 <Property Name="BusinessPlace" Type="Edm.String" Nullable="false" MaxLength="4"/>
                 <Property Name="PaymentTerms" Type="Edm.String" Nullable="false" MaxLength="4"/>
+                <Property Name="PaymentMethod" Type="Edm.String" Nullable="false" MaxLength="1"/>
                 <Property Name="Currency" Type="Edm.String" Nullable="false" MaxLength="5"/>
                 <Property Name="DocumentDate" Type="Edm.Date"/>
                 <Property Name="Costcenter" Type="Edm.String" Nullable="false" MaxLength="10"/>
@@ -288,6 +289,15 @@
                 <NavigationProperty Name="_Company" Type="Collection(com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.I_SupplierCompanyType)"/>
                 <NavigationProperty Name="_PaymentTerms" Type="Collection(com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_V_PAYMENT_TERMSType)"/>
             </EntityType>
+            <EntityType Name="ZFI_C_BP_AUTHType">
+                <Key>
+                    <PropertyRef Name="BusinessPartner"/>
+                </Key>
+                <Property Name="BusinessPartner" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Property Name="UserID" Type="Edm.String" Nullable="false" MaxLength="12"/>
+                <Property Name="Email" Type="Edm.String" Nullable="false" MaxLength="241"/>
+                <Property Name="IsAuth" Type="Edm.Boolean" Nullable="false"/>
+            </EntityType>
             <EntityType Name="ZFI_V_COSTCENTER_C_ETCType">
                 <Key>
                     <PropertyRef Name="KeyGroupItem"/>
@@ -435,6 +445,7 @@
             <EntityContainer Name="Container">
                 <EntitySet Name="I_SupplierCompany" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.I_SupplierCompanyType"/>
                 <EntitySet Name="ZFI_CURRENCY" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_CURRENCYType"/>
+                <EntitySet Name="ZFI_C_BP_AUTH" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_C_BP_AUTHType"/>
                 <EntitySet Name="ZFI_C_DOC_APPROVAL" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_C_DOC_APPROVALType"/>
                 <EntitySet Name="ZFI_C_OTHER_RECEIPT" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_C_OTHER_RECEIPTType"/>
                 <EntitySet Name="ZFI_C_PLAN_COST_SUMMARY" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_C_PLAN_COST_SUMMARYType"/>
@@ -814,6 +825,9 @@
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_DOC_APPROVALType/PaymentTerms">
                 <Annotation Term="SAP__common.Label" String="지급방법"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_C_DOC_APPROVALType/PaymentMethod">
+                <Annotation Term="SAP__common.Label" String="지급조건"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_DOC_APPROVALType/Currency">
                 <Annotation Term="SAP__common.IsCurrency"/>
@@ -1689,6 +1703,60 @@
             <Annotations Target="SAP__self.ZFI_V_SUPPLIERType">
                 <Annotation Term="SAP__common.Label" String="Supplier"/>
             </Annotations>
+            <Annotations Target="SAP__self.ZFI_C_BP_AUTHType/BusinessPartner">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="비즈니스 파트너"/>
+                <Annotation Term="SAP__common.QuickInfo" String="비즈니스 파트너 번호"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_C_BP_AUTHType/UserID">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="사용자 ID"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_C_BP_AUTHType">
+                <Annotation Term="SAP__common.Label" String="사용자권한"/>
+            </Annotations>
+            <Annotations Target="SAP__self.Container/ZFI_C_BP_AUTH">
+                <Annotation Term="SAP__capabilities.SearchRestrictions">
+                    <Record>
+                        <PropertyValue Property="Searchable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.InsertRestrictions">
+                    <Record>
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.DeleteRestrictions">
+                    <Record>
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.UpdateRestrictions">
+                    <Record>
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                        <PropertyValue Property="QueryOptions">
+                            <Record>
+                                <PropertyValue Property="SelectSupported" Bool="true"/>
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__core.OptimisticConcurrency">
+                    <Collection/>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.FilterRestrictions">
+                    <Record>
+                        <PropertyValue Property="FilterExpressionRestrictions">
+                            <Collection>
+                                <Record>
+                                    <PropertyValue Property="Property" PropertyPath="Email"/>
+                                    <PropertyValue Property="AllowedExpressions" String="MultiValue"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
             <Annotations Target="SAP__self.ZFI_V_COSTCENTER_C_ETCType/CodeId">
                 <Annotation Term="SAP__common.Label" String="코스트센터"/>
                 <Annotation Term="SAP__common.Text" Path="CodeName"/>
@@ -2150,6 +2218,13 @@
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/CostCenterName">
                 <Annotation Term="SAP__common.Label" String="코스트 센터 이름"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_C_BP_AUTHType/Email">
+                <Annotation Term="SAP__common.Label" String="전자메일 주소"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_C_BP_AUTHType/IsAuth">
+                <Annotation Term="SAP__common.Label" String="진릿값"/>
+                <Annotation Term="SAP__common.QuickInfo" String="진릿값: True/False"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_COSTCENTER_C_ETCType/KeyGroupItem">
                 <Annotation Term="SAP__common.Label" String="UUID"/>

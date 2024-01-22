@@ -3,8 +3,9 @@ sap.ui.define(
     "sap/ui/core/mvc/ControllerExtension",
     "fi/zfrfi0050/model/models",
     "sap/ui/model/json/JSONModel",
+    "sap/ui/model/FilterOperator"
   ],
-  function (ControllerExtension, Model, JSONModel) {
+  function (ControllerExtension, Model, JSONModel, FilterOperator) {
     "use strict";
 
     return ControllerExtension.extend(
@@ -34,6 +35,44 @@ sap.ui.define(
               .getRoute("ZFI_C_OTHER_RECEIPTList")
               .attachMatched(this._onRouteMatched, this);
             // this.base.getExtensionAPI()._view.byId('fe::table::ZFI_C_OTHER_RECEIPT::LineItem-innerTable').setMode('SingleSelectLeft');
+          },
+
+          onBeforeRendering: function () {  
+            sap.ushell.Container.getServiceAsync("UserInfo").then(oUserData => {
+              let sUserId = oUserData.getId();
+
+              this.extAPI.setFilterValues('DraftUser', FilterOperator.EQ, sUserId)
+              
+              let oModel = this.getView().getModel();
+              let sUrl = `/sap/opu/odata4/sap/zfi_c_other_receipt_ui_v4/srvd/sap/zfi_c_other_receipt_ui/0001/ZFI_C_BP_AUTH?$filter=UserID%20eq%20%27${sUserId}%27`;
+
+              const headers = {
+                "X-Csrf-Token": oModel.getHttpHeaders()["X-CSRF-Token"],
+              };
+
+
+              axios
+                .get(sUrl, { headers: headers })
+                .then(
+                  function (oResult) {
+                    if (oResult.data.value.length > 0 && oResult.data.value[0].IsAuth === 'X') {
+                      this.extAPI.byId('fe::FilterBar::ZFI_C_OTHER_RECEIPT::FilterField::DraftUser').setEditMode('Editable')
+                    } else {
+                      this.extAPI.byId('fe::FilterBar::ZFI_C_OTHER_RECEIPT::FilterField::DraftUser').setEditMode('Disabled')
+                    }
+                  }.bind(this)
+                )
+                .catch(
+                  function (error) {
+                    this.extAPI.byId('fe::FilterBar::ZFI_C_OTHER_RECEIPT::FilterField::DraftUser').setEditMode('Disabled')
+                  }.bind(this)
+                );
+            });
+            // sap.ushell.Container.getServiceAsync("UserInfo").then(oUserData => {
+            //   this.extAPI.setFilterValues('Supplier', FilterOperator.EQ, '1000000')
+            //   this.extAPI.byId('fe::FilterBar::ZFI_C_OTHER_RECEIPT::CustomFilterField::DraftUser--DraftUser').setValue('CB9980000011')
+            //   // this.extAPI.setFilterValues('DraftUser', FilterOperator.EQ, 'CB9980000011')
+            // });
           },
 
           onAfterRendering: function () {
