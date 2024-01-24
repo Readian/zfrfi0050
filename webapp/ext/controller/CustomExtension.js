@@ -1,6 +1,9 @@
 sap.ui.define(
-  ["sap/m/MessageToast", "sap/m/MessageBox"],
-  function (MessageToast, MessageBox) {
+  [
+    "sap/m/MessageToast", 
+    "sap/m/MessageBox",
+    "fi/zfrfi0050/ext/controller/CustomExtension"],
+  function (MessageToast, MessageBox, CustomExtension) {
     "use strict";
 
     return {
@@ -47,13 +50,42 @@ sap.ui.define(
       },
       CreateData: function (oEvent) {
         let oBaseData = this._controller.oView.getModel("BaseData"),
-          vCompanyCode =
-            this._controller.filterBarConditions.CompanyCode[0].values[0];
+        vCompanyCode;
+            // vCompanyCode = this._controller.filterBarConditions.CompanyCode[0].values[0];
+        // let vCompanyCode = this._view.byId('fe::FilterBar::ZFI_C_OTHER_RECEIPT::FilterField::CompanyCode-inner').getValue();
         // oBaseData.setProperty('/Parameters/CompanyCode', vCompanyCode);
+
+
+        let aFilters = this.getFilters().filters;
+
+        while (true) {
+          let oNowFilter = aFilters.shift();
+          if (!oNowFilter) break;
+
+          if (oNowFilter._bMultiFilter){
+            aFilters = aFilters.concat(oNowFilter.aFilters);
+            continue;
+          }
+          if (oNowFilter.sPath === 'CompanyCode' && oNowFilter.sOperator === 'EQ'){
+            vCompanyCode = oNowFilter.oValue1;
+            break;
+          }
+        }
+
+        if (!vCompanyCode || vCompanyCode === ''){
+          let vErrMsg = this._view.getModel('i18n').getResourceBundle().getText('Error030')
+          MessageBox.error(vErrMsg);
+          return
+        }
+
+
+
         this.getRouting().navigateToRoute("CreateTemplate", {
           companyCode: btoa(vCompanyCode),
         });
+
       },
+
       CancelData: function (oEvent) {
         let oTable = this._view.byId(
           "fi.zfrfi0050::ZFI_C_OTHER_RECEIPTList--fe::table::ZFI_C_OTHER_RECEIPT::LineItem-innerTable"

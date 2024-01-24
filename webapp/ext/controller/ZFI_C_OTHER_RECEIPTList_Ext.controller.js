@@ -3,9 +3,9 @@ sap.ui.define(
     "sap/ui/core/mvc/ControllerExtension",
     "fi/zfrfi0050/model/models",
     "sap/ui/model/json/JSONModel",
-    "sap/ui/model/FilterOperator"
+    "sap/ui/model/FilterOperator",
   ],
-  function (ControllerExtension, Model, JSONModel, FilterOperator) {
+  function (ControllerExtension, Model, JSONModel, FilterOperator,) {
     "use strict";
 
     return ControllerExtension.extend(
@@ -59,11 +59,13 @@ sap.ui.define(
                     } else {
                       this.extAPI.byId('fe::FilterBar::ZFI_C_OTHER_RECEIPT::FilterField::DraftUser').setEditMode('Disabled')
                     }
+                    this.base.byId('fe::FilterBar::ZFI_C_OTHER_RECEIPT::FilterBar').fireSearch()
                   }.bind(this)
                 )
                 .catch(
                   function (error) {
                     this.extAPI.byId('fe::FilterBar::ZFI_C_OTHER_RECEIPT::FilterField::DraftUser').setEditMode('Disabled')
+                    this.base.byId('fe::FilterBar::ZFI_C_OTHER_RECEIPT::FilterBar').fireSearch()
                   }.bind(this)
                 );
             });
