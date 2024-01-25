@@ -21,7 +21,11 @@
         navButtonPress="onPageNavBack"
         showHeader="false"
     >
-        <uxap:ObjectPageLayout id="OPL_CreateObjectPage" showFooter="{BaseData>/Visible/Footer}" showAnchorBar="true">
+        <uxap:ObjectPageLayout
+            id="OPL_CreateObjectPage"
+            showFooter="{BaseData>/Visible/Footer}"
+            showAnchorBar="true"
+        >
             <uxap:headerTitle>
                 <uxap:ObjectPageDynamicHeaderTitle>
                     <uxap:expandedHeading>
@@ -35,29 +39,45 @@
                             <!-- <Title text="생성" /> -->
                         </FlexBox>
                     </uxap:snappedHeading>
-                    <uxap:expandedContent >
-                    </uxap:expandedContent>
+                    <uxap:expandedContent />
                     <uxap:actions>
                         <Button
                             text="{i18n>Btn0010}"
                             type="Emphasized"
                             press=".onBtnPress"
                         />
-                        
+
                         <h:form name="workflowForm">
-                            <h:input type="hidden" name="SystemID" />
-                            <h:input type="hidden" name="WorkKind" />
-                            <h:input type="hidden" name="TblKey" />
-                            <h:input type="hidden" name="ReqID" />
-                            <h:input type="hidden" name="Title" />
-                            <h:input type="hidden" name="Content" />
+                            <h:input
+                                type="hidden"
+                                name="SystemID"
+                            />
+                            <h:input
+                                type="hidden"
+                                name="WorkKind"
+                            />
+                            <h:input
+                                type="hidden"
+                                name="TblKey"
+                            />
+                            <h:input
+                                type="hidden"
+                                name="ReqID"
+                            />
+                            <h:input
+                                type="hidden"
+                                name="Title"
+                            />
+                            <h:input
+                                type="hidden"
+                                name="Content"
+                            />
                         </h:form>
                     </uxap:actions>
                 </uxap:ObjectPageDynamicHeaderTitle>
             </uxap:headerTitle>
 
-            <uxap:headerContent>
-            </uxap:headerContent>
+            <uxap:headerContent />
 
             <!-- // Section 시작부분 -->
             <uxap:sections>
@@ -80,7 +100,8 @@
                                                 <HBox
                                                     width="100%"
                                                     alignItems="Center"
-                                                    class="">
+                                                    class=""
+                                                >
                                                     <Label
                                                         text="전표번호 :"
                                                         width="8rem"
@@ -95,7 +116,8 @@
                                                 <HBox
                                                     width="100%"
                                                     alignItems="Center"
-                                                    class="">
+                                                    class=""
+                                                >
                                                     <Label
                                                         width="8rem"
                                                         text="차변합계:"
@@ -112,7 +134,8 @@
                                                 <HBox
                                                     width="100%"
                                                     alignItems="Center"
-                                                    class="">
+                                                    class=""
+                                                >
                                                     <Label
                                                         width="8rem"
                                                         text="대변합계:"
@@ -129,7 +152,8 @@
                                                 <HBox
                                                     width="100%"
                                                     alignItems="Center"
-                                                    class="">
+                                                    class=""
+                                                >
                                                     <Label
                                                         width="8rem"
                                                         text="잔액:"
@@ -140,7 +164,7 @@
                                                                 parts: ['BaseData>/Parameters/AmountTotal', 'BaseData>/Parameters/Currency'],
                                                                 type: 'sap.ui.model.type.Currency'
                                                             }"
-                                                            state="Error"   
+                                                            state="Error"
                                                         />
                                                     </FlexBox>
                                                 </HBox>
@@ -151,7 +175,7 @@
                             </VBox>
                         </uxap:ObjectPageSubSection>
                     </uxap:subSections>
-                </uxap:ObjectPageSection>   
+                </uxap:ObjectPageSection>
                 <uxap:ObjectPageSection
                     titleUppercase="true"
                     id="OPS_Header2"
@@ -173,7 +197,7 @@
                                                     direction="Column"
                                                 >
                                                     <items>
-                                                    <HBox
+                                                        <HBox
                                                             width="100%"
                                                             alignItems="Center"
                                                             class=""
@@ -282,8 +306,8 @@
                                                                 <Label
                                                                     text="거래통화 :"
                                                                     width="8rem"
-                                                                />                                                                
-                                                                <FlexBox width="15rem">
+                                                                />
+                                                                <!-- <FlexBox width="15rem">
                                                                     <ObjectStatus
                                                                         text="{ 
                                                                             parts: ['BaseData>/Parameters/Currency'],
@@ -291,17 +315,16 @@
                                                                             formatOptions: {showNumber: false}
                                                                         }"
                                                                     />
-                                                                </FlexBox>
-                                                                <!-- <Input
+                                                                </FlexBox> -->
+                                                                <Input
                                                                     value="{BaseData>/Parameters/Currency}"
                                                                     showValueHelp="true"
                                                                     width="15rem"
                                                                     valueState="{BaseData>/Parameters/CurrencyState}"
                                                                     valueHelpRequest=".onOpenCurrency"
-                                                                /> -->
+                                                                />
                                                             </items>
                                                         </HBox>
-                                                        
                                                     </items>
                                                 </VBox>
                                                 <VBox
@@ -309,7 +332,6 @@
                                                     direction="Column"
                                                 >
                                                     <items>
-                                                        
                                                         <HBox
                                                             width="100%"
                                                             alignItems="Center"
@@ -379,7 +401,7 @@
                                                                     text="대체조정계정:"
                                                                 />
                                                                 <Input
-                                                                    id = "iptAcctRecon"
+                                                                    id="iptAcctRecon"
                                                                     width="15rem"
                                                                     value="{BaseData>/Parameters/AccountRecon}"
                                                                     valueState="{BaseData>/Parameters/AccountReconState}"
@@ -428,7 +450,6 @@
                                                                 />
                                                             </items>
                                                         </HBox>
-                                                        
                                                     </items>
                                                 </VBox>
                                                 <VBox
@@ -479,7 +500,7 @@
                                                                             'pattern': 'yyyy-MM-dd'
                                                                         }
                                                                     }"
-                                                                    editable="{= ${BaseData>/Parameters/PaymentTerms} === 'Y010' || ${BaseData>/Parameters/PaymentTerms} === 'Z040'}"                                                         
+                                                                    editable="{= ${BaseData>/Parameters/PaymentTerms} === 'Y010' || ${BaseData>/Parameters/PaymentTerms} === 'Z040'}"
                                                                 />
                                                             </items>
                                                         </HBox>
@@ -544,7 +565,7 @@
                                                                     width="8rem"
                                                                 />
                                                                 <Input
-                                                                    width="15rem"   
+                                                                    width="15rem"
                                                                     change=".onChangeHeaderAmount"
                                                                     value="{ 
                                                                         parts: ['BaseData>/Parameters/VATAmount', 'BaseData>/Parameters/Currency'],
@@ -567,7 +588,7 @@
                             </VBox>
                         </uxap:ObjectPageSubSection>
                     </uxap:subSections>
-                </uxap:ObjectPageSection>   
+                </uxap:ObjectPageSection>
 
                 <uxap:ObjectPageSection
                     titleUppercase="true"
@@ -607,30 +628,56 @@
                                                 <Column width="8rem">
                                                     <Text text="차변/대변" />
                                                 </Column>
-                                                <Column width="15rem">
-                                                    <Label text="비용귀속" required="true"/>
+
+                                                <Column width="13rem">
+                                                    <Label
+                                                        text="비용 계정"
+                                                        required="true"
+                                                    />
                                                 </Column>
-                                                <Column width="18rem">
+                                                <Column width="15rem">
+                                                    <Text text="비용 계정명" />
+                                                </Column>
+
+                                                <Column width="13rem">
+                                                    <Label
+                                                        text="비용귀속"
+                                                        required="true"
+                                                    />
+                                                </Column>
+                                                <Column width="15rem">
                                                     <Text text="귀속부서명" />
                                                 </Column>
-                                                <Column width="15rem">
-                                                    <Label text="비용 계정" required="true"/>
+                                                <Column width="13rem">
+                                                    <Label
+                                                        text="{i18n>ProfitCenter}"
+                                                    />
                                                 </Column>
-                                                <Column width="18rem">
-                                                    <Text text="비용 계정명" />
+                                                <Column width="15rem">
+                                                    <Text
+                                                        text="{i18n>ProfitCenterName}"
+                                                    />
                                                 </Column>
                                                 <Column width="17rem">
                                                     <Text text="예산잔액" />
                                                 </Column>
                                                 <Column width="17rem">
-                                                    <Label text="금액" required="true"/>
+                                                    <Label
+                                                        text="금액"
+                                                        required="true"
+                                                    />
                                                 </Column>
                                                 <Column width="25rem">
-                                                    <Label text="적요" required="true"/>
+                                                    <Label
+                                                        text="적요"
+                                                        required="true"
+                                                    />
                                                 </Column>
                                             </columns>
                                             <items>
-                                                <ColumnListItem visible="{BaseData>Visible}">
+                                                <ColumnListItem
+                                                    visible="{BaseData>Visible}"
+                                                >
                                                     <cells>
                                                         <Select
                                                             change=".onChangeDebitCreditCode"
@@ -646,17 +693,6 @@
                                                             />
                                                         </Select>
 
-                                                        <Input 
-                                                            enabled="{BaseData>CostcenterEnable}"
-                                                            value="{BaseData>Costcenter}"
-                                                            valueState="{BaseData>CostcenterState}"
-                                                            showValueHelp="true"
-                                                            valueHelpOnly="true"
-                                                            valueHelpRequest=".onOpenVHTBCostCenter"/>
-                                                        <Input 
-                                                            value="{BaseData>CostcenterName}"
-                                                            editable="false" />
-
                                                         <Input
                                                             value="{BaseData>GLAccount}"
                                                             showValueHelp="true"
@@ -670,12 +706,40 @@
                                                             editable="false"
                                                         />
                                                         <Input
+                                                            enabled="{BaseData>CostcenterEnable}"
+                                                            value="{BaseData>Costcenter}"
+                                                            valueState="{BaseData>CostcenterState}"
+                                                            showValueHelp="true"
+                                                            valueHelpOnly="true"
+                                                            valueHelpRequest=".onOpenVHTBCostCenter"
+                                                        />
+                                                        <Input
+                                                            enabled="{BaseData>CostcenterEnable}"
+                                                            value="{BaseData>CostcenterName}"
+                                                            editable="false"
+                                                        />
+
+                                                        <Input
+                                                            enabled="{BaseData>profitcenterEnable}"
+                                                            valueState="{BaseData>profitcenterState}"
+                                                            value="{BaseData>profitcenter}"
+                                                            showValueHelp="true"
+                                                            valueHelpRequest=".onOpenVHTBProfitCenter"
+                                                            editable="false"
+                                                        />
+                                                        <Input
+                                                            enabled="{BaseData>profitcenterEnable}"
+                                                            value="{BaseData>profitcenterName}"
+                                                            editable="false"
+                                                        />
+                                                        <Input
                                                             value="{
-                                                                parts :['BaseData>balance','BaseData>Currency'],
+                                                                parts :['BaseData>balance','BaseData>balanceCurrency'],
                                                                 type :'sap.ui.model.type.Currency',
                                                                 formatOptions: {showMeasure :false}
                                                                 }"
                                                             editable="false"
+                                                            enabled="{BaseData>balanceEnable}"
                                                         />
                                                         <Input
                                                             change=".onChangeAmount"
@@ -707,14 +771,15 @@
             </uxap:sections>
             <uxap:footer>
                 <OverflowToolbar>
-                    <Button 
-                        icon="sap-icon://alert" 
-                        text="{= ${BaseData>/ErrMsgs}.length }" 
-                        type="Reject" 
-                        press=".onMessagePopoverPress"/>
-                    <ToolbarSpacer/>
+                    <Button
+                        icon="sap-icon://alert"
+                        text="{= ${BaseData>/ErrMsgs}.length }"
+                        type="Reject"
+                        press=".onMessagePopoverPress"
+                    />
+                    <ToolbarSpacer />
                 </OverflowToolbar>
-		</uxap:footer>
+            </uxap:footer>
         </uxap:ObjectPageLayout>
     </Page>
 </mvc:View>

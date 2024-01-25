@@ -222,6 +222,10 @@
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/PostingDate">
                 <Annotation Term="Common.Label" String="조회기간"/>
             </Annotations>
+            <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/KeyBusinessTrip">
+				<Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Common.FilterDefaultValue" String="00000000-0000-0000-0000-000000000000"/>
+            </Annotations>
         </Schema>
     </edmx:DataServices>
 </edmx:Edmx>

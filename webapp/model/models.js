@@ -34,6 +34,8 @@ sap.ui.define([
             
             Data : {
                 View : undefined,
+                profitcenter: '',
+                profitcenterName: '',
                 _oErrDialog: undefined,
                 DebitCreditCode: [
                     { key: 'S', text: '차변' },

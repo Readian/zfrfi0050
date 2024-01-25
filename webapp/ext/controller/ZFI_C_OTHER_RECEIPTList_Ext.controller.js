@@ -43,7 +43,7 @@ sap.ui.define(
 
               this.extAPI.setFilterValues('DraftUser', FilterOperator.EQ, sUserId);
               let oModel = this.getView().getModel();
-              let sUrl = `/sap/opu/odata4/sap/zfi_c_other_receipt_ui_v4/srvd/sap/zfi_c_other_receipt_ui/0001/ZFI_C_BP_AUTH?$filter=UserID%20eq%20%27${sUserId}%27`;
+              let sUrl = `/sap/opu/odata4/sap/zfi_c_other_receipt_ui_v4/srvd/sap/zfi_c_other_receipt_ui/0001/ZFI_C_BP_AUTH?$filter=UserID%20eq%20%27${sUserId}%27&$expand=_Auth($expand=_Item02)`;
 
               const headers = {
                 "X-Csrf-Token": oModel.getHttpHeaders()["X-CSRF-Token"],
@@ -54,17 +54,27 @@ sap.ui.define(
                 .get(sUrl, { headers: headers })
                 .then(
                   function (oResult) {
-                    if (oResult.data.value.length > 0 && oResult.data.value[0].IsAuth === true) {
-                      this.extAPI.byId('fe::FilterBar::ZFI_C_OTHER_RECEIPT::FilterField::DraftUser').setEditMode('Editable')
+                    console.log(oResult) 
+                    if (oResult.data.value.length > 0 && '_Auth' in oResult.data.value[0] && oResult.data.value[0]._Auth._Item02.length > 0) {
+                      let aPrjInfo = this.base.getAppComponent().getMetadata().getComponentName().split('.');
+                      let vNowPrj = aPrjInfo[aPrjInfo.length - 1];
+                      let aPrgList = oResult.data.value[0]._Auth._Item02;
+                      let vIsAuth = aPrgList.find(e => e.ZProgram === vNowPrj);
+                      
+                      if (vIsAuth) {
+                        this.extAPI.byId('fe::FilterBar::ZFI_C_OTHER_RECEIPT::FilterField::DraftUser').setEditMode('Editable')
+                      } else {
+                        this.extAPI.byId('fe::FilterBar::ZFI_C_OTHER_RECEIPT::FilterField::DraftUser').setEditMode('ReadOnly')
+                      }
                     } else {
-                      this.extAPI.byId('fe::FilterBar::ZFI_C_OTHER_RECEIPT::FilterField::DraftUser').setEditMode('Disabled')
+                      this.extAPI.byId('fe::FilterBar::ZFI_C_OTHER_RECEIPT::FilterField::DraftUser').setEditMode('ReadOnly')
                     }
                     this.base.byId('fe::FilterBar::ZFI_C_OTHER_RECEIPT::FilterBar').fireSearch()
                   }.bind(this)
                 )
                 .catch(
                   function (error) {
-                    this.extAPI.byId('fe::FilterBar::ZFI_C_OTHER_RECEIPT::FilterField::DraftUser').setEditMode('Disabled')
+                    this.extAPI.byId('fe::FilterBar::ZFI_C_OTHER_RECEIPT::FilterField::DraftUser').setEditMode('ReadOnly')
                     this.base.byId('fe::FilterBar::ZFI_C_OTHER_RECEIPT::FilterBar').fireSearch()
                   }.bind(this)
                 );

@@ -101,6 +101,36 @@ sap.ui.define(
         ]);
         this.getView().byId("T_Items").getBinding("items").refresh(true);
         this.onAddBtnPress();
+        let oModel = this.getView().getModel();
+
+        let sUrl = `/sap/opu/odata4/sap/zfi_c_other_receipt_ui_v4/srvd/sap/zfi_c_other_receipt_ui/0001/ZFI_V_PROFITCENTER?$filter=ProfitCenter%20eq%20%270000001000%27`;
+
+        const headers = {
+          "X-Csrf-Token": oModel.getHttpHeaders()["X-CSRF-Token"],
+        };
+
+        axios
+          .get(sUrl, { headers: headers })
+          .then(
+            function (oResult) {
+              if (oResult.data.value.length > 0) {
+                oBaseData.setProperty("/profitcenter", "1000");
+                oBaseData.setProperty(
+                  "/profitcentername",
+                  oResult.data.value[0].ProfitCenterName
+                );
+              } else {
+                oBaseData.setProperty("/profitcenter", "");
+                oBaseData.setProperty("/profitcentername", "");
+              }
+            }.bind(this)
+          )
+          .catch(
+            function (error) {
+              oBaseData.setProperty("/profitcenter", "");
+              oBaseData.setProperty("/profitcentername", "");
+            }.bind(this)
+          );
       },
 
       onAfterRendering: function () {
@@ -132,6 +162,14 @@ sap.ui.define(
           Currency: oBaseDataData.Parameters.Currency,
           AmountTax: 0,
           DocumentItemText: "",
+          profitcenterEnable: false,
+          profitcenterState: "None",
+          profitcenter: "",
+          profitcenterName: "",
+          CostcenterEnable: false,
+          balanceCheck: false,
+          balanceEnable: false,
+          balanceCurrency: '',
         });
 
         oBaseData.setProperty("/Items", oBaseDataData.Items);
@@ -693,7 +731,11 @@ sap.ui.define(
                 ?$filter=Supplier%20eq%20%27${
                   "0".repeat(10 - token.length) + token
                 }%27
-                &$expand=_Company($filter=CompanyCode%20eq%20%27${"0".repeat(4 - sCompanyCode.length) + sCompanyCode}%27),_PaymentTerms($filter=CompanyCode%20eq%20%27${"0".repeat(4 - sCompanyCode.length) + sCompanyCode}%27)`;
+                &$expand=_Company($filter=CompanyCode%20eq%20%27${
+                  "0".repeat(4 - sCompanyCode.length) + sCompanyCode
+                }%27),_PaymentTerms($filter=CompanyCode%20eq%20%27${
+                "0".repeat(4 - sCompanyCode.length) + sCompanyCode
+              }%27)`;
 
               const headers = {
                 "X-Csrf-Token": oModel.getHttpHeaders()["X-CSRF-Token"],
@@ -726,7 +768,10 @@ sap.ui.define(
                       oBaseData.getProperty("/Parameters/PostingDate") == ""
                     ) {
                       oBaseData.setProperty("/Parameters/Paymentscheduled", "");
-                    } else if (!oBaseData.getProperty("/Parameters/PaymentTerms") || oBaseData.getProperty("/Parameters/PaymentTerms") == "") {
+                    } else if (
+                      !oBaseData.getProperty("/Parameters/PaymentTerms") ||
+                      oBaseData.getProperty("/Parameters/PaymentTerms") == ""
+                    ) {
                       oBaseData.setProperty(
                         "/Parameters/Paymentscheduled",
                         oBaseData.getProperty("/Parameters/PostingDate")
@@ -1981,6 +2026,113 @@ sap.ui.define(
               sPath + "/GLAccountName",
               AccountName.CodeName
             );
+            let oModel = this.getView().getModel();
+            let oParamData = oBaseData.getProperty("/Parameters");
+            let sUrl = `/sap/opu/odata4/sap/zfi_c_other_receipt_ui_v4/srvd/sap/zfi_c_other_receipt_ui/0001/I_GLAccount?$filter=CompanyCode%20eq%20%27${
+              oParamData.CompanyCode
+            }%27%20and%20GLAccount%20eq%20%27${
+              "0".repeat(10 - oSelected.length) + oSelected
+            }%27`;
+
+            const headers = {
+              "X-Csrf-Token": oModel.getHttpHeaders()["X-CSRF-Token"],
+            };
+
+            axios
+              .get(sUrl, { headers: headers })
+              .then(
+                function (oResult) {
+                  if (oResult.data.value.length === 1) {
+                    let oData = oResult.data.value[0];
+                    if (oData.GLAccountType === "P") {
+                      if (oSelected.slice(0, 2) === "41") {
+                        oBaseData.setProperty(`${sPath}/Costcenter`, "");
+                        oBaseData.setProperty(`${sPath}/CostcenterName`, "");
+                        oBaseData.setProperty(
+                          `${sPath}/CostcenterEnable`,
+                          false
+                        );
+                        oBaseData.setProperty(
+                          `${sPath}/profitcenterEnable`,
+                          true
+                        );
+                        oBaseData.setProperty(
+                          `${sPath}/profitcenter`,
+                          oBaseData.getProperty("/profitcenter")
+                        );
+                        oBaseData.setProperty(
+                          `${sPath}/profitcenterName`,
+                          oBaseData.getProperty("/profitcentername")
+                        );
+                        oBaseData.setProperty(`${sPath}/balanceCheck`, false);
+                        oBaseData.setProperty(`${sPath}/balanceEnable`, false);
+                        oBaseData.setProperty(`${sPath}/balance`, 0);
+                        oBaseData.setProperty(`${sPath}/balanceCurrency`, '');
+                      } else {
+                        oBaseData.setProperty(
+                          `${sPath}/CostcenterEnable`,
+                          true
+                        );
+                        oBaseData.setProperty(
+                          `${sPath}/profitcenterEnable`,
+                          false
+                        );
+                        oBaseData.setProperty(`${sPath}/profitcenter`, "");
+                        oBaseData.setProperty(`${sPath}/profitcenterName`, "");
+                        
+                        oBaseData.setProperty(`${sPath}/balanceCheck`, true);
+                        
+                        if(oParamData.Amount > 0){
+                          oBaseData.setProperty(`${sPath}/balanceEnable`, true);
+                          this._changeBalance(sPath);
+                        } else {
+                          oBaseData.setProperty(`${sPath}/balanceEnable`, false);
+                          oBaseData.setProperty(`${sPath}/balance`, 0);
+                          oBaseData.setProperty(`${sPath}/balanceCurrency`, '');
+                        }
+                      }
+                    } else {
+                      oBaseData.setProperty(`${sPath}/Costcenter`, "");
+                      oBaseData.setProperty(`${sPath}/CostcenterName`, "");
+                      oBaseData.setProperty(`${sPath}/CostcenterEnable`, false);
+                      oBaseData.setProperty(
+                        `${sPath}/profitcenterEnable`,
+                        false
+                      );
+                      oBaseData.setProperty(`${sPath}/profitcenter`, "");
+                      oBaseData.setProperty(`${sPath}/profitcenterName`, "");
+                      oBaseData.setProperty(`${sPath}/balanceCheck`, false);
+                      oBaseData.setProperty(`${sPath}/balanceEnable`, false);
+                      oBaseData.setProperty(`${sPath}/balance`, 0);
+                      oBaseData.setProperty(`${sPath}/balanceCurrency`, '');
+                    }
+                  } else {
+                    oBaseData.setProperty(`${sPath}/Costcenter`, "");
+                    oBaseData.setProperty(`${sPath}/CostcenterName`, "");
+                    oBaseData.setProperty(`${sPath}/CostcenterEnable`, false);
+                    oBaseData.setProperty(`${sPath}/profitcenterEnable`, false);
+                    oBaseData.setProperty(`${sPath}/profitcenter`, "");
+                    oBaseData.setProperty(`${sPath}/profitcenterName`, "");
+                    oBaseData.setProperty(`${sPath}/balanceCheck`, false);
+                    oBaseData.setProperty(`${sPath}/balanceEnable`, false);
+                    oBaseData.setProperty(`${sPath}/balance`, 0);
+                    oBaseData.setProperty(`${sPath}/balanceCurrency`, '');
+                  }
+                }.bind(this)
+              )
+              .catch(
+                function (error) {
+                  oBaseData.setProperty(`${sPath}/Costcenter`, "");
+                  oBaseData.setProperty(`${sPath}/CostcenterName`, "");
+                  oBaseData.setProperty(`${sPath}/CostcenterEnable`, false);
+                  oBaseData.setProperty(`${sPath}/profitcenterEnable`, false);
+                  oBaseData.setProperty(`${sPath}/profitcenter`, "");
+                  oBaseData.setProperty(`${sPath}/profitcenterName`, "");
+                  oBaseData.setProperty(`${sPath}/balanceCheck`, false);
+                  oBaseData.setProperty(`${sPath}/balanceEnable`, false);
+                  oBaseData.setProperty(`${sPath}/balance`, 0);
+                }.bind(this)
+              );
             oValueHelpData.getProperty("/_oVHDialog/VHTBGLAccount").close();
             this._changeBalance(sPath);
             break;
@@ -2270,7 +2422,9 @@ sap.ui.define(
         aDetailItems.forEach((element, idx) => {
           if (idx === 0) return;
           let sPath = `/Items/${idx}`;
-          this._changeBalance(sPath);
+          if (oBaseData.getProperty(`${sPath}/balanceEnable`)){
+            this._changeBalance(sPath);
+          }
         });
       },
 
@@ -2473,8 +2627,9 @@ sap.ui.define(
             );
           }
           if (
-            !oBaseDataData.Items[i].Costcenter ||
-            oBaseDataData.Items[i].Costcenter == ""
+            oBaseDataData.Items[i].CostcenterEnable &&
+            (!oBaseDataData.Items[i].Costcenter ||
+            oBaseDataData.Items[i].Costcenter == "")
           ) {
             isTrue = false;
             oBaseData.setProperty("/Items/" + i + "/CostcenterState", "Error");
@@ -2506,6 +2661,7 @@ sap.ui.define(
             isTrue = false;
             oBaseData.setProperty("/Items/" + i + "/AmountState", "Error");
           } else if (
+            oBaseDataData.Items[i].balanceEnable &&
             oBaseDataData.Items[i].Amount > oBaseDataData.Items[i].balance
           ) {
             isTrue = false;
@@ -2595,6 +2751,29 @@ sap.ui.define(
             }
           }
         }
+
+
+        let aDetailItems = oBaseData.getProperty("/Items");
+
+        if (Number(oBaseData.getProperty('/Parameters/Amount')) > 0){
+          aDetailItems.forEach((element, idx) => {
+            if (idx === 0) return;
+            let sPath = `/Items/${idx}`;
+            if (element.balanceCheck){
+              oBaseData.setProperty(`${sPath}/balanceEnable`, true)
+              this._changeBalance(sPath);
+            }
+          });
+        } else {
+          aDetailItems.forEach((element, idx) => {
+            if (idx === 0) return;
+            let sPath = `/Items/${idx}`;
+            oBaseData.setProperty(`${sPath}/balanceEnable`, false)
+            oBaseData.setProperty(`${sPath}/balance`, 0)
+            oBaseData.setProperty(`${sPath}/balanceCurrency`, '');
+          });
+        }
+
         this.onTaxChange();
         this.onCalculation();
       },
@@ -2968,10 +3147,13 @@ sap.ui.define(
         //   function (error) {
         //   }.bind(this)
         // );
-
+        
         let oBaseDataModel = this.oView.getModel("BaseData");
         let oParamData = oBaseDataModel.getProperty("/Parameters");
         let oDetailLine = oBaseDataModel.getProperty(sPath);
+        
+        if(!oDetailLine.balanceEnable) return;
+        
         let oModel = this.oView.getModel();
         let sUrl = `/sap/opu/odata4/sap/zfi_c_other_receipt_ui_v4/srvd/sap/zfi_c_other_receipt_ui/0001/ZFI_C_PLAN_COST_SUMMARY?$filter=CompanyCode%20eq%20%27${
           oParamData.CompanyCode
@@ -2998,10 +3180,15 @@ sap.ui.define(
                   sPath + "/balance",
                   oResult.data.value[0].AvailableBudget
                 );
+                oBaseDataModel.setProperty(
+                  sPath + "/balanceCurrency",
+                  oResult.data.value[0].CompanyCodeCurrency
+                );
                 oBaseDataModel.setProperty(sPath + "/Amount", 0);
                 this.onCalculation(oBaseDataModel);
               } else {
                 oBaseDataModel.setProperty(sPath + "/balance", 0);
+                oBaseDataModel.setProperty(sPath + "/balanceCurrency", '');
                 oBaseDataModel.setProperty(sPath + "/Amount", 0);
                 this.onCalculation(oBaseDataModel);
               }
@@ -3010,6 +3197,7 @@ sap.ui.define(
           .catch(
             function (sPath, error) {
               oBaseDataModel.setProperty(sPath + "/balance", 0);
+              oBaseDataModel.setProperty(sPath + "/balanceCurrency", '');
               oBaseDataModel.setProperty(sPath + "/Amount", 0);
               this.onCalculation(oBaseDataModel);
             }.bind(this, sPath)
