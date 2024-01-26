@@ -169,7 +169,7 @@ sap.ui.define(
           CostcenterEnable: false,
           balanceCheck: false,
           balanceEnable: false,
-          balanceCurrency: '',
+          balanceCurrency: 'KRW',
         });
 
         oBaseData.setProperty("/Items", oBaseDataData.Items);
@@ -2067,7 +2067,7 @@ sap.ui.define(
                         oBaseData.setProperty(`${sPath}/balanceCheck`, false);
                         oBaseData.setProperty(`${sPath}/balanceEnable`, false);
                         oBaseData.setProperty(`${sPath}/balance`, 0);
-                        oBaseData.setProperty(`${sPath}/balanceCurrency`, '');
+                        oBaseData.setProperty(`${sPath}/balanceCurrency`, 'KRW');
                       } else {
                         oBaseData.setProperty(
                           `${sPath}/CostcenterEnable`,
@@ -2088,7 +2088,7 @@ sap.ui.define(
                         } else {
                           oBaseData.setProperty(`${sPath}/balanceEnable`, false);
                           oBaseData.setProperty(`${sPath}/balance`, 0);
-                          oBaseData.setProperty(`${sPath}/balanceCurrency`, '');
+                          oBaseData.setProperty(`${sPath}/balanceCurrency`, 'KRW');
                         }
                       }
                     } else {
@@ -2104,7 +2104,7 @@ sap.ui.define(
                       oBaseData.setProperty(`${sPath}/balanceCheck`, false);
                       oBaseData.setProperty(`${sPath}/balanceEnable`, false);
                       oBaseData.setProperty(`${sPath}/balance`, 0);
-                      oBaseData.setProperty(`${sPath}/balanceCurrency`, '');
+                      oBaseData.setProperty(`${sPath}/balanceCurrency`, 'KRW');
                     }
                   } else {
                     oBaseData.setProperty(`${sPath}/Costcenter`, "");
@@ -2116,7 +2116,7 @@ sap.ui.define(
                     oBaseData.setProperty(`${sPath}/balanceCheck`, false);
                     oBaseData.setProperty(`${sPath}/balanceEnable`, false);
                     oBaseData.setProperty(`${sPath}/balance`, 0);
-                    oBaseData.setProperty(`${sPath}/balanceCurrency`, '');
+                    oBaseData.setProperty(`${sPath}/balanceCurrency`, 'KRW');
                   }
                 }.bind(this)
               )
@@ -2770,7 +2770,7 @@ sap.ui.define(
             let sPath = `/Items/${idx}`;
             oBaseData.setProperty(`${sPath}/balanceEnable`, false)
             oBaseData.setProperty(`${sPath}/balance`, 0)
-            oBaseData.setProperty(`${sPath}/balanceCurrency`, '');
+            oBaseData.setProperty(`${sPath}/balanceCurrency`, 'KRW');
           });
         }
 
@@ -2893,6 +2893,14 @@ sap.ui.define(
                       Items.AmountCredit = Items.Amount;
                       Items.AmountDebit = 0;
                     }
+                    
+                    delete Items.profitcenterName;
+                    delete Items.profitcenterEnable;
+                    delete Items.profitcenterState;
+                    delete Items.CostcenterEnable;
+                    delete Items.balanceCheck;
+                    delete Items.balanceEnable;
+                    delete Items.balanceCurrency;
                     delete Items.DebitCreditCodeState;
                     delete Items.CostcenterState;
                     delete Items.CostcenterEnable;
@@ -2939,7 +2947,7 @@ sap.ui.define(
                     oItem.AmountTax = element.AmountTax;
                     oItem.Currency = element.Currency;
                     oItem.DocumentItemText = element.DocumentItemText;
-
+                    oItem.Profitcenter = element.profitcenter;
                     aItem.push(oItem);
                   });
                 axios
