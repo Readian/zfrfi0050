@@ -62,20 +62,20 @@ sap.ui.define(
                       let vIsAuth = aPrgList.find(e => e.ZProgram === vNowPrj);
                       
                       if (vIsAuth) {
-                        this.extAPI.byId('fe::FilterBar::ZFI_C_OTHER_RECEIPT::FilterField::DraftUser').setEditMode('Editable')
+                        this.getView().byId('fe::FilterBar::ZFI_C_OTHER_RECEIPT::FilterField::DraftUser').setEditMode('Editable')
                       } else {
-                        this.extAPI.byId('fe::FilterBar::ZFI_C_OTHER_RECEIPT::FilterField::DraftUser').setEditMode('ReadOnly')
+                        this.getView().byId('fe::FilterBar::ZFI_C_OTHER_RECEIPT::FilterField::DraftUser').setEditMode('ReadOnly')
                       }
                     } else {
-                      this.extAPI.byId('fe::FilterBar::ZFI_C_OTHER_RECEIPT::FilterField::DraftUser').setEditMode('ReadOnly')
+                      this.getView().byId('fe::FilterBar::ZFI_C_OTHER_RECEIPT::FilterField::DraftUser').setEditMode('ReadOnly')
                     }
-                    this.base.byId('fe::FilterBar::ZFI_C_OTHER_RECEIPT::FilterBar').fireSearch()
+                    this.getView().byId('fe::FilterBar::ZFI_C_OTHER_RECEIPT::FilterBar').fireSearch()
                   }.bind(this)
                 )
                 .catch(
                   function (error) {
-                    this.extAPI.byId('fe::FilterBar::ZFI_C_OTHER_RECEIPT::FilterField::DraftUser').setEditMode('ReadOnly')
-                    this.base.byId('fe::FilterBar::ZFI_C_OTHER_RECEIPT::FilterBar').fireSearch()
+                    this.getView().byId('fe::FilterBar::ZFI_C_OTHER_RECEIPT::FilterField::DraftUser').setEditMode('ReadOnly')
+                    this.getView().byId('fe::FilterBar::ZFI_C_OTHER_RECEIPT::FilterBar').fireSearch()
                   }.bind(this)
                 );
             });

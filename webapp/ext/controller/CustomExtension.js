@@ -87,9 +87,8 @@ sap.ui.define(
       },
 
       CancelData: function (oEvent) {
-        let oTable = this._view.byId(
-          "fi.zfrfi0050::ZFI_C_OTHER_RECEIPTList--fe::table::ZFI_C_OTHER_RECEIPT::LineItem-innerTable"
-        );
+        let oTable = this.oView.byId("fi.zfrfi0050::ZFI_C_OTHER_RECEIPTList--fe::table::ZFI_C_OTHER_RECEIPT::LineItem::Table");
+
         let oSelectedItem = oTable.getSelectedItems();
 
         MessageBox.confirm("상신을 취소하시겠습니까?", {
