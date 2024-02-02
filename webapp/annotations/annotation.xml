@@ -16,6 +16,7 @@
                         <PropertyPath>CompanyCode</PropertyPath>
                         <PropertyPath>Supplier</PropertyPath>
                         <PropertyPath>DraftUser</PropertyPath>
+                        <PropertyPath>CheckAuth</PropertyPath>
                     </Collection>
                 </Annotation>
                 <Annotation Term="UI.LineItem">
@@ -225,6 +226,10 @@
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/KeyBusinessTrip">
 				<Annotation Term="UI.HiddenFilter" Bool="true"/>
                 <Annotation Term="Common.FilterDefaultValue" String="00000000-0000-0000-0000-000000000000"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/IsAuth">
+				<Annotation Term="UI.HiddenFilter" Bool="true"/>
+                <Annotation Term="Common.FilterDefaultValue" String="X"/>
             </Annotations>
         </Schema>
     </edmx:DataServices>

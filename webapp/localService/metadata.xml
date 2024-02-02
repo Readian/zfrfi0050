@@ -48,6 +48,16 @@
     <edmx:DataServices>
         <Schema Namespace="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001" Alias="SAP__self">
             <Annotation Term="SAP__core.SchemaVersion" String="1.0.0"/>
+            <EntityType Name="ZFI_C_EXCHANGERATEType">
+                <Key>
+                    <PropertyRef Name="SourceCurrency"/>
+                    <PropertyRef Name="ValidityStartDate"/>
+                </Key>
+                <Property Name="SourceCurrency" Type="Edm.String" Nullable="false" MaxLength="5"/>
+                <Property Name="ValidityStartDate" Type="Edm.Date" Nullable="false"/>
+                <NavigationProperty Name="Parameters" Type="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_C_EXCHANGERATEParameters" Nullable="false"/>
+                <NavigationProperty Name="_Rate" Type="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_I_EXCHANGERATEType"/>
+            </EntityType>
             <EntityType Name="ZFI_C_PLAN_COST_SUMMARYType">
                 <Key>
                     <PropertyRef Name="CompanyCode"/>
@@ -76,6 +86,13 @@
                 <Property Name="KeyGroupItem" Type="Edm.Guid" Nullable="false"/>
                 <Property Name="CodeId" Type="Edm.String" Nullable="false" MaxLength="20"/>
                 <Property Name="CodeName" Type="Edm.String" Nullable="false" MaxLength="200"/>
+            </EntityType>
+            <EntityType Name="ZFI_C_EXCHANGERATEParameters">
+                <Key>
+                    <PropertyRef Name="iDate"/>
+                </Key>
+                <Property Name="iDate" Type="Edm.Date" Nullable="false"/>
+                <NavigationProperty Name="Set" Type="Collection(com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_C_EXCHANGERATEType)" Partner="Parameters" ContainsTarget="true"/>
             </EntityType>
             <EntityType Name="ZFI_C_DOC_APPROVALType">
                 <Key>
@@ -122,6 +139,36 @@
                 <Property Name="TaxCodeETCText" Type="Edm.String" Nullable="false" MaxLength="200"/>
                 <Property Name="__EntityControl" Type="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.EntityControl"/>
                 <Property Name="SAP__Messages" Type="Collection(com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.SAP__Message)" Nullable="false"/>
+            </EntityType>
+            <EntityType Name="ZFI_I_EXCHANGERATEType">
+                <Key>
+                    <PropertyRef Name="SourceCurrency"/>
+                    <PropertyRef Name="ValidityStartDate"/>
+                </Key>
+                <Property Name="SourceCurrency" Type="Edm.String" Nullable="false" MaxLength="5"/>
+                <Property Name="ValidityStartDate" Type="Edm.Date" Nullable="false"/>
+                <Property Name="ExchangeRate" Type="Edm.Decimal" Nullable="false" Precision="9" Scale="5"/>
+                <Property Name="NumberOfSourceCurrencyUnits" Type="Edm.Decimal" Nullable="false" Precision="9"/>
+                <Property Name="NumberOfTargetCurrencyUnits" Type="Edm.Decimal" Nullable="false" Precision="9"/>
+                <Property Name="CalExchange" Type="Edm.Decimal" Nullable="false" Precision="9" Scale="5"/>
+            </EntityType>
+            <EntityType Name="ZCM_I_AUTH_ITEM02Type">
+                <Key>
+                    <PropertyRef Name="Keyzprogram"/>
+                </Key>
+                <Property Name="Keyzprogram" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="Keyuser" Type="Edm.Guid"/>
+                <Property Name="ZProgram" Type="Edm.String" Nullable="false" MaxLength="40"/>
+                <Property Name="CreatedByBTP" Type="Edm.String" Nullable="false" MaxLength="30"/>
+                <Property Name="LastChagedByBTP" Type="Edm.String" Nullable="false" MaxLength="30"/>
+                <Property Name="CreatedBy" Type="Edm.String" Nullable="false" MaxLength="12"/>
+                <Property Name="CreatedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="LocalLastChangedBy" Type="Edm.String" Nullable="false" MaxLength="12"/>
+                <Property Name="LocalLastChangedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="LastChangedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="LastChangedBy" Type="Edm.String" Nullable="false" MaxLength="12"/>
+                <Property Name="Userid" Type="Edm.String" Nullable="false" MaxLength="12"/>
+                <NavigationProperty Name="_Head" Type="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZCM_I_AUTHType" Nullable="false"/>
             </EntityType>
             <EntityType Name="I_SupplierCompanyType">
                 <Key>
@@ -217,6 +264,7 @@
                 <Property Name="Status" Type="Edm.String" Nullable="false" MaxLength="2"/>
                 <Property Name="ApprovalNum" Type="Edm.String" Nullable="false" MaxLength="50"/>
                 <Property Name="GroupWareUrl" Type="Edm.String" Nullable="false" MaxLength="1333"/>
+                <Property Name="CheckAuth" Type="Edm.String" Nullable="false" MaxLength="1"/>
                 <Property Name="BodyContent" Type="Edm.String" Nullable="false"/>
                 <Property Name="DraftUser" Type="Edm.String" Nullable="false" MaxLength="12"/>
                 <Property Name="RequestType" Type="Edm.String" Nullable="false" MaxLength="2"/>
@@ -244,6 +292,7 @@
                 <Property Name="SupplierName" Type="Edm.String" Nullable="false" MaxLength="35"/>
                 <Property Name="TaxCodeText" Type="Edm.String" Nullable="false" MaxLength="200"/>
                 <Property Name="CostCenterName" Type="Edm.String" Nullable="false" MaxLength="20"/>
+                <Property Name="IsAuth" Type="Edm.String" Nullable="false" MaxLength="1"/>
             </EntityType>
             <EntityType Name="ZFI_V_BUSINESSPLACEType">
                 <Key>
@@ -351,6 +400,25 @@
                 <Property Name="UserID" Type="Edm.String" Nullable="false" MaxLength="12"/>
                 <Property Name="Email" Type="Edm.String" Nullable="false" MaxLength="241"/>
                 <Property Name="PersonFullName" Type="Edm.String" Nullable="false" MaxLength="80"/>
+                <Property Name="AuthCardUsed" Type="Edm.String" Nullable="false" MaxLength="1"/>
+                <Property Name="AuthOther" Type="Edm.String" Nullable="false" MaxLength="1"/>
+                <NavigationProperty Name="_Auth" Type="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZCM_I_AUTHType"/>
+            </EntityType>
+            <EntityType Name="ZCM_I_AUTHType">
+                <Key>
+                    <PropertyRef Name="Keyuser"/>
+                </Key>
+                <Property Name="Keyuser" Type="Edm.Guid" Nullable="false"/>
+                <Property Name="Userid" Type="Edm.String" Nullable="false" MaxLength="12"/>
+                <Property Name="CreatedByBTP" Type="Edm.String" Nullable="false" MaxLength="30"/>
+                <Property Name="LastChagedByBTP" Type="Edm.String" Nullable="false" MaxLength="30"/>
+                <Property Name="CreatedBy" Type="Edm.String" Nullable="false" MaxLength="12"/>
+                <Property Name="CreatedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="LocalLastChangedBy" Type="Edm.String" Nullable="false" MaxLength="12"/>
+                <Property Name="LocalLastChangedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="LastChangedAt" Type="Edm.DateTimeOffset" Precision="7"/>
+                <Property Name="LastChangedBy" Type="Edm.String" Nullable="false" MaxLength="12"/>
+                <NavigationProperty Name="_Item02" Type="Collection(com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZCM_I_AUTH_ITEM02Type)"/>
             </EntityType>
             <EntityType Name="ZFI_V_COSTCENTER_C_ETCType">
                 <Key>
@@ -432,6 +500,7 @@
             </ComplexType>
             <ComplexType Name="ZFI_A_DOC021">
                 <Property Name="DebitCreditCode" Type="Edm.String" Nullable="false" MaxLength="1"/>
+                <Property Name="Profitcenter" Type="Edm.String" Nullable="false" MaxLength="10"/>
                 <Property Name="Costcenter" Type="Edm.String" Nullable="false" MaxLength="10"/>
                 <Property Name="GLAccount" Type="Edm.String" Nullable="false" MaxLength="10"/>
                 <Property Name="AccountText" Type="Edm.String" Nullable="false" MaxLength="200"/>
@@ -499,11 +568,23 @@
             <EntityContainer Name="Container">
                 <EntitySet Name="I_GLAccount" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.I_GLAccountType"/>
                 <EntitySet Name="I_SupplierCompany" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.I_SupplierCompanyType"/>
+                <EntitySet Name="ZCM_I_AUTH" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZCM_I_AUTHType">
+                    <NavigationPropertyBinding Path="_Item02" Target="ZCM_I_AUTH_ITEM02"/>
+                </EntitySet>
+                <EntitySet Name="ZCM_I_AUTH_ITEM02" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZCM_I_AUTH_ITEM02Type">
+                    <NavigationPropertyBinding Path="_Head" Target="ZCM_I_AUTH"/>
+                </EntitySet>
                 <EntitySet Name="ZFI_CURRENCY" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_CURRENCYType"/>
-                <EntitySet Name="ZFI_C_BP_AUTH" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_C_BP_AUTHType"/>
+                <EntitySet Name="ZFI_C_BP_AUTH" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_C_BP_AUTHType">
+                    <NavigationPropertyBinding Path="_Auth" Target="ZCM_I_AUTH"/>
+                </EntitySet>
                 <EntitySet Name="ZFI_C_DOC_APPROVAL" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_C_DOC_APPROVALType"/>
+                <EntitySet Name="ZFI_C_EXCHANGERATE" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_C_EXCHANGERATEParameters">
+                    <NavigationPropertyBinding Path="Set/Parameters" Target="ZFI_C_EXCHANGERATE"/>
+                </EntitySet>
                 <EntitySet Name="ZFI_C_OTHER_RECEIPT" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_C_OTHER_RECEIPTType"/>
                 <EntitySet Name="ZFI_C_PLAN_COST_SUMMARY" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_C_PLAN_COST_SUMMARYType"/>
+                <EntitySet Name="ZFI_I_EXCHANGERATE" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_I_EXCHANGERATEType"/>
                 <EntitySet Name="ZFI_V_ACCOUNT_C_ETC" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_V_ACCOUNT_C_ETCType"/>
                 <EntitySet Name="ZFI_V_ACCOUNT_RECON" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_V_ACCOUNT_RECONType"/>
                 <EntitySet Name="ZFI_V_BUSINESSPLACE" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_V_BUSINESSPLACEType"/>
@@ -543,6 +624,98 @@
             </Annotations>
             <Annotations Target="SAP__self.ZFI_A_DOC021/Currency">
                 <Annotation Term="SAP__common.IsCurrency"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_C_EXCHANGERATEType/SourceCurrency">
+                <Annotation Term="SAP__common.IsCurrency"/>
+                <Annotation Term="SAP__common.Label" String="소스통화"/>
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Heading" String="소스"/>
+                <Annotation Term="SAP__common.QuickInfo" String="소스 통화"/>
+            </Annotations>
+            <Annotations Target="SAP__self.Container/">
+                <Annotation Term="SAP__capabilities.NavigationRestrictions">
+                    <Record>
+                        <PropertyValue Property="RestrictedProperties">
+                            <Collection>
+                                <Record>
+                                    <PropertyValue Property="NavigationProperty" NavigationPropertyPath="_Rate"/>
+                                    <PropertyValue Property="InsertRestrictions">
+                                        <Record>
+                                            <PropertyValue Property="Insertable" Bool="false"/>
+                                        </Record>
+                                    </PropertyValue>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_C_EXCHANGERATEType">
+                <Annotation Term="SAP__common.Label" String="환율"/>
+            </Annotations>
+            <Annotations Target="SAP__self.Container">
+                <Annotation Term="SAP__CodeList.CurrencyCodes">
+                    <Record>
+                        <PropertyValue Property="Url" String="../../../../default/iwbep/common/0001/$metadata"/>
+                        <PropertyValue Property="CollectionPath" String="Currencies"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__aggregation.ApplySupported">
+                    <Record>
+                        <PropertyValue Property="Transformations">
+                            <Collection>
+                                <String>aggregate</String>
+                                <String>groupby</String>
+                                <String>filter</String>
+                            </Collection>
+                        </PropertyValue>
+                        <PropertyValue Property="Rollup" EnumMember="SAP__aggregation.RollupType/None"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__common.ApplyMultiUnitBehaviorForSortingAndFiltering" Bool="true"/>
+                <Annotation Term="SAP__capabilities.FilterFunctions">
+                    <Collection>
+                        <String>eq</String>
+                        <String>ne</String>
+                        <String>gt</String>
+                        <String>ge</String>
+                        <String>lt</String>
+                        <String>le</String>
+                        <String>and</String>
+                        <String>or</String>
+                        <String>contains</String>
+                        <String>startswith</String>
+                        <String>endswith</String>
+                        <String>any</String>
+                        <String>all</String>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.SupportedFormats">
+                    <Collection>
+                        <String>application/json</String>
+                        <String>application/pdf</String>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="SAP__PDF.Features">
+                    <Record>
+                        <PropertyValue Property="DocumentDescriptionReference" String="../../../../default/iwbep/common/0001/$metadata"/>
+                        <PropertyValue Property="DocumentDescriptionCollection" String="MyDocumentDescriptions"/>
+                        <PropertyValue Property="ArchiveFormat" Bool="true"/>
+                        <PropertyValue Property="Border" Bool="true"/>
+                        <PropertyValue Property="CoverPage" Bool="true"/>
+                        <PropertyValue Property="FitToPage" Bool="true"/>
+                        <PropertyValue Property="FontName" Bool="true"/>
+                        <PropertyValue Property="FontSize" Bool="true"/>
+                        <PropertyValue Property="Margin" Bool="true"/>
+                        <PropertyValue Property="Padding" Bool="true"/>
+                        <PropertyValue Property="Signature" Bool="true"/>
+                        <PropertyValue Property="HeaderFooter" Bool="true"/>
+                        <PropertyValue Property="ResultSizeDefault" Int="20000"/>
+                        <PropertyValue Property="ResultSizeMaximum" Int="20000"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.KeyAsSegmentSupported"/>
+                <Annotation Term="SAP__capabilities.AsynchronousRequestsSupported"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_PLAN_COST_SUMMARYType/CompanyCode">
                 <Annotation Term="SAP__common.Label" String="회사코드"/>
@@ -720,70 +893,6 @@
                     <Collection/>
                 </Annotation>
             </Annotations>
-            <Annotations Target="SAP__self.Container">
-                <Annotation Term="SAP__CodeList.CurrencyCodes">
-                    <Record>
-                        <PropertyValue Property="Url" String="../../../../default/iwbep/common/0001/$metadata"/>
-                        <PropertyValue Property="CollectionPath" String="Currencies"/>
-                    </Record>
-                </Annotation>
-                <Annotation Term="SAP__aggregation.ApplySupported">
-                    <Record>
-                        <PropertyValue Property="Transformations">
-                            <Collection>
-                                <String>aggregate</String>
-                                <String>groupby</String>
-                                <String>filter</String>
-                            </Collection>
-                        </PropertyValue>
-                        <PropertyValue Property="Rollup" EnumMember="SAP__aggregation.RollupType/None"/>
-                    </Record>
-                </Annotation>
-                <Annotation Term="SAP__common.ApplyMultiUnitBehaviorForSortingAndFiltering" Bool="true"/>
-                <Annotation Term="SAP__capabilities.FilterFunctions">
-                    <Collection>
-                        <String>eq</String>
-                        <String>ne</String>
-                        <String>gt</String>
-                        <String>ge</String>
-                        <String>lt</String>
-                        <String>le</String>
-                        <String>and</String>
-                        <String>or</String>
-                        <String>contains</String>
-                        <String>startswith</String>
-                        <String>endswith</String>
-                        <String>any</String>
-                        <String>all</String>
-                    </Collection>
-                </Annotation>
-                <Annotation Term="SAP__capabilities.SupportedFormats">
-                    <Collection>
-                        <String>application/json</String>
-                        <String>application/pdf</String>
-                    </Collection>
-                </Annotation>
-                <Annotation Term="SAP__PDF.Features">
-                    <Record>
-                        <PropertyValue Property="DocumentDescriptionReference" String="../../../../default/iwbep/common/0001/$metadata"/>
-                        <PropertyValue Property="DocumentDescriptionCollection" String="MyDocumentDescriptions"/>
-                        <PropertyValue Property="ArchiveFormat" Bool="true"/>
-                        <PropertyValue Property="Border" Bool="true"/>
-                        <PropertyValue Property="CoverPage" Bool="true"/>
-                        <PropertyValue Property="FitToPage" Bool="true"/>
-                        <PropertyValue Property="FontName" Bool="true"/>
-                        <PropertyValue Property="FontSize" Bool="true"/>
-                        <PropertyValue Property="Margin" Bool="true"/>
-                        <PropertyValue Property="Padding" Bool="true"/>
-                        <PropertyValue Property="Signature" Bool="true"/>
-                        <PropertyValue Property="HeaderFooter" Bool="true"/>
-                        <PropertyValue Property="ResultSizeDefault" Int="20000"/>
-                        <PropertyValue Property="ResultSizeMaximum" Int="20000"/>
-                    </Record>
-                </Annotation>
-                <Annotation Term="SAP__capabilities.KeyAsSegmentSupported"/>
-                <Annotation Term="SAP__capabilities.AsynchronousRequestsSupported"/>
-            </Annotations>
             <Annotations Target="SAP__self.ZFI_V_TAXCODE_C_ETCType/CodeId">
                 <Annotation Term="SAP__common.Label" String="세금코드"/>
                 <Annotation Term="SAP__common.Text" Path="CodeName"/>
@@ -824,6 +933,94 @@
                 <Annotation Term="SAP__core.OptimisticConcurrency">
                     <Collection/>
                 </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_C_EXCHANGERATEParameters/iDate">
+                <Annotation Term="SAP__common.Label" String="날짜"/>
+                <Annotation Term="SAP__common.QuickInfo" String="날짜"/>
+                <Annotation Term="SAP__core.Computed"/>
+                <Annotation Term="SAP__common.Heading" String="날짜"/>
+            </Annotations>
+            <Annotations Target="SAP__self.Container/ZFI_C_EXCHANGERATE">
+                <Annotation Term="SAP__capabilities.NavigationRestrictions">
+                    <Record>
+                        <PropertyValue Property="RestrictedProperties">
+                            <Collection>
+                                <Record>
+                                    <PropertyValue Property="NavigationProperty" NavigationPropertyPath="Set"/>
+                                    <PropertyValue Property="InsertRestrictions">
+                                        <Record>
+                                            <PropertyValue Property="Insertable" Bool="false"/>
+                                        </Record>
+                                    </PropertyValue>
+                                    <PropertyValue Property="UpdateRestrictions">
+                                        <Record>
+                                            <PropertyValue Property="Updatable" Bool="false"/>
+                                        </Record>
+                                    </PropertyValue>
+                                    <PropertyValue Property="DeleteRestrictions">
+                                        <Record>
+                                            <PropertyValue Property="Deletable" Bool="false"/>
+                                        </Record>
+                                    </PropertyValue>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.SearchRestrictions">
+                    <Record>
+                        <PropertyValue Property="Searchable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.FilterRestrictions">
+                    <Record>
+                        <PropertyValue Property="NonFilterableProperties">
+                            <Collection>
+                                <PropertyPath>iDate</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.SortRestrictions">
+                    <Record>
+                        <PropertyValue Property="NonSortableProperties">
+                            <Collection>
+                                <PropertyPath>iDate</PropertyPath>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.ReadRestrictions">
+                    <Record>
+                        <PropertyValue Property="Readable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.InsertRestrictions">
+                    <Record>
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.DeleteRestrictions">
+                    <Record>
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.UpdateRestrictions">
+                    <Record>
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                        <PropertyValue Property="QueryOptions">
+                            <Record>
+                                <PropertyValue Property="SelectSupported" Bool="true"/>
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__core.OptimisticConcurrency">
+                    <Collection/>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_C_EXCHANGERATEParameters">
+                <Annotation Term="SAP__common.ResultContext"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_DOC_APPROVALType/KeyRequest">
                 <Annotation Term="SAP__common.Label" String="결재정보 Key"/>
@@ -1041,6 +1238,144 @@
                 </Annotation>
                 <Annotation Term="SAP__core.OptimisticConcurrency">
                     <Collection/>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_I_EXCHANGERATEType/SourceCurrency">
+                <Annotation Term="SAP__common.IsCurrency"/>
+                <Annotation Term="SAP__common.Label" String="소스통화"/>
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Heading" String="소스"/>
+                <Annotation Term="SAP__common.QuickInfo" String="소스 통화"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_I_EXCHANGERATEType/ValidityStartDate">
+                <Annotation Term="SAP__common.Label" String="기준일자"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_I_EXCHANGERATEType/ExchangeRate">
+                <Annotation Term="SAP__common.Label" String="환율"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_I_EXCHANGERATEType/NumberOfSourceCurrencyUnits">
+                <Annotation Term="SAP__common.Label" String="소스통화단위"/>
+                <Annotation Term="SAP__common.Heading" String="비율(시작)"/>
+                <Annotation Term="SAP__common.QuickInfo" String="&quot;원시&quot; 통화 단위의 비율"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_I_EXCHANGERATEType/NumberOfTargetCurrencyUnits">
+                <Annotation Term="SAP__common.Label" String="타겟통화단위"/>
+                <Annotation Term="SAP__common.Heading" String="비율(대상)"/>
+                <Annotation Term="SAP__common.QuickInfo" String="&quot;대상&quot; 통화 단위의 비율"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_I_EXCHANGERATEType/CalExchange">
+                <Annotation Term="SAP__common.Label" String="환율"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_I_EXCHANGERATEType">
+                <Annotation Term="SAP__common.Label" String="환율"/>
+            </Annotations>
+            <Annotations Target="SAP__self.Container/ZFI_I_EXCHANGERATE">
+                <Annotation Term="SAP__capabilities.SearchRestrictions">
+                    <Record>
+                        <PropertyValue Property="Searchable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.InsertRestrictions">
+                    <Record>
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.DeleteRestrictions">
+                    <Record>
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.UpdateRestrictions">
+                    <Record>
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                        <PropertyValue Property="QueryOptions">
+                            <Record>
+                                <PropertyValue Property="SelectSupported" Bool="true"/>
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__core.OptimisticConcurrency">
+                    <Collection/>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.ZCM_I_AUTH_ITEM02Type/Keyzprogram">
+                <Annotation Term="SAP__common.Label" String="Key 프로그램"/>
+                <Annotation Term="SAP__common.Heading" String="UUID"/>
+                <Annotation Term="SAP__common.QuickInfo" String="16 Byte UUID in 16 Bytes (Raw Format)"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZCM_I_AUTH_ITEM02Type/Keyuser">
+                <Annotation Term="SAP__common.Label" String="Key 사용자"/>
+                <Annotation Term="SAP__common.Heading" String="UUID"/>
+                <Annotation Term="SAP__common.QuickInfo" String="16 Byte UUID in 16 Bytes (Raw Format)"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZCM_I_AUTH_ITEM02Type/ZProgram">
+                <Annotation Term="SAP__common.Label" String="프로그램"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZCM_I_AUTH_ITEM02Type/CreatedBy">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="생성자"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZCM_I_AUTH_ITEM02Type/LocalLastChangedBy">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="변경자"/>
+                <Annotation Term="SAP__common.QuickInfo" String="로컬 인스턴스 최종 변경자"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZCM_I_AUTH_ITEM02Type/LastChangedBy">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="변경자"/>
+                <Annotation Term="SAP__common.QuickInfo" String="마지막 변경자"/>
+            </Annotations>
+            <Annotations Target="SAP__self.Container/ZCM_I_AUTH_ITEM02">
+                <Annotation Term="SAP__capabilities.NavigationRestrictions">
+                    <Record>
+                        <PropertyValue Property="RestrictedProperties">
+                            <Collection>
+                                <Record>
+                                    <PropertyValue Property="NavigationProperty" NavigationPropertyPath="_Head"/>
+                                    <PropertyValue Property="InsertRestrictions">
+                                        <Record>
+                                            <PropertyValue Property="Insertable" Bool="false"/>
+                                        </Record>
+                                    </PropertyValue>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.SearchRestrictions">
+                    <Record>
+                        <PropertyValue Property="Searchable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.InsertRestrictions">
+                    <Record>
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.DeleteRestrictions">
+                    <Record>
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.UpdateRestrictions">
+                    <Record>
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                        <PropertyValue Property="QueryOptions">
+                            <Record>
+                                <PropertyValue Property="SelectSupported" Bool="true"/>
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__core.OptimisticConcurrency">
+                    <Collection/>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.ZCM_I_AUTH_ITEM02Type">
+                <Annotation Term="SAP__common.Label" String="권한관리-아이템(프로그램)"/>
+                <Annotation Term="Communication.Contact">
+                    <Record/>
                 </Annotation>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/Supplier">
@@ -1447,6 +1782,7 @@
                         <PropertyValue Property="NonFilterableProperties">
                             <Collection>
                                 <PropertyPath>GroupWareUrl</PropertyPath>
+                                <PropertyPath>CheckAuth</PropertyPath>
                             </Collection>
                         </PropertyValue>
                     </Record>
@@ -1456,6 +1792,7 @@
                         <PropertyValue Property="NonSortableProperties">
                             <Collection>
                                 <PropertyPath>GroupWareUrl</PropertyPath>
+                                <PropertyPath>CheckAuth</PropertyPath>
                                 <PropertyPath>BodyContent</PropertyPath>
                             </Collection>
                         </PropertyValue>
@@ -2002,10 +2339,23 @@
                 <Annotation Term="SAP__common.IsUpperCase"/>
                 <Annotation Term="SAP__common.Label" String="사용자 ID"/>
             </Annotations>
-            <Annotations Target="SAP__self.ZFI_C_BP_AUTHType">
-                <Annotation Term="SAP__common.Label" String="사용자권한"/>
-            </Annotations>
             <Annotations Target="SAP__self.Container/ZFI_C_BP_AUTH">
+                <Annotation Term="SAP__capabilities.NavigationRestrictions">
+                    <Record>
+                        <PropertyValue Property="RestrictedProperties">
+                            <Collection>
+                                <Record>
+                                    <PropertyValue Property="NavigationProperty" NavigationPropertyPath="_Auth"/>
+                                    <PropertyValue Property="InsertRestrictions">
+                                        <Record>
+                                            <PropertyValue Property="Insertable" Bool="false"/>
+                                        </Record>
+                                    </PropertyValue>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
                 <Annotation Term="SAP__capabilities.SearchRestrictions">
                     <Record>
                         <PropertyValue Property="Searchable" Bool="false"/>
@@ -2045,6 +2395,83 @@
                             </Collection>
                         </PropertyValue>
                     </Record>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_C_BP_AUTHType">
+                <Annotation Term="SAP__common.Label" String="사용자권한"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZCM_I_AUTHType/Keyuser">
+                <Annotation Term="SAP__common.Label" String="Key 사용자"/>
+                <Annotation Term="SAP__common.Heading" String="UUID"/>
+                <Annotation Term="SAP__common.QuickInfo" String="16 Byte UUID in 16 Bytes (Raw Format)"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZCM_I_AUTHType/Userid">
+                <Annotation Term="SAP__common.Label" String="사용자ID"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZCM_I_AUTHType/CreatedBy">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="생성자"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZCM_I_AUTHType/LocalLastChangedBy">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="변경자"/>
+                <Annotation Term="SAP__common.QuickInfo" String="로컬 인스턴스 최종 변경자"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZCM_I_AUTHType/LastChangedBy">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="변경자"/>
+                <Annotation Term="SAP__common.QuickInfo" String="마지막 변경자"/>
+            </Annotations>
+            <Annotations Target="SAP__self.Container/ZCM_I_AUTH">
+                <Annotation Term="SAP__capabilities.NavigationRestrictions">
+                    <Record>
+                        <PropertyValue Property="RestrictedProperties">
+                            <Collection>
+                                <Record>
+                                    <PropertyValue Property="NavigationProperty" NavigationPropertyPath="_Item02"/>
+                                    <PropertyValue Property="InsertRestrictions">
+                                        <Record>
+                                            <PropertyValue Property="Insertable" Bool="false"/>
+                                        </Record>
+                                    </PropertyValue>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.SearchRestrictions">
+                    <Record>
+                        <PropertyValue Property="Searchable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.InsertRestrictions">
+                    <Record>
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.DeleteRestrictions">
+                    <Record>
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.UpdateRestrictions">
+                    <Record>
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                        <PropertyValue Property="QueryOptions">
+                            <Record>
+                                <PropertyValue Property="SelectSupported" Bool="true"/>
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__core.OptimisticConcurrency">
+                    <Collection/>
+                </Annotation>
+            </Annotations>
+            <Annotations Target="SAP__self.ZCM_I_AUTHType">
+                <Annotation Term="SAP__common.Label" String="코드마스터-헤더"/>
+                <Annotation Term="Communication.Contact">
+                    <Record/>
                 </Annotation>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_COSTCENTER_C_ETCType/CodeId">
@@ -2327,6 +2754,18 @@
                 <Annotation Term="SAP__common.Heading" String="Dynamic Method Control"/>
                 <Annotation Term="SAP__common.QuickInfo" String="Dynamic Method Property"/>
             </Annotations>
+            <Annotations Target="SAP__self.ZCM_I_AUTH_ITEM02Type/CreatedAt">
+                <Annotation Term="SAP__common.Label" String="생성일"/>
+                <Annotation Term="SAP__common.QuickInfo" String="생성 일자/시간"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZCM_I_AUTH_ITEM02Type/LocalLastChangedAt">
+                <Annotation Term="SAP__common.Label" String="변경일"/>
+                <Annotation Term="SAP__common.QuickInfo" String="로컬 인스턴스 최종 변경 일자/시간"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZCM_I_AUTH_ITEM02Type/LastChangedAt">
+                <Annotation Term="SAP__common.Label" String="변경일"/>
+                <Annotation Term="SAP__common.QuickInfo" String="최종 변경 일자/시간"/>
+            </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/SupplierIsBlockedForPosting">
                 <Annotation Term="SAP__common.Label" String="Co.code post.block"/>
                 <Annotation Term="SAP__common.Heading" String="B"/>
@@ -2572,6 +3011,18 @@
                 <Annotation Term="SAP__common.Heading" String="기술 사용자 계정 내역"/>
                 <Annotation Term="SAP__common.QuickInfo" String="기술 사용자 계정 내역"/>
             </Annotations>
+            <Annotations Target="SAP__self.ZCM_I_AUTHType/CreatedAt">
+                <Annotation Term="SAP__common.Label" String="생성일"/>
+                <Annotation Term="SAP__common.QuickInfo" String="생성 일자/시간"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZCM_I_AUTHType/LocalLastChangedAt">
+                <Annotation Term="SAP__common.Label" String="변경일"/>
+                <Annotation Term="SAP__common.QuickInfo" String="로컬 인스턴스 최종 변경 일자/시간"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZCM_I_AUTHType/LastChangedAt">
+                <Annotation Term="SAP__common.Label" String="변경일"/>
+                <Annotation Term="SAP__common.QuickInfo" String="최종 변경 일자/시간"/>
+            </Annotations>
             <Annotations Target="SAP__self.ZFI_V_COSTCENTER_C_ETCType/KeyGroupItem">
                 <Annotation Term="SAP__common.Label" String="UUID"/>
                 <Annotation Term="SAP__common.QuickInfo" String="16 Byte UUID in 16 Bytes (Raw Format)"/>
@@ -2594,6 +3045,12 @@
                 <Annotation Term="SAP__common.Label" String="증빙일"/>
                 <Annotation Term="SAP__common.QuickInfo" String="문서의 증빙일"/>
             </Annotations>
+            <Annotations Target="SAP__self.ZFI_A_DOC020/_Item/Profitcenter">
+                <Annotation Term="SAP__common.Label" String="손익 센터"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_A_DOC021/Profitcenter">
+                <Annotation Term="SAP__common.Label" String="손익 센터"/>
+            </Annotations>
             <Annotations Target="SAP__self.EntityControl/Deletable">
                 <Annotation Term="SAP__common.Label" String="Dyn. Method Control"/>
                 <Annotation Term="SAP__common.Heading" String="Dynamic Method Control"/>
@@ -2603,6 +3060,9 @@
                 <Annotation Term="SAP__common.Label" String="Dyn. Method Control"/>
                 <Annotation Term="SAP__common.Heading" String="Dynamic Method Control"/>
                 <Annotation Term="SAP__common.QuickInfo" String="Dynamic Method Property"/>
+            </Annotations>
+            <Annotations Target="SAP__self.SAP__VIRTUAL_CO_TY_1/_Item/Profitcenter">
+                <Annotation Term="SAP__common.Label" String="손익 센터"/>
             </Annotations>
             <Annotations Target="SAP__self.Posting(Collection(SAP__self.ZFI_C_DOC_APPROVALType))/RequestType">
                 <Annotation Term="SAP__common.Label" String="결재요청 구분"/>

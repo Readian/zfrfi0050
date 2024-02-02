@@ -37,6 +37,8 @@ sap.ui.define([
                 profitcenter: '',
                 profitcenterName: '',
                 _oErrDialog: undefined,
+                ExchangeRates: [],
+                ExchangeRate: 0,
                 DebitCreditCode: [
                     { key: 'S', text: '차변' },
                     { key: 'H', text: '대변' }

@@ -159,6 +159,7 @@ sap.ui.define(
           Budgetbalance: 0,
           Amount: 0,
           balance: 0,
+          balanceKRW: 0,
           Currency: oBaseDataData.Parameters.Currency,
           AmountTax: 0,
           DocumentItemText: "",
@@ -594,15 +595,64 @@ sap.ui.define(
       onChangeAllCurrency: function (oEvent) {
         let oBaseData = this.getView().getModel("BaseData");
         let oBaseDataData = oBaseData.getData();
+        let oModel = this.getView().getModel();
+        let vPostingDate = oBaseData.getProperty("/Parameters/PostingDate");
+        let sUrl = `/sap/opu/odata4/sap/zfi_c_other_receipt_ui_v4/srvd/sap/zfi_c_other_receipt_ui/0001/ZFI_C_EXCHANGERATE(iDate=${vPostingDate})/Set?$expand=_Rate`;
 
-        for (let i = 0; i < oBaseDataData.Items.length; i++) {
-          oBaseData.setProperty(
-            "/Items/" + i + "/Currency",
-            oBaseDataData.Parameters.Currency
+        const headers = {
+          "X-Csrf-Token": oModel.getHttpHeaders()["X-CSRF-Token"],
+        };
+
+        axios
+          .get(sUrl, { headers: headers })
+          .then(
+            function (oResult) {
+              oBaseData.setProperty('/ExchangeRates', oResult.data.value);
+              let vCurrency = oBaseData.getProperty('/Parameters/Currency')
+              if (vCurrency === 'KRW'){
+                oBaseData.setProperty('/ExchangeRate', 1);
+                oBaseData.setProperty('/NumberOfSourceCurrencyUnits', 100);
+              } else{
+                let oNowRate = oResult.data.value.find(e => e.SourceCurrency == vCurrency)
+                oBaseData.setProperty('/ExchangeRate', oNowRate._Rate.CalExchange)
+                // oBaseData.setProperty('/ExchangeRate', oNowRate._Rate.ExchangeRate * 100)
+                oBaseData.setProperty('/NumberOfSourceCurrencyUnits', oNowRate._Rate.NumberOfSourceCurrencyUnits);
+              }
+              let aDetailItems = oBaseData.getProperty("/Items");
+              for (let i = 0; i < oBaseDataData.Items.length; i++) {
+                oBaseData.setProperty(
+                  "/Items/" + i + "/Currency",
+                  oBaseDataData.Parameters.Currency
+                );
+              }
+              aDetailItems.forEach((element, idx) => {
+                if (idx === 0) return;
+                let sPath = `/Items/${idx}`;
+                if (oBaseData.getProperty(`${sPath}/balanceEnable`)){
+                  this._changeBalance(sPath);
+                }
+              });
+            }.bind(this)
+          )
+          .catch(
+            function (error) {
+              let aDetailItems = oBaseData.getProperty("/Items");
+              for (let i = 0; i < oBaseDataData.Items.length; i++) {
+                oBaseData.setProperty(
+                  "/Items/" + i + "/Currency",
+                  oBaseDataData.Parameters.Currency
+                );
+              }
+              aDetailItems.forEach((element, idx) => {
+                if (idx === 0) return;
+                let sPath = `/Items/${idx}`;
+                if (oBaseData.getProperty(`${sPath}/balanceEnable`)){
+                  this._changeBalance(sPath);
+                }
+              });
+            }.bind(this)
           );
-        }
       },
-
       onActionVHCurrency: function (oEvent) {
         let oBaseData = this.getView().getModel("BaseData");
         let oValueHelpData = this.getView().getModel("ValueHelpData");
@@ -2118,6 +2168,7 @@ sap.ui.define(
                     oBaseData.setProperty(`${sPath}/balance`, 0);
                     oBaseData.setProperty(`${sPath}/balanceCurrency`, 'KRW');
                   }
+                  this._changeBalance(sPath);
                 }.bind(this)
               )
               .catch(
@@ -2131,10 +2182,10 @@ sap.ui.define(
                   oBaseData.setProperty(`${sPath}/balanceCheck`, false);
                   oBaseData.setProperty(`${sPath}/balanceEnable`, false);
                   oBaseData.setProperty(`${sPath}/balance`, 0);
+                  this._changeBalance(sPath);
                 }.bind(this)
               );
             oValueHelpData.getProperty("/_oVHDialog/VHTBGLAccount").close();
-            this._changeBalance(sPath);
             break;
 
           case "search":
@@ -2405,9 +2456,9 @@ sap.ui.define(
       onChangePostingDate: function (oEvent) {
         let oModel = this.getView().getModel();
         let oBaseData = this.getView().getModel("BaseData");
+        let vPostingDate = oBaseData.getProperty("/Parameters/PostingDate");
         if (
-          !oBaseData.getProperty("/Parameters/PostingDate") ||
-          oBaseData.getProperty("/Parameters/PostingDate") == ""
+          !vPostingDate || vPostingDate == ""
         ) {
           oBaseData.setProperty("/Parameters/Paymentscheduled", "");
         } else {
@@ -2418,14 +2469,50 @@ sap.ui.define(
           this.onCalculationPaymentscheduled();
         }
 
-        let aDetailItems = oBaseData.getProperty("/Items");
-        aDetailItems.forEach((element, idx) => {
-          if (idx === 0) return;
-          let sPath = `/Items/${idx}`;
-          if (oBaseData.getProperty(`${sPath}/balanceEnable`)){
-            this._changeBalance(sPath);
-          }
-        });
+        
+        let sUrl = `/sap/opu/odata4/sap/zfi_c_other_receipt_ui_v4/srvd/sap/zfi_c_other_receipt_ui/0001/ZFI_C_EXCHANGERATE(iDate=${vPostingDate})/Set?$expand=_Rate`;
+
+        const headers = {
+          "X-Csrf-Token": oModel.getHttpHeaders()["X-CSRF-Token"],
+        };
+
+        axios
+          .get(sUrl, { headers: headers })
+          .then(
+            function (oResult) {
+              oBaseData.setProperty('/ExchangeRates', oResult.data.value);
+              let vCurrency = oBaseData.getProperty('/Parameters/Currency')
+              if (vCurrency === 'KRW'){
+                oBaseData.setProperty('/ExchangeRate', 1);
+                oBaseData.setProperty('/NumberOfSourceCurrencyUnits', 100);
+              } else{
+                let oNowRate = oResult.data.value.find(e => e.SourceCurrency == vCurrency)
+                oBaseData.setProperty('/ExchangeRate', oNowRate._Rate.CalExchange)
+                // oBaseData.setProperty('/ExchangeRate', oNowRate._Rate.ExchangeRate * 100)
+                oBaseData.setProperty('/NumberOfSourceCurrencyUnits', oNowRate._Rate.NumberOfSourceCurrencyUnits);
+              }
+              let aDetailItems = oBaseData.getProperty("/Items");
+              aDetailItems.forEach((element, idx) => {
+                if (idx === 0) return;
+                let sPath = `/Items/${idx}`;
+                if (oBaseData.getProperty(`${sPath}/balanceEnable`)){
+                  this._changeBalance(sPath);
+                }
+              });
+            }.bind(this)
+          )
+          .catch(
+            function (error) {
+              let aDetailItems = oBaseData.getProperty("/Items");
+              aDetailItems.forEach((element, idx) => {
+                if (idx === 0) return;
+                let sPath = `/Items/${idx}`;
+                if (oBaseData.getProperty(`${sPath}/balanceEnable`)){
+                  this._changeBalance(sPath);
+                }
+              });
+            }.bind(this)
+          );
       },
 
       onChangeAmount: function (oEvent) {
@@ -3159,7 +3246,7 @@ sap.ui.define(
         let oBaseDataModel = this.oView.getModel("BaseData");
         let oParamData = oBaseDataModel.getProperty("/Parameters");
         let oDetailLine = oBaseDataModel.getProperty(sPath);
-        
+        let vExchangeRate = oBaseDataModel.getProperty('/ExchangeRate')
         if(!oDetailLine.balanceEnable) return;
         
         let oModel = this.oView.getModel();
@@ -3185,17 +3272,30 @@ sap.ui.define(
             function (sPath, oResult) {
               if (oResult.data.value.length === 1) {
                 oBaseDataModel.setProperty(
-                  sPath + "/balance",
+                  sPath + "/balanceKRW",
                   oResult.data.value[0].AvailableBudget
                 );
                 oBaseDataModel.setProperty(
                   sPath + "/balanceCurrency",
                   oResult.data.value[0].CompanyCodeCurrency
                 );
+                let oCurrUnit =  oBaseDataModel.getProperty('/NumberOfSourceCurrencyUnits') / 100
+                if (vExchangeRate != 0){
+                  oBaseDataModel.setProperty(
+                    sPath + "/balance",
+                    Math.floor((oResult.data.value[0].AvailableBudget / vExchangeRate) / oCurrUnit) * oCurrUnit
+                  );
+                } else {
+                  oBaseDataModel.setProperty(
+                    sPath + "/balance",
+                    0
+                  );
+                }
                 oBaseDataModel.setProperty(sPath + "/Amount", 0);
                 this.onCalculation(oBaseDataModel);
               } else {
                 oBaseDataModel.setProperty(sPath + "/balance", 0);
+                oBaseDataModel.setProperty(sPath + "/balanceKRW", 0);
                 oBaseDataModel.setProperty(sPath + "/balanceCurrency", '');
                 oBaseDataModel.setProperty(sPath + "/Amount", 0);
                 this.onCalculation(oBaseDataModel);
@@ -3205,6 +3305,7 @@ sap.ui.define(
           .catch(
             function (sPath, error) {
               oBaseDataModel.setProperty(sPath + "/balance", 0);
+              oBaseDataModel.setProperty(sPath + "/balanceKRW", 0);
               oBaseDataModel.setProperty(sPath + "/balanceCurrency", '');
               oBaseDataModel.setProperty(sPath + "/Amount", 0);
               this.onCalculation(oBaseDataModel);

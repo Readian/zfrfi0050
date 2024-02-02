@@ -322,6 +322,7 @@
                                                                     width="15rem"
                                                                     valueState="{BaseData>/Parameters/CurrencyState}"
                                                                     valueHelpRequest=".onOpenCurrency"
+                                                                    change=".onChangeAllCurrency"
                                                                 />
                                                             </items>
                                                         </HBox>
@@ -734,7 +735,7 @@
                                                         />
                                                         <Input
                                                             value="{
-                                                                parts :['BaseData>balance','BaseData>balanceCurrency'],
+                                                                parts :['BaseData>balance','BaseData>Currency'],
                                                                 type :'sap.ui.model.type.Currency',
                                                                 formatOptions: {showMeasure :false}
                                                                 }"
