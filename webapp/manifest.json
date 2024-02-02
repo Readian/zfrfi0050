@@ -12,7 +12,7 @@
     "resources": "resources.json",
     "sourceTemplate": {
       "id": "@sap/generator-fiori:lrop",
-      "version": "1.11.4",
+      "version": "1.120.4",
       "toolsId": "1b2cdf0b-ddca-424c-98ef-6a20ea08f1e9"
     },
     "dataSources": {
@@ -75,7 +75,7 @@
   "sap.ui5": {
     "flexEnabled": true,
     "dependencies": {
-      "minUI5Version": "1.114.9",
+      "minUI5Version": "1.120.4",
       "libs": {
         "sap.m": {},
         "sap.ui.core": {},

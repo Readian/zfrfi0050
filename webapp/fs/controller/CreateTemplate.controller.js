@@ -99,8 +99,9 @@ sap.ui.define(
             Visible: false,
           },
         ]);
-        this.getView().byId("T_Items").getBinding("items").refresh(true);
         this.onAddBtnPress();
+        this.getView().byId("T_Items").getBinding("items").refresh(true);
+
         let oModel = this.getView().getModel();
 
         let sUrl = `/sap/opu/odata4/sap/zfi_c_other_receipt_ui_v4/srvd/sap/zfi_c_other_receipt_ui/0001/ZFI_V_PROFITCENTER?$filter=ProfitCenter%20eq%20%270000001000%27`;
@@ -174,6 +175,7 @@ sap.ui.define(
         });
 
         oBaseData.setProperty("/Items", oBaseDataData.Items);
+        this.getView().byId("T_Items").getBinding("items").refresh(true);
       },
 
       onRemoveBtnPress: function (oEvent) {
@@ -611,11 +613,13 @@ sap.ui.define(
               let vCurrency = oBaseData.getProperty('/Parameters/Currency')
               if (vCurrency === 'KRW'){
                 oBaseData.setProperty('/ExchangeRate', 1);
+                oBaseData.setProperty('/ValidityStartDate', '');
                 oBaseData.setProperty('/NumberOfSourceCurrencyUnits', 100);
               } else{
                 let oNowRate = oResult.data.value.find(e => e.SourceCurrency == vCurrency)
                 oBaseData.setProperty('/ExchangeRate', oNowRate._Rate.CalExchange)
                 // oBaseData.setProperty('/ExchangeRate', oNowRate._Rate.ExchangeRate * 100)
+                oBaseData.setProperty('/ValidityStartDate', oNowRate._Rate.ValidityStartDate);
                 oBaseData.setProperty('/NumberOfSourceCurrencyUnits', oNowRate._Rate.NumberOfSourceCurrencyUnits);
               }
               let aDetailItems = oBaseData.getProperty("/Items");
@@ -2484,11 +2488,13 @@ sap.ui.define(
               let vCurrency = oBaseData.getProperty('/Parameters/Currency')
               if (vCurrency === 'KRW'){
                 oBaseData.setProperty('/ExchangeRate', 1);
+                oBaseData.setProperty('/ValidityStartDate', '');
                 oBaseData.setProperty('/NumberOfSourceCurrencyUnits', 100);
               } else{
                 let oNowRate = oResult.data.value.find(e => e.SourceCurrency == vCurrency)
                 oBaseData.setProperty('/ExchangeRate', oNowRate._Rate.CalExchange)
                 // oBaseData.setProperty('/ExchangeRate', oNowRate._Rate.ExchangeRate * 100)
+                oBaseData.setProperty('/ValidityStartDate', oNowRate._Rate.ValidityStartDate);
                 oBaseData.setProperty('/NumberOfSourceCurrencyUnits', oNowRate._Rate.NumberOfSourceCurrencyUnits);
               }
               let aDetailItems = oBaseData.getProperty("/Items");
@@ -3078,7 +3084,7 @@ sap.ui.define(
                         oBaseDataData.Parameters.BPBankAccountInternalID,
                       AccountReconText:
                         oBaseDataData.Parameters.AccountReconText,
-
+                      ExchangeRate: oBaseDataData.ExchangeRate,
                       URL: "",
                       _Item: aItem,
                     },

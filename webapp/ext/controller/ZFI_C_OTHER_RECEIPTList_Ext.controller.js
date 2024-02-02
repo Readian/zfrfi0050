@@ -152,8 +152,7 @@ sap.ui.define(
             //15a76f81-e23a-1ede-99df-d3d7b1feabb2
             Parameters: {
               AccountingDocument: this.extAPI.i18n.getText("col0030"),
-              CompanyCode: this.base
-                .getExtensionAPI()
+              CompanyCode: this.getView()
                 .byId(
                   "fi.zfrfi0050::ZFI_C_OTHER_RECEIPTList--fe::FilterBar::ZFI_C_OTHER_RECEIPT::FilterField::CompanyCode-inner"
                 )

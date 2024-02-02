@@ -326,6 +326,27 @@
                                                                 />
                                                             </items>
                                                         </HBox>
+                                                        <HBox
+                                                            width="100%"
+                                                            alignItems="Center"
+                                                            class=""
+                                                        >
+                                                            <items>
+                                                                <Label
+                                                                    text="환율 :"
+                                                                    width="8rem"
+                                                                />
+                                                                <Text
+                                                                    text="{BaseData>/ExchangeRate}"
+                                                                    width="5rem"
+                                                                />
+                                                                <Text
+                                                                    visible="{= ${BaseData>/ValidityStartDate} !== ''}"
+                                                                    text="(환산일자 : {BaseData>/ValidityStartDate})"
+                                                                    width="15rem"
+                                                                />
+                                                            </items>
+                                                        </HBox>
                                                     </items>
                                                 </VBox>
                                                 <VBox
