@@ -62,6 +62,8 @@ sap.ui.define([
                     PostingDate: '',
                     Amount: 0,
                     Currency : 'KRW',
+                    CurrencyState: 'None',
+                    CurrencyStateText: '',
                     PaymentTerms: '',
                     DocumentItemText: '',
                     KeyCardPur: '00000000-0000-0000-0000-000000000000',

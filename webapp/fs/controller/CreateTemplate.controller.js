@@ -171,6 +171,7 @@ sap.ui.define(
           CostcenterEnable: false,
           balanceCheck: false,
           balanceEnable: false,
+          balanceState: 'None',
           balanceCurrency: "KRW",
         });
 
@@ -2514,6 +2515,8 @@ sap.ui.define(
                 oBaseData.setProperty("/ExchangeRate", 1);
                 oBaseData.setProperty("/ValidityStartDate", "");
                 oBaseData.setProperty("/NumberOfSourceCurrencyUnits", 100);
+                oBaseData.setProperty("/Parameters/CurrencyState", 'None');
+                oBaseData.setProperty("/Parameters/CurrencyStateText", '');
               } else if (oResult.data.value.length > 0) {
                 let oNowRate = oResult.data.value.find(
                   (e) => e.SourceCurrency == vCurrency
@@ -2531,10 +2534,14 @@ sap.ui.define(
                   "/NumberOfSourceCurrencyUnits",
                   oNowRate._Rate.NumberOfSourceCurrencyUnits
                 );
+                oBaseData.setProperty("/Parameters/CurrencyState", 'None');
+                oBaseData.setProperty("/Parameters/CurrencyStateText", '');
               } else {
                 oBaseData.setProperty("/ExchangeRate", 0);
                 oBaseData.setProperty("/ValidityStartDate", "");
                 oBaseData.setProperty("/NumberOfSourceCurrencyUnits", 0);
+                oBaseData.setProperty("/Parameters/CurrencyState", 'Error');
+                oBaseData.setProperty("/Parameters/CurrencyStateText", '환율 데이터가 존재하지 않습니다.');
               }
               let aDetailItems = oBaseData.getProperty("/Items");
               aDetailItems.forEach((element, idx) => {
@@ -2551,6 +2558,8 @@ sap.ui.define(
               oBaseData.setProperty("/ExchangeRate", 0);
               oBaseData.setProperty("/ValidityStartDate", "");
               oBaseData.setProperty("/NumberOfSourceCurrencyUnits", 0);
+              oBaseData.setProperty("/Parameters/CurrencyState", 'Error');
+              oBaseData.setProperty("/Parameters/CurrencyStateText", '환율 데이터가 존재하지 않습니다.');
               let aDetailItems = oBaseData.getProperty("/Items");
               aDetailItems.forEach((element, idx) => {
                 if (idx === 0) return;
@@ -2748,7 +2757,11 @@ sap.ui.define(
 
         let oBudget = {};
         let vBudgetCheck = true;
-        if (oBaseDataData.ExchangeRate === 0) vBudgetCheck = false;
+        if (oBaseDataData.ExchangeRate === 0) {
+          vBudgetCheck = false;
+        } else {
+
+        }
         let vBudgetRslt = true;
         let vNowKey;
 
@@ -2795,6 +2808,8 @@ sap.ui.define(
           ) {
             isTrue = false;
             oBaseData.setProperty("/Items/" + i + "/AmountState", "Error");
+          } else {
+            oBaseData.setProperty("/Items/" + i + "/AmountState", "None");
           }
 
           // 예산 check data
@@ -2874,7 +2889,6 @@ sap.ui.define(
                 oBaseData.setProperty("/Items/" + i + "/AmountStateText", '');
               }
             }
-            Object.keys(oBudget).filter((key) => !oBudget[key].Validation).for;
           }
         }
         // 2023/12/06 CJH 수정 _ 적요
