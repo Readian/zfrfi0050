@@ -171,7 +171,7 @@ sap.ui.define(
           CostcenterEnable: false,
           balanceCheck: false,
           balanceEnable: false,
-          balanceCurrency: 'KRW',
+          balanceCurrency: "KRW",
         });
 
         oBaseData.setProperty("/Items", oBaseDataData.Items);
@@ -609,18 +609,33 @@ sap.ui.define(
           .get(sUrl, { headers: headers })
           .then(
             function (oResult) {
-              oBaseData.setProperty('/ExchangeRates', oResult.data.value);
-              let vCurrency = oBaseData.getProperty('/Parameters/Currency')
-              if (vCurrency === 'KRW'){
-                oBaseData.setProperty('/ExchangeRate', 1);
-                oBaseData.setProperty('/ValidityStartDate', '');
-                oBaseData.setProperty('/NumberOfSourceCurrencyUnits', 100);
-              } else{
-                let oNowRate = oResult.data.value.find(e => e.SourceCurrency == vCurrency)
-                oBaseData.setProperty('/ExchangeRate', oNowRate._Rate.CalExchange)
+              oBaseData.setProperty("/ExchangeRates", oResult.data.value);
+              let vCurrency = oBaseData.getProperty("/Parameters/Currency");
+              if (vCurrency === "KRW") {
+                oBaseData.setProperty("/ExchangeRate", 1);
+                oBaseData.setProperty("/ValidityStartDate", "");
+                oBaseData.setProperty("/NumberOfSourceCurrencyUnits", 100);
+              } else if (oResult.data.value.length > 0) {
+                let oNowRate = oResult.data.value.find(
+                  (e) => e.SourceCurrency == vCurrency
+                );
+                oBaseData.setProperty(
+                  "/ExchangeRate",
+                  oNowRate._Rate.CalExchange
+                );
                 // oBaseData.setProperty('/ExchangeRate', oNowRate._Rate.ExchangeRate * 100)
-                oBaseData.setProperty('/ValidityStartDate', oNowRate._Rate.ValidityStartDate);
-                oBaseData.setProperty('/NumberOfSourceCurrencyUnits', oNowRate._Rate.NumberOfSourceCurrencyUnits);
+                oBaseData.setProperty(
+                  "/ValidityStartDate",
+                  oNowRate._Rate.ValidityStartDate
+                );
+                oBaseData.setProperty(
+                  "/NumberOfSourceCurrencyUnits",
+                  oNowRate._Rate.NumberOfSourceCurrencyUnits
+                );
+              } else {
+                oBaseData.setProperty("/ExchangeRate", 0);
+                oBaseData.setProperty("/ValidityStartDate", "");
+                oBaseData.setProperty("/NumberOfSourceCurrencyUnits", 0);
               }
               let aDetailItems = oBaseData.getProperty("/Items");
               for (let i = 0; i < oBaseDataData.Items.length; i++) {
@@ -632,7 +647,7 @@ sap.ui.define(
               aDetailItems.forEach((element, idx) => {
                 if (idx === 0) return;
                 let sPath = `/Items/${idx}`;
-                if (oBaseData.getProperty(`${sPath}/balanceEnable`)){
+                if (oBaseData.getProperty(`${sPath}/balanceEnable`)) {
                   this._changeBalance(sPath);
                 }
               });
@@ -640,6 +655,9 @@ sap.ui.define(
           )
           .catch(
             function (error) {
+              oBaseData.setProperty("/ExchangeRate", 0);
+              oBaseData.setProperty("/ValidityStartDate", "");
+              oBaseData.setProperty("/NumberOfSourceCurrencyUnits", 0);
               let aDetailItems = oBaseData.getProperty("/Items");
               for (let i = 0; i < oBaseDataData.Items.length; i++) {
                 oBaseData.setProperty(
@@ -650,7 +668,7 @@ sap.ui.define(
               aDetailItems.forEach((element, idx) => {
                 if (idx === 0) return;
                 let sPath = `/Items/${idx}`;
-                if (oBaseData.getProperty(`${sPath}/balanceEnable`)){
+                if (oBaseData.getProperty(`${sPath}/balanceEnable`)) {
                   this._changeBalance(sPath);
                 }
               });
@@ -2121,7 +2139,10 @@ sap.ui.define(
                         oBaseData.setProperty(`${sPath}/balanceCheck`, false);
                         oBaseData.setProperty(`${sPath}/balanceEnable`, false);
                         oBaseData.setProperty(`${sPath}/balance`, 0);
-                        oBaseData.setProperty(`${sPath}/balanceCurrency`, 'KRW');
+                        oBaseData.setProperty(
+                          `${sPath}/balanceCurrency`,
+                          "KRW"
+                        );
                       } else {
                         oBaseData.setProperty(
                           `${sPath}/CostcenterEnable`,
@@ -2133,16 +2154,22 @@ sap.ui.define(
                         );
                         oBaseData.setProperty(`${sPath}/profitcenter`, "");
                         oBaseData.setProperty(`${sPath}/profitcenterName`, "");
-                        
+
                         oBaseData.setProperty(`${sPath}/balanceCheck`, true);
-                        
-                        if(oParamData.Amount > 0){
+
+                        if (oParamData.Amount > 0) {
                           oBaseData.setProperty(`${sPath}/balanceEnable`, true);
                           this._changeBalance(sPath);
                         } else {
-                          oBaseData.setProperty(`${sPath}/balanceEnable`, false);
+                          oBaseData.setProperty(
+                            `${sPath}/balanceEnable`,
+                            false
+                          );
                           oBaseData.setProperty(`${sPath}/balance`, 0);
-                          oBaseData.setProperty(`${sPath}/balanceCurrency`, 'KRW');
+                          oBaseData.setProperty(
+                            `${sPath}/balanceCurrency`,
+                            "KRW"
+                          );
                         }
                       }
                     } else {
@@ -2158,7 +2185,7 @@ sap.ui.define(
                       oBaseData.setProperty(`${sPath}/balanceCheck`, false);
                       oBaseData.setProperty(`${sPath}/balanceEnable`, false);
                       oBaseData.setProperty(`${sPath}/balance`, 0);
-                      oBaseData.setProperty(`${sPath}/balanceCurrency`, 'KRW');
+                      oBaseData.setProperty(`${sPath}/balanceCurrency`, "KRW");
                     }
                   } else {
                     oBaseData.setProperty(`${sPath}/Costcenter`, "");
@@ -2170,7 +2197,7 @@ sap.ui.define(
                     oBaseData.setProperty(`${sPath}/balanceCheck`, false);
                     oBaseData.setProperty(`${sPath}/balanceEnable`, false);
                     oBaseData.setProperty(`${sPath}/balance`, 0);
-                    oBaseData.setProperty(`${sPath}/balanceCurrency`, 'KRW');
+                    oBaseData.setProperty(`${sPath}/balanceCurrency`, "KRW");
                   }
                   this._changeBalance(sPath);
                 }.bind(this)
@@ -2461,9 +2488,7 @@ sap.ui.define(
         let oModel = this.getView().getModel();
         let oBaseData = this.getView().getModel("BaseData");
         let vPostingDate = oBaseData.getProperty("/Parameters/PostingDate");
-        if (
-          !vPostingDate || vPostingDate == ""
-        ) {
+        if (!vPostingDate || vPostingDate == "") {
           oBaseData.setProperty("/Parameters/Paymentscheduled", "");
         } else {
           oBaseData.setProperty(
@@ -2473,7 +2498,6 @@ sap.ui.define(
           this.onCalculationPaymentscheduled();
         }
 
-        
         let sUrl = `/sap/opu/odata4/sap/zfi_c_other_receipt_ui_v4/srvd/sap/zfi_c_other_receipt_ui/0001/ZFI_C_EXCHANGERATE(iDate=${vPostingDate})/Set?$expand=_Rate`;
 
         const headers = {
@@ -2484,24 +2508,39 @@ sap.ui.define(
           .get(sUrl, { headers: headers })
           .then(
             function (oResult) {
-              oBaseData.setProperty('/ExchangeRates', oResult.data.value);
-              let vCurrency = oBaseData.getProperty('/Parameters/Currency')
-              if (vCurrency === 'KRW'){
-                oBaseData.setProperty('/ExchangeRate', 1);
-                oBaseData.setProperty('/ValidityStartDate', '');
-                oBaseData.setProperty('/NumberOfSourceCurrencyUnits', 100);
-              } else{
-                let oNowRate = oResult.data.value.find(e => e.SourceCurrency == vCurrency)
-                oBaseData.setProperty('/ExchangeRate', oNowRate._Rate.CalExchange)
+              oBaseData.setProperty("/ExchangeRates", oResult.data.value);
+              let vCurrency = oBaseData.getProperty("/Parameters/Currency");
+              if (vCurrency === "KRW") {
+                oBaseData.setProperty("/ExchangeRate", 1);
+                oBaseData.setProperty("/ValidityStartDate", "");
+                oBaseData.setProperty("/NumberOfSourceCurrencyUnits", 100);
+              } else if (oResult.data.value.length > 0) {
+                let oNowRate = oResult.data.value.find(
+                  (e) => e.SourceCurrency == vCurrency
+                );
+                oBaseData.setProperty(
+                  "/ExchangeRate",
+                  oNowRate._Rate.CalExchange
+                );
                 // oBaseData.setProperty('/ExchangeRate', oNowRate._Rate.ExchangeRate * 100)
-                oBaseData.setProperty('/ValidityStartDate', oNowRate._Rate.ValidityStartDate);
-                oBaseData.setProperty('/NumberOfSourceCurrencyUnits', oNowRate._Rate.NumberOfSourceCurrencyUnits);
+                oBaseData.setProperty(
+                  "/ValidityStartDate",
+                  oNowRate._Rate.ValidityStartDate
+                );
+                oBaseData.setProperty(
+                  "/NumberOfSourceCurrencyUnits",
+                  oNowRate._Rate.NumberOfSourceCurrencyUnits
+                );
+              } else {
+                oBaseData.setProperty("/ExchangeRate", 0);
+                oBaseData.setProperty("/ValidityStartDate", "");
+                oBaseData.setProperty("/NumberOfSourceCurrencyUnits", 0);
               }
               let aDetailItems = oBaseData.getProperty("/Items");
               aDetailItems.forEach((element, idx) => {
                 if (idx === 0) return;
                 let sPath = `/Items/${idx}`;
-                if (oBaseData.getProperty(`${sPath}/balanceEnable`)){
+                if (oBaseData.getProperty(`${sPath}/balanceEnable`)) {
                   this._changeBalance(sPath);
                 }
               });
@@ -2509,11 +2548,14 @@ sap.ui.define(
           )
           .catch(
             function (error) {
+              oBaseData.setProperty("/ExchangeRate", 0);
+              oBaseData.setProperty("/ValidityStartDate", "");
+              oBaseData.setProperty("/NumberOfSourceCurrencyUnits", 0);
               let aDetailItems = oBaseData.getProperty("/Items");
               aDetailItems.forEach((element, idx) => {
                 if (idx === 0) return;
                 let sPath = `/Items/${idx}`;
-                if (oBaseData.getProperty(`${sPath}/balanceEnable`)){
+                if (oBaseData.getProperty(`${sPath}/balanceEnable`)) {
                   this._changeBalance(sPath);
                 }
               });
@@ -2703,6 +2745,13 @@ sap.ui.define(
         } else {
           oBaseData.setProperty("/Parameters/DocumentReferenceIDState", "None");
         }
+
+        let oBudget = {};
+        let vBudgetCheck = true;
+        if (oBaseDataData.ExchangeRate === 0) vBudgetCheck = false;
+        let vBudgetRslt = true;
+        let vNowKey;
+
         for (let i = 1; i < oBaseDataData.Items.length; i++) {
           if (
             !oBaseDataData.Items[i].DebitCreditCode ||
@@ -2722,22 +2771,13 @@ sap.ui.define(
           if (
             oBaseDataData.Items[i].CostcenterEnable &&
             (!oBaseDataData.Items[i].Costcenter ||
-            oBaseDataData.Items[i].Costcenter == "")
+              oBaseDataData.Items[i].Costcenter == "")
           ) {
             isTrue = false;
             oBaseData.setProperty("/Items/" + i + "/CostcenterState", "Error");
           } else {
             oBaseData.setProperty("/Items/" + i + "/CostcenterState", "None");
           }
-          // if(!oBaseDataData.Items[i].Costcenter || oBaseDataData.Items[i].Costcenter == '')
-          // {
-          //     isTrue = false;
-          //     oBaseData.setProperty('/Items/'+i+'/CostcenterState', 'Error');
-          // }
-          // else
-          // {
-          //     oBaseData.setProperty('/Items/'+i+'/CostcenterState', 'None');
-          // }
           if (
             !oBaseDataData.Items[i].GLAccount ||
             oBaseDataData.Items[i].GLAccount == ""
@@ -2747,24 +2787,40 @@ sap.ui.define(
           } else {
             oBaseData.setProperty("/Items/" + i + "/GLAccountState", "None");
           }
+
+          // 금액 Empty Check
           if (
             !oBaseDataData.Items[i].Amount ||
             oBaseDataData.Items[i].Amount == ""
           ) {
             isTrue = false;
             oBaseData.setProperty("/Items/" + i + "/AmountState", "Error");
-          } else if (
-            oBaseDataData.Items[i].balanceEnable &&
-            oBaseDataData.Items[i].Amount > oBaseDataData.Items[i].balance
+          }
+
+          // 예산 check data
+          if (
+            vBudgetCheck &&
+            oBaseDataData.Items[i].Costcenter &&
+            oBaseDataData.Items[i].GLAccount &&
+            oBaseDataData.Items[i].AmountState != "Error"
           ) {
-            isTrue = false;
-            oBaseData.setProperty("/Items/" + i + "/AmountState", "Error");
-            oBaseData.setProperty(
-              "/Items/" + i + "/AmountStateText",
-              Model.I18n.getProperty("Error011")
-            );
-          } else {
-            oBaseData.setProperty("/Items/" + i + "/AmountState", "None");
+            vNowKey = `${oBaseDataData.Items[i].Costcenter}|${oBaseDataData.Items[i].GLAccount}`;
+            if (!(vNowKey in oBudget)) {
+              oBudget[vNowKey] = {
+                Validation : true,
+                Amount : 0,
+                Balance : Number(oBaseDataData.Items[i].balance)
+              }
+              // oBudget[vNowKey]['Validation'] = true;
+              // oBudget[vNowKey]['Amount'] = 0;
+              // oBudget[vNowKey]['Balance'] = Number(oBaseDataData.Items[i].balance);
+            }
+            oBudget[vNowKey].Amount += Number(oBaseDataData.Items[i].Amount);
+            if (oBudget[vNowKey].Balance < oBudget[vNowKey].Amount) {
+              oBudget[vNowKey].Validation = false;
+              vBudgetRslt = false;
+              isTrue = false;
+            }
           }
 
           // 2023/12/06 CJH 수정 _ 적요
@@ -2801,6 +2857,26 @@ sap.ui.define(
           // }
         }
 
+        // 예산잔액 체크
+        if (!vBudgetRslt) {
+          for (let i = 1; i < oBaseDataData.Items.length; i++) {
+            if (
+              oBaseDataData.Items[i].Costcenter &&
+              oBaseDataData.Items[i].GLAccount &&
+              oBaseDataData.Items[i].AmountState != "Error"
+            ) {
+              vNowKey = `${oBaseDataData.Items[i].Costcenter}|${oBaseDataData.Items[i].GLAccount}`;
+              if (!oBudget[vNowKey].Validation) {
+                oBaseData.setProperty("/Items/" + i + "/AmountState", "Error");
+                oBaseData.setProperty("/Items/" + i + "/AmountStateText", Model.I18n.getProperty("Error011"));
+              } else {
+                oBaseData.setProperty("/Items/" + i + "/AmountState", "None");
+                oBaseData.setProperty("/Items/" + i + "/AmountStateText", '');
+              }
+            }
+            Object.keys(oBudget).filter((key) => !oBudget[key].Validation).for;
+          }
+        }
         // 2023/12/06 CJH 수정 _ 적요
         // if (!oBaseDataData.Items[0].DocumentItemText || oBaseDataData.Items[0].DocumentItemText == '') {
         //     isTrue = false;
@@ -2845,15 +2921,14 @@ sap.ui.define(
           }
         }
 
-
         let aDetailItems = oBaseData.getProperty("/Items");
 
-        if (Number(oBaseData.getProperty('/Parameters/Amount')) > 0){
+        if (Number(oBaseData.getProperty("/Parameters/Amount")) > 0) {
           aDetailItems.forEach((element, idx) => {
             if (idx === 0) return;
             let sPath = `/Items/${idx}`;
-            if (element.balanceCheck){
-              oBaseData.setProperty(`${sPath}/balanceEnable`, true)
+            if (element.balanceCheck) {
+              oBaseData.setProperty(`${sPath}/balanceEnable`, true);
               this._changeBalance(sPath);
             }
           });
@@ -2861,9 +2936,9 @@ sap.ui.define(
           aDetailItems.forEach((element, idx) => {
             if (idx === 0) return;
             let sPath = `/Items/${idx}`;
-            oBaseData.setProperty(`${sPath}/balanceEnable`, false)
-            oBaseData.setProperty(`${sPath}/balance`, 0)
-            oBaseData.setProperty(`${sPath}/balanceCurrency`, 'KRW');
+            oBaseData.setProperty(`${sPath}/balanceEnable`, false);
+            oBaseData.setProperty(`${sPath}/balance`, 0);
+            oBaseData.setProperty(`${sPath}/balanceCurrency`, "KRW");
           });
         }
 
@@ -2986,7 +3061,7 @@ sap.ui.define(
                       Items.AmountCredit = Items.Amount;
                       Items.AmountDebit = 0;
                     }
-                    
+
                     delete Items.profitcenterName;
                     delete Items.profitcenterEnable;
                     delete Items.profitcenterState;
@@ -3248,13 +3323,13 @@ sap.ui.define(
         //   function (error) {
         //   }.bind(this)
         // );
-        
+
         let oBaseDataModel = this.oView.getModel("BaseData");
         let oParamData = oBaseDataModel.getProperty("/Parameters");
         let oDetailLine = oBaseDataModel.getProperty(sPath);
-        let vExchangeRate = oBaseDataModel.getProperty('/ExchangeRate')
-        if(!oDetailLine.balanceEnable) return;
-        
+        let vExchangeRate = oBaseDataModel.getProperty("/ExchangeRate");
+        if (!oDetailLine.balanceEnable) return;
+
         let oModel = this.oView.getModel();
         let sUrl = `/sap/opu/odata4/sap/zfi_c_other_receipt_ui_v4/srvd/sap/zfi_c_other_receipt_ui/0001/ZFI_C_PLAN_COST_SUMMARY?$filter=CompanyCode%20eq%20%27${
           oParamData.CompanyCode
@@ -3285,24 +3360,27 @@ sap.ui.define(
                   sPath + "/balanceCurrency",
                   oResult.data.value[0].CompanyCodeCurrency
                 );
-                let oCurrUnit =  oBaseDataModel.getProperty('/NumberOfSourceCurrencyUnits') / 100
-                if (vExchangeRate != 0){
+                let oCurrUnit =
+                  oBaseDataModel.getProperty("/NumberOfSourceCurrencyUnits") /
+                  100;
+                if (vExchangeRate != 0) {
                   oBaseDataModel.setProperty(
                     sPath + "/balance",
-                    Math.floor((oResult.data.value[0].AvailableBudget / vExchangeRate) / oCurrUnit) * oCurrUnit
+                    Math.floor(
+                      oResult.data.value[0].AvailableBudget /
+                        vExchangeRate /
+                        oCurrUnit
+                    ) * oCurrUnit
                   );
                 } else {
-                  oBaseDataModel.setProperty(
-                    sPath + "/balance",
-                    0
-                  );
+                  oBaseDataModel.setProperty(sPath + "/balance", 0);
                 }
                 oBaseDataModel.setProperty(sPath + "/Amount", 0);
                 this.onCalculation(oBaseDataModel);
               } else {
                 oBaseDataModel.setProperty(sPath + "/balance", 0);
                 oBaseDataModel.setProperty(sPath + "/balanceKRW", 0);
-                oBaseDataModel.setProperty(sPath + "/balanceCurrency", '');
+                oBaseDataModel.setProperty(sPath + "/balanceCurrency", "");
                 oBaseDataModel.setProperty(sPath + "/Amount", 0);
                 this.onCalculation(oBaseDataModel);
               }
@@ -3312,7 +3390,7 @@ sap.ui.define(
             function (sPath, error) {
               oBaseDataModel.setProperty(sPath + "/balance", 0);
               oBaseDataModel.setProperty(sPath + "/balanceKRW", 0);
-              oBaseDataModel.setProperty(sPath + "/balanceCurrency", '');
+              oBaseDataModel.setProperty(sPath + "/balanceCurrency", "");
               oBaseDataModel.setProperty(sPath + "/Amount", 0);
               this.onCalculation(oBaseDataModel);
             }.bind(this, sPath)
