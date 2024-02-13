@@ -115,7 +115,7 @@ sap.ui.define([
                 return oModel;
             },
             createValueHelpDataModel : function(){
-                let oModel = new JSONModel(this.ValueHelpData);
+                let oModel = new JSONModel(_.cloneDeep(this.ValueHelpData));
                 return oModel;
             },
             createViewDataModel : function(){
