@@ -628,8 +628,8 @@
                                             fixedLayout="false"
                                             sticky="ColumnHeaders"
                                             items="{
-                                                path :'BaseData>/Items',
-                                                templateShareable :false
+                                                path :'BaseData>/Items', 
+                                                templateShareable :true
                                             }"
                                             mode="MultiSelect"
                                         >
@@ -653,12 +653,12 @@
 
                                                 <Column width="13rem">
                                                     <Label
-                                                        text="비용 계정"
+                                                        text="계정코드"
                                                         required="true"
                                                     />
                                                 </Column>
                                                 <Column width="15rem">
-                                                    <Text text="비용 계정명" />
+                                                    <Text text="계정명" />
                                                 </Column>
 
                                                 <Column width="13rem">

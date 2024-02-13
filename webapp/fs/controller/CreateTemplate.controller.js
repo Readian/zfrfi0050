@@ -17,7 +17,7 @@ sap.ui.define(
     "sap/ui/core/BusyIndicator",
   ],
   function (
-    Controller,
+    Controller, 
     JSONModel,
     History,
     MessageToast,
@@ -2817,7 +2817,8 @@ sap.ui.define(
             vBudgetCheck &&
             oBaseDataData.Items[i].Costcenter &&
             oBaseDataData.Items[i].GLAccount &&
-            oBaseDataData.Items[i].AmountState != "Error"
+            oBaseDataData.Items[i].AmountState != "Error" &&
+            oBaseDataData.Items[i].balanceEnable
           ) {
             vNowKey = `${oBaseDataData.Items[i].Costcenter}|${oBaseDataData.Items[i].GLAccount}`;
             if (!(vNowKey in oBudget)) {
