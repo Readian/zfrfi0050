@@ -1,5 +1,4 @@
-<mvc:View
-    xmlns:uxap="sap.uxap"
+<mvc:View xmlns:uxap="sap.uxap"
     xmlns:cards="sap.f.cards"
     controllerName="fi.zfrfi0050.fs.controller.CreateTemplate"
     xmlns:core="sap.ui.core"
@@ -11,67 +10,46 @@
     xmlns:form="sap.ui.layout.form"
     xmlns="sap.m"
     xmlns:mvc="sap.ui.core.mvc"
-    xmlns:h="http://www.w3.org/1999/xhtml"
->
-    <Page
-        id="P_Create"
+    xmlns:h="http://www.w3.org/1999/xhtml">
+    <Page id="P_Create"
         title="{i18n>CreatePageTitle}"
         titleAlignment="Center"
         showNavButton="false"
         navButtonPress="onPageNavBack"
-        showHeader="false"
-    >
-        <uxap:ObjectPageLayout
-            id="OPL_CreateObjectPage"
+        showHeader="false">
+        <uxap:ObjectPageLayout id="OPL_CreateObjectPage"
             showFooter="{BaseData>/Visible/Footer}"
-            showAnchorBar="true"
-        >
+            showAnchorBar="true">
             <uxap:headerTitle>
                 <uxap:ObjectPageDynamicHeaderTitle>
                     <uxap:expandedHeading>
                         <!-- <Title text="생성" /> -->
                     </uxap:expandedHeading>
                     <uxap:snappedHeading>
-                        <FlexBox
-                            fitContainer="true"
-                            alignItems="Center"
-                        >
+                        <FlexBox fitContainer="true"
+                            alignItems="Center">
                             <!-- <Title text="생성" /> -->
                         </FlexBox>
                     </uxap:snappedHeading>
                     <uxap:expandedContent />
                     <uxap:actions>
-                        <Button
-                            text="{i18n>Btn0010}"
+                        <Button text="{i18n>Btn0010}"
                             type="Emphasized"
-                            press=".onBtnPress"
-                        />
+                            press=".onBtnPress" />
 
                         <h:form name="workflowForm">
-                            <h:input
-                                type="hidden"
-                                name="SystemID"
-                            />
-                            <h:input
-                                type="hidden"
-                                name="WorkKind"
-                            />
-                            <h:input
-                                type="hidden"
-                                name="TblKey"
-                            />
-                            <h:input
-                                type="hidden"
-                                name="ReqID"
-                            />
-                            <h:input
-                                type="hidden"
-                                name="Title"
-                            />
-                            <h:input
-                                type="hidden"
-                                name="Content"
-                            />
+                            <h:input type="hidden"
+                                name="SystemID" />
+                            <h:input type="hidden"
+                                name="WorkKind" />
+                            <h:input type="hidden"
+                                name="TblKey" />
+                            <h:input type="hidden"
+                                name="ReqID" />
+                            <h:input type="hidden"
+                                name="Title" />
+                            <h:input type="hidden"
+                                name="Content" />
                         </h:form>
                     </uxap:actions>
                 </uxap:ObjectPageDynamicHeaderTitle>
@@ -81,91 +59,63 @@
 
             <!-- // Section 시작부분 -->
             <uxap:sections>
-                <uxap:ObjectPageSection
-                    titleUppercase="true"
+                <uxap:ObjectPageSection titleUppercase="true"
                     id="OPS_Header1"
                     title="Content"
-                    showTitle="true"
-                >
+                    showTitle="true">
                     <uxap:subSections>
                         <uxap:ObjectPageSubSection title="기본정보">
                             <VBox>
-                                <form:SimpleForm
-                                    editable="true"
-                                    layout="ResponsiveGridLayout"
-                                >
+                                <form:SimpleForm editable="true"
+                                    layout="ResponsiveGridLayout">
                                     <form:content>
                                         <HBox>
                                             <VBox>
-                                                <HBox
-                                                    width="100%"
+                                                <HBox width="100%"
                                                     alignItems="Center"
-                                                    class=""
-                                                >
-                                                    <Label
-                                                        text="전표번호 :"
-                                                        width="8rem"
-                                                    />
-                                                    <Label
-                                                        text="{BaseData>/Parameters/AccountingDocument}"
-                                                        width="15rem"
-                                                    />
+                                                    class="">
+                                                    <Label text="전표번호 :"
+                                                        width="8rem" />
+                                                    <Label text="{BaseData>/Parameters/AccountingDocument}"
+                                                        width="15rem" />
                                                 </HBox>
                                             </VBox>
                                             <HBox>
-                                                <HBox
-                                                    width="100%"
+                                                <HBox width="100%"
                                                     alignItems="Center"
-                                                    class=""
-                                                >
-                                                    <Label
-                                                        width="8rem"
-                                                        text="차변합계:"
-                                                    />
+                                                    class="">
+                                                    <Label width="8rem"
+                                                        text="차변합계:" />
                                                     <FlexBox width="15rem">
-                                                        <ObjectStatus
-                                                            text="{ 
+                                                        <ObjectStatus text="{ 
                                                             parts: ['BaseData>/Parameters/DebitTotal', 'BaseData>/Parameters/Currency'],
                                                             type: 'sap.ui.model.type.Currency'
-                                                        }"
-                                                        />
+                                                        }" />
                                                     </FlexBox>
                                                 </HBox>
-                                                <HBox
-                                                    width="100%"
+                                                <HBox width="100%"
                                                     alignItems="Center"
-                                                    class=""
-                                                >
-                                                    <Label
-                                                        width="8rem"
-                                                        text="대변합계:"
-                                                    />
+                                                    class="">
+                                                    <Label width="8rem"
+                                                        text="대변합계:" />
                                                     <FlexBox width="15rem">
-                                                        <ObjectStatus
-                                                            text="{ 
+                                                        <ObjectStatus text="{ 
                                                             parts: ['BaseData>/Parameters/CreditTotal', 'BaseData>/Parameters/Currency'],
                                                             type: 'sap.ui.model.type.Currency'
-                                                        }"
-                                                        />
+                                                        }" />
                                                     </FlexBox>
                                                 </HBox>
-                                                <HBox
-                                                    width="100%"
+                                                <HBox width="100%"
                                                     alignItems="Center"
-                                                    class=""
-                                                >
-                                                    <Label
-                                                        width="8rem"
-                                                        text="잔액:"
-                                                    />
+                                                    class="">
+                                                    <Label width="8rem"
+                                                        text="잔액:" />
                                                     <FlexBox width="15rem">
-                                                        <ObjectStatus
-                                                            text="{ 
+                                                        <ObjectStatus text="{ 
                                                                 parts: ['BaseData>/Parameters/AmountTotal', 'BaseData>/Parameters/Currency'],
                                                                 type: 'sap.ui.model.type.Currency'
                                                             }"
-                                                            state="Error"
-                                                        />
+                                                            state="Error" />
                                                     </FlexBox>
                                                 </HBox>
                                             </HBox>
@@ -176,85 +126,56 @@
                         </uxap:ObjectPageSubSection>
                     </uxap:subSections>
                 </uxap:ObjectPageSection>
-                <uxap:ObjectPageSection
-                    titleUppercase="true"
+                <uxap:ObjectPageSection titleUppercase="true"
                     id="OPS_Header2"
                     title="Content"
-                    showTitle="true"
-                >
+                    showTitle="true">
                     <uxap:subSections>
                         <uxap:ObjectPageSubSection title="입력정보">
                             <VBox>
-                                <form:SimpleForm
-                                    editable="true"
-                                    layout="ResponsiveGridLayout"
-                                >
+                                <form:SimpleForm editable="true"
+                                    layout="ResponsiveGridLayout">
                                     <form:content>
                                         <HBox width="100%">
                                             <items>
-                                                <VBox
-                                                    width="100%"
-                                                    direction="Column"
-                                                >
+                                                <VBox width="100%"
+                                                    direction="Column">
                                                     <items>
-                                                        <HBox
-                                                            width="100%"
+                                                        <HBox width="100%"
                                                             alignItems="Center"
-                                                            class=""
-                                                        >
+                                                            class="">
                                                             <items>
-                                                                <!-- <Label
-                                                                    text="회사코드 :"
+                                                                <!-- <Label text="회사코드 :" width="8rem" />
+                                                                <Text width="15rem" text="{BaseData>/Parameters/CompanyCode}" /> -->
+                                                                <Label text="사업장코드 :"
                                                                     width="8rem"
-                                                                />
-                                                                <Text
-                                                                    width="15rem"
-                                                                    text="{BaseData>/Parameters/CompanyCode}"
-                                                                /> -->
-                                                                <Label
-                                                                    text="사업장코드 :"
-                                                                    width="8rem"
-                                                                    required="true"
-                                                                />
-                                                                <Input
-                                                                    value="{BaseData>/Parameters/BusinessPlace}"
+                                                                    required="true" />
+                                                                <Input value="{BaseData>/Parameters/BusinessPlace}"
                                                                     showValueHelp="true"
                                                                     width="15rem"
                                                                     valueState="{BaseData>/Parameters/BusinessPlaceState}"
-                                                                    valueHelpRequest=".onOpenBusinessPlace"
-                                                                />
+                                                                    valueHelpRequest=".onOpenBusinessPlace" />
                                                             </items>
                                                         </HBox>
-                                                        <HBox
-                                                            width="100%"
+                                                        <HBox width="100%"
                                                             alignItems="Center"
-                                                            class=""
-                                                        >
+                                                            class="">
                                                             <items>
-                                                                <Label
-                                                                    text="입력일 :"
-                                                                    width="8rem"
-                                                                />
-                                                                <Text
-                                                                    width="15rem"
-                                                                    text="{BaseData>/Parameters/InputData}"
-                                                                />
+                                                                <Label text="입력일 :"
+                                                                    width="8rem" />
+                                                                <Text width="15rem"
+                                                                    text="{BaseData>/Parameters/InputData}" />
                                                             </items>
                                                         </HBox>
 
-                                                        <HBox
-                                                            width="100%"
+                                                        <HBox width="100%"
                                                             alignItems="Center"
-                                                            class=""
-                                                        >
+                                                            class="">
                                                             <items>
-                                                                <Label
-                                                                    text="증빙일자 :"
+                                                                <Label text="증빙일자 :"
                                                                     width="8rem"
-                                                                    required="true"
-                                                                />
-                                                                <DatePicker
-                                                                    width="15rem"
+                                                                    required="true" />
+                                                                <DatePicker width="15rem"
                                                                     displayFormat="yyyy-MM-dd"
                                                                     valueFormat="yyyy-MM-dd"
                                                                     value="{
@@ -264,23 +185,17 @@
                                                                         'pattern': 'yyyy-MM-dd'
                                                                         }
                                                                     }"
-                                                                    valueState="{BaseData>/Parameters/DocumentDateState}"
-                                                                />
+                                                                    valueState="{BaseData>/Parameters/DocumentDateState}" />
                                                             </items>
                                                         </HBox>
-                                                        <HBox
-                                                            width="100%"
+                                                        <HBox width="100%"
                                                             alignItems="Center"
-                                                            class=""
-                                                        >
+                                                            class="">
                                                             <items>
-                                                                <Label
-                                                                    text="전기일자 :"
+                                                                <Label text="전기일자 :"
                                                                     width="8rem"
-                                                                    required="true"
-                                                                />
-                                                                <DatePicker
-                                                                    width="15rem"
+                                                                    required="true" />
+                                                                <DatePicker width="15rem"
                                                                     change=".onChangePostingDate"
                                                                     displayFormat="yyyy-MM-dd"
                                                                     valueFormat="yyyy-MM-dd"
@@ -292,227 +207,159 @@
                                                                         'pattern': 'yyyy-MM-dd'
                                                                     }
                                                                     
-                                                                }"
-                                                                />
+                                                                }" />
                                                             </items>
                                                         </HBox>
 
-                                                        <HBox
-                                                            width="100%"
+                                                        <HBox width="100%"
                                                             alignItems="Center"
-                                                            class=""
-                                                        >
+                                                            class="">
                                                             <items>
-                                                                <Label
-                                                                    text="거래통화 :"
-                                                                    width="8rem"
-                                                                />
+                                                                <Label text="거래통화 :"
+                                                                    width="8rem" />
                                                                 <!-- <FlexBox width="15rem">
-                                                                    <ObjectStatus
-                                                                        text="{ 
+                                                                    <ObjectStatus text="{ 
                                                                             parts: ['BaseData>/Parameters/Currency'],
                                                                             type: 'sap.ui.model.type.Currency',
                                                                             formatOptions: {showNumber: false}
-                                                                        }"
-                                                                    />
+                                                                        }" />
                                                                 </FlexBox> -->
-                                                                <Input
-                                                                    value="{BaseData>/Parameters/Currency}"
+                                                                <Input value="{BaseData>/Parameters/Currency}"
                                                                     showValueHelp="true"
                                                                     width="15rem"
                                                                     valueState="{BaseData>/Parameters/CurrencyState}"
                                                                     valueHelpRequest=".onOpenCurrency"
-                                                                    change=".onChangeAllCurrency"
-                                                                />
+                                                                    change=".onChangeAllCurrency" />
                                                             </items>
                                                         </HBox>
-                                                        <HBox
-                                                            width="100%"
+                                                        <HBox width="100%"
                                                             alignItems="Center"
-                                                            class=""
-                                                        >
+                                                            class="">
                                                             <items>
-                                                                <Label
-                                                                    text="환율 :"
-                                                                    width="8rem"
-                                                                />
-                                                                <Text
-                                                                    text="{BaseData>/ExchangeRate}"
-                                                                    width="5rem"
-                                                                />
-                                                                <Text
-                                                                    visible="{= ${BaseData>/ValidityStartDate} !== ''}"
+                                                                <Label text="환율 :"
+                                                                    width="8rem" />
+                                                                <Text text="{BaseData>/ExchangeRate}"
+                                                                    width="5rem" />
+                                                                <Text visible="{= ${BaseData>/ValidityStartDate} !== ''}"
                                                                     text="(환산일자 : {BaseData>/ValidityStartDate})"
-                                                                    width="15rem"
-                                                                />
+                                                                    width="15rem" />
                                                             </items>
                                                         </HBox>
                                                     </items>
                                                 </VBox>
-                                                <VBox
-                                                    width="100%"
-                                                    direction="Column"
-                                                >
+                                                <VBox width="100%"
+                                                    direction="Column">
                                                     <items>
-                                                        <HBox
-                                                            width="100%"
+                                                        <HBox width="100%"
                                                             alignItems="Center"
-                                                            class=""
-                                                        >
+                                                            class="">
                                                             <items>
-                                                                <Label
-                                                                    text="공급업체 :"
+                                                                <Label text="공급업체 :"
                                                                     width="8rem"
-                                                                    required="true"
-                                                                />
-                                                                <Input
-                                                                    xmlns:core="sap.ui.core"
+                                                                    required="true" />
+                                                                <Input xmlns:core="sap.ui.core"
                                                                     showValueHelp="true"
                                                                     valueHelpOnly="true"
                                                                     value="{BaseData>/Parameters/Supplier}"
                                                                     valueState="{BaseData>/Parameters/SupplierState}"
                                                                     width="15rem"
-                                                                    valueHelpRequest=".onOpenSupplier"
-                                                                />
+                                                                    valueHelpRequest=".onOpenSupplier" />
                                                             </items>
                                                         </HBox>
-                                                        <HBox
-                                                            width="100%"
+                                                        <HBox width="100%"
                                                             alignItems="Center"
-                                                            class=""
-                                                        >
+                                                            class="">
                                                             <items>
-                                                                <Label
-                                                                    text="계좌 :"
+                                                                <Label text="계좌 :"
                                                                     width="8rem"
-                                                                    required="true"
-                                                                />
-                                                                <Input
-                                                                    value="{BaseData>/Parameters/Bankaccount}"
+                                                                    required="true" />
+                                                                <Input value="{BaseData>/Parameters/Bankaccount}"
                                                                     valueState="{BaseData>/Parameters/BankaccountState}"
                                                                     width="15rem"
                                                                     valueHelpOnly="true"
                                                                     showValueHelp="true"
-                                                                    valueHelpRequest=".onOpenVHBankAccount"
-                                                                />
+                                                                    valueHelpRequest=".onOpenVHBankAccount" />
                                                             </items>
                                                         </HBox>
-                                                        <HBox
-                                                            width="100%"
+                                                        <HBox width="100%"
                                                             alignItems="Center"
-                                                            class=""
-                                                        >
+                                                            class="">
                                                             <items>
-                                                                <Label
-                                                                    text="예금주 :"
-                                                                    width="8rem"
-                                                                />
-                                                                <Text
-                                                                    width="15rem"
-                                                                    text="{BaseData>/Parameters/BankaccountName}"
-                                                                />
+                                                                <Label text="예금주 :"
+                                                                    width="8rem" />
+                                                                <Text width="15rem"
+                                                                    text="{BaseData>/Parameters/BankaccountName}" />
                                                             </items>
                                                         </HBox>
-                                                        <HBox
-                                                            width="100%"
-                                                            alignItems="Center"
-                                                        >
+                                                        <HBox width="100%"
+                                                            alignItems="Center">
                                                             <items>
-                                                                <Label
-                                                                    width="8rem"
-                                                                    text="대체조정계정:"
-                                                                />
-                                                                <Input
-                                                                    id="iptAcctRecon"
+                                                                <Label width="8rem"
+                                                                    text="대체조정계정:" />
+                                                                <Input id="iptAcctRecon"
                                                                     width="15rem"
                                                                     value="{BaseData>/Parameters/AccountRecon}"
                                                                     valueState="{BaseData>/Parameters/AccountReconState}"
                                                                     showValueHelp="true"
                                                                     valueLiveUpdate="true"
                                                                     valueHelpRequest="onOpenVHAccountRecon"
-                                                                    change="onChangeAccountRecon"
-                                                                />
+                                                                    change="onChangeAccountRecon" />
                                                             </items>
                                                         </HBox>
-                                                        <HBox
-                                                            width="100%"
+                                                        <HBox width="100%"
                                                             alignItems="Center"
-                                                            class=""
-                                                        >
+                                                            class="">
                                                             <items>
-                                                                <Label
-                                                                    text="헤더 텍스트 :"
+                                                                <Label text="헤더 텍스트 :"
                                                                     width="8rem"
-                                                                    required="true"
-                                                                />
-                                                                <Input
-                                                                    width="15rem"
+                                                                    required="true" />
+                                                                <Input width="15rem"
                                                                     maxLength="25"
                                                                     value="{BaseData>/Parameters/DocumentItemText}"
-                                                                    valueState="{BaseData>/Parameters/DocumentItemTextState}"
-                                                                />
+                                                                    valueState="{BaseData>/Parameters/DocumentItemTextState}" />
                                                             </items>
                                                         </HBox>
-                                                        <HBox
-                                                            width="100%"
+                                                        <HBox width="100%"
                                                             alignItems="Center"
-                                                            class=""
-                                                        >
+                                                            class="">
                                                             <items>
-                                                                <Label
-                                                                    text="참조 :"
+                                                                <Label text="참조 :"
                                                                     width="8rem"
-                                                                    required="true"
-                                                                />
-                                                                <Input
-                                                                    width="15rem"
+                                                                    required="true" />
+                                                                <Input width="15rem"
                                                                     maxLength="16"
                                                                     value="{BaseData>/Parameters/DocumentReferenceID}"
-                                                                    valueState="{BaseData>/Parameters/DocumentReferenceIDState}"
-                                                                />
+                                                                    valueState="{BaseData>/Parameters/DocumentReferenceIDState}" />
                                                             </items>
                                                         </HBox>
                                                     </items>
                                                 </VBox>
-                                                <VBox
-                                                    width="100%"
-                                                    direction="Column"
-                                                >
+                                                <VBox width="100%"
+                                                    direction="Column">
                                                     <items>
-                                                        <HBox
-                                                            width="100%"
+                                                        <HBox width="100%"
                                                             alignItems="Center"
-                                                            class=""
-                                                        >
+                                                            class="">
                                                             <items>
-                                                                <Label
-                                                                    text="지급조건 :"
+                                                                <Label text="지급조건 :"
                                                                     width="8rem"
-                                                                    required="true"
-                                                                />
-                                                                <Input
-                                                                    xmlns:core="sap.ui.core"
+                                                                    required="true" />
+                                                                <Input xmlns:core="sap.ui.core"
                                                                     showValueHelp="true"
                                                                     width="15rem"
                                                                     valueHelpOnly="true"
                                                                     value="{BaseData>/Parameters/PaymentTerms}"
                                                                     valueState="{BaseData>/Parameters/PaymentTermsState}"
-                                                                    valueHelpRequest=".onOpenVHPaymentTerms"
-                                                                />
+                                                                    valueHelpRequest=".onOpenVHPaymentTerms" />
                                                             </items>
                                                         </HBox>
-                                                        <HBox
-                                                            width="100%"
+                                                        <HBox width="100%"
                                                             alignItems="Center"
-                                                            class=""
-                                                        >
+                                                            class="">
                                                             <items>
-                                                                <Label
-                                                                    text="지급예정 :"
-                                                                    width="8rem"
-                                                                />
-                                                                <DatePicker
-                                                                    width="15rem"
+                                                                <Label text="지급예정 :"
+                                                                    width="8rem" />
+                                                                <DatePicker width="15rem"
                                                                     displayFormat="yyyy-MM-dd"
                                                                     valueFormat="yyyy-MM-dd"
                                                                     value="{
@@ -522,22 +369,16 @@
                                                                             'pattern': 'yyyy-MM-dd'
                                                                         }
                                                                     }"
-                                                                    editable="{= ${BaseData>/Parameters/PaymentTerms} === 'Y010' || ${BaseData>/Parameters/PaymentTerms} === 'Z040'}"
-                                                                />
+                                                                    editable="{= ${BaseData>/Parameters/PaymentTerms} === 'Y010' || ${BaseData>/Parameters/PaymentTerms} === 'Z040'}" />
                                                             </items>
                                                         </HBox>
-                                                        <HBox
-                                                            width="100%"
-                                                            alignItems="Center"
-                                                        >
+                                                        <HBox width="100%"
+                                                            alignItems="Center">
                                                             <items>
-                                                                <Label
-                                                                    text="지급금액 :"
+                                                                <Label text="지급금액 :"
                                                                     width="8rem"
-                                                                    required="true"
-                                                                />
-                                                                <Input
-                                                                    xmlns:core="sap.ui.core"
+                                                                    required="true" />
+                                                                <Input xmlns:core="sap.ui.core"
                                                                     valueState="{BaseData>/Parameters/AmountState}"
                                                                     change=".onChangeHeaderAmount"
                                                                     value="{
@@ -545,60 +386,41 @@
                                                                         type :'sap.ui.model.type.Currency',
                                                                         formatOptions: {showMeasure :false}
                                                                     }"
-                                                                    width="15rem"
-                                                                />
-                                                                <Label
-                                                                    class="sapUiSmallMarginBegin"
-                                                                    text="{BaseData>/Parameters/Currency}"
-                                                                />
+                                                                    width="15rem" />
+                                                                <Label class="sapUiSmallMarginBegin"
+                                                                    text="{BaseData>/Parameters/Currency}" />
                                                             </items>
                                                         </HBox>
-                                                        <HBox
-                                                            width="100%"
-                                                            alignItems="Center"
-                                                        >
+                                                        <HBox width="100%"
+                                                            alignItems="Center">
                                                             <items>
-                                                                <Label
-                                                                    text="세금코드 :"
-                                                                    width="8rem"
-                                                                />
-                                                                <Input
-                                                                    xmlns:core="sap.ui.core"
+                                                                <Label text="세금코드 :"
+                                                                    width="8rem" />
+                                                                <Input xmlns:core="sap.ui.core"
                                                                     change=".onTaxChange"
                                                                     value="{BaseData>/Parameters/TaxCode}"
                                                                     showValueHelp="true"
                                                                     valueState="{BaseData>/Parameters/TaxCodeState}"
                                                                     width="15rem"
-                                                                    valueHelpRequest=".onOpenVHTaxcode"
-                                                                />
-                                                                <Label
-                                                                    class="sapUiSmallMarginBegin"
-                                                                    text="{BaseData>/Parameters/TaxCodeName}"
-                                                                />
+                                                                    valueHelpRequest=".onOpenVHTaxcode" />
+                                                                <Label class="sapUiSmallMarginBegin"
+                                                                    text="{BaseData>/Parameters/TaxCodeName}" />
                                                             </items>
                                                         </HBox>
-                                                        <HBox
-                                                            width="100%"
-                                                            alignItems="Center"
-                                                        >
+                                                        <HBox width="100%"
+                                                            alignItems="Center">
                                                             <items>
-                                                                <Label
-                                                                    text="부가세 :"
-                                                                    width="8rem"
-                                                                />
-                                                                <Input
-                                                                    width="15rem"
+                                                                <Label text="부가세 :"
+                                                                    width="8rem" />
+                                                                <Input width="15rem"
                                                                     change=".onChangeHeaderAmount"
                                                                     value="{ 
                                                                         parts: ['BaseData>/Parameters/VATAmount', 'BaseData>/Parameters/Currency'],
                                                                         type :'sap.ui.model.type.Currency',
                                                                         formatOptions: {showMeasure :false}
-                                                                    }"
-                                                                />
-                                                                <Label
-                                                                    class="sapUiSmallMarginBegin"
-                                                                    text="{BaseData>/Parameters/Currency}"
-                                                                />
+                                                                    }" />
+                                                                <Label class="sapUiSmallMarginBegin"
+                                                                    text="{BaseData>/Parameters/Currency}" />
                                                             </items>
                                                         </HBox>
                                                     </items>
@@ -612,38 +434,30 @@
                     </uxap:subSections>
                 </uxap:ObjectPageSection>
 
-                <uxap:ObjectPageSection
-                    titleUppercase="true"
+                <uxap:ObjectPageSection titleUppercase="true"
                     id="OPS_Header3"
                     title="Content"
-                    showTitle="true"
-                >
+                    showTitle="true">
                     <uxap:subSections>
                         <uxap:ObjectPageSubSection title="상세입력">
                             <uxap:blocks>
                                 <VBox>
                                     <HBox>
-                                        <Table
-                                            id="T_Items"
+                                        <Table id="T_Items"
                                             fixedLayout="false"
                                             sticky="ColumnHeaders"
                                             items="{
                                                 path :'BaseData>/Items', 
-                                                templateShareable :true
+                                                templateShareable :false
                                             }"
-                                            mode="MultiSelect"
-                                        >
+                                            mode="MultiSelect">
                                             <headerToolbar>
                                                 <Toolbar>
                                                     <ToolbarSpacer />
-                                                    <Button
-                                                        icon="sap-icon://add"
-                                                        press=".onAddBtnPress"
-                                                    />
-                                                    <Button
-                                                        icon="sap-icon://less"
-                                                        press=".onRemoveBtnPress"
-                                                    />
+                                                    <Button icon="sap-icon://add"
+                                                        press=".onAddBtnPress" />
+                                                    <Button icon="sap-icon://less"
+                                                        press=".onRemoveBtnPress" />
                                                 </Toolbar>
                                             </headerToolbar>
                                             <columns>
@@ -652,119 +466,87 @@
                                                 </Column>
 
                                                 <Column width="13rem">
-                                                    <Label
-                                                        text="계정코드"
-                                                        required="true"
-                                                    />
+                                                    <Label text="계정코드"
+                                                        required="true" />
                                                 </Column>
                                                 <Column width="15rem">
                                                     <Text text="계정명" />
                                                 </Column>
 
                                                 <Column width="13rem">
-                                                    <Label
-                                                        text="비용귀속"
-                                                        required="true"
-                                                    />
+                                                    <Label text="비용귀속"
+                                                        required="true" />
                                                 </Column>
                                                 <Column width="15rem">
                                                     <Text text="귀속부서명" />
                                                 </Column>
                                                 <Column width="13rem">
-                                                    <Label
-                                                        text="{i18n>ProfitCenter}"
-                                                    />
+                                                    <Label text="{i18n>ProfitCenter}" />
                                                 </Column>
                                                 <Column width="15rem">
-                                                    <Text
-                                                        text="{i18n>ProfitCenterName}"
-                                                    />
+                                                    <Text text="{i18n>ProfitCenterName}" />
                                                 </Column>
                                                 <Column width="17rem">
                                                     <Text text="예산잔액" />
                                                 </Column>
                                                 <Column width="17rem">
-                                                    <Label
-                                                        text="금액"
-                                                        required="true"
-                                                    />
+                                                    <Label text="금액"
+                                                        required="true" />
                                                 </Column>
                                                 <Column width="25rem">
-                                                    <Label
-                                                        text="적요"
-                                                        required="true"
-                                                    />
+                                                    <Label text="적요"
+                                                        required="true" />
                                                 </Column>
                                             </columns>
                                             <items>
-                                                <ColumnListItem
-                                                    visible="{BaseData>Visible}"
-                                                >
+                                                <ColumnListItem visible="{BaseData>Visible}">
                                                     <cells>
-                                                        <Select
-                                                            change=".onChangeDebitCreditCode"
+                                                        <Select change=".onChangeDebitCreditCode"
                                                             selectedKey="{BaseData>DebitCreditCode}"
                                                             items="{
-                                                                path: 'BaseData>/DebitCreditCode'
+                                                                path: 'BaseData>/DebitCreditCode',
+                                                                templateShareable :false
                                                             }"
-                                                            enabled="false"
-                                                        >
-                                                            <core:Item
-                                                                key="{BaseData>key}"
-                                                                text="{BaseData>text}"
-                                                            />
+                                                            enabled="false">
+                                                            <core:Item key="{BaseData>key}"
+                                                                text="{BaseData>text}" />
                                                         </Select>
 
-                                                        <Input
-                                                            value="{BaseData>GLAccount}"
+                                                        <Input value="{BaseData>GLAccount}"
                                                             showValueHelp="true"
                                                             valueHelpOnly="true"
                                                             valueHelpRequest=".onOpenVHTBAccount"
                                                             valueState="{BaseData>GLAccountState}"
-                                                            enabled="{BaseData>GLAccountEnable}"
-                                                        />
-                                                        <Input
-                                                            value="{BaseData>GLAccountName}"
-                                                            editable="false"
-                                                        />
-                                                        <Input
-                                                            enabled="{BaseData>CostcenterEnable}"
+                                                            enabled="{BaseData>GLAccountEnable}" />
+                                                        <Input value="{BaseData>GLAccountName}"
+                                                            editable="false" />
+                                                        <Input enabled="{BaseData>CostcenterEnable}"
                                                             value="{BaseData>Costcenter}"
                                                             valueState="{BaseData>CostcenterState}"
                                                             showValueHelp="true"
                                                             valueHelpOnly="true"
-                                                            valueHelpRequest=".onOpenVHTBCostCenter"
-                                                        />
-                                                        <Input
-                                                            enabled="{BaseData>CostcenterEnable}"
+                                                            valueHelpRequest=".onOpenVHTBCostCenter" />
+                                                        <Input enabled="{BaseData>CostcenterEnable}"
                                                             value="{BaseData>CostcenterName}"
-                                                            editable="false"
-                                                        />
+                                                            editable="false" />
 
-                                                        <Input
-                                                            enabled="{BaseData>profitcenterEnable}"
+                                                        <Input enabled="{BaseData>profitcenterEnable}"
                                                             valueState="{BaseData>profitcenterState}"
                                                             value="{BaseData>profitcenter}"
                                                             showValueHelp="true"
                                                             valueHelpRequest=".onOpenVHTBProfitCenter"
-                                                            editable="false"
-                                                        />
-                                                        <Input
-                                                            enabled="{BaseData>profitcenterEnable}"
+                                                            editable="false" />
+                                                        <Input enabled="{BaseData>profitcenterEnable}"
                                                             value="{BaseData>profitcenterName}"
-                                                            editable="false"
-                                                        />
-                                                        <Input
-                                                            value="{
+                                                            editable="false" />
+                                                        <Input value="{
                                                                 parts :['BaseData>balance','BaseData>Currency'],
                                                                 type :'sap.ui.model.type.Currency',
                                                                 formatOptions: {showMeasure :false}
                                                                 }"
                                                             editable="false"
-                                                            enabled="{BaseData>balanceEnable}"
-                                                        />
-                                                        <Input
-                                                            change=".onChangeAmount"
+                                                            enabled="{BaseData>balanceEnable}" />
+                                                        <Input change=".onChangeAmount"
                                                             enabled="{BaseData>AmountEnable}"
                                                             value="{
                                                                 parts: ['BaseData>Amount', 'BaseData>Currency'],
@@ -773,13 +555,10 @@
                                                                 
                                                             }"
                                                             valueStateText="{BaseData>AmountStateText}"
-                                                            valueState="{BaseData>AmountState}"
-                                                        />
+                                                            valueState="{BaseData>AmountState}" />
 
-                                                        <Input
-                                                            value="{BaseData>DocumentItemText}"
-                                                            valueState="{BaseData>DocumentItemTextState}"
-                                                        />
+                                                        <Input value="{BaseData>DocumentItemText}"
+                                                            valueState="{BaseData>DocumentItemTextState}" />
                                                     </cells>
                                                 </ColumnListItem>
                                             </items>
@@ -793,12 +572,10 @@
             </uxap:sections>
             <uxap:footer>
                 <OverflowToolbar>
-                    <Button
-                        icon="sap-icon://alert"
+                    <Button icon="sap-icon://alert"
                         text="{= ${BaseData>/ErrMsgs}.length }"
                         type="Reject"
-                        press=".onMessagePopoverPress"
-                    />
+                        press=".onMessagePopoverPress" />
                     <ToolbarSpacer />
                 </OverflowToolbar>
             </uxap:footer>
