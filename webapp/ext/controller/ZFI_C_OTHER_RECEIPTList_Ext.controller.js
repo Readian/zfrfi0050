@@ -39,7 +39,10 @@ sap.ui.define(
 
           onBeforeRendering: function () {  
             sap.ushell.Container.getServiceAsync("UserInfo").then(oUserData => {
+              let oBaseData = this.getView().getModel("BaseData")
               let sUserId = oUserData.getId();
+              oBaseData.setProperty('/UserInfo/UserID', sUserId);
+              oBaseData.setProperty('/UserInfo/UserEmail', oUserData.getEmail());
 
               // this.extAPI.setFilterValues('DraftUser', FilterOperator.EQ, sUserId);
               let oModel = this.getView().getModel();

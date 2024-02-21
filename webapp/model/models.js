@@ -32,7 +32,12 @@ sap.ui.define([
                 v4SelectInput : undefined
             },
             
-            Data : {
+            Data : {        
+                UserInfo: {
+                  UserID: undefined,
+                  UserEmail: undefined
+                },
+        
                 View : undefined,
                 profitcenter: '',
                 profitcenterName: '',

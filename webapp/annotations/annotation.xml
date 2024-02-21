@@ -157,6 +157,7 @@
                                         <PropertyPath>StatusText</PropertyPath>
                                         <PropertyPath>GroupWareUrl</PropertyPath>
                                         <PropertyPath>BodyContent</PropertyPath>
+                                        <PropertyPath>DraftUser</PropertyPath>
                                     </Collection>
                                 </PropertyValue>
                             </Record>
