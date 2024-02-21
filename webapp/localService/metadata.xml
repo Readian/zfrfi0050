@@ -142,10 +142,14 @@
             </EntityType>
             <EntityType Name="ZFI_I_EXCHANGERATEType">
                 <Key>
+                    <PropertyRef Name="ExchangeRateType"/>
                     <PropertyRef Name="SourceCurrency"/>
+                    <PropertyRef Name="TargetCurrency"/>
                     <PropertyRef Name="ValidityStartDate"/>
                 </Key>
+                <Property Name="ExchangeRateType" Type="Edm.String" Nullable="false" MaxLength="4"/>
                 <Property Name="SourceCurrency" Type="Edm.String" Nullable="false" MaxLength="5"/>
+                <Property Name="TargetCurrency" Type="Edm.String" Nullable="false" MaxLength="5"/>
                 <Property Name="ValidityStartDate" Type="Edm.Date" Nullable="false"/>
                 <Property Name="ExchangeRate" Type="Edm.Decimal" Nullable="false" Precision="9" Scale="5"/>
                 <Property Name="NumberOfSourceCurrencyUnits" Type="Edm.Decimal" Nullable="false" Precision="9"/>
@@ -264,7 +268,6 @@
                 <Property Name="Status" Type="Edm.String" Nullable="false" MaxLength="2"/>
                 <Property Name="ApprovalNum" Type="Edm.String" Nullable="false" MaxLength="50"/>
                 <Property Name="GroupWareUrl" Type="Edm.String" Nullable="false" MaxLength="1333"/>
-                <Property Name="CheckAuth" Type="Edm.String" Nullable="false" MaxLength="1"/>
                 <Property Name="BodyContent" Type="Edm.String" Nullable="false"/>
                 <Property Name="DraftUser" Type="Edm.String" Nullable="false" MaxLength="12"/>
                 <Property Name="RequestType" Type="Edm.String" Nullable="false" MaxLength="2"/>
@@ -291,7 +294,7 @@
                 <Property Name="StatusText" Type="Edm.String" Nullable="false" MaxLength="60"/>
                 <Property Name="SupplierName" Type="Edm.String" Nullable="false" MaxLength="35"/>
                 <Property Name="TaxCodeText" Type="Edm.String" Nullable="false" MaxLength="200"/>
-                <Property Name="CostCenterName" Type="Edm.String" Nullable="false" MaxLength="20"/>
+                <Property Name="CostCenterName" Type="Edm.String" Nullable="false" MaxLength="200"/>
                 <Property Name="IsAuth" Type="Edm.String" Nullable="false" MaxLength="1"/>
             </EntityType>
             <EntityType Name="ZFI_V_BUSINESSPLACEType">
@@ -354,6 +357,19 @@
                 <Property Name="BankAccountHolderName" Type="Edm.String" Nullable="false" MaxLength="60"/>
                 <Property Name="BankAccountName" Type="Edm.String" Nullable="false" MaxLength="40"/>
             </EntityType>
+            <EntityType Name="ZCM_V_USERType">
+                <Key>
+                    <PropertyRef Name="BusinessPartner"/>
+                </Key>
+                <Property Name="BusinessPartner" Type="Edm.String" Nullable="false" MaxLength="10"/>
+                <Property Name="BPIdentificationNumber" Type="Edm.String" Nullable="false" MaxLength="60"/>
+                <Property Name="UserID" Type="Edm.String" Nullable="false" MaxLength="12"/>
+                <Property Name="PersonFullName" Type="Edm.String" Nullable="false" MaxLength="80"/>
+                <Property Name="DefaultEmailAddress" Type="Edm.String" Nullable="false" MaxLength="241"/>
+                <Property Name="FirstName" Type="Edm.String" Nullable="false" MaxLength="40"/>
+                <Property Name="LastName" Type="Edm.String" Nullable="false" MaxLength="40"/>
+                <Property Name="FullName" Type="Edm.String" Nullable="false" MaxLength="40"/>
+            </EntityType>
             <EntityType Name="ZFI_V_PAYMENT_METHOD_STDType">
                 <Key>
                     <PropertyRef Name="PaymentMethodsList"/>
@@ -402,6 +418,14 @@
                 <Property Name="PersonFullName" Type="Edm.String" Nullable="false" MaxLength="80"/>
                 <Property Name="AuthCardUsed" Type="Edm.String" Nullable="false" MaxLength="1"/>
                 <Property Name="AuthOther" Type="Edm.String" Nullable="false" MaxLength="1"/>
+                <Property Name="AuthTaxBillP" Type="Edm.String" Nullable="false" MaxLength="1"/>
+                <Property Name="AuthTaxBillS" Type="Edm.String" Nullable="false" MaxLength="1"/>
+                <Property Name="AuthBudget" Type="Edm.String" Nullable="false" MaxLength="1"/>
+                <Property Name="AuthBusinessTrip" Type="Edm.String" Nullable="false" MaxLength="1"/>
+                <Property Name="AuthCardOtherDisp" Type="Edm.String" Nullable="false" MaxLength="1"/>
+                <Property Name="AuthTaxBillDisp" Type="Edm.String" Nullable="false" MaxLength="1"/>
+                <Property Name="AuthTaxBillISP" Type="Edm.String" Nullable="false" MaxLength="1"/>
+                <Property Name="AuthTaxBillISS" Type="Edm.String" Nullable="false" MaxLength="1"/>
                 <NavigationProperty Name="_Auth" Type="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZCM_I_AUTHType"/>
             </EntityType>
             <EntityType Name="ZCM_I_AUTHType">
@@ -419,6 +443,7 @@
                 <Property Name="LastChangedAt" Type="Edm.DateTimeOffset" Precision="7"/>
                 <Property Name="LastChangedBy" Type="Edm.String" Nullable="false" MaxLength="12"/>
                 <NavigationProperty Name="_Item02" Type="Collection(com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZCM_I_AUTH_ITEM02Type)"/>
+                <NavigationProperty Name="_UserName" Type="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZCM_V_USERType"/>
             </EntityType>
             <EntityType Name="ZFI_V_COSTCENTER_C_ETCType">
                 <Key>
@@ -476,6 +501,7 @@
                 <Property Name="BusinessPlace" Type="Edm.String" Nullable="false" MaxLength="4"/>
                 <Property Name="DocumentItemText" Type="Edm.String" Nullable="false" MaxLength="50"/>
                 <Property Name="KeyCardPur" Type="Edm.Guid"/>
+                <Property Name="ExchangeRate" Type="Edm.Decimal" Nullable="false" Precision="9" Scale="5"/>
                 <Property Name="TaxCode" Type="Edm.String" Nullable="false" MaxLength="2"/>
                 <Property Name="TaxcodeText" Type="Edm.String" Nullable="false" MaxLength="200"/>
                 <Property Name="AccountReconText" Type="Edm.String" Nullable="false" MaxLength="200"/>
@@ -538,6 +564,7 @@
                 <Parameter Name="BusinessPlace" Type="Edm.String" Nullable="false" MaxLength="4"/>
                 <Parameter Name="DocumentItemText" Type="Edm.String" Nullable="false" MaxLength="50"/>
                 <Parameter Name="KeyCardPur" Type="Edm.Guid" Nullable="true"/>
+                <Parameter Name="ExchangeRate" Type="Edm.Decimal" Nullable="false" Precision="9" Scale="5"/>
                 <Parameter Name="TaxCode" Type="Edm.String" Nullable="false" MaxLength="2"/>
                 <Parameter Name="TaxcodeText" Type="Edm.String" Nullable="false" MaxLength="200"/>
                 <Parameter Name="AccountReconText" Type="Edm.String" Nullable="false" MaxLength="200"/>
@@ -570,10 +597,12 @@
                 <EntitySet Name="I_SupplierCompany" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.I_SupplierCompanyType"/>
                 <EntitySet Name="ZCM_I_AUTH" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZCM_I_AUTHType">
                     <NavigationPropertyBinding Path="_Item02" Target="ZCM_I_AUTH_ITEM02"/>
+                    <NavigationPropertyBinding Path="_UserName" Target="ZCM_V_USER"/>
                 </EntitySet>
                 <EntitySet Name="ZCM_I_AUTH_ITEM02" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZCM_I_AUTH_ITEM02Type">
                     <NavigationPropertyBinding Path="_Head" Target="ZCM_I_AUTH"/>
                 </EntitySet>
+                <EntitySet Name="ZCM_V_USER" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZCM_V_USERType"/>
                 <EntitySet Name="ZFI_CURRENCY" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_CURRENCYType"/>
                 <EntitySet Name="ZFI_C_BP_AUTH" EntityType="com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.ZFI_C_BP_AUTHType">
                     <NavigationPropertyBinding Path="_Auth" Target="ZCM_I_AUTH"/>
@@ -629,8 +658,8 @@
                 <Annotation Term="SAP__common.IsCurrency"/>
                 <Annotation Term="SAP__common.Label" String="소스통화"/>
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Heading" String="소스"/>
-                <Annotation Term="SAP__common.QuickInfo" String="소스 통화"/>
+                <Annotation Term="SAP__common.Heading" String="From"/>
+                <Annotation Term="SAP__common.QuickInfo" String="From currency"/>
             </Annotations>
             <Annotations Target="SAP__self.Container/">
                 <Annotation Term="SAP__capabilities.NavigationRestrictions">
@@ -726,12 +755,12 @@
                     </Collection>
                 </Annotation>
                 <Annotation Term="SAP__common.FilterDefaultValue" String="1000"/>
-                <Annotation Term="SAP__common.Heading" String="회사 코드"/>
-                <Annotation Term="SAP__common.QuickInfo" String="회사 코드"/>
+                <Annotation Term="SAP__common.Heading" String="Company Code"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Company Code"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_PLAN_COST_SUMMARYType/FiscalYear">
                 <Annotation Term="SAP__common.IsDigitSequence"/>
-                <Annotation Term="SAP__common.Label" String="회계연도"/>
+                <Annotation Term="SAP__common.Label" String="Fiscal Year"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_PLAN_COST_SUMMARYType/CostCenter">
                 <Annotation Term="SAP__common.IsUpperCase"/>
@@ -740,7 +769,7 @@
                         <String>../../../../srvd_f4/sap/zfi_v_costcenter/0001;ps='srvd-zfi_c_other_receipt_ui-0001';va='com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.et-zfi_c_plan_cost_summary.costcenter'/$metadata</String>
                     </Collection>
                 </Annotation>
-                <Annotation Term="SAP__common.Label" String="코스트 센터"/>
+                <Annotation Term="SAP__common.Label" String="Cost Center"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_PLAN_COST_SUMMARYType/GLAccount">
                 <Annotation Term="SAP__common.IsUpperCase"/>
@@ -749,12 +778,12 @@
                         <String>../../../../srvd_f4/sap/zfi_v_gl_account_expense/0001;ps='srvd-zfi_c_other_receipt_ui-0001';va='com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.et-zfi_c_plan_cost_summary.glaccount'/$metadata</String>
                     </Collection>
                 </Annotation>
-                <Annotation Term="SAP__common.Label" String="G/L 계정"/>
+                <Annotation Term="SAP__common.Label" String="G/L Account"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_PLAN_COST_SUMMARYType/CompanyCodeCurrency">
                 <Annotation Term="SAP__common.IsCurrency"/>
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="회사 코드 통화"/>
+                <Annotation Term="SAP__common.Label" String="Company Code Currency"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_PLAN_COST_SUMMARYType/YearBudget">
                 <Annotation Term="SAP__measures.ISOCurrency" Path="CompanyCodeCurrency"/>
@@ -935,10 +964,9 @@
                 </Annotation>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_EXCHANGERATEParameters/iDate">
-                <Annotation Term="SAP__common.Label" String="날짜"/>
-                <Annotation Term="SAP__common.QuickInfo" String="날짜"/>
+                <Annotation Term="SAP__common.Label" String="Value Help - 세금코드(기타영수증)"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Value Help - 세금코드(기타영수증)"/>
                 <Annotation Term="SAP__core.Computed"/>
-                <Annotation Term="SAP__common.Heading" String="날짜"/>
             </Annotations>
             <Annotations Target="SAP__self.Container/ZFI_C_EXCHANGERATE">
                 <Annotation Term="SAP__capabilities.NavigationRestrictions">
@@ -1032,46 +1060,45 @@
                 <Annotation Term="SAP__common.Label" String="회사코드"/>
                 <Annotation Term="SAP__common.IsUpperCase"/>
                 <Annotation Term="SAP__common.Heading" String="CoCd"/>
-                <Annotation Term="SAP__common.QuickInfo" String="회사 코드"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Company Code"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_DOC_APPROVALType/FiscalYear">
                 <Annotation Term="SAP__common.Label" String="연도"/>
                 <Annotation Term="SAP__common.IsDigitSequence"/>
-                <Annotation Term="SAP__common.Heading" String="연도"/>
-                <Annotation Term="SAP__common.QuickInfo" String="회계연도"/>
+                <Annotation Term="SAP__common.Heading" String="Year"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Fiscal Year"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_DOC_APPROVALType/AccountingDocument">
                 <Annotation Term="SAP__common.Label" String="문서번호"/>
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Heading" String="전표 번호"/>
-                <Annotation Term="SAP__common.QuickInfo" String="회계 전표의 전표 번호"/>
+                <Annotation Term="SAP__common.Heading" String="Doc. No."/>
+                <Annotation Term="SAP__common.QuickInfo" String="Document Number of an Accounting Document"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_DOC_APPROVALType/PostingDate">
                 <Annotation Term="SAP__common.Label" String="전기일"/>
-                <Annotation Term="SAP__common.Heading" String="전기일"/>
-                <Annotation Term="SAP__common.QuickInfo" String="문서의 전기일"/>
+                <Annotation Term="SAP__common.Heading" String="Pstng Date"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Posting Date in the Document"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_DOC_APPROVALType/DraftUser">
                 <Annotation Term="SAP__common.Label" String="기안자"/>
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Heading" String="사용자"/>
-                <Annotation Term="SAP__common.QuickInfo" String="사용자 이름"/>
+                <Annotation Term="SAP__common.Heading" String="User"/>
+                <Annotation Term="SAP__common.QuickInfo" String="User Name"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_DOC_APPROVALType/RequestType">
                 <Annotation Term="SAP__common.Label" String="결재요청구분"/>
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.QuickInfo" String="결재요청 구분"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_DOC_APPROVALType/AcountingDocumentHeaderText">
                 <Annotation Term="SAP__common.Label" String="헤더텍스트"/>
-                <Annotation Term="SAP__common.Heading" String="문서 헤더 텍스트"/>
-                <Annotation Term="SAP__common.QuickInfo" String="문서 헤더 텍스트"/>
+                <Annotation Term="SAP__common.Heading" String="Document Header Text"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Document Header Text"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_DOC_APPROVALType/Taxcode">
                 <Annotation Term="SAP__common.Label" String="세금코드"/>
                 <Annotation Term="SAP__common.IsUpperCase"/>
                 <Annotation Term="SAP__common.Heading" String="Tx"/>
-                <Annotation Term="SAP__common.QuickInfo" String="부가가치세 코드"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Tax on Sales/Purchases Code"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_DOC_APPROVALType/BusinessPlace">
                 <Annotation Term="SAP__common.Label" String="사업장"/>
@@ -1088,8 +1115,8 @@
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_DOC_APPROVALType/DocumentDate">
                 <Annotation Term="SAP__common.Label" String="증빙일"/>
-                <Annotation Term="SAP__common.Heading" String="증빙일"/>
-                <Annotation Term="SAP__common.QuickInfo" String="문서의 증빙일"/>
+                <Annotation Term="SAP__common.Heading" String="Doc. Date"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Document Date in Document"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_DOC_APPROVALType/Costcenter">
                 <Annotation Term="SAP__common.Label" String="부서"/>
@@ -1097,8 +1124,8 @@
             <Annotations Target="SAP__self.ZFI_C_DOC_APPROVALType/Supplier">
                 <Annotation Term="SAP__common.Label" String="공급업체"/>
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Heading" String="공급업체"/>
-                <Annotation Term="SAP__common.QuickInfo" String="공급업체 계정 번호"/>
+                <Annotation Term="SAP__common.Heading" String="Supplier"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Account Number of Supplier"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_DOC_APPROVALType/DueCalculationBaseDate">
                 <Annotation Term="SAP__common.Label" String="지급예정일"/>
@@ -1128,14 +1155,10 @@
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_DOC_APPROVALType/ApprovalNum">
                 <Annotation Term="SAP__common.Label" String="결재번호"/>
-                <Annotation Term="SAP__common.Heading" String="결재번호"/>
-                <Annotation Term="SAP__common.QuickInfo" String="결재번호"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_DOC_APPROVALType/ApprovalStatus">
                 <Annotation Term="SAP__common.Label" String="결재상태"/>
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Heading" String="결재상태"/>
-                <Annotation Term="SAP__common.QuickInfo" String="결재상태"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_DOC_APPROVALType/KeyBusinessTrip">
                 <Annotation Term="SAP__common.Label" String="출장비정산서 Key"/>
@@ -1144,29 +1167,30 @@
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_DOC_APPROVALType/Createdby">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="생성자"/>
+                <Annotation Term="SAP__common.Label" String="Created By"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Created By User"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_DOC_APPROVALType/Locallastchangedby">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="변경자"/>
-                <Annotation Term="SAP__common.QuickInfo" String="로컬 인스턴스 최종 변경자"/>
+                <Annotation Term="SAP__common.Label" String="Changed By"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Local Instance Last Changed By User"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_DOC_APPROVALType/Lastchangedby">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="변경자"/>
-                <Annotation Term="SAP__common.QuickInfo" String="마지막 변경자"/>
+                <Annotation Term="SAP__common.Label" String="Changed By"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Last Changed By User"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_DOC_APPROVALType/RequestTypeText">
                 <Annotation Term="SAP__common.Label" String="결재요청 구분명"/>
                 <Annotation Term="SAP__core.Computed"/>
-                <Annotation Term="SAP__common.Heading" String="간단한 설명"/>
-                <Annotation Term="SAP__common.QuickInfo" String="고정 값 내역"/>
+                <Annotation Term="SAP__common.Heading" String="Short Description"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Short Text for Fixed Values"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_DOC_APPROVALType/BusinessPlaceName">
                 <Annotation Term="SAP__common.Label" String="사업장내역"/>
                 <Annotation Term="SAP__core.Computed"/>
-                <Annotation Term="SAP__common.Heading" String="성 1"/>
-                <Annotation Term="SAP__common.QuickInfo" String="성"/>
+                <Annotation Term="SAP__common.Heading" String="Name 1"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Name"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_DOC_APPROVALType/TaxCodeText">
                 <Annotation Term="SAP__common.Label" String="세금코드내역"/>
@@ -1240,12 +1264,23 @@
                     <Collection/>
                 </Annotation>
             </Annotations>
+            <Annotations Target="SAP__self.ZFI_I_EXCHANGERATEType/ExchangeRateType">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="Exchange Rate Type"/>
+                <Annotation Term="SAP__common.Heading" String="ExRt"/>
+            </Annotations>
             <Annotations Target="SAP__self.ZFI_I_EXCHANGERATEType/SourceCurrency">
                 <Annotation Term="SAP__common.IsCurrency"/>
                 <Annotation Term="SAP__common.Label" String="소스통화"/>
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Heading" String="소스"/>
-                <Annotation Term="SAP__common.QuickInfo" String="소스 통화"/>
+                <Annotation Term="SAP__common.Heading" String="From"/>
+                <Annotation Term="SAP__common.QuickInfo" String="From currency"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZFI_I_EXCHANGERATEType/TargetCurrency">
+                <Annotation Term="SAP__common.IsCurrency"/>
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.Label" String="To-currency"/>
+                <Annotation Term="SAP__common.Heading" String="To"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_I_EXCHANGERATEType/ValidityStartDate">
                 <Annotation Term="SAP__common.Label" String="기준일자"/>
@@ -1255,13 +1290,13 @@
             </Annotations>
             <Annotations Target="SAP__self.ZFI_I_EXCHANGERATEType/NumberOfSourceCurrencyUnits">
                 <Annotation Term="SAP__common.Label" String="소스통화단위"/>
-                <Annotation Term="SAP__common.Heading" String="비율(시작)"/>
-                <Annotation Term="SAP__common.QuickInfo" String="&quot;원시&quot; 통화 단위의 비율"/>
+                <Annotation Term="SAP__common.Heading" String="Ratio (from)"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Ratio for the &quot;from&quot; currency units"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_I_EXCHANGERATEType/NumberOfTargetCurrencyUnits">
                 <Annotation Term="SAP__common.Label" String="타겟통화단위"/>
-                <Annotation Term="SAP__common.Heading" String="비율(대상)"/>
-                <Annotation Term="SAP__common.QuickInfo" String="&quot;대상&quot; 통화 단위의 비율"/>
+                <Annotation Term="SAP__common.Heading" String="Ratio (to)"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Ratio for the &quot;to&quot; currency units"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_I_EXCHANGERATEType/CalExchange">
                 <Annotation Term="SAP__common.Label" String="환율"/>
@@ -1314,17 +1349,18 @@
             </Annotations>
             <Annotations Target="SAP__self.ZCM_I_AUTH_ITEM02Type/CreatedBy">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="생성자"/>
+                <Annotation Term="SAP__common.Label" String="Created By"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Created By User"/>
             </Annotations>
             <Annotations Target="SAP__self.ZCM_I_AUTH_ITEM02Type/LocalLastChangedBy">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="변경자"/>
-                <Annotation Term="SAP__common.QuickInfo" String="로컬 인스턴스 최종 변경자"/>
+                <Annotation Term="SAP__common.Label" String="Changed By"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Local Instance Last Changed By User"/>
             </Annotations>
             <Annotations Target="SAP__self.ZCM_I_AUTH_ITEM02Type/LastChangedBy">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="변경자"/>
-                <Annotation Term="SAP__common.QuickInfo" String="마지막 변경자"/>
+                <Annotation Term="SAP__common.Label" String="Changed By"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Last Changed By User"/>
             </Annotations>
             <Annotations Target="SAP__self.Container/ZCM_I_AUTH_ITEM02">
                 <Annotation Term="SAP__capabilities.NavigationRestrictions">
@@ -1385,8 +1421,8 @@
                         <String>../../../../srvd_f4/sap/i_supplier_vh/0001;ps='srvd-zfi_c_other_receipt_ui-0001';va='com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.et-i_suppliercompany.supplier'/$metadata</String>
                     </Collection>
                 </Annotation>
-                <Annotation Term="SAP__common.Label" String="공급업체"/>
-                <Annotation Term="SAP__common.QuickInfo" String="공급업체 계정 번호"/>
+                <Annotation Term="SAP__common.Label" String="Supplier"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Account Number of Supplier"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/CompanyCode">
                 <Annotation Term="SAP__common.IsUpperCase"/>
@@ -1395,187 +1431,201 @@
                         <String>../../../../srvd_f4/sap/i_companycodestdvh/0001;ps='srvd-zfi_c_other_receipt_ui-0001';va='com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.et-i_suppliercompany.companycode'/$metadata</String>
                     </Collection>
                 </Annotation>
-                <Annotation Term="SAP__common.Label" String="회사 코드"/>
+                <Annotation Term="SAP__common.Label" String="Company Code"/>
                 <Annotation Term="SAP__common.Heading" String="CoCd"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/AuthorizationGroup">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="권한"/>
+                <Annotation Term="SAP__common.Label" String="Authorization"/>
                 <Annotation Term="SAP__common.Heading" String="AuGr"/>
-                <Annotation Term="SAP__common.QuickInfo" String="권한 그룹"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Authorization Group"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/PaymentBlockingReason">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="지급 보류"/>
-                <Annotation Term="SAP__common.Heading" String="보류 지시자"/>
-                <Annotation Term="SAP__common.QuickInfo" String="지급 보류 키"/>
+                <Annotation Term="SAP__common.Label" String="Payment Block"/>
+                <Annotation Term="SAP__common.Heading" String="Block Ind."/>
+                <Annotation Term="SAP__common.QuickInfo" String="Block Key for Payment"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/IsBusinessPurposeCompleted">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="목적 완료됨"/>
-                <Annotation Term="SAP__common.Heading" String="비즈니스 목적 완료됨 플래그"/>
-                <Annotation Term="SAP__common.QuickInfo" String="비즈니스 목적 완료됨 플래그"/>
+                <Annotation Term="SAP__common.Label" String="Purpose Completed"/>
+                <Annotation Term="SAP__common.Heading" String="Business Purpose Completed Flag"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Business Purpose Completed Flag"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/AccountingClerk">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="담당자 약어"/>
-                <Annotation Term="SAP__common.QuickInfo" String="회계 담당자 약어"/>
+                <Annotation Term="SAP__common.Label" String="Clerk Abbrev."/>
+                <Annotation Term="SAP__common.QuickInfo" String="Accounting Clerk Abbreviation"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/AccountingClerkPhoneNumber">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="회계 담당자 전화번호"/>
-                <Annotation Term="SAP__common.QuickInfo" String="비즈니스 파트너의 회계 담당자 전화번호"/>
+                <Annotation Term="SAP__common.Label" String="Acct.clerks tel.no."/>
+                <Annotation Term="SAP__common.Heading" String="Accting clerk's telephone no."/>
+                <Annotation Term="SAP__common.QuickInfo" String="Accounting clerk's telephone number at business partner"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/PaymentMethodsList">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="지급 방법"/>
-                <Annotation Term="SAP__common.Heading" String="방법"/>
-                <Annotation Term="SAP__common.QuickInfo" String="고려할 지급 방법 리스트"/>
+                <Annotation Term="SAP__common.Label" String="Payment Methods"/>
+                <Annotation Term="SAP__common.Heading" String="Methods"/>
+                <Annotation Term="SAP__common.QuickInfo" String="List of Respected Payment Methods"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/PaymentTerms">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="지급 조건"/>
-                <Annotation Term="SAP__common.QuickInfo" String="지급 조건 키"/>
+                <Annotation Term="SAP__common.Label" String="Terms of Payment"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Key for Terms of Payment"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/HouseBank">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="주거래 은행"/>
-                <Annotation Term="SAP__common.Heading" String="주 은행"/>
-                <Annotation Term="SAP__common.QuickInfo" String="주거래 은행의 숏 키"/>
+                <Annotation Term="SAP__common.Label" String="House Bank"/>
+                <Annotation Term="SAP__common.Heading" String="House Bk"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Short Key for a House Bank"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/Currency">
                 <Annotation Term="SAP__common.IsCurrency"/>
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="통화"/>
-                <Annotation Term="SAP__common.QuickInfo" String="통화 키"/>
+                <Annotation Term="SAP__common.Label" String="Currency"/>
+                <Annotation Term="SAP__common.Heading" String="Crcy"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Currency Key"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/BillOfExchLmtAmtInCoCodeCrcy">
                 <Annotation Term="SAP__measures.ISOCurrency" Path="Currency"/>
-                <Annotation Term="SAP__common.Label" String="어음 한도"/>
-                <Annotation Term="SAP__common.QuickInfo" String="어음 한도(현지 통화)"/>
+                <Annotation Term="SAP__common.Label" String="Bill/Ex. Limit"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Bill of Exchange Limit (in Local Currency)"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/SupplierClerkIDBySupplier">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="공급업체 계정"/>
+                <Annotation Term="SAP__common.Label" String="Account with vendor"/>
                 <Annotation Term="SAP__common.Heading" String="Acct w/ vndr"/>
-                <Annotation Term="SAP__common.QuickInfo" String="공급업체의 계정 번호"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Our account number with the vendor"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/ReconciliationAccount">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="조정 계정"/>
-                <Annotation Term="SAP__common.QuickInfo" String="총계정원장의 조정 계정"/>
+                <Annotation Term="SAP__common.Label" String="Reconciliation Acct"/>
+                <Annotation Term="SAP__common.Heading" String="Recon.Acct"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Reconciliation Account in General Ledger"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/InterestCalculationCode">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="이자 지시자"/>
+                <Annotation Term="SAP__common.Label" String="Interest Indicator"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/IntrstCalcFrequencyInMonths">
                 <Annotation Term="SAP__common.IsDigitSequence"/>
-                <Annotation Term="SAP__common.Label" String="이자 계산 주기"/>
-                <Annotation Term="SAP__common.QuickInfo" String="이자 계산 주기(개월)"/>
+                <Annotation Term="SAP__common.Label" String="Int.Calc.Freq."/>
+                <Annotation Term="SAP__common.Heading" String="Interest Calc. Frequency"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Interest Calculation Frequency in Months"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/SupplierHeadOffice">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="본점"/>
-                <Annotation Term="SAP__common.QuickInfo" String="본사 계정 번호"/>
+                <Annotation Term="SAP__common.Label" String="Head Office"/>
+                <Annotation Term="SAP__common.Heading" String="Hd Office"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Head Office Account Number"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/AlternativePayee">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="대리 수취인"/>
-                <Annotation Term="SAP__common.Heading" String="대리수취인"/>
-                <Annotation Term="SAP__common.QuickInfo" String="대리 수취인 계정 번호"/>
+                <Annotation Term="SAP__common.Label" String="Alternative payee"/>
+                <Annotation Term="SAP__common.Heading" String="Alt.payee"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Account number of the alternative payee"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/LayoutSortingRule">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="정렬 키"/>
-                <Annotation Term="SAP__common.Heading" String="정렬"/>
-                <Annotation Term="SAP__common.QuickInfo" String="지정 번호에 따른 정렬을 위한 키"/>
+                <Annotation Term="SAP__common.Label" String="Sort Key"/>
+                <Annotation Term="SAP__common.Heading" String="Sort"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Key for Sorting According to Assignment Numbers"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/APARToleranceGroup">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="허용 한도 그룹"/>
-                <Annotation Term="SAP__common.QuickInfo" String="비즈니스 파트너/G/L 계정에 대한 허용 한도 그룹"/>
+                <Annotation Term="SAP__common.Label" String="Tolerance Group"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Tolerance Group for Business Partner/G/L Account"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/SuplrInvcVerificatTolGroup">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="허용 한도 그룹"/>
+                <Annotation Term="SAP__common.Label" String="Tolerance Group"/>
                 <Annotation Term="SAP__common.Heading" String="ToGr"/>
-                <Annotation Term="SAP__common.QuickInfo" String="송장 검증의 허용 한도 그룹"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Tolerance Group in Invoice Verification"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/WithholdingTaxCountry">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="원천세 국가/지역 키"/>
+                <Annotation Term="SAP__common.Label" String="WTax C/R Key"/>
                 <Annotation Term="SAP__common.Heading" String="WC/R"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Withholding Tax Country/Region Key"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/CashPlanningGroup">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="계획 그룹"/>
+                <Annotation Term="SAP__common.Label" String="Planning Group"/>
+                <Annotation Term="SAP__common.Heading" String="Plan. Group"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/PersonnelNumber">
                 <Annotation Term="SAP__common.IsDigitSequence"/>
-                <Annotation Term="SAP__common.Label" String="사원 번호"/>
-                <Annotation Term="SAP__common.Heading" String="사원번호"/>
+                <Annotation Term="SAP__common.Label" String="Personnel Number"/>
+                <Annotation Term="SAP__common.Heading" String="Pers.No."/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/PreviousAccountNumber">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="이전 계정 번호"/>
-                <Annotation Term="SAP__common.Heading" String="이전 번호"/>
-                <Annotation Term="SAP__common.QuickInfo" String="이전 마스터 레코드 번호"/>
+                <Annotation Term="SAP__common.Label" String="Previous Account No."/>
+                <Annotation Term="SAP__common.Heading" String="Pre.Ac.No."/>
+                <Annotation Term="SAP__common.QuickInfo" String="Previous Master Record Number"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/MinorityGroup">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="외부주주 지시자"/>
+                <Annotation Term="SAP__common.Label" String="Minority Indicator"/>
+                <Annotation Term="SAP__common.Heading" String="Minority Indic."/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/SupplierReleaseGroup">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="릴리스 그룹"/>
+                <Annotation Term="SAP__common.Label" String="Release Group"/>
                 <Annotation Term="SAP__common.Heading" String="AGrp"/>
-                <Annotation Term="SAP__common.QuickInfo" String="릴리스 승인 그룹"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Release Approval Group"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/CreditMemoPaymentTerms">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="대변 메모 지급 조건"/>
+                <Annotation Term="SAP__common.Label" String="Credit Memo Pyt Term"/>
                 <Annotation Term="SAP__common.Heading" String="CrPT"/>
-                <Annotation Term="SAP__common.QuickInfo" String="대변메모에 대한 지급조건키"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Payment Terms Key for Credit Memos"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/PaymentMethodSupplement">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="지급 방법 보충"/>
-                <Annotation Term="SAP__common.Heading" String="방법보충"/>
+                <Annotation Term="SAP__common.Label" String="Pmt Meth. Supplement"/>
+                <Annotation Term="SAP__common.Heading" String="PmtMthSu"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Payment method supplement"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/US_FrgnAcctTaxRcpntCntry">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="국가/지역 키"/>
+                <Annotation Term="SAP__common.Label" String="Country/Region Key"/>
                 <Annotation Term="SAP__common.Heading" String="C/R"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/PaymentClearingGroup">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="지급 반제 그룹 ID"/>
+                <Annotation Term="SAP__common.Label" String="Payment Clrg Grp ID"/>
+                <Annotation Term="SAP__common.Heading" String="Payment Clearing Group ID"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Payment Clearing Group ID"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/PaymentReason">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="지급 사유"/>
+                <Annotation Term="SAP__common.Label" String="Payment Reason"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/UK_PartnerTaxReference">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="파트너 UTR"/>
-                <Annotation Term="SAP__common.QuickInfo" String="파트너의 고유 세금 참조(UTR)"/>
+                <Annotation Term="SAP__common.Label" String="Partner's UTR"/>
+                <Annotation Term="SAP__common.Heading" String="Prtnr UTR"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Partner's Unique Tax Reference (UTR)"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/UK_VerificationStatus">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="검증 상태"/>
+                <Annotation Term="SAP__common.Label" String="Verification Status"/>
+                <Annotation Term="SAP__common.Heading" String="Verif Stat"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/UK_VerificationNumber">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="검증 번호"/>
+                <Annotation Term="SAP__common.Label" String="Verification Number"/>
+                <Annotation Term="SAP__common.Heading" String="Verif No."/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/UK_VerifiedTaxStatus">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="세금 상태"/>
-                <Annotation Term="SAP__common.QuickInfo" String="검증된 외주업체의 세금 상태"/>
+                <Annotation Term="SAP__common.Label" String="Tax Status"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Tax Status of the Verified Subcontractor"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType">
-                <Annotation Term="SAP__common.Label" String="공급업체 회사"/>
+                <Annotation Term="SAP__common.Label" String="Supplier Company"/>
                 <Annotation Term="SAP__common.SAPObjectNodeType">
                     <Record>
                         <PropertyValue Property="Name" String="SupplierCompanyCode"/>
@@ -1629,12 +1679,12 @@
                 <Annotation Term="SAP__common.Text" Path="CompanyCodeName"/>
                 <Annotation Term="SAP__common.IsUpperCase"/>
                 <Annotation Term="SAP__common.Heading" String="CoCd"/>
-                <Annotation Term="SAP__common.QuickInfo" String="회사 코드"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Company Code"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_COMPANY_CODEType/CompanyCodeName">
                 <Annotation Term="SAP__common.Label" String="회사코드명"/>
-                <Annotation Term="SAP__common.Heading" String="회사 이름"/>
-                <Annotation Term="SAP__common.QuickInfo" String="회사 코드 또는 회사의 이름"/>
+                <Annotation Term="SAP__common.Heading" String="Company Name"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Name of Company Code or Company"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_COMPANY_CODEType">
                 <Annotation Term="SAP__common.Label" String="회사코드"/>
@@ -1678,18 +1728,19 @@
                     </Collection>
                 </Annotation>
                 <Annotation Term="SAP__common.FilterDefaultValue" String="1000"/>
-                <Annotation Term="SAP__common.Label" String="회사 코드"/>
+                <Annotation Term="SAP__common.Label" String="Company Code"/>
                 <Annotation Term="SAP__common.Heading" String="CoCd"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/FiscalYear">
                 <Annotation Term="SAP__common.IsDigitSequence"/>
-                <Annotation Term="SAP__common.Label" String="회계연도"/>
-                <Annotation Term="SAP__common.Heading" String="연도"/>
+                <Annotation Term="SAP__common.Label" String="Fiscal Year"/>
+                <Annotation Term="SAP__common.Heading" String="Year"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/AccountingDocument">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="전표 번호"/>
-                <Annotation Term="SAP__common.QuickInfo" String="회계 전표의 전표 번호"/>
+                <Annotation Term="SAP__common.Label" String="Document Number"/>
+                <Annotation Term="SAP__common.Heading" String="Doc. No."/>
+                <Annotation Term="SAP__common.QuickInfo" String="Document Number of an Accounting Document"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/Status">
                 <Annotation Term="SAP__common.IsUpperCase"/>
@@ -1699,22 +1750,25 @@
                     </Collection>
                 </Annotation>
                 <Annotation Term="SAP__common.ValueListWithFixedValues"/>
-                <Annotation Term="SAP__common.Label" String="결재상태"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/DraftUser">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="사용자 이름"/>
-                <Annotation Term="SAP__common.Heading" String="사용자"/>
+                <Annotation Term="SAP__common.ValueListReferences">
+                    <Collection>
+                        <String>../../../../srvd_f4/sap/zcm_v_user/0001;ps='srvd-zfi_c_other_receipt_ui-0001';va='com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.et-zfi_c_other_receipt.draftuser'/$metadata</String>
+                    </Collection>
+                </Annotation>
+                <Annotation Term="SAP__common.Label" String="User Name"/>
+                <Annotation Term="SAP__common.Heading" String="User"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/RequestType">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="결재요청 구분"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/Taxcode">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="세금 코드"/>
+                <Annotation Term="SAP__common.Label" String="Tax Code"/>
                 <Annotation Term="SAP__common.Heading" String="Tx"/>
-                <Annotation Term="SAP__common.QuickInfo" String="부가가치세 코드"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Tax on Sales/Purchases Code"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/Currency">
                 <Annotation Term="SAP__common.IsCurrency"/>
@@ -1726,25 +1780,26 @@
                         <String>../../../../srvd_f4/sap/zfi_v_supplier/0001;ps='srvd-zfi_c_other_receipt_ui-0001';va='com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.et-zfi_c_other_receipt.supplier'/$metadata</String>
                     </Collection>
                 </Annotation>
-                <Annotation Term="SAP__common.Label" String="공급업체"/>
-                <Annotation Term="SAP__common.QuickInfo" String="공급업체 계정 번호"/>
+                <Annotation Term="SAP__common.Label" String="Supplier"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Account Number of Supplier"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/AmountTotal">
                 <Annotation Term="SAP__measures.ISOCurrency" Path="Currency"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/Createdby">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="생성자"/>
+                <Annotation Term="SAP__common.Label" String="Created By"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Created By User"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/Locallastchangedby">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="변경자"/>
-                <Annotation Term="SAP__common.QuickInfo" String="로컬 인스턴스 최종 변경자"/>
+                <Annotation Term="SAP__common.Label" String="Changed By"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Local Instance Last Changed By User"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/Lastchangedby">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="변경자"/>
-                <Annotation Term="SAP__common.QuickInfo" String="마지막 변경자"/>
+                <Annotation Term="SAP__common.Label" String="Changed By"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Last Changed By User"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType">
                 <Annotation Term="SAP__common.Label" String="기타영수증"/>
@@ -1782,7 +1837,6 @@
                         <PropertyValue Property="NonFilterableProperties">
                             <Collection>
                                 <PropertyPath>GroupWareUrl</PropertyPath>
-                                <PropertyPath>CheckAuth</PropertyPath>
                             </Collection>
                         </PropertyValue>
                     </Record>
@@ -1792,7 +1846,6 @@
                         <PropertyValue Property="NonSortableProperties">
                             <Collection>
                                 <PropertyPath>GroupWareUrl</PropertyPath>
-                                <PropertyPath>CheckAuth</PropertyPath>
                                 <PropertyPath>BodyContent</PropertyPath>
                             </Collection>
                         </PropertyValue>
@@ -1824,20 +1877,20 @@
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_BUSINESSPLACEType/CompanyCode">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="회사 코드"/>
+                <Annotation Term="SAP__common.Label" String="Company Code"/>
                 <Annotation Term="SAP__common.Heading" String="CoCd"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_BUSINESSPLACEType/BusinessPlace">
                 <Annotation Term="SAP__common.Label" String="사업장"/>
                 <Annotation Term="SAP__common.Text" Path="BusinessPlaceName"/>
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Heading" String="사업장"/>
-                <Annotation Term="SAP__common.QuickInfo" String="사업장"/>
+                <Annotation Term="SAP__common.Heading" String="Business Place"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Business Place"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_BUSINESSPLACEType/BusinessPlaceName">
                 <Annotation Term="SAP__common.Label" String="사업장내역"/>
-                <Annotation Term="SAP__common.Heading" String="성 1"/>
-                <Annotation Term="SAP__common.QuickInfo" String="성"/>
+                <Annotation Term="SAP__common.Heading" String="Name 1"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Name"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_BUSINESSPLACEType">
                 <Annotation Term="SAP__common.Label" String="사업장"/>
@@ -1876,12 +1929,13 @@
             <Annotations Target="SAP__self.I_GLAccountType/GLAccount">
                 <Annotation Term="SAP__common.Text" Path="GLAccount_Text"/>
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="G/L 계정"/>
-                <Annotation Term="SAP__common.QuickInfo" String="G/L 계정 번호"/>
+                <Annotation Term="SAP__common.Label" String="G/L Account"/>
+                <Annotation Term="SAP__common.Heading" String="G/L Acct"/>
+                <Annotation Term="SAP__common.QuickInfo" String="G/L Account Number"/>
             </Annotations>
             <Annotations Target="SAP__self.I_GLAccountType/GLAccount_Text">
                 <Annotation Term="SAP__core.Computed"/>
-                <Annotation Term="SAP__common.Label" String="G/L 계정 이름"/>
+                <Annotation Term="SAP__common.Label" String="G/L Account Name"/>
             </Annotations>
             <Annotations Target="SAP__self.I_GLAccountType/CompanyCode">
                 <Annotation Term="SAP__common.IsUpperCase"/>
@@ -1890,7 +1944,7 @@
                         <String>../../../../srvd_f4/sap/i_companycodestdvh/0001;ps='srvd-zfi_c_other_receipt_ui-0001';va='com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.et-i_glaccount.companycode'/$metadata</String>
                     </Collection>
                 </Annotation>
-                <Annotation Term="SAP__common.Label" String="회사 코드"/>
+                <Annotation Term="SAP__common.Label" String="Company Code"/>
                 <Annotation Term="SAP__common.Heading" String="CoCd"/>
             </Annotations>
             <Annotations Target="SAP__self.I_GLAccountType/ChartOfAccounts">
@@ -1901,102 +1955,105 @@
                         <String>../../../../srvd_f4/sap/i_chartofaccountsstdvh/0001;ps='srvd-zfi_c_other_receipt_ui-0001';va='com.sap.gateway.srvd.zfi_c_other_receipt_ui.v0001.et-i_glaccount.chartofaccounts'/$metadata</String>
                     </Collection>
                 </Annotation>
-                <Annotation Term="SAP__common.Label" String="계정과목표"/>
+                <Annotation Term="SAP__common.Label" String="Chart of Accounts"/>
             </Annotations>
             <Annotations Target="SAP__self.I_GLAccountType/ChartOfAccounts_Text">
-                <Annotation Term="SAP__common.Label" String="계정과목표 내역"/>
+                <Annotation Term="SAP__common.Label" String="Chart of Accounts Description"/>
                 <Annotation Term="SAP__core.Computed"/>
-                <Annotation Term="SAP__common.Heading" String="계정과목표 내역"/>
-                <Annotation Term="SAP__common.QuickInfo" String="계정과목표 내역"/>
+                <Annotation Term="SAP__common.Heading" String="Chart of Accounts Description"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Chart of Accounts Description"/>
             </Annotations>
             <Annotations Target="SAP__self.I_GLAccountType/GLAccountGroup">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="계정 그룹"/>
+                <Annotation Term="SAP__common.Label" String="Account Group"/>
                 <Annotation Term="SAP__common.Heading" String="AcGp"/>
-                <Annotation Term="SAP__common.QuickInfo" String="G/L 계정 그룹"/>
+                <Annotation Term="SAP__common.QuickInfo" String="G/L Account Group"/>
             </Annotations>
             <Annotations Target="SAP__self.I_GLAccountType/CorporateGroupAccount">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="그룹 계정 번호"/>
-                <Annotation Term="SAP__common.Heading" String="그룹 계정"/>
+                <Annotation Term="SAP__common.Label" String="Group Account Number"/>
+                <Annotation Term="SAP__common.Heading" String="Group Acct"/>
             </Annotations>
             <Annotations Target="SAP__self.I_GLAccountType/PartnerCompany">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="관계사 번호"/>
-                <Annotation Term="SAP__common.Heading" String="관계사"/>
-                <Annotation Term="SAP__common.QuickInfo" String="관계사의 회사 ID"/>
+                <Annotation Term="SAP__common.Label" String="Trading Partner No."/>
+                <Annotation Term="SAP__common.Heading" String="Tr.Prt"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Company ID of Trading Partner"/>
             </Annotations>
             <Annotations Target="SAP__self.I_GLAccountType/FunctionalArea">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="기능 영역"/>
+                <Annotation Term="SAP__common.Label" String="Functional Area"/>
             </Annotations>
             <Annotations Target="SAP__self.I_GLAccountType/SampleGLAccount">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="샘플 계정"/>
-                <Annotation Term="SAP__common.QuickInfo" String="샘플 계정 번호"/>
+                <Annotation Term="SAP__common.Label" String="Sample Account"/>
+                <Annotation Term="SAP__common.Heading" String="Samp. Acct"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Number of the Sample Account"/>
             </Annotations>
             <Annotations Target="SAP__self.I_GLAccountType/IsProfitLossAccount">
-                <Annotation Term="SAP__common.Label" String="대차대조표 계정"/>
-                <Annotation Term="SAP__common.Heading" String="B/S 계정"/>
-                <Annotation Term="SAP__common.QuickInfo" String="지시자: 계정이 대차대조표 계정입니까 ?"/>
+                <Annotation Term="SAP__common.Label" String="Balance Sheet Account"/>
+                <Annotation Term="SAP__common.Heading" String="B/S acct"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Indicator: Account is a balance sheet account?"/>
             </Annotations>
             <Annotations Target="SAP__self.I_GLAccountType/GLAccountType">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="G/L 계정 유형"/>
-                <Annotation Term="SAP__common.QuickInfo" String="총계정원장 계정 유형"/>
+                <Annotation Term="SAP__common.Label" String="G/L Account Type"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Type of a General Ledger Account"/>
             </Annotations>
             <Annotations Target="SAP__self.I_GLAccountType/CreatedByUser">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="생성자"/>
-                <Annotation Term="SAP__common.QuickInfo" String="오브젝트 생성자 이름"/>
+                <Annotation Term="SAP__common.Label" String="Created by"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Name of Person who Created the Object"/>
             </Annotations>
             <Annotations Target="SAP__self.I_GLAccountType/ProfitLossAccountType">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="손익계산서 계정"/>
+                <Annotation Term="SAP__common.Label" String="P&amp;L state. acct"/>
                 <Annotation Term="SAP__common.Heading" String="AT"/>
-                <Annotation Term="SAP__common.QuickInfo" String="손익계산서 계정 유형"/>
+                <Annotation Term="SAP__common.QuickInfo" String="P&amp;L statement account type"/>
             </Annotations>
             <Annotations Target="SAP__self.I_GLAccountType/ReconciliationAccountType">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="조정 ID"/>
-                <Annotation Term="SAP__common.Heading" String="조정 계정"/>
-                <Annotation Term="SAP__common.QuickInfo" String="계정이 조정 계정임"/>
+                <Annotation Term="SAP__common.Label" String="Reconcil. ID"/>
+                <Annotation Term="SAP__common.Heading" String="Reconcil. Acct"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Account Is Reconciliation Account"/>
             </Annotations>
             <Annotations Target="SAP__self.I_GLAccountType/AlternativeGLAccount">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="대체 G/L 계정"/>
-                <Annotation Term="SAP__common.QuickInfo" String="회사 코드의 대체 G/L 계정 번호"/>
+                <Annotation Term="SAP__common.Label" String="Alternative G/L Account"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Alternative G/L Account Number In Company Code"/>
             </Annotations>
             <Annotations Target="SAP__self.I_GLAccountType/AcctgDocItmDisplaySequenceRule">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="정렬 키"/>
-                <Annotation Term="SAP__common.Heading" String="정렬"/>
-                <Annotation Term="SAP__common.QuickInfo" String="지정 번호에 따른 정렬을 위한 키"/>
+                <Annotation Term="SAP__common.Label" String="Sort Key"/>
+                <Annotation Term="SAP__common.Heading" String="Sort"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Key for Sorting According to Assignment Numbers"/>
             </Annotations>
             <Annotations Target="SAP__self.I_GLAccountType/GLAccountExternal">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="G/L 계정 외부 ID"/>
-                <Annotation Term="SAP__common.QuickInfo" String="G/L 계정 번호"/>
+                <Annotation Term="SAP__common.Label" String="G/L Acct External ID"/>
+                <Annotation Term="SAP__common.Heading" String="G/L Account External ID"/>
+                <Annotation Term="SAP__common.QuickInfo" String="G/L Account Number"/>
             </Annotations>
             <Annotations Target="SAP__self.I_GLAccountType/CountryChartOfAccounts">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="대체 계정과목표"/>
+                <Annotation Term="SAP__common.Label" String="Alternative COA"/>
                 <Annotation Term="SAP__common.Heading" String="ChA2"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Alternative Chart of Accounts"/>
             </Annotations>
             <Annotations Target="SAP__self.I_GLAccountType/AuthorizationGroup">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="권한"/>
+                <Annotation Term="SAP__common.Label" String="Authorization"/>
                 <Annotation Term="SAP__common.Heading" String="AuGr"/>
-                <Annotation Term="SAP__common.QuickInfo" String="권한 그룹"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Authorization Group"/>
             </Annotations>
             <Annotations Target="SAP__self.I_GLAccountType/TaxCategory">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="세금 범주"/>
+                <Annotation Term="SAP__common.Label" String="Tax Category"/>
                 <Annotation Term="SAP__common.Heading" String="Tx"/>
-                <Annotation Term="SAP__common.QuickInfo" String="계정 마스터 레코드의 세금 범주"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Tax Category in Account Master Record"/>
             </Annotations>
             <Annotations Target="SAP__self.I_GLAccountType">
-                <Annotation Term="SAP__common.Label" String="총계정원장 계정"/>
+                <Annotation Term="SAP__common.Label" String="General Ledger Account"/>
             </Annotations>
             <Annotations Target="SAP__self.Container/I_GLAccount">
                 <Annotation Term="SAP__capabilities.SearchRestrictions">
@@ -2031,46 +2088,48 @@
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_SUPPLIER_ACCOUNTType/BPBankAccountInternalID">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="파트너 은행 유형"/>
+                <Annotation Term="SAP__common.Label" String="Part.bank type"/>
                 <Annotation Term="SAP__common.Heading" String="BnkT"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Partner bank type"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_SUPPLIER_ACCOUNTType/Supplier">
                 <Annotation Term="SAP__common.Label" String="공급업체"/>
                 <Annotation Term="SAP__common.Text" Path="SupplierName"/>
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Heading" String="공급업체"/>
-                <Annotation Term="SAP__common.QuickInfo" String="공급업체 계정 번호"/>
+                <Annotation Term="SAP__common.Heading" String="Supplier"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Account Number of Supplier"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_SUPPLIER_ACCOUNTType/SupplierName">
                 <Annotation Term="SAP__common.Label" String="공급업체명"/>
-                <Annotation Term="SAP__common.Heading" String="공급업체"/>
-                <Annotation Term="SAP__common.QuickInfo" String="공급업체의 이름"/>
+                <Annotation Term="SAP__common.Heading" String="Supplier"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Name of Supplier"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_SUPPLIER_ACCOUNTType/BankCountry">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="은행 국가/지역"/>
+                <Annotation Term="SAP__common.Label" String="Bank Country/Region"/>
                 <Annotation Term="SAP__common.Heading" String="C/R"/>
-                <Annotation Term="SAP__common.QuickInfo" String="은행 국가/지역 키"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Bank Country/Region Key"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_SUPPLIER_ACCOUNTType/Bank">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="은행 키"/>
+                <Annotation Term="SAP__common.Label" String="Bank Key"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Bank Keys"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_SUPPLIER_ACCOUNTType/BankAccount">
                 <Annotation Term="SAP__common.Label" String="은행계좌"/>
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Heading" String="은행 계좌"/>
-                <Annotation Term="SAP__common.QuickInfo" String="은행 계좌 번호"/>
+                <Annotation Term="SAP__common.Heading" String="Bank Account"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Bank Account Number"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_SUPPLIER_ACCOUNTType/BankAccountHolderName">
                 <Annotation Term="SAP__common.Label" String="예금주"/>
-                <Annotation Term="SAP__common.Heading" String="계정 보유자"/>
-                <Annotation Term="SAP__common.QuickInfo" String="계정 보유자 이름"/>
+                <Annotation Term="SAP__common.Heading" String="Acct holder"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Account Holder Name"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_SUPPLIER_ACCOUNTType/BankAccountName">
                 <Annotation Term="SAP__common.Label" String="계좌이름"/>
-                <Annotation Term="SAP__common.Heading" String="계좌 이름"/>
-                <Annotation Term="SAP__common.QuickInfo" String="은행 계좌 이름"/>
+                <Annotation Term="SAP__common.Heading" String="Account Name"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Name of Bank Account"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_SUPPLIER_ACCOUNTType">
                 <Annotation Term="SAP__common.Label" String="Value Help - 공급업체 지급정보"/>
@@ -2106,17 +2165,92 @@
                     <Collection/>
                 </Annotation>
             </Annotations>
+            <Annotations Target="SAP__self.ZCM_V_USERType/BusinessPartner">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__UI.Hidden"/>
+                <Annotation Term="SAP__common.Label" String="Business Partner"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Business Partner Number"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZCM_V_USERType/BPIdentificationNumber">
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__UI.Hidden"/>
+                <Annotation Term="SAP__common.Label" String="ID Number"/>
+                <Annotation Term="SAP__common.Heading" String="Identification Number"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Identification Number"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZCM_V_USERType/UserID">
+                <Annotation Term="SAP__common.Label" String="사용자"/>
+                <Annotation Term="SAP__common.Text" Path="PersonFullName"/>
+                <Annotation Term="SAP__common.IsUpperCase"/>
+                <Annotation Term="SAP__common.QuickInfo" String="User ID"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZCM_V_USERType/PersonFullName">
+                <Annotation Term="SAP__common.Label" String="이름"/>
+                <Annotation Term="SAP__common.Heading" String="Description of the Technical User Account"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Description of the Technical User Account"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZCM_V_USERType/DefaultEmailAddress">
+                <Annotation Term="SAP__common.Label" String="Email"/>
+                <Annotation Term="SAP__common.Heading" String="Email Address"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Email Address"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZCM_V_USERType">
+                <Annotation Term="SAP__common.Label" String="Value Help - 사용자"/>
+            </Annotations>
+            <Annotations Target="SAP__self.Container/ZCM_V_USER">
+                <Annotation Term="SAP__capabilities.SearchRestrictions">
+                    <Record>
+                        <PropertyValue Property="Searchable" Bool="true"/>
+                        <PropertyValue Property="UnsupportedExpressions" EnumMember="SAP__capabilities.SearchExpressions/AND SAP__capabilities.SearchExpressions/OR SAP__capabilities.SearchExpressions/NOT SAP__capabilities.SearchExpressions/group SAP__capabilities.SearchExpressions/phrase"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.InsertRestrictions">
+                    <Record>
+                        <PropertyValue Property="Insertable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.DeleteRestrictions">
+                    <Record>
+                        <PropertyValue Property="Deletable" Bool="false"/>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.UpdateRestrictions">
+                    <Record>
+                        <PropertyValue Property="Updatable" Bool="false"/>
+                        <PropertyValue Property="QueryOptions">
+                            <Record>
+                                <PropertyValue Property="SelectSupported" Bool="true"/>
+                            </Record>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+                <Annotation Term="SAP__core.OptimisticConcurrency">
+                    <Collection/>
+                </Annotation>
+                <Annotation Term="SAP__capabilities.FilterRestrictions">
+                    <Record>
+                        <PropertyValue Property="FilterExpressionRestrictions">
+                            <Collection>
+                                <Record>
+                                    <PropertyValue Property="Property" PropertyPath="DefaultEmailAddress"/>
+                                    <PropertyValue Property="AllowedExpressions" String="MultiValue"/>
+                                </Record>
+                            </Collection>
+                        </PropertyValue>
+                    </Record>
+                </Annotation>
+            </Annotations>
             <Annotations Target="SAP__self.ZFI_V_PAYMENT_METHOD_STDType/PaymentMethodsList">
                 <Annotation Term="SAP__common.Label" String="지급방법"/>
                 <Annotation Term="SAP__common.Text" Path="PaymentMethodName"/>
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Heading" String="지급 방법"/>
-                <Annotation Term="SAP__common.QuickInfo" String="지급 방법"/>
+                <Annotation Term="SAP__common.Heading" String="Payment Method"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Payment Method"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_PAYMENT_METHOD_STDType/PaymentMethodName">
                 <Annotation Term="SAP__common.Label" String="지급조건내역"/>
-                <Annotation Term="SAP__common.Heading" String="내역"/>
-                <Annotation Term="SAP__common.QuickInfo" String="지급 방법 내역(로그온 언어)"/>
+                <Annotation Term="SAP__common.Heading" String="Description"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Description of Payment Method in Logon Language"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_PAYMENT_METHOD_STDType">
                 <Annotation Term="SAP__common.Label" String="Value Help - 지급방법"/>
@@ -2153,20 +2287,20 @@
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_ACCOUNT_RECONType/CompanyCode">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="회사 코드"/>
+                <Annotation Term="SAP__common.Label" String="Company Code"/>
                 <Annotation Term="SAP__common.Heading" String="CoCd"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_ACCOUNT_RECONType/GLAccount">
                 <Annotation Term="SAP__common.Label" String="계정"/>
                 <Annotation Term="SAP__common.Text" Path="GLAccountName"/>
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Heading" String="G/L 계정"/>
-                <Annotation Term="SAP__common.QuickInfo" String="G/L 계정 번호"/>
+                <Annotation Term="SAP__common.Heading" String="G/L Acct"/>
+                <Annotation Term="SAP__common.QuickInfo" String="G/L Account Number"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_ACCOUNT_RECONType/GLAccountName">
                 <Annotation Term="SAP__common.Label" String="계정내역"/>
-                <Annotation Term="SAP__common.Heading" String="G/L 계정 이름"/>
-                <Annotation Term="SAP__common.QuickInfo" String="G/L 계정 이름"/>
+                <Annotation Term="SAP__common.Heading" String="G/L Account Name"/>
+                <Annotation Term="SAP__common.QuickInfo" String="G/L Account Name"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_ACCOUNT_RECONType">
                 <Annotation Term="SAP__common.Label" String="Value Help - 계정코드(조정계정)"/>
@@ -2205,26 +2339,26 @@
             <Annotations Target="SAP__self.ZFI_V_PROFITCENTERType/ControllingArea">
                 <Annotation Term="SAP__common.IsUpperCase"/>
                 <Annotation Term="SAP__UI.Hidden"/>
-                <Annotation Term="SAP__common.Label" String="관리회계 영역"/>
+                <Annotation Term="SAP__common.Label" String="Controlling Area"/>
                 <Annotation Term="SAP__common.Heading" String="COAr"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_PROFITCENTERType/ProfitCenter">
                 <Annotation Term="SAP__common.Label" String="손익센터"/>
                 <Annotation Term="SAP__common.Text" Path="ProfitCenterName"/>
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Heading" String="손익 센터"/>
-                <Annotation Term="SAP__common.QuickInfo" String="손익 센터"/>
+                <Annotation Term="SAP__common.Heading" String="Profit Ctr"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Profit Center"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_PROFITCENTERType/ProfitCenterName">
                 <Annotation Term="SAP__common.Label" String="손익센터내역"/>
-                <Annotation Term="SAP__common.Heading" String="손익 센터 이름"/>
-                <Annotation Term="SAP__common.QuickInfo" String="손익 센터 내역"/>
+                <Annotation Term="SAP__common.Heading" String="Profit Center Name"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Description of Profit Center"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_PROFITCENTERType/ProfitCenterLongName">
                 <Annotation Term="SAP__common.Label" String="손익센터내역"/>
                 <Annotation Term="SAP__UI.Hidden"/>
-                <Annotation Term="SAP__common.Heading" String="손익 센터 내역"/>
-                <Annotation Term="SAP__common.QuickInfo" String="손익 센터 내역"/>
+                <Annotation Term="SAP__common.Heading" String="Profit Center Description"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Description of Profit Center"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_PROFITCENTERType">
                 <Annotation Term="SAP__common.Label" String="Cost Center"/>
@@ -2264,13 +2398,13 @@
                 <Annotation Term="SAP__common.Label" String="공급업체"/>
                 <Annotation Term="SAP__common.Text" Path="SupplierName"/>
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Heading" String="공급업체"/>
-                <Annotation Term="SAP__common.QuickInfo" String="공급업체 계정 번호"/>
+                <Annotation Term="SAP__common.Heading" String="Supplier"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Account Number of Supplier"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_SUPPLIERType/SupplierName">
                 <Annotation Term="SAP__common.Label" String="공급업체명"/>
-                <Annotation Term="SAP__common.Heading" String="이름 1"/>
-                <Annotation Term="SAP__common.QuickInfo" String="이름 1"/>
+                <Annotation Term="SAP__common.Heading" String="Name 1"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Name 1"/>
             </Annotations>
             <Annotations Target="SAP__self.Container/ZFI_V_SUPPLIER">
                 <Annotation Term="SAP__capabilities.NavigationRestrictions">
@@ -2332,12 +2466,12 @@
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_BP_AUTHType/BusinessPartner">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="비즈니스 파트너"/>
-                <Annotation Term="SAP__common.QuickInfo" String="비즈니스 파트너 번호"/>
+                <Annotation Term="SAP__common.Label" String="Business Partner"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Business Partner Number"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_BP_AUTHType/UserID">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="사용자 ID"/>
+                <Annotation Term="SAP__common.Label" String="User ID"/>
             </Annotations>
             <Annotations Target="SAP__self.Container/ZFI_C_BP_AUTH">
                 <Annotation Term="SAP__capabilities.NavigationRestrictions">
@@ -2410,17 +2544,18 @@
             </Annotations>
             <Annotations Target="SAP__self.ZCM_I_AUTHType/CreatedBy">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="생성자"/>
+                <Annotation Term="SAP__common.Label" String="Created By"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Created By User"/>
             </Annotations>
             <Annotations Target="SAP__self.ZCM_I_AUTHType/LocalLastChangedBy">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="변경자"/>
-                <Annotation Term="SAP__common.QuickInfo" String="로컬 인스턴스 최종 변경자"/>
+                <Annotation Term="SAP__common.Label" String="Changed By"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Local Instance Last Changed By User"/>
             </Annotations>
             <Annotations Target="SAP__self.ZCM_I_AUTHType/LastChangedBy">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="변경자"/>
-                <Annotation Term="SAP__common.QuickInfo" String="마지막 변경자"/>
+                <Annotation Term="SAP__common.Label" String="Changed By"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Last Changed By User"/>
             </Annotations>
             <Annotations Target="SAP__self.Container/ZCM_I_AUTH">
                 <Annotation Term="SAP__capabilities.NavigationRestrictions">
@@ -2429,6 +2564,14 @@
                             <Collection>
                                 <Record>
                                     <PropertyValue Property="NavigationProperty" NavigationPropertyPath="_Item02"/>
+                                    <PropertyValue Property="InsertRestrictions">
+                                        <Record>
+                                            <PropertyValue Property="Insertable" Bool="false"/>
+                                        </Record>
+                                    </PropertyValue>
+                                </Record>
+                                <Record>
+                                    <PropertyValue Property="NavigationProperty" NavigationPropertyPath="_UserName"/>
                                     <PropertyValue Property="InsertRestrictions">
                                         <Record>
                                             <PropertyValue Property="Insertable" Bool="false"/>
@@ -2518,8 +2661,9 @@
             <Annotations Target="SAP__self.ZFI_CURRENCYType/Currency">
                 <Annotation Term="SAP__common.IsCurrency"/>
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="통화"/>
-                <Annotation Term="SAP__common.QuickInfo" String="통화 키"/>
+                <Annotation Term="SAP__common.Label" String="Currency"/>
+                <Annotation Term="SAP__common.Heading" String="Crcy"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Currency Key"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_CURRENCYType">
                 <Annotation Term="SAP__common.Label" String="거래통화"/>
@@ -2558,19 +2702,19 @@
                 <Annotation Term="SAP__common.Label" String="지급조건"/>
                 <Annotation Term="SAP__common.Text" Path="PaymentTermsName"/>
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Heading" String="조건"/>
-                <Annotation Term="SAP__common.QuickInfo" String="지급 조건 키"/>
+                <Annotation Term="SAP__common.Heading" String="PayT"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Terms of Payment Key"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_PAYMENT_TERMS_STDType/PaymentTermsName">
                 <Annotation Term="SAP__common.Label" String="지급조건내역"/>
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Heading" String="지급 조건 세부 내역"/>
-                <Annotation Term="SAP__common.QuickInfo" String="지급 조건 내역"/>
+                <Annotation Term="SAP__common.Heading" String="Payment Terms Detail Description"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Payment Terms Description"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_PAYMENT_TERMS_STDType/CashDiscount1Days">
                 <Annotation Term="SAP__common.Label" String="지급일수"/>
                 <Annotation Term="SAP__common.Heading" String="CD1"/>
-                <Annotation Term="SAP__common.QuickInfo" String="현금 할인 일수 1"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Cash Discount Days 1"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_PAYMENT_TERMS_STDType">
                 <Annotation Term="SAP__common.Label" String="Value Help - 지급조건"/>
@@ -2607,30 +2751,30 @@
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_PAYMENT_TERMSType/CompanyCode">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="회사 코드"/>
+                <Annotation Term="SAP__common.Label" String="Company Code"/>
                 <Annotation Term="SAP__common.Heading" String="CoCd"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_PAYMENT_TERMSType/Supplier">
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Label" String="공급업체"/>
-                <Annotation Term="SAP__common.QuickInfo" String="공급업체 계정 번호"/>
+                <Annotation Term="SAP__common.Label" String="Supplier"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Account Number of Supplier"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_PAYMENT_TERMSType/PaymentTerms">
                 <Annotation Term="SAP__common.Label" String="지급조건"/>
                 <Annotation Term="SAP__common.Text" Path="PaymentTermsName"/>
                 <Annotation Term="SAP__common.IsUpperCase"/>
-                <Annotation Term="SAP__common.Heading" String="지급 조건"/>
-                <Annotation Term="SAP__common.QuickInfo" String="지급 조건 키"/>
+                <Annotation Term="SAP__common.Heading" String="Terms of Payment"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Key for Terms of Payment"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_PAYMENT_TERMSType/PaymentTermsName">
                 <Annotation Term="SAP__common.Label" String="지급조건내역"/>
-                <Annotation Term="SAP__common.Heading" String="내역"/>
-                <Annotation Term="SAP__common.QuickInfo" String="지급 조건 내역"/>
+                <Annotation Term="SAP__common.Heading" String="Description"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Description of terms of payment"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_PAYMENT_TERMSType/CashDiscount1Days">
                 <Annotation Term="SAP__common.Label" String="지급일수"/>
                 <Annotation Term="SAP__common.Heading" String="CD1"/>
-                <Annotation Term="SAP__common.QuickInfo" String="현금 할인 일수 1"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Cash Discount Days 1"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_PAYMENT_TERMSType">
                 <Annotation Term="SAP__common.Label" String="Value Help - 지급조건(공급업체)"/>
@@ -2711,38 +2855,55 @@
                     <Record/>
                 </Annotation>
             </Annotations>
+            <Annotations Target="SAP__self.ZCM_V_USERType/FirstName">
+                <Annotation Term="SAP__UI.Hidden"/>
+                <Annotation Term="SAP__common.Label" String="First Name"/>
+                <Annotation Term="SAP__common.QuickInfo" String="First Name of Business Partner (Person)"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZCM_V_USERType/LastName">
+                <Annotation Term="SAP__UI.Hidden"/>
+                <Annotation Term="SAP__common.Label" String="Last Name"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Last Name of Business Partner (Person)"/>
+            </Annotations>
+            <Annotations Target="SAP__self.ZCM_V_USERType/FullName">
+                <Annotation Term="SAP__UI.Hidden"/>
+                <Annotation Term="SAP__common.Label" String="Name 1"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Name 1 of organization"/>
+            </Annotations>
             <Annotations Target="SAP__self.ZFI_V_PROFITCENTERType/ValidityEndDate">
                 <Annotation Term="SAP__UI.Hidden"/>
-                <Annotation Term="SAP__common.Label" String="효력 종료일"/>
-                <Annotation Term="SAP__common.Heading" String="종료"/>
+                <Annotation Term="SAP__common.Label" String="Valid To"/>
+                <Annotation Term="SAP__common.Heading" String="to"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Valid To Date"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_PROFITCENTERType/ValidityStartDate">
                 <Annotation Term="SAP__UI.Hidden"/>
-                <Annotation Term="SAP__common.Label" String="효력 시작일"/>
-                <Annotation Term="SAP__common.Heading" String="효력시작일"/>
+                <Annotation Term="SAP__common.Label" String="Valid From"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Valid-From Date"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_PLAN_COST_SUMMARYType/CostCenterDescription">
-                <Annotation Term="SAP__common.Label" String="코스트 센터 내역"/>
+                <Annotation Term="SAP__common.Label" String="Cost Center Desc."/>
                 <Annotation Term="SAP__common.Heading" String="CoCtr"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Description of Cost Center"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_PLAN_COST_SUMMARYType/GLAccountName">
-                <Annotation Term="SAP__common.Label" String="G/L 계정 이름"/>
+                <Annotation Term="SAP__common.Label" String="G/L Account Name"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_TAXCODE_C_ETCType/KeyGroupItem">
                 <Annotation Term="SAP__common.Label" String="UUID"/>
                 <Annotation Term="SAP__common.QuickInfo" String="16 Byte UUID in 16 Bytes (Raw Format)"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_DOC_APPROVALType/Createdat">
-                <Annotation Term="SAP__common.Label" String="생성일"/>
-                <Annotation Term="SAP__common.QuickInfo" String="생성 일자/시간"/>
+                <Annotation Term="SAP__common.Label" String="Created On"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Creation Date Time"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_DOC_APPROVALType/Locallastchangedat">
-                <Annotation Term="SAP__common.Label" String="변경일"/>
-                <Annotation Term="SAP__common.QuickInfo" String="로컬 인스턴스 최종 변경 일자/시간"/>
+                <Annotation Term="SAP__common.Label" String="Changed On"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Local Instance Last Change Date Time"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_DOC_APPROVALType/Lastchangedat">
-                <Annotation Term="SAP__common.Label" String="변경일"/>
-                <Annotation Term="SAP__common.QuickInfo" String="최종 변경 일자/시간"/>
+                <Annotation Term="SAP__common.Label" String="Changed On"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Last Change Date Time"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_DOC_APPROVALType/__EntityControl/Deletable">
                 <Annotation Term="SAP__common.Label" String="Dyn. Method Control"/>
@@ -2755,93 +2916,95 @@
                 <Annotation Term="SAP__common.QuickInfo" String="Dynamic Method Property"/>
             </Annotations>
             <Annotations Target="SAP__self.ZCM_I_AUTH_ITEM02Type/CreatedAt">
-                <Annotation Term="SAP__common.Label" String="생성일"/>
-                <Annotation Term="SAP__common.QuickInfo" String="생성 일자/시간"/>
+                <Annotation Term="SAP__common.Label" String="Created On"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Creation Date Time"/>
             </Annotations>
             <Annotations Target="SAP__self.ZCM_I_AUTH_ITEM02Type/LocalLastChangedAt">
-                <Annotation Term="SAP__common.Label" String="변경일"/>
-                <Annotation Term="SAP__common.QuickInfo" String="로컬 인스턴스 최종 변경 일자/시간"/>
+                <Annotation Term="SAP__common.Label" String="Changed On"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Local Instance Last Change Date Time"/>
             </Annotations>
             <Annotations Target="SAP__self.ZCM_I_AUTH_ITEM02Type/LastChangedAt">
-                <Annotation Term="SAP__common.Label" String="변경일"/>
-                <Annotation Term="SAP__common.QuickInfo" String="최종 변경 일자/시간"/>
+                <Annotation Term="SAP__common.Label" String="Changed On"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Last Change Date Time"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/SupplierIsBlockedForPosting">
                 <Annotation Term="SAP__common.Label" String="Co.code post.block"/>
                 <Annotation Term="SAP__common.Heading" String="B"/>
-                <Annotation Term="SAP__common.QuickInfo" String="회사코드에 대해 전기보류"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Posting block for company code"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/AccountingClerkFaxNumber">
-                <Annotation Term="SAP__common.Label" String="회계 담당자 팩스"/>
-                <Annotation Term="SAP__common.QuickInfo" String="고객/공급업체의 회계 담당자 팩스번호"/>
+                <Annotation Term="SAP__common.Label" String="Acctg clerk's fax"/>
+                <Annotation Term="SAP__common.Heading" String="Accounting clerk's fax"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Accounting clerk's fax number at the customer/vendor"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/AccountingClerkInternetAddress">
-                <Annotation Term="SAP__common.Label" String="담당자 인터넷 주소"/>
-                <Annotation Term="SAP__common.Heading" String="담당자의 인터넷 주소"/>
-                <Annotation Term="SAP__common.QuickInfo" String="파트너 회사 담당자의 인터넷 주소"/>
+                <Annotation Term="SAP__common.Label" String="Clrk's internet add."/>
+                <Annotation Term="SAP__common.Heading" String="Clerk's internet address"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Internet address of partner company clerk"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/SupplierClerk">
-                <Annotation Term="SAP__common.Label" String="공급업체 담당자"/>
+                <Annotation Term="SAP__common.Label" String="Clerk at vendor"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/SupplierClerkURL">
-                <Annotation Term="SAP__common.Label" String="담당자 인터넷 주소"/>
-                <Annotation Term="SAP__common.Heading" String="담당자의 인터넷 주소"/>
-                <Annotation Term="SAP__common.QuickInfo" String="파트너 회사 담당자의 인터넷 주소"/>
+                <Annotation Term="SAP__common.Label" String="Clrk's internet add."/>
+                <Annotation Term="SAP__common.Heading" String="Clerk's internet address"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Internet address of partner company clerk"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/ClearCustomerSupplier">
-                <Annotation Term="SAP__common.Label" String="고객으로 반제"/>
-                <Annotation Term="SAP__common.QuickInfo" String="지시자: 고객과 공급업체 간에 반제하겠습니까 ?"/>
+                <Annotation Term="SAP__common.Label" String="Clearing with cust."/>
+                <Annotation Term="SAP__common.QuickInfo" String="Indicator: Clearing between customer and vendor?"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/IsToBeLocallyProcessed">
-                <Annotation Term="SAP__common.Label" String="로컬 처리"/>
-                <Annotation Term="SAP__common.QuickInfo" String="지시자: 로컬 처리"/>
+                <Annotation Term="SAP__common.Label" String="Local Processing"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Indicator: Local Processing?"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/ItemIsToBePaidSeparately">
-                <Annotation Term="SAP__common.Label" String="개별 지급"/>
-                <Annotation Term="SAP__common.QuickInfo" String="지시자: 모든 항목을 별도로 지급"/>
+                <Annotation Term="SAP__common.Label" String="Individual Payment"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Indicator: Pay All Items Separately?"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/PaymentIsToBeSentByEDI">
-                <Annotation Term="SAP__common.Label" String="EDI로 지급 통지"/>
+                <Annotation Term="SAP__common.Label" String="Pmnt advice by EDI"/>
                 <Annotation Term="SAP__common.Heading" String="EDI"/>
-                <Annotation Term="SAP__common.QuickInfo" String="지시자: EDI를 통해 지급 통지 보내기"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Indicator: Send Payment Advices by EDI"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/CheckPaidDurationInDays">
-                <Annotation Term="SAP__common.Label" String="수표 현금화 시간"/>
+                <Annotation Term="SAP__common.Label" String="Check Cashing Time"/>
                 <Annotation Term="SAP__common.Heading" String="GrP"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Probable Time Until Check Is Paid"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/IsDoubleInvoice">
-                <Annotation Term="SAP__common.Label" String="중복 송장 점검"/>
-                <Annotation Term="SAP__common.QuickInfo" String="중복 송장 또는 대변 메모에 대한 점검 플래그"/>
+                <Annotation Term="SAP__common.Label" String="Check Double Invoice"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Check Flag for Double Invoices or Credit Memos"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/CustomerSupplierClearingIsUsed">
-                <Annotation Term="SAP__common.Label" String="고객으로 반제"/>
-                <Annotation Term="SAP__common.QuickInfo" String="지시자: 고객과 공급업체 간에 반제하겠습니까 ?"/>
+                <Annotation Term="SAP__common.Label" String="Clearing with cust."/>
+                <Annotation Term="SAP__common.QuickInfo" String="Indicator: Clearing between customer and vendor?"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/InterestCalculationDate">
-                <Annotation Term="SAP__common.Label" String="최종 주요 일자"/>
-                <Annotation Term="SAP__common.Heading" String="최종이자계산 주요일자"/>
-                <Annotation Term="SAP__common.QuickInfo" String="마지막 이자 계산의 주요 일자"/>
+                <Annotation Term="SAP__common.Label" String="Last Key Date"/>
+                <Annotation Term="SAP__common.Heading" String="Key Date Lst Int.Calc"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Key Date of Last Interest Calculation"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/SupplierCertificationDate">
-                <Annotation Term="SAP__common.Label" String="증명서 일자"/>
+                <Annotation Term="SAP__common.Label" String="Certification Date"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/SupplierAccountNote">
-                <Annotation Term="SAP__common.Label" String="계정 메모"/>
-                <Annotation Term="SAP__common.QuickInfo" String="메모"/>
+                <Annotation Term="SAP__common.Label" String="Account Memo"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Memo"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/DeletionIndicator">
-                <Annotation Term="SAP__common.Label" String="회사 코드 삭제플래그"/>
+                <Annotation Term="SAP__common.Label" String="Co.Cde Deletion Flag"/>
                 <Annotation Term="SAP__common.Heading" String="DelF"/>
-                <Annotation Term="SAP__common.QuickInfo" String="마스터 레코드에 대한 삭제 플래그(회사 코드 레벨)"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Deletion Flag for Master Record (Company Code Level)"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/IsToBeCheckedForDuplicates">
-                <Annotation Term="SAP__common.Label" String="중복 송장 점검"/>
-                <Annotation Term="SAP__common.QuickInfo" String="중복 송장 또는 대변 메모에 대한 점검 플래그"/>
+                <Annotation Term="SAP__common.Label" String="Check Double Invoice"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Check Flag for Double Invoices or Credit Memos"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/LastInterestCalcRunDate">
-                <Annotation Term="SAP__common.Label" String="최종 이자 계산"/>
-                <Annotation Term="SAP__common.Heading" String="마지막계산"/>
-                <Annotation Term="SAP__common.QuickInfo" String="최종 이자 계산 실행일"/>
+                <Annotation Term="SAP__common.Label" String="Last Int. Calc."/>
+                <Annotation Term="SAP__common.Heading" String="LastIntCal"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Date of Last Interest Calculation Run"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/US_ForeignSuplrHasPartnership">
                 <Annotation Term="SAP__common.Label" String="Partnership Int Ind"/>
@@ -2888,168 +3051,167 @@
                 <Annotation Term="SAP__common.QuickInfo" String="US Chapter 4 Status Code"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/DeletionIsBlocked">
-                <Annotation Term="SAP__common.Label" String="회사 코드 삭제 차단"/>
+                <Annotation Term="SAP__common.Label" String="CoCd Deletion Block"/>
                 <Annotation Term="SAP__common.Heading" String="DeBl"/>
-                <Annotation Term="SAP__common.QuickInfo" String="마스터 레코드에 대한 삭제 차단(회사 코드 레벨)"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Deletion Block for Master Record (Company Code Level)"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/IsActiveEntity">
-                <Annotation Term="SAP__common.Label" String="활성"/>
-                <Annotation Term="SAP__common.QuickInfo" String="드래프트 - 지시자 - 활성 문서"/>
+                <Annotation Term="SAP__common.Label" String="Is active"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Draft - Indicator - Is active document"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/UK_ContractorBusinessType">
-                <Annotation Term="SAP__common.Label" String="비즈니스 유형"/>
-                <Annotation Term="SAP__common.Heading" String="사업 유형"/>
-                <Annotation Term="SAP__common.QuickInfo" String="외주업체의 비즈니스 유형"/>
+                <Annotation Term="SAP__common.Label" String="Business Type"/>
+                <Annotation Term="SAP__common.Heading" String="Business T"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Subcontractor's Business Type"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/UK_PartnerTradingName">
-                <Annotation Term="SAP__common.Label" String="파트너의 거래 이름"/>
-                <Annotation Term="SAP__common.Heading" String="파트너이름"/>
+                <Annotation Term="SAP__common.Label" String="Prtnr's Trading Name"/>
+                <Annotation Term="SAP__common.Heading" String="Prtnr Name"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Partner's Trading Name"/>
             </Annotations>
             <Annotations Target="SAP__self.I_SupplierCompanyType/UK_CompanyRegistrationNumber">
-                <Annotation Term="SAP__common.Label" String="회사 등록 번호"/>
+                <Annotation Term="SAP__common.Label" String="Comp. House Reg. No."/>
+                <Annotation Term="SAP__common.Heading" String="Companies House Registration Number"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Companies House Registration Number"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/KeyRequest">
                 <Annotation Term="SAP__common.Label" String="UUID"/>
                 <Annotation Term="SAP__common.QuickInfo" String="16 Byte UUID in 16 Bytes (Raw Format)"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/PostingDate">
-                <Annotation Term="SAP__common.Label" String="전기일"/>
-                <Annotation Term="SAP__common.QuickInfo" String="문서의 전기일"/>
-            </Annotations>
-            <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/ApprovalNum">
-                <Annotation Term="SAP__common.Label" String="결재번호"/>
+                <Annotation Term="SAP__common.Label" String="Posting Date"/>
+                <Annotation Term="SAP__common.Heading" String="Pstng Date"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Posting Date in the Document"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/AcountingDocumentHeaderText">
-                <Annotation Term="SAP__common.Label" String="문서 헤더 텍스트"/>
+                <Annotation Term="SAP__common.Label" String="Document Header Text"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/DocumentDate">
-                <Annotation Term="SAP__common.Label" String="증빙일"/>
-                <Annotation Term="SAP__common.QuickInfo" String="문서의 증빙일"/>
+                <Annotation Term="SAP__common.Label" String="Document Date"/>
+                <Annotation Term="SAP__common.Heading" String="Doc. Date"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Document Date in Document"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/KeyBusinessTrip">
                 <Annotation Term="SAP__common.Label" String="UUID"/>
                 <Annotation Term="SAP__common.QuickInfo" String="16 Byte UUID in 16 Bytes (Raw Format)"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/Createdat">
-                <Annotation Term="SAP__common.Label" String="생성일"/>
-                <Annotation Term="SAP__common.QuickInfo" String="생성 일자/시간"/>
+                <Annotation Term="SAP__common.Label" String="Created On"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Creation Date Time"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/Locallastchangedat">
-                <Annotation Term="SAP__common.Label" String="변경일"/>
-                <Annotation Term="SAP__common.QuickInfo" String="로컬 인스턴스 최종 변경 일자/시간"/>
+                <Annotation Term="SAP__common.Label" String="Changed On"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Local Instance Last Change Date Time"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/Lastchangedat">
-                <Annotation Term="SAP__common.Label" String="변경일"/>
-                <Annotation Term="SAP__common.QuickInfo" String="최종 변경 일자/시간"/>
+                <Annotation Term="SAP__common.Label" String="Changed On"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Last Change Date Time"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/RequestTypeText">
-                <Annotation Term="SAP__common.Label" String="간단한 설명"/>
-                <Annotation Term="SAP__common.QuickInfo" String="고정 값 내역"/>
+                <Annotation Term="SAP__common.Label" String="Short Description"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Short Text for Fixed Values"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/StatusText">
-                <Annotation Term="SAP__common.Label" String="간단한 설명"/>
-                <Annotation Term="SAP__common.QuickInfo" String="고정 값 내역"/>
+                <Annotation Term="SAP__common.Label" String="Short Description"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Short Text for Fixed Values"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/SupplierName">
-                <Annotation Term="SAP__common.Label" String="이름"/>
-                <Annotation Term="SAP__common.Heading" String="이름 1"/>
-                <Annotation Term="SAP__common.QuickInfo" String="이름 1"/>
-            </Annotations>
-            <Annotations Target="SAP__self.ZFI_C_OTHER_RECEIPTType/CostCenterName">
-                <Annotation Term="SAP__common.Label" String="코스트 센터 이름"/>
+                <Annotation Term="SAP__common.Label" String="Name"/>
+                <Annotation Term="SAP__common.Heading" String="Name 1"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Name 1"/>
             </Annotations>
             <Annotations Target="SAP__self.I_GLAccountType/AccountIsBlockedForPosting">
-                <Annotation Term="SAP__common.Label" String="전기 보류"/>
-                <Annotation Term="SAP__common.QuickInfo" String="지시자: 계정 전기 보류 여부"/>
+                <Annotation Term="SAP__common.Label" String="Posting Block"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Indicator: Is Account Blocked for Posting?"/>
             </Annotations>
             <Annotations Target="SAP__self.I_GLAccountType/AccountIsBlockedForPlanning">
-                <Annotation Term="SAP__common.Label" String="계획 보류"/>
-                <Annotation Term="SAP__common.QuickInfo" String="지시자: 계획 보류된 계정"/>
+                <Annotation Term="SAP__common.Label" String="Planning Block"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Indicator: Account Blocked for Planning ?"/>
             </Annotations>
             <Annotations Target="SAP__self.I_GLAccountType/AccountIsBlockedForCreation">
-                <Annotation Term="SAP__common.Label" String="생성 보류"/>
-                <Annotation Term="SAP__common.QuickInfo" String="지시자: 계정 생성 보류"/>
+                <Annotation Term="SAP__common.Label" String="Creation Block"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Indicator: Account Is Blocked for Creation ?"/>
             </Annotations>
             <Annotations Target="SAP__self.I_GLAccountType/IsBalanceSheetAccount">
-                <Annotation Term="SAP__common.Label" String="대차대조표 계정"/>
-                <Annotation Term="SAP__common.Heading" String="B/S 계정"/>
-                <Annotation Term="SAP__common.QuickInfo" String="지시자: 계정이 대차대조표 계정입니까 ?"/>
+                <Annotation Term="SAP__common.Label" String="Balance sheet acct"/>
+                <Annotation Term="SAP__common.Heading" String="B/S acct"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Indicator: Account is a balance sheet account?"/>
             </Annotations>
             <Annotations Target="SAP__self.I_GLAccountType/AccountIsMarkedForDeletion">
-                <Annotation Term="SAP__common.Label" String="삭제 플래그"/>
-                <Annotation Term="SAP__common.Heading" String="삭제"/>
-                <Annotation Term="SAP__common.QuickInfo" String="지시자: 삭제 대상으로 표시된 계정"/>
+                <Annotation Term="SAP__common.Label" String="Deletion Flag"/>
+                <Annotation Term="SAP__common.Heading" String="DelFl"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Indicator: Account Marked for Deletion?"/>
             </Annotations>
             <Annotations Target="SAP__self.I_GLAccountType/CreationDate">
-                <Annotation Term="SAP__common.Label" String="생성일"/>
-                <Annotation Term="SAP__common.Heading" String="일자"/>
-                <Annotation Term="SAP__common.QuickInfo" String="레코드 생성일"/>
+                <Annotation Term="SAP__common.Label" String="Created On"/>
+                <Annotation Term="SAP__common.Heading" String="Date"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Record Created On"/>
             </Annotations>
             <Annotations Target="SAP__self.I_GLAccountType/LineItemDisplayIsEnabled">
-                <Annotation Term="SAP__common.Label" String="개별 항목"/>
-                <Annotation Term="SAP__common.Heading" String="개별 항목 조회 가능"/>
-                <Annotation Term="SAP__common.QuickInfo" String="지시자: 계정별 개별 항목 조회 가능 여부"/>
+                <Annotation Term="SAP__common.Label" String="Line Items"/>
+                <Annotation Term="SAP__common.Heading" String="Line Item Display Possible"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Indicator: Can Line Items Be Displayed by Account?"/>
             </Annotations>
             <Annotations Target="SAP__self.I_GLAccountType/IsOpenItemManaged">
-                <Annotation Term="SAP__common.Label" String="미결 항목 관리"/>
-                <Annotation Term="SAP__common.Heading" String="미결항목 관리"/>
-                <Annotation Term="SAP__common.QuickInfo" String="지시자: 미결 항목 관리 여부"/>
+                <Annotation Term="SAP__common.Label" String="OI Management"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Indicator: Open Item Management?"/>
             </Annotations>
             <Annotations Target="SAP__self.I_GLAccountType/IsAutomaticallyPosted">
-                <Annotation Term="SAP__common.Label" String="자동 전기"/>
-                <Annotation Term="SAP__common.QuickInfo" String="지시자: 자동으로만 전기되는 계정"/>
+                <Annotation Term="SAP__common.Label" String="Auto. Posting"/>
+                <Annotation Term="SAP__common.Heading" String="Post Automat."/>
+                <Annotation Term="SAP__common.QuickInfo" String="Indicator: Is Account only Posted to Automatically?"/>
             </Annotations>
             <Annotations Target="SAP__self.I_GLAccountType/CompanyCodeName">
-                <Annotation Term="SAP__common.Label" String="회사 이름"/>
-                <Annotation Term="SAP__common.QuickInfo" String="회사 코드 또는 회사의 이름"/>
+                <Annotation Term="SAP__common.Label" String="Company Name"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Name of Company Code or Company"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_BP_AUTHType/Email">
-                <Annotation Term="SAP__common.Label" String="전자메일 주소"/>
+                <Annotation Term="SAP__common.Label" String="Email Address"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_C_BP_AUTHType/PersonFullName">
-                <Annotation Term="SAP__common.Label" String="내역"/>
-                <Annotation Term="SAP__common.Heading" String="기술 사용자 계정 내역"/>
-                <Annotation Term="SAP__common.QuickInfo" String="기술 사용자 계정 내역"/>
+                <Annotation Term="SAP__common.Label" String="Description"/>
+                <Annotation Term="SAP__common.Heading" String="Description of the Technical User Account"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Description of the Technical User Account"/>
             </Annotations>
             <Annotations Target="SAP__self.ZCM_I_AUTHType/CreatedAt">
-                <Annotation Term="SAP__common.Label" String="생성일"/>
-                <Annotation Term="SAP__common.QuickInfo" String="생성 일자/시간"/>
+                <Annotation Term="SAP__common.Label" String="Created On"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Creation Date Time"/>
             </Annotations>
             <Annotations Target="SAP__self.ZCM_I_AUTHType/LocalLastChangedAt">
-                <Annotation Term="SAP__common.Label" String="변경일"/>
-                <Annotation Term="SAP__common.QuickInfo" String="로컬 인스턴스 최종 변경 일자/시간"/>
+                <Annotation Term="SAP__common.Label" String="Changed On"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Local Instance Last Change Date Time"/>
             </Annotations>
             <Annotations Target="SAP__self.ZCM_I_AUTHType/LastChangedAt">
-                <Annotation Term="SAP__common.Label" String="변경일"/>
-                <Annotation Term="SAP__common.QuickInfo" String="최종 변경 일자/시간"/>
+                <Annotation Term="SAP__common.Label" String="Changed On"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Last Change Date Time"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_COSTCENTER_C_ETCType/KeyGroupItem">
                 <Annotation Term="SAP__common.Label" String="UUID"/>
                 <Annotation Term="SAP__common.QuickInfo" String="16 Byte UUID in 16 Bytes (Raw Format)"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_CURRENCYType/CurrencyName">
-                <Annotation Term="SAP__common.Label" String="내역"/>
+                <Annotation Term="SAP__common.Label" String="Description"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_V_ACCOUNT_C_ETCType/KeyGroupItem">
                 <Annotation Term="SAP__common.Label" String="UUID"/>
                 <Annotation Term="SAP__common.QuickInfo" String="16 Byte UUID in 16 Bytes (Raw Format)"/>
-            </Annotations>
-            <Annotations Target="SAP__self.ZFI_A_DOC020/RequestType">
-                <Annotation Term="SAP__common.Label" String="결재요청 구분"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_A_DOC020/KeyCardPur">
                 <Annotation Term="SAP__common.Label" String="UUID"/>
                 <Annotation Term="SAP__common.QuickInfo" String="16 Byte UUID in 16 Bytes (Raw Format)"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_A_DOC020/DocumentDate">
-                <Annotation Term="SAP__common.Label" String="증빙일"/>
-                <Annotation Term="SAP__common.QuickInfo" String="문서의 증빙일"/>
+                <Annotation Term="SAP__common.Label" String="Document Date"/>
+                <Annotation Term="SAP__common.Heading" String="Doc. Date"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Document Date in Document"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_A_DOC020/_Item/Profitcenter">
-                <Annotation Term="SAP__common.Label" String="손익 센터"/>
+                <Annotation Term="SAP__common.Label" String="Profit Center"/>
+                <Annotation Term="SAP__common.Heading" String="Profit Ctr"/>
             </Annotations>
             <Annotations Target="SAP__self.ZFI_A_DOC021/Profitcenter">
-                <Annotation Term="SAP__common.Label" String="손익 센터"/>
+                <Annotation Term="SAP__common.Label" String="Profit Center"/>
+                <Annotation Term="SAP__common.Heading" String="Profit Ctr"/>
             </Annotations>
             <Annotations Target="SAP__self.EntityControl/Deletable">
                 <Annotation Term="SAP__common.Label" String="Dyn. Method Control"/>
@@ -3062,18 +3224,17 @@
                 <Annotation Term="SAP__common.QuickInfo" String="Dynamic Method Property"/>
             </Annotations>
             <Annotations Target="SAP__self.SAP__VIRTUAL_CO_TY_1/_Item/Profitcenter">
-                <Annotation Term="SAP__common.Label" String="손익 센터"/>
-            </Annotations>
-            <Annotations Target="SAP__self.Posting(Collection(SAP__self.ZFI_C_DOC_APPROVALType))/RequestType">
-                <Annotation Term="SAP__common.Label" String="결재요청 구분"/>
+                <Annotation Term="SAP__common.Label" String="Profit Center"/>
+                <Annotation Term="SAP__common.Heading" String="Profit Ctr"/>
             </Annotations>
             <Annotations Target="SAP__self.Posting(Collection(SAP__self.ZFI_C_DOC_APPROVALType))/KeyCardPur">
                 <Annotation Term="SAP__common.Label" String="UUID"/>
                 <Annotation Term="SAP__common.QuickInfo" String="16 Byte UUID in 16 Bytes (Raw Format)"/>
             </Annotations>
             <Annotations Target="SAP__self.Posting(Collection(SAP__self.ZFI_C_DOC_APPROVALType))/DocumentDate">
-                <Annotation Term="SAP__common.Label" String="증빙일"/>
-                <Annotation Term="SAP__common.QuickInfo" String="문서의 증빙일"/>
+                <Annotation Term="SAP__common.Label" String="Document Date"/>
+                <Annotation Term="SAP__common.Heading" String="Doc. Date"/>
+                <Annotation Term="SAP__common.QuickInfo" String="Document Date in Document"/>
             </Annotations>
             <Annotations Target="SAP__self.CancelReq(Collection(SAP__self.ZFI_C_DOC_APPROVALType))/KeyRequest">
                 <Annotation Term="SAP__common.Label" String="UUID"/>
