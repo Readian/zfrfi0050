@@ -231,7 +231,7 @@ sap.ui.define(
 									);
 
 									oTable.setModel(this.getView().getModel());
-									oTable.setthreshold(100);
+									oTable.setThreshold(100);
 									if (oTable.bindRows) {
 										oTable.bindAggregation("rows", {
 											path: "/ZFI_V_BUSINESSPLACE",
@@ -301,7 +301,7 @@ sap.ui.define(
 							oDialog.getTableAsync().then(
 								function (oTable) {
 									oTable.setModel(this.getView().getModel());
-									oTable.setthreshold(100);
+									oTable.setThreshold(100);
 									if (oTable.bindRows) {
 										oTable.bindAggregation("rows", {
 											path: "/ZFI_CURRENCY",
@@ -417,7 +417,7 @@ sap.ui.define(
 							oDialog.getTableAsync().then(
 								function (oTable) {
 									oTable.setModel(this.getView().getModel());
-									oTable.setthreshold(100);
+									oTable.setThreshold(100);
 									if (oTable.bindRows) {
 										oTable.bindAggregation("rows", {
 											path: "/ZFI_V_TAXCODE_C_ETC",
@@ -471,7 +471,7 @@ sap.ui.define(
 							oDialog.getTableAsync().then(
 								function (oTable) {
 									oTable.setModel(this.getView().getModel());
-									oTable.setthreshold(100);
+									oTable.setThreshold(100);
 									if (oTable.bindRows) {
 										oTable.bindAggregation("rows", {
 											path: "/ZFI_V_COSTCENTER",
@@ -1067,7 +1067,7 @@ sap.ui.define(
 						oDialog.getTableAsync().then(
 							function (oTable) {
 								oTable.setModel(this.getView().getModel());
-								oTable.setthreshold(100);
+								oTable.setThreshold(100);
 								if (oTable.bindRows) {
 									oTable.bindAggregation("rows", {
 										path: "/ZFI_V_COSTCENTER_C_ETC",
@@ -1119,7 +1119,7 @@ sap.ui.define(
 						oDialog.getTableAsync().then(
 							function (oTable) {
 								oTable.setModel(this.getView().getModel());
-								oTable.setthreshold(100);
+								oTable.setThreshold(100);
 								if (oTable.bindRows) {
 									oTable.bindAggregation("rows", {
 										path: "/ZFI_V_ACCOUNT_C_ETC",
@@ -1172,7 +1172,7 @@ sap.ui.define(
 							oDialog.getTableAsync().then(
 								function (oTable) {
 									oTable.setModel(this.getView().getModel());
-									oTable.setthreshold(100);
+									oTable.setThreshold(100);
 									if (oTable.bindRows) {
 										oTable.bindAggregation("rows", {
 											path: "/ZFI_CURRENCY",
@@ -1228,7 +1228,7 @@ sap.ui.define(
 							oDialog.getTableAsync().then(
 								function (oTable) {
 									oTable.setModel(this.getView().getModel());
-									oTable.setthreshold(100);
+									oTable.setThreshold(100);
 									if (oTable.bindRows) {
 										oTable.bindAggregation("rows", {
 											path: "/ZFI_V_TAXCODE_C",
@@ -1295,7 +1295,7 @@ sap.ui.define(
 								oDialog.getTableAsync().then(
 									function (oTable) {
 										oTable.setModel(this.getView().getModel());
-										oTable.setthreshold(100);
+										oTable.setThreshold(100);
 										if (oTable.bindRows) {
 											oTable.bindAggregation("rows", {
 												path: "/ZFI_V_SUPPLIER_ACCOUNT",
@@ -1398,7 +1398,7 @@ sap.ui.define(
 							oDialog.getTableAsync().then(
 								function (oTable) {
 									oTable.setModel(this.getView().getModel());
-									oTable.setthreshold(100);
+									oTable.setThreshold(100);
 									if (oTable.bindRows) {
 										oTable.bindAggregation("rows", {
 											path: "/ZFI_V_ACCOUNT_RECON",
@@ -1473,7 +1473,7 @@ sap.ui.define(
 								oDialog.getTableAsync().then(
 									function (oTable) {
 										oTable.setModel(this.getView().getModel());
-										oTable.setthreshold(100);
+										oTable.setThreshold(100);
 										if (oTable.bindRows) {
 											oTable.bindAggregation("rows", {
 												path: "/ZFI_V_PAYMENT_TERMS_STD",
