@@ -369,7 +369,7 @@
                                                                             'pattern': 'yyyy-MM-dd'
                                                                         }
                                                                     }"
-                                                                    editable="{= ${BaseData>/Parameters/PaymentTerms} === 'Y010' || ${BaseData>/Parameters/PaymentTerms} === 'Z040'}" />
+                                                                    editable="{= ${BaseData>/Parameters/PaymentTerms} === 'Y010' || ${BaseData>/Parameters/PaymentTerms} === 'Z020'}" />
                                                             </items>
                                                         </HBox>
                                                         <HBox width="100%"

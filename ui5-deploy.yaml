@@ -20,6 +20,6 @@ builder:
           name: ZFRFI0050
           description: 기타영수증
           package: ZFI
-          transport: ZRQK900734
+          transport: ZRQK900844
         exclude:
           - /test/
