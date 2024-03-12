@@ -272,7 +272,7 @@
                                                             <items>
                                                                 <Label text="계좌 :"
                                                                     width="8rem"
-                                                                    required="true" />
+                                                                    required="{= ${BaseData>/Parameters/PaymentMethod} === 'T' ? true : false }" />
                                                                 <Input value="{BaseData>/Parameters/Bankaccount}"
                                                                     valueState="{BaseData>/Parameters/BankaccountState}"
                                                                     width="15rem"
@@ -370,6 +370,22 @@
                                                                         }
                                                                     }"
                                                                     editable="{= ${BaseData>/Parameters/PaymentTerms} === 'Y010' || ${BaseData>/Parameters/PaymentTerms} === 'Z020'}" />
+                                                            </items>
+                                                        </HBox>
+                                                        <HBox width="100%"
+                                                            alignItems="Center"
+                                                            class="">
+                                                            <items>
+                                                                <Label text="지급방법 :"
+                                                                    width="8rem"
+                                                                    required="true" />
+                                                                <Input xmlns:core="sap.ui.core"
+                                                                    showValueHelp="true"
+                                                                    width="15rem"
+                                                                    valueHelpOnly="true"
+                                                                    value="{BaseData>/Parameters/PaymentMethod}"
+                                                                    valueState="{BaseData>/Parameters/PaymentMethodState}"
+                                                                    valueHelpRequest=".onOpenVHPaymentMethod" />
                                                             </items>
                                                         </HBox>
                                                         <HBox width="100%"

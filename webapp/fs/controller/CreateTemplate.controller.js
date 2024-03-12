@@ -808,6 +808,8 @@ sap.ui.define(
 									"0".repeat(4 - sCompanyCode.length) + sCompanyCode
 								}%27),_PaymentTerms($filter=CompanyCode%20eq%20%27${
 								"0".repeat(4 - sCompanyCode.length) + sCompanyCode
+							}%27),_PaymentMthoed($filter=CompanyCode%20eq%20%27${
+								"0".repeat(4 - sCompanyCode.length) + sCompanyCode
 							}%27)`;
 
 							const headers = {
@@ -831,10 +833,16 @@ sap.ui.define(
 												"/Parameters/CashDiscount1Days",
 												oResult.data.value[0]._PaymentTerms[0].CashDiscount1Days
 											);
+											oBaseData.setProperty(
+												"/Parameters/PaymentMethod",
+												oResult.data.value[0]._PaymentMthoed[0]
+													.PaymentMethodsList
+											);
 										} else {
 											oBaseData.setProperty("/Parameters/AccountRecon", "");
 											oBaseData.setProperty("/Parameters/PaymentTerms", "");
 											oBaseData.setProperty("/Parameters/CashDiscount1Days", 0);
+											oBaseData.setProperty("/Parameters/PaymentMethod", "");
 										}
 										if (
 											!oBaseData.getProperty("/Parameters/PostingDate") ||
@@ -860,6 +868,7 @@ sap.ui.define(
 										oBaseData.setProperty("/Parameters/AccountRecon", "");
 										oBaseData.setProperty("/Parameters/PaymentTerms", "");
 										oBaseData.setProperty("/Parameters/CashDiscount1Days", 0);
+										oBaseData.setProperty("/Parameters/PaymentMethod", "");
 										if (
 											!oBaseData.getProperty("/Parameters/PostingDate") ||
 											oBaseData.getProperty("/Parameters/PostingDate") == ""
@@ -1545,6 +1554,67 @@ sap.ui.define(
 				}
 			},
 
+			onOpenVHPaymentMethod: function (oEvent) {
+				let oBaseData = this.getView().getModel("BaseData");
+				let oValueHelpData = this.getView().getModel("ValueHelpData");
+				let oBaseDataData = oBaseData.getData();
+				let isTrue = true;
+
+				if (!oValueHelpData.getProperty("/_oVHDialog/VHPaymentMethod")) {
+					this.loadFragment({
+						name: "fi.zfrfi0050.fs.view.f4.F4PaymentMethod",
+					}).then(
+						function (oDialog) {
+							oValueHelpData.setProperty(
+								"/_oVHDialog/VHPaymentMethod",
+								oDialog
+							);
+							this.getView().addDependent(oDialog);
+							let oFilterBar = oDialog.getFilterBar();
+							let oBasicSearchField = new SearchField();
+							oFilterBar.setFilterBarExpanded(false);
+							oFilterBar.setBasicSearch(oBasicSearchField);
+							oBasicSearchField.attachSearch(function () {
+								oFilterBar.search();
+							});
+							oDialog.getTableAsync().then(
+								function (oTable) {
+									oTable.setModel(this.getView().getModel());
+									oTable.setThreshold(100);
+									if (oTable.bindRows) {
+										oTable.bindAggregation("rows", {
+											path: "/ZFI_V_PAYMENT_METHOD_STD",
+											events: {
+												dataReceived: function () {
+													oDialog.update();
+												},
+											},
+										});
+										oTable.addColumn(
+											new UIColumn({
+												label: new Label({ text: "지급방법" }),
+												template: new Text({ text: "{PaymentMethodsList}" }),
+											})
+										);
+										oTable.addColumn(
+											new UIColumn({
+												label: new Label({ text: "지급방법내역" }),
+												template: new Text({ text: "{PaymentMethodName}" }),
+											})
+										);
+									}
+
+									oDialog.update();
+								}.bind(this)
+							);
+							oDialog.open();
+						}.bind(this)
+					);
+				} else {
+					oValueHelpData.getProperty("/_oVHDialog/VHPaymentMethod").open();
+				}
+			},
+
 			onCalculationPaymentscheduled: function () {
 				let oBaseData = this.getView().getModel("BaseData");
 				let currentDate = new Date(
@@ -1656,6 +1726,95 @@ sap.ui.define(
 									}
 									oValueHelpData
 										.getProperty("/_oVHDialog/VHPaymentTerms")
+										.update();
+								}.bind(this)
+							);
+						break;
+
+					case "afterClose":
+						break;
+				}
+			},
+			onActionVHPaymentMethod: function (oEvent) {
+				let oBaseData = this.getView().getModel("BaseData");
+				let oValueHelpData = this.getView().getModel("ValueHelpData");
+
+				switch (oEvent.sId) {
+					case "cancel":
+						oValueHelpData.getProperty("/_oVHDialog/VHPaymentMethod").close();
+						break;
+
+					case "ok":
+						if (oEvent.getParameter("tokens")[0] !== undefined) {
+							let oTable = oEvent.oSource.getTable();
+							let token = oEvent.getParameter("tokens")[0].getProperty("key");
+							oBaseData.setProperty("/Parameters/PaymentMethod", token);
+						}
+						oValueHelpData.getProperty("/_oVHDialog/VHPaymentMethod").close();
+						break;
+
+					case "search":
+						let oFilterBar = oValueHelpData
+							.getProperty("/_oVHDialog/VHPaymentMethod")
+							.getFilterBar();
+						let sSearchQuery = oFilterBar.getBasicSearchValue();
+						let aSelectionSet = oEvent.getParameter("selectionSet");
+
+						let aFilters = aSelectionSet.reduce(function (aResult, oControl) {
+							if (oControl.getValue()) {
+								aResult.push(
+									new Filter({
+										path: oControl.getName(),
+										operator: FilterOperator.Contains,
+										value1: oControl.getValue(),
+									})
+								);
+							}
+
+							return aResult;
+						}, []);
+
+						aFilters.push(
+							new Filter({
+								filters: [
+									new Filter({
+										path: "PaymentMethodsList",
+										operator: FilterOperator.Contains,
+										value1: sSearchQuery.substr(0, 10),
+									}),
+									new Filter({
+										path: "PaymentMethodName",
+										operator: FilterOperator.Contains,
+										value1: sSearchQuery.substr(0, 20),
+									}),
+								],
+								and: false,
+							})
+						);
+
+						oValueHelpData
+							.getProperty("/_oVHDialog/VHPaymentMethod")
+							.getTableAsync()
+							.then(
+								function (oTable) {
+									if (oTable.bindRows) {
+										oTable.getBinding("rows").filter(
+											new Filter({
+												filters: aFilters,
+												and: true,
+											})
+										);
+									}
+									if (oTable.bindItems) {
+										oTable.getBinding("items").filter(
+											new Filter({
+												filters: aFilters,
+												and: true,
+											})
+										);
+									}
+									oValueHelpData
+										.getProperty("/_oVHDialog/VHPaymentMethod")
 										.update();
 								}.bind(this)
 							);
@@ -2687,6 +2846,15 @@ sap.ui.define(
 					oBaseData.setProperty("/Parameters/PaymentTermsState", "None");
 				}
 				if (
+					!oBaseDataData.Parameters.PaymentMethod ||
+					oBaseDataData.Parameters.PaymentMethod == ""
+				) {
+					isTrue = false;
+					oBaseData.setProperty("/Parameters/PaymentMethodState", "Error");
+				} else {
+					oBaseData.setProperty("/Parameters/PaymentMethodState", "None");
+				}
+				if (
 					!oBaseDataData.Parameters.Supplier ||
 					oBaseDataData.Parameters.Supplier == ""
 				) {
@@ -2730,8 +2898,9 @@ sap.ui.define(
 				// }
 
 				if (
-					!oBaseDataData.Parameters.Bankaccount ||
-					oBaseDataData.Parameters.Bankaccount == ""
+					oBaseDataData.Parameters.PaymentMethod === "T" &&
+					(!oBaseDataData.Parameters.Bankaccount ||
+						oBaseDataData.Parameters.Bankaccount == "")
 				) {
 					isTrue = false;
 					oBaseData.setProperty("/Parameters/BankaccountState", "Error");
@@ -3154,6 +3323,7 @@ sap.ui.define(
 											// Amount: oBaseDataData.Parameters.Amount,
 											Currency: oBaseDataData.Parameters.Currency,
 											PaymentTerms: oBaseDataData.Parameters.PaymentTerms,
+											PaymentMethod: oBaseDataData.Parameters.PaymentMethod,
 											DocumentItemText:
 												oBaseDataData.Parameters.DocumentItemText,
 											KeyCardPur: oBaseDataData.Parameters.KeyCardPur,
