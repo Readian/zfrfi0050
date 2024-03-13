@@ -355,23 +355,23 @@ sap.ui.define(
 							oDialog.getTableAsync().then(
 								function (oTable) {
 									oTable.setModel(this.getView().getModel());
-									oTable.setThreshold(100);
+									oTable.setThreshold(1000);
 									if (oTable.bindRows) {
 										oTable.bindAggregation("rows", {
 											path: "/ZFI_V_SUPPLIER",
-											parameters: {
-												autoExpandSelect: true,
-												$$ownRequest: true,
-												$expand: "_Company,_PaymentTerms",
-											},
+											// parameters: {
+											// 	autoExpandSelect: true,
+											// 	$$ownRequest: true,
+											// 	$expand: "_Company,_PaymentTerms",
+											// },
 											events: {
 												dataReceived: function () {
 													oDialog.update();
 												},
 											},
-											parameters: {
-												expand: "_Company",
-											},
+											// parameters: {
+											// 	expand: "_Company",
+											// },
 										});
 										oTable.addColumn(
 											new UIColumn({
