@@ -3137,6 +3137,9 @@ sap.ui.define(
 				this.onTaxChange();
 				this.onCalculation();
 			},
+			onChangeHeaderVATAmount: function (oEvent) {
+				this.onCalculation();
+			},
 
 			onTaxChange: function (oEvent) {
 				let oBaseData = this.getView().getModel("BaseData");
