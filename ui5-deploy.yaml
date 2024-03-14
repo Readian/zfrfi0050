@@ -18,8 +18,8 @@ builder:
           url: https://my408358-api.s4hana.cloud.sap
         app:
           name: ZFRFI0050
-          description: 기타영수증
+          description: 기타영수증(매입)
           package: ZFI
-          transport: ZRQK900935
+          transport: ZRQK900941
         exclude:
           - /test/
