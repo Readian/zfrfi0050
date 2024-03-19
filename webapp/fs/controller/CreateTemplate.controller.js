@@ -3247,6 +3247,7 @@ sap.ui.define(
 						actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
 						onClose: function (oAction) {
 							if (oAction === sap.m.MessageBox.Action.YES) {
+								BusyIndicator.show(0);
 								//Item정리
 								_.forEach(
 									oBaseDataData.Parameters._Item,
@@ -3368,6 +3369,7 @@ sap.ui.define(
 									)
 									.then(
 										function (response) {
+											BusyIndicator.hide();
 											//console.log(response);
 											if (response.data.value) {
 												this.onOpenEDMS(response.data.value);
@@ -3378,6 +3380,7 @@ sap.ui.define(
 									)
 									.catch(
 										function (error) {
+											BusyIndicator.hide();
 											// CustomExtention.showErrorMessage(error);
 											let oBaseData = this.getView().getModel("BaseData");
 											let aError = [];
@@ -3415,7 +3418,7 @@ sap.ui.define(
 											} else {
 												oBaseData.getProperty("/_oErrDialog").open();
 											}
-											BusyIndicator.hide();
+											
 
 											// let aError = [];
 											// let oErrMsg = {};
