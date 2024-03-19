@@ -3140,7 +3140,6 @@ sap.ui.define(
 
 			onChangeHeaderVATAmount: function (oEvent) {
 				this.onCalculation();
-				
 			},
 
 			onTaxChange: function (oEvent) {
@@ -3243,11 +3242,11 @@ sap.ui.define(
 				if (!this.onValidation()) {
 					MessageBox.error(Model.I18n.getProperty("Error020"));
 				} else {
+					BusyIndicator.show(0);
 					MessageBox.confirm(Model.I18n.getProperty("Info0020"), {
 						actions: [sap.m.MessageBox.Action.YES, sap.m.MessageBox.Action.NO],
 						onClose: function (oAction) {
 							if (oAction === sap.m.MessageBox.Action.YES) {
-								BusyIndicator.show(0);
 								//Item정리
 								_.forEach(
 									oBaseDataData.Parameters._Item,
@@ -3418,7 +3417,6 @@ sap.ui.define(
 											} else {
 												oBaseData.getProperty("/_oErrDialog").open();
 											}
-											
 
 											// let aError = [];
 											// let oErrMsg = {};
@@ -3442,6 +3440,8 @@ sap.ui.define(
 											// }
 										}.bind(this)
 									);
+							} else {
+								BusyIndicator.hide();
 							}
 						}.bind(this),
 					});
