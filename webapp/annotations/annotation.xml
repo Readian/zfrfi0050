@@ -21,7 +21,6 @@
                         <PropertyPath>CompanyCode</PropertyPath>
                         <PropertyPath>Supplier</PropertyPath>
                         <PropertyPath>DraftUser</PropertyPath>
-                        <PropertyPath>CheckAuth</PropertyPath>
                     </Collection>
                 </Annotation>
                 <Annotation Term="UI.LineItem">
